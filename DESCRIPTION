@@ -1,0 +1,36 @@
+Package: livelink
+Title: Encode Data for WASM REPL Environments
+Version: 0.1.0
+Authors@R: 
+    person("James Joseph", "Balamuta", , "james.balamuta@gmail.com", role = c("aut", "cre"))
+Description: Creates shareable links for R code in WebAssembly (WASM) REPL environments like webR
+    and for Shiny applications using Shinylive. Supports single scripts, multi-file projects, 
+    exercise/solution pairs, and batch processing for both R and Python environments.
+License: AGPL (>= 3)
+URL: https://r-pkg.thecoatlessprofessor.com/livelink/
+Imports:
+    jsonlite,
+    base64enc,
+    cli,
+    lzstring,
+    RcppMsgPack
+Suggests: 
+    knitr,
+    quarto,
+    testthat (>= 3.0.0)
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+Collate: 
+    'build-webr-repl-link.R'
+    'classes.R'
+    'decode-shinylive-link.R'
+    'decode-webr-repl-link.R'
+    'extract-link.R'
+    'options.R'
+    'shinylive-link.R'
+    'validators.R'
+    'webr-repl-directory-links.R'
+    'webr-repl-links.R'
+VignetteBuilder: quarto
