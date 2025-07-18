@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# livelink
+# livelink   <img src="man/figures/livelink-logo.svg" align="right" width="139" />
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/coatless-rpkg/livelink/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/coatless-rpkg/livelink/actions/workflows/R-CMD-check.yaml)
