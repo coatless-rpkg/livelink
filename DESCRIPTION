@@ -26,6 +26,7 @@ Collate:
     'build-webr-repl-link.R'
     'classes.R'
     'decode-shinylive-link.R'
+    'utils.R'
     'decode-webr-repl-link.R'
     'extract-link.R'
     'options.R'

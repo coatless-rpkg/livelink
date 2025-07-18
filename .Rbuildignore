@@ -1,6 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^README\.Rmd$
+^README\.qmd$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
@@ -8,4 +8,4 @@
 ^LICENSE\.md$
 ^vignettes/\.quarto$
 ^vignettes/*_files$
-^*_files$
+^.*_files$

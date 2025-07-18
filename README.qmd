@@ -1,44 +1,55 @@
-
+---
+engine: knitr
+format: gfm
+---
 
 <!-- README.md is generated from README.Qmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 # livelink
 
 <!-- badges: start -->
-
 [![R-CMD-check](https://github.com/coatless-rpkg/livelink/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/coatless-rpkg/livelink/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-Create shareable links for R code in WebAssembly (WASM) REPL
-environments like webR and for R and Python Shiny applications using
-Shinylive.
+Create shareable links for R code in WebAssembly (WASM) REPL environments like
+webR and for R and Python Shiny applications using Shinylive.
 
 ## Installation
 
 You can install the development version of `livelink` from GitHub with:
 
-``` r
+```r
 # Install development version from GitHub
 # install.packages("remotes")
 remotes::install_github("coatless-rpkg/livelink")
 ```
 
+
 ### Requirements
 
-- R ≥ 4.0.0
-- Internet connection (links run in browser)
-- Modern web browser with WebAssembly support
+-   R ≥ 4.0.0
+-   Internet connection (links run in browser)
+-   Modern web browser with WebAssembly support
 
 ## Quick Start
 
-We’ll cover how to create links and decode them for R code, R Shiny
-applications, and Python Shiny applications using `livelink`.
+We'll cover how to create links and decode them for R code, R Shiny applications, and Python Shiny applications using `livelink`.
 
 ### WebR Links
 
 Share R code that runs in the browser:
 
-``` r
+```{r}
+#| label: webr-example
 library(livelink)
 
 # Some R code to share
@@ -47,21 +58,14 @@ code <- "1 + 1"
 # Create shareable link that runs in webR
 link <- webr_repl_link(code)
 print(link)
-#> 
-#> ── WebR Link ──
-#> 
-#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKjBU0FYwVKqNBQAccxXr&jz>
-#> 
-#> File: 'script.R' → '/home/web_user/script.R'
-#> Version: "latest"
-#> Autorun: FALSE
 ```
 
 ### Shinylive Apps
 
 Create shareable Shiny applications:
 
-``` r
+```{r}
+#| label: r-shinylive-example
 # Simple Shiny app
 app_code <- '
 library(shiny)
@@ -90,23 +94,14 @@ shinyApp(ui = ui, server = server)
 # Create app link
 app_link <- shinylive_r_link(app_code, mode = "app")
 print(app_link)
-#> 
-#> ── Shinylive R App ──
-#> 
-#> <https://shinylive.io/r/app/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAHQgBsBLAIwCcoWBPACgGcALBhA4BKWrQCuDAAQAeALRSAZnUkATAApQA5nC60pU0g1J04miHDp6wACUt0iUgMoChjAG5wAhNTDDc+lI8DKpwTOwAMlAcROKkehAGBsGh4SzmlglJSTyMoSwAkhCocdYQvrhSvgBy4jBMcCxSRIpSqESCpDyIFVIAjAAMlYNDUgCsA6KJSf6BBjBQghlWc0moDqQA8nEl8b7rRKS+U9knUlNTtDyNnk3ySuIQBEYkXIK7lbGku8JSIIFfXYAEgOpFkChYFHy6g2XH+0wMoK4LAgRBYMDexTiQIg-ikC0EUgAvG0oDxyNYsFAIKoiDA2h0yN1eu9sbizgBfKYcsQQfiCDgAQXQXEkxKkkkq1xYt3F0tuUzwYFIHFQCGQ5AAHqQwByALpAA>
-#> 
-#> Files (1):
-#> 'app.R'
-#> 
-#> Engine: "R"
-#> Mode: "app"
 ```
 
 ## Multi-file Projects
 
 Share complex projects with multiple files:
 
-``` r
+```{r}
+#| label: multifile-example
 # Create a project with multiple files
 files <- list(
 "analysis.R" = "
@@ -132,23 +127,14 @@ create_plot <- function(data) {
 # Create project with autorun
 project <- webr_repl_project(files, autorun_files = "analysis.R")
 print(project)
-#> 
-#> ── WebR Project ──
-#> 
-#> <https://webr.r-wasm.org/latest/#code=eJx1kcFqAjEQhl9lmBZ2F9L1vrQHaaUnoXjpoSkyrtFd2EwkmVRFfPfiGlc9mNMk30%2Fy%2FeTngEzWYIXE1O1DG8oZKtyQNFjhqHHWjLZmMY%2FB%2BNFdRMxOsELNwUVfmzyL0nahnGWF5iUJwesLdI6Wcys1%2BZAXmkO0lvw%2BP%2BFCc%2B0NiZlvOieXI1RIUZyPjJX4aI5q8EvXP5S78sHs5vmTzSpyLa3jvICDZoAz0XzUfCdzl%2B3FzvlB9Nlu1gr6aSsKTqxfllqGN8imX5%2FwF%2BDbtOtGMjXwXUeLxDMF%2B7RLsaIXwZvGs8n4Yzop7fJh59tEav0E7%2BRhnH5K82UCtwJpTCrdywcjJR5%2F%2FwHli6tX&jz>
-#> 
-#> Files (3):
-#> 'analysis.R' → '/home/web_user/analysis.R' (autorun)
-#> 'utils.R' → '/home/web_user/utils.R'
-#> 'README.md' → '/home/web_user/README.md'
-#> Version: "latest"
 ```
 
 ## Educational Content
 
 Create exercise and solution pairs:
 
-``` r
+```{r}
+#| label: exercise-example
 exercise <- "
 # Exercise: Calculate summary statistics
 # TODO: Calculate the mean and median of mtcars$mpg
@@ -181,7 +167,9 @@ solution_link <- repl_urls(exercise_links$solution)
 
 Process entire directories:
 
-``` r
+```{r}
+#| eval: false
+#| label: batch-example
 # Process all R files in a directory
 links <- webr_repl_directory("./examples/", 
                             autorun = TRUE,
@@ -197,30 +185,19 @@ shiny_links <- shinylive_directory("./shiny_apps/",
 
 Preview WebR links without decoding and saving files locally with:
 
-``` r
+```{r}
+#| label: preview-example
 # Preview a link without downloading
 existing_url <- "https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJlMSSxCNcBTn5JRqGVoYGmgBEFxiu"
 preview <- preview_webr_link(existing_url)
 print(preview)
-#> 
-#> ── WebR Link Preview ──
-#> 
-#> URL:
-#> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJlMSSxCNcBTn5JRqGVoYGmgBEFxiu>
-#> 
-#> Files: 1
-#> Total size: 10 bytes
-#> Version: "latest"
-#> Encoding: "mz"
-#> 
-#> 'script.R' (10 bytes)
-#> 
-#> Use print(preview, show_content = TRUE) to see file contents
 ```
 
 Decode existing links to extract files and save them locally:
 
-``` r
+```{r}
+#| eval: false
+#| label: decoding-example
 # Extract files to local directory
 result <- decode_webr_link(existing_url, output_dir = "./extracted")
 print(result)
@@ -234,7 +211,8 @@ results <- decode_webr_link(urls, output_dir = "./all_extracted")
 
 Create Python Shiny applications:
 
-``` r
+```{r}
+#| label:  python-example
 py_app <- '
 from shiny import App, render, ui
 
@@ -255,18 +233,9 @@ app = App(app_ui, server)
 
 py_link <- shinylive_py_link(py_app, mode = "app")
 print(py_link)
-#> 
-#> ── Shinylive Python App ──
-#> 
-#> <https://shinylive.io/py/app/#code=NobwRAdghgtgpmAXGKAHVA6VBPMAaMAYwHsIAXOcpMAHQgDMAnYmAAgGcALASwm1e4xUxRmVYBBdHlaNKAEziNpAV2506aVAH1VrALytVWKAHM4W+gBtVcgBR1Wjw9wycATPbAAJOJcvFWJhZWAAVsMk5SVgBlHj4AQhowAEo8BycjXlRlMi12S24FRk8IJOkkgDky1gAGaQBGGrrWNxrU9McjYhzs3IoAD1yAN0UAIygyQU9ZdmVLMiT2iGT1CAV6DkUR4qyc6W6yXul2OHZ2blJkxA7WAAED3pvb2TXFDAGFiCdWdZlTubItiuN2+sjIykYX3oSQgACo3AJ2KwQLsyBgIEDWLCWgBfJKrTT6CToWyaHTcY5bRQrCD4MBkbCoBDID5gHEAXSAA>
-#> 
-#> Files (1):
-#> 'app.py'
-#> 
-#> Engine: "Python"
-#> Mode: "app"
 ```
+
 
 ## License
 
-AGPL (\>= 3)
+AGPL (>= 3)
