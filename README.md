@@ -2,7 +2,7 @@
 
 <!-- README.md is generated from README.Qmd. Please edit that file -->
 
-# livelink <img src="man/figures/livelink-logo.svg" align="right" width="139" />
+# livelink <img src="man/figures/livelink-animated-logo.svg" align="right" width="139" />
 
 <!-- badges: start -->
 
