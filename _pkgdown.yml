@@ -1,0 +1,76 @@
+url: https://r-pkg.thecoatlessprofessor.com/livelink/
+
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#0054AD"
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
+
+development:
+  mode: auto
+
+home:
+  title: "livelink: Create Shareable Links for WebR and Shinylive"
+  description: >
+    Generate shareable URLs for R code that can be executed in WebR environments
+    and create Shinylive links for R and Python Shiny applications.
+
+navbar:
+  structure:
+    left:  [intro, reference, articles, news]
+    right: [search, github]
+  components:
+    articles:
+      text: Articles
+      menu:
+      - text: Getting Started
+        href: articles/getting-started.html
+      # - text: WebR Links
+      #   href: articles/webr-links.html
+      # - text: Shinylive Links
+      #   href: articles/shinylive-links.html
+      # - text: Decoding Links
+      #   href: articles/decoding-links.html
+
+reference:
+- title: "WebR REPL Links"
+  desc: "Create shareable links for R code in WebR environments"
+  contents:
+  - webr_repl_link
+  - webr_repl_project
+  - webr_repl_exercise
+  - webr_repl_directory
+
+- title: "Shinylive Links"
+  desc: "Create shareable links for Shiny applications"
+  contents:
+  - shinylive_r_link
+  - shinylive_py_link
+  - shinylive_project
+  - shinylive_directory
+
+- title: "Link Decoding & Preview"
+  desc: "Extract files and preview contents from existing links"
+  contents:
+  - decode_webr_link
+  - decode_shinylive_link
+  - preview_webr_link
+  - preview_shinylive_link
+
+- title: "URL Extraction"
+  desc: "Extract URLs from link objects"
+  contents:
+  - repl_urls
+  - starts_with("as.character")
+
+- title: "Configuration"
+  desc: "Package configuration and options"
+  contents:
+  - set_webr_base_url
+
+- title: "Object Classes"
+  desc: "S3 classes and their methods"
+  contents:
+  - starts_with("print.")
+  - starts_with("new_")

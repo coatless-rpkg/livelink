@@ -1,0 +1,365 @@
+---
+title: "Getting Started with livelink"
+vignette: >
+  %\VignetteIndexEntry{Getting Started with livelink}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+```{r setup}
+library(livelink)
+```
+
+## Overview
+
+The `livelink` package revolutionizes how you share R code and Shiny applications by creating shareable URLs that run entirely in the browser. No server setup, no complex deployments—just instant, executable links that work anywhere with a modern web browser.
+
+This package supports two powerful platforms:
+
+- **WebR**: Execute R code directly in the browser using [webR](https://docs.r-wasm.org/webr/latest/), a port of R to WebAssembly
+- **Shinylive**: Run R and Python Shiny applications without requiring a server using [Shinylive](https://shiny.posit.co/py/docs/shinylive.html)
+
+The magic happens through intelligent compression and encoding of your code into URL fragments, making sharing as simple as copying and pasting a link.
+
+## Why Use livelink?
+
+Traditional code sharing often involves complex setups:
+
+- Email attachments that may not run on different systems
+- GitHub repositories requiring users to clone and set up environments
+- Server deployments for Shiny apps with hosting costs and maintenance
+
+With livelink, sharing becomes effortless:
+
+- **Instant Access**: Recipients click a link and immediately see running code
+- **No Dependencies**: Works in any modern browser without additional software
+- **Collaborative**: Share prototypes and get feedback quickly
+- **Reproducible**: Links preserve exact code state and dependencies
+
+## Quick Start
+
+### WebR Links
+
+WebR links allow you to share R code that executes directly in the browser. This
+is perfect for data analysis scripts, visualizations, and educational examples.
+
+```{r}
+# Simple data analysis example
+code <- "
+# Load and explore the mtcars dataset
+data(mtcars)
+cat('Dataset dimensions:', dim(mtcars), '\\n')
+cat('Variables:', names(mtcars), '\\n\\n')
+
+# Create a scatter plot
+plot(mtcars$mpg, mtcars$wt, 
+     main = 'Fuel Efficiency vs Weight',
+     xlab = 'Miles per Gallon (MPG)', 
+     ylab = 'Weight (1000 lbs)',
+     col = 'steelblue', 
+     pch = 16)
+
+# Add a trend line
+abline(lm(wt ~ mpg, data = mtcars), col = 'red', lwd = 2)
+"
+
+# Create the link with autorun enabled
+link <- webr_repl_link(code, autorun = TRUE)
+print(link)
+```
+
+The `autorun = TRUE` parameter means the code will execute automatically when 
+someone opens the link, immediately showing the results. This is excellent for 
+demonstrations but should be used thoughtfully for educational content where
+you might want students to run code step-by-step.
+
+### Shinylive Links
+
+Shinylive links create fully interactive web applications from Shiny code. 
+These apps run entirely in the browser using WebAssembly, providing near-native
+performance without server costs.
+
+```{r}
+# Interactive data exploration app
+app_code <- '
+library(shiny)
+library(ggplot2)
+
+ui <- fluidPage(
+  titlePanel("Interactive mtcars Explorer"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("x_var", "X Variable:", 
+                  choices = names(mtcars),
+                  selected = "mpg"),
+      selectInput("y_var", "Y Variable:",
+                  choices = names(mtcars), 
+                  selected = "wt"),
+      selectInput("color_var", "Color by:",
+                  choices = c("None", names(mtcars)),
+                  selected = "cyl"),
+      sliderInput("point_size", "Point Size:",
+                  min = 1, max = 5, value = 3)
+    ),
+    
+    mainPanel(
+      plotOutput("scatter_plot"),
+      verbatimTextOutput("correlation")
+    )
+  )
+)
+
+server <- function(input, output) {
+  output$scatter_plot <- renderPlot({
+    p <- ggplot(mtcars, aes_string(x = input$x_var, y = input$y_var)) +
+      geom_point(size = input$point_size) +
+      theme_minimal() +
+      labs(title = paste("Relationship between", input$x_var, "and", input$y_var))
+    
+    if (input$color_var != "None") {
+      p <- p + aes_string(color = input$color_var)
+    }
+    
+    p
+  })
+  
+  output$correlation <- renderText({
+    cor_val <- cor(mtcars[[input$x_var]], mtcars[[input$y_var]])
+    paste("Correlation coefficient:", round(cor_val, 3))
+  })
+}
+
+shinyApp(ui = ui, server = server)
+'
+
+# Create app link for direct access
+link <- shinylive_r_link(app_code, mode = "app")
+print(link)
+```
+
+The `mode = "app"` parameter creates a clean interface showing only the running
+application, perfect for end users. Use `mode = "editor"` when you want to show
+both the code and the running app, which is ideal for educational contexts or
+code sharing.
+
+## Understanding Link Anatomy
+
+### WebR Link Structure
+
+WebR links follow a specific pattern:
+```
+https://webr.r-wasm.org/[version]/?mode='[components]'#code=[encoded_data]&[flags]
+```
+
+- **Version**: Specifies WebR version (`latest`, `v0.5.4`, etc.)
+- **Mode**: Controls interface components (`editor`, `plot`, `files`, `terminal`)
+- **Encoded Data**: Your compressed and base64-encoded files
+- **Flags**: Encoding options (`j` for JSON, `m` for MsgPack, `z` for compression, `u` for uncompressed, `a` for autorun all files)
+
+### Shinylive Link Structure
+
+Shinylive links have a different format:
+
+```
+https://shinylive.io/[engine]/[mode]/#h=[header]&code=[encoded_data]
+```
+
+- **Engine**: Language (`r` for R, `py` for Python)
+- **Mode**: Display type (`editor` for development, `app` for production)
+- **Header**: Optional shinylive playground header display (`1` or `0`)
+- **Encoded Data**: LZ-string compressed application files
+
+## Interface Customization
+
+### WebR Interface Components
+
+WebR offers granular control over which interface components are visible. 
+
+**Component Descriptions:**
+
+- **Editor**: Code editing interface with syntax highlighting
+- **Plot**: Graphics output panel for visualizations
+- **Files**: File browser for multi-file projects
+- **Terminal**: R console for interactive commands
+
+```{r}
+# Show only the editor and plot for focused analysis
+analysis_link <- webr_repl_link(code, mode = c("editor", "plot"))
+
+# Show all components for full development environment
+full_link <- webr_repl_link(code, mode = c("editor", "plot", "files", "terminal"))
+
+# Use string format for convenience
+focused_link <- webr_repl_link(code, mode = "editor-plot")
+
+# Default behavior (NULL) shows all components
+default_link <- webr_repl_link(code)
+```
+
+
+### Shinylive Display Modes
+
+Shinylive offers two primary modes optimized for different use cases.
+The first is the **editor mode**, which is great for teaching and code 
+exploration, showing both the source code and the running application. The
+second is the **app mode**, which provides a clean interface for end users,
+displaying only the running application. You can also remove the header
+for embedded applications, which is useful when integrating into other web pages.
+
+```{r}
+# Editor mode: Shows both the source code and running application
+editor_link <- shinylive_r_link(app_code, mode = "editor")
+
+# App mode: Shows only the running application
+app_link <- shinylive_r_link(app_code, mode = "app")
+
+# Remove header for embedded applications
+embedded_link <- shinylive_r_link(app_code, mode = "app", header = FALSE)
+```
+
+
+## Version Management
+
+### WebR Versions
+
+Different WebR versions offer varying features and package availability:
+
+```{r}
+# Use latest version for newest features (default)
+webr_repl_link(code, version = "latest")
+
+# Pin to specific version for reproducibility
+webr_repl_link(code, version = "v0.5.4")
+
+# Set global base URL for custom WebR deployments
+set_webr_base_url("https://my-institution.edu/webr/")
+webr_repl_link(code)  # Will use custom URL
+
+# Reset to default
+set_webr_base_url(NULL)
+```
+
+**Version Considerations:**
+
+- **Latest**: Access to newest features but may change over time
+- **Specific versions**: Guaranteed reproducibility but may lack newer features
+- **Custom deployments**: Useful for institutions with specific requirements
+
+:::{.callout-important}
+You must use WebR version 0.5.4 or later to ensure compatibility with the latest
+features and packages.
+:::
+
+## Common Workflows
+
+### Teaching and Education
+
+```{r}
+# Step 1: Create exercise with placeholders
+exercise_code <- "
+# Exercise: Data Summary
+# Complete the following analysis of the iris dataset
+
+# TODO: Load the iris dataset
+data <- # YOUR CODE HERE
+
+# TODO: Calculate mean sepal length
+mean_sepal_length <- # YOUR CODE HERE
+
+# TODO: Create a histogram of petal widths
+# YOUR CODE HERE
+
+cat('Mean sepal length:', mean_sepal_length)
+"
+
+# Step 2: Create corresponding solution
+solution_code <- "
+# Solution: Data Summary
+data <- iris
+
+mean_sepal_length <- mean(iris$Sepal.Length)
+
+hist(iris$Petal.Width, 
+     main = 'Distribution of Petal Widths',
+     xlab = 'Petal Width (cm)',
+     col = 'lightblue')
+
+cat('Mean sepal length:', mean_sepal_length)
+"
+
+# Step 3: Generate exercise pair
+links <- webr_repl_exercise(exercise_code, solution_code, "iris_basics")
+
+# Share exercise with students
+student_link <- repl_urls(links$exercise)
+
+# Keep solution for grading
+instructor_link <- repl_urls(links$solution)
+```
+
+### Collaborative Development
+
+```{r}
+# Share work-in-progress for feedback
+prototype_code <- "
+# Prototype: Segmentation analysis
+# TODO: Optimize clustering algorithm
+
+library(cluster)
+data(iris)
+
+# Current approach - needs improvement
+clusters <- kmeans(iris[,1:4], centers = 3)
+plot(iris$Sepal.Length, iris$Sepal.Width, 
+     col = clusters$cluster,
+     main = 'Customer Segments (Prototype)')
+
+# Questions for collaborators:
+# 1. Should we use different clustering method?
+# 2. How to determine optimal number of clusters?
+# 3. Which variables are most important?
+"
+
+collaboration_link <- webr_repl_link(
+  prototype_code, 
+  filename = "clustering_prototype.R",
+  autorun = FALSE)  # Let collaborators run manually
+```
+
+## Common Issues
+
+### Browser Compatibility
+
+WebR and Shinylive require modern browsers with WebAssembly support:
+
+- **Supported**: Chrome 57+, Firefox 52+, Safari 11+, Edge 79+
+- **Not supported**: Internet Explorer, very old mobile browsers
+- **Performance**: Desktop browsers generally perform better than mobile
+
+### Network Requirements
+
+Links require internet access to load WebR/Shinylive infrastructure, but run locally afterward:
+
+- Initial load: Downloads WebR runtime (~10-50 MB depending on packages)
+- Subsequent usage: Runs offline in browser cache
+- Package installation: Requires internet for additional R packages
+
+## Next Steps
+
+Now that you understand the basics, explore specific workflows:
+
+- **[WebR Links](webr-links.qmd)**: Learn more about R code sharing with
+  advanced multi-file projects, batch processing, and educational tools
+- **[Shinylive Links](shinylive-links.qmd)**: Master Shiny application sharing
+  for both R and Python, including complex multi-file apps
+- **[Decoding Links](decoding-links.qmd)**: Learn to extract files from 
+  existing links, preview contents, and batch process multiple URLs
+
+Each vignette builds on these fundamentals while providing specialized knowledge
+for specific use cases. The combination of these tools makes livelink a comprehensive
+solution for modern, browser-based code sharing and collaboration.
