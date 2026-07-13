@@ -34,22 +34,20 @@ Batch processes directories containing Shiny applications to create individual S
 Each subdirectory is treated as a separate Shiny app project.
 }
 \examples{
-\dontrun{
-# Process directory of R Shiny apps
-# Directory structure:
-# shiny_apps/
-#   ├── app1/
-#   │   ├── app.R
-#   │   └── utils.R
-#   └── app2/
-#       ├── app.R
-#       └── data.csv
+# Each app lives in its own subdirectory:
+#   shiny_apps/
+#     app1/app.R
+#     app2/app.R
+shiny_apps <- tempfile()
+dir.create(file.path(shiny_apps, "app1"), recursive = TRUE)
+dir.create(file.path(shiny_apps, "app2"), recursive = TRUE)
+writeLines("library(shiny)", file.path(shiny_apps, "app1", "app.R"))
+writeLines("library(shiny)", file.path(shiny_apps, "app2", "app.R"))
 
-links <- shinylive_directory("./shiny_apps/", engine = "r", mode = "editor")
+links <- shinylive_directory(shiny_apps, engine = "r", mode = "editor")
 print(links)
 
-# Process directory of Python Shiny apps without header
-links <- shinylive_directory("./py_apps/", engine = "python", mode = "app", header = FALSE)
-}
+# Extract just the URLs
+repl_urls(links)
 
 }

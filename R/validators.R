@@ -1,15 +1,12 @@
-#' Validation helper functions
-#'
-#' @description
-#' Internal validation functions that provide consistent checking across the package.
-#' These functions follow the pattern of `is_*()` returning TRUE/FALSE and
-#' `check_*()` or `ensure_*()` functions that abort with cli messages on failure.
-#' @keywords internal
+# Internal validation helpers.
+#
+#   is_*()                 -> TRUE/FALSE
+#   check_*() / ensure_*() -> invisible(TRUE), or abort with a cli message.
 
 #' Check if version is valid
 #' @param version Version string to check
 #' @return Logical value
-#' @keywords internal
+#' @noRd
 is_valid_version <- function(version) {
   if (!is.character(version) || length(version) != 1) {
     return(FALSE)
@@ -38,7 +35,7 @@ is_valid_version <- function(version) {
 #' Check if mode is valid
 #' @param mode Mode specification (character vector or string)
 #' @return Logical value
-#' @keywords internal
+#' @noRd
 is_valid_mode <- function(mode) {
   if (is.null(mode)) {
     return(TRUE)  # NULL is valid (means no mode restriction)
@@ -69,7 +66,7 @@ is_valid_mode <- function(mode) {
 #' @param mode Mode specification to check
 #' @param arg_name Name of the argument (for error messages)
 #' @return Invisible TRUE if valid, aborts if not
-#' @keywords internal
+#' @noRd
 check_valid_mode <- function(mode, arg_name = "mode") {
   if (!is_valid_mode(mode)) {
     cli::cli_abort(c(
@@ -96,7 +93,7 @@ check_valid_mode <- function(mode, arg_name = "mode") {
 #' version string in the format "vX.Y.Z" where X, Y, Z are integers and the version is
 #' greater than or equal to v0.5.4.
 #'
-#' @keywords internal
+#' @noRd
 check_valid_version <- function(version, arg_name = "version") {
   if (!is_valid_version(version)) {
     cli::cli_abort(c(
@@ -111,7 +108,7 @@ check_valid_version <- function(version, arg_name = "version") {
 #' Check if input is a single character string
 #' @param x Object to check
 #' @return Logical value
-#' @keywords internal
+#' @noRd
 is_single_string <- function(x) {
   is.character(x) && length(x) == 1 && !is.na(x) && nzchar(x)
 }
@@ -120,7 +117,7 @@ is_single_string <- function(x) {
 #' @param x Object to check
 #' @param arg_name Name of the argument (for error messages)
 #' @return Invisible TRUE if valid, aborts if not
-#' @keywords internal
+#' @noRd
 check_single_string <- function(x, arg_name) {
   if (!is_single_string(x)) {
     cli::cli_abort(c(
@@ -135,7 +132,7 @@ check_single_string <- function(x, arg_name) {
 #' Check if input is a single logical value
 #' @param x Object to check
 #' @return Logical value
-#' @keywords internal
+#' @noRd
 is_single_logical <- function(x) {
   is.logical(x) && length(x) == 1 && !is.na(x)
 }
@@ -144,7 +141,7 @@ is_single_logical <- function(x) {
 #' @param x Object to check
 #' @param arg_name Name of the argument (for error messages)
 #' @return Invisible TRUE if valid, aborts if not
-#' @keywords internal
+#' @noRd
 check_single_logical <- function(x, arg_name) {
   if (!is_single_logical(x)) {
     cli::cli_abort(c(
@@ -159,31 +156,15 @@ check_single_logical <- function(x, arg_name) {
 #' Check if input is a properly named list
 #' @param x Object to check
 #' @return Logical value
-#' @keywords internal
+#' @noRd
 is_named_list <- function(x) {
   is.list(x) && !is.null(names(x)) && all(names(x) != "") && all(nzchar(names(x)))
-}
-
-#' Ensure input is a properly named list
-#' @param x Object to check
-#' @param arg_name Name of the argument (for error messages)
-#' @return Invisible TRUE if valid, aborts if not
-#' @keywords internal
-check_named_list <- function(x, arg_name) {
-  if (!is_named_list(x)) {
-    cli::cli_abort(c(
-      "Invalid {.arg {arg_name}} argument",
-      "x" = "{.arg {arg_name}} must be a named list with non-empty names",
-      "i" = "Each file needs a filename as the list element name"
-    ))
-  }
-  invisible(TRUE)
 }
 
 #' Check if input is a valid file path
 #' @param x Object to check
 #' @return Logical value
-#' @keywords internal
+#' @noRd
 is_valid_path <- function(x) {
   is.character(x) && length(x) == 1 && !is.na(x) && nzchar(x)
 }
@@ -192,7 +173,7 @@ is_valid_path <- function(x) {
 #' @param x Object to check
 #' @param arg_name Name of the argument (for error messages)
 #' @return Invisible TRUE if valid, aborts if not
-#' @keywords internal
+#' @noRd
 check_valid_path <- function(x, arg_name) {
   if (!is_valid_path(x)) {
     cli::cli_abort(c(
@@ -210,7 +191,7 @@ check_valid_path <- function(x, arg_name) {
 #' @return
 #' Logical value
 #'
-#' @keywords internal
+#' @noRd
 is_character_vector <- function(x) {
   is.character(x)
 }
@@ -223,7 +204,7 @@ is_character_vector <- function(x) {
 #' @return
 #' Invisible TRUE if valid, aborts if not
 #'
-#' @keywords internal
+#' @noRd
 check_character_vector <- function(x, arg_name) {
   if (!is_character_vector(x)) {
     cli::cli_abort(c(
@@ -242,7 +223,7 @@ check_character_vector <- function(x, arg_name) {
 #' @return
 #' Logical value
 #'
-#' @keywords internal
+#' @noRd
 has_directory <- function(path) {
   dir.exists(path)
 }
@@ -251,7 +232,7 @@ has_directory <- function(path) {
 #' @param path Directory path to check
 #' @param arg_name Name of the argument (for error messages)
 #' @return Invisible TRUE if valid, aborts if not
-#' @keywords internal
+#' @noRd
 ensure_directory_exists <- function(path, arg_name = "directory_path") {
   if (!has_directory(path)) {
     cli::cli_abort(c(
@@ -263,22 +244,13 @@ ensure_directory_exists <- function(path, arg_name = "directory_path") {
   invisible(TRUE)
 }
 
-#' Check if specified files exist in a named list
-#' @param files_to_check Character vector of filenames to check
-#' @param files_list Named list of files
-#' @return Logical value
-#' @keywords internal
-has_files_in_list <- function(files_to_check, files_list) {
-  all(files_to_check %in% names(files_list))
-}
-
 #' Ensure specified files exist in a named list
 #' @param files_to_check Character vector of filenames to check
 #' @param files_list Named list of files
 #' @param files_arg_name Name of the files argument (for error messages)
 #' @param check_arg_name Name of the checking argument (for error messages)
 #' @return Invisible TRUE if valid, aborts if not
-#' @keywords internal
+#' @noRd
 ensure_files_in_list <- function(files_to_check, files_list,
                                  files_arg_name = "files",
                                  check_arg_name = "autorun_files") {
@@ -293,16 +265,10 @@ ensure_files_in_list <- function(files_to_check, files_list,
   invisible(TRUE)
 }
 
-#' Create Shinylive sharelinks for R and Python Shiny apps
-#'
-#' @description
-#' Functions to create Shinylive links for R and Python Shiny applications.
-#' Shinylive allows running Shiny apps entirely in the browser.
-
 #' Check if engine is valid for Shinylive
 #' @param engine Engine specification ("r" or "python")
 #' @return Logical value
-#' @keywords internal
+#' @noRd
 is_valid_shinylive_engine <- function(engine) {
   is.character(engine) && length(engine) == 1 && engine %in% c("r", "python")
 }
@@ -311,7 +277,7 @@ is_valid_shinylive_engine <- function(engine) {
 #' @param engine Engine specification to check
 #' @param arg_name Name of the argument (for error messages)
 #' @return Invisible TRUE if valid, aborts if not
-#' @keywords internal
+#' @noRd
 check_valid_shinylive_engine <- function(engine, arg_name = "engine") {
   if (!is_valid_shinylive_engine(engine)) {
     cli::cli_abort(c(
@@ -326,7 +292,7 @@ check_valid_shinylive_engine <- function(engine, arg_name = "engine") {
 #' Check if Shinylive mode is valid
 #' @param mode Mode specification ("editor" or "app")
 #' @return Logical value
-#' @keywords internal
+#' @noRd
 is_valid_shinylive_mode <- function(mode) {
   is.character(mode) && length(mode) == 1 && mode %in% c("editor", "app")
 }
@@ -335,7 +301,7 @@ is_valid_shinylive_mode <- function(mode) {
 #' @param mode Mode specification to check
 #' @param arg_name Name of the argument (for error messages)
 #' @return Invisible TRUE if valid, aborts if not
-#' @keywords internal
+#' @noRd
 check_valid_shinylive_mode <- function(mode, arg_name = "mode") {
   if (!is_valid_shinylive_mode(mode)) {
     cli::cli_abort(c(
@@ -350,7 +316,7 @@ check_valid_shinylive_mode <- function(mode, arg_name = "mode") {
 #' Check if URL is a valid Shinylive URL
 #' @param url URL string to check
 #' @return Logical value
-#' @keywords internal
+#' @noRd
 is_valid_shinylive_url <- function(url) {
   if (!is_single_string(url)) {
     return(FALSE)
@@ -363,7 +329,7 @@ is_valid_shinylive_url <- function(url) {
 #' @param url URL to check
 #' @param arg_name Name of the argument (for error messages)
 #' @return Invisible TRUE if valid, aborts if not
-#' @keywords internal
+#' @noRd
 check_valid_shinylive_url <- function(url, arg_name = "url") {
   if (!is_valid_shinylive_url(url)) {
     cli::cli_abort(c(
@@ -379,7 +345,7 @@ check_valid_shinylive_url <- function(url, arg_name = "url") {
 #' Check if URL is a valid webR URL
 #' @param url URL string to check
 #' @return Logical value
-#' @keywords internal
+#' @noRd
 is_valid_webr_url <- function(url) {
   if (!is.character(url) || length(url) != 1 || is.na(url) || !nzchar(url)) {
     return(FALSE)
@@ -397,7 +363,7 @@ is_valid_webr_url <- function(url) {
 #' @param url URL string to check
 #' @param arg_name Name of the argument (for error messages)
 #' @return Invisible TRUE if valid, aborts if not
-#' @keywords internal
+#' @noRd
 check_valid_webr_url <- function(url, arg_name = "url") {
   if (!is_valid_webr_url(url)) {
     cli::cli_abort(c(
@@ -405,77 +371,6 @@ check_valid_webr_url <- function(url, arg_name = "url") {
       "x" = "{.arg {arg_name}} must be a valid webR REPL sharelink",
       "i" = "URL should be from webr.r-wasm.org and contain encoded data",
       "i" = "Example: https://webr.r-wasm.org/latest/#code=..."
-    ))
-  }
-  invisible(TRUE)
-}
-
-#' Check if webR URL has valid flags
-#' @param flags Flags string to check
-#' @return Logical value
-#' @keywords internal
-is_valid_webr_flags <- function(flags) {
-  if (!is.character(flags) || length(flags) != 1) {
-    return(FALSE)
-  }
-
-  # Valid webR flags: u (uncompressed), z (zlib), m (msgpack), j (json), a (autorun)
-  valid_chars <- c("u", "z", "m", "j", "a")
-  flag_chars <- strsplit(flags, "")[[1]]
-
-  # All characters must be valid flags
-  all(flag_chars %in% valid_chars)
-}
-
-#' Ensure webR flags are valid
-#' @param flags Flags string to check
-#' @param arg_name Name of the argument (for error messages)
-#' @return Invisible TRUE if valid, aborts if not
-#' @keywords internal
-check_valid_webr_flags <- function(flags, arg_name = "flags") {
-  if (!is_valid_webr_flags(flags)) {
-    cli::cli_abort(c(
-      "Invalid webR flags",
-      "x" = "{.arg {arg_name}} must contain only valid webR flag characters",
-      "i" = "Valid flags: {.val {c('u', 'z', 'm', 'j', 'a')}}",
-      "i" = "u = uncompressed, z = zlib, m = msgpack, j = json, a = autorun",
-      "i" = "Default webR format is 'mz' (msgpack + zlib compressed)",
-      "!" = "You provided: {.val {flags}}"
-    ))
-  }
-  invisible(TRUE)
-}
-
-#' Check if webR version string is valid
-#' @param version Version string to check
-#' @return Logical value
-#' @keywords internal
-is_valid_webr_version_string <- function(version) {
-  if (!is.character(version) || length(version) != 1) {
-    return(FALSE)
-  }
-
-  # Valid formats: "latest", "v0.5.4", "unknown"
-  if (version %in% c("latest", "unknown")) {
-    return(TRUE)
-  }
-
-  # Check version format (v0.5.4 or greater)
-  return(grepl("^v\\d+\\.\\d+\\.\\d+$", version))
-}
-
-#' Ensure webR version string is valid
-#' @param version Version string to check
-#' @param arg_name Name of the argument (for error messages)
-#' @return Invisible TRUE if valid, aborts if not
-#' @keywords internal
-check_valid_webr_version_string <- function(version, arg_name = "version") {
-  if (!is_valid_webr_version_string(version)) {
-    cli::cli_abort(c(
-      "Invalid webR version",
-      "x" = "{.arg {arg_name}} must be a valid webR version string",
-      "i" = "Valid formats: {.val {'latest'}}, {.val {'v0.5.4'}}, or {.val {'unknown'}}",
-      "!" = "You provided: {.val {version}}"
     ))
   }
   invisible(TRUE)

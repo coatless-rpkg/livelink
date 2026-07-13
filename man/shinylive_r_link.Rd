@@ -4,11 +4,18 @@
 \alias{shinylive_r_link}
 \title{Create a Shinylive sharelink for R Shiny apps}
 \usage{
-shinylive_r_link(files, mode = "editor", header = TRUE, base_url = NULL)
+shinylive_r_link(input = NULL, mode = "editor", header = TRUE, base_url = NULL)
 }
 \arguments{
-\item{files}{Named list where names are filenames and values are file content as character strings.
-For single-file apps, can also pass a character string as the app.R content.}
+\item{input}{App input. Can be:
+\itemize{
+\item R expression (no quotes needed): \code{shinylive_r_link({ shinyApp(ui, server) })}
+\item Character string: R code for the app
+\item File path: Path to app.R file
+\item Vector of file paths: Multiple files for the app
+\item Named list: \code{list("app.R" = code1, "utils.R" = code2)}
+\item NULL: Read from clipboard
+}}
 
 \item{mode}{Shinylive mode: "editor" (show code editor) or "app" (show app only)}
 
@@ -21,39 +28,32 @@ shinylive_link object containing the Shinylive URL and metadata
 }
 \description{
 Generates a shareable URL for R Shiny applications that can run in the browser
-using Shinylive. The app files are encoded and embedded in the URL.
+using Shinylive. Supports expressions, character strings, file paths, named lists,
+and clipboard input.
 }
 \examples{
-# Simple single-file Shiny app
-app_code <- '
-library(shiny)
-ui <- fluidPage(
-  titlePanel("Hello Shinylive!"),
-  sidebarLayout(
-    sidebarPanel(
-      sliderInput("obs", "Number of observations:", min = 1, max = 1000, value = 500)
-    ),
-    mainPanel(plotOutput("distPlot"))
-  )
-)
-server <- function(input, output) {
-  output$distPlot <- renderPlot({
-    hist(rnorm(input$obs), col = "darkgray", border = "white")
-  })
+# Expression input (no quotes needed!)
+shinylive_r_link({
+  ui <- fluidPage(titlePanel("Hello World"))
+  server <- function(input, output) {}
+  shinyApp(ui, server)
+})
+
+# Multiple files as a named list
+shinylive_r_link(list(
+  "app.R" = "library(shiny)\nshinyApp(fluidPage(), function(i, o) {})",
+  "utils.R" = "helper <- function() 42"
+))
+
+# File path input
+app_dir <- tempfile()
+dir.create(app_dir)
+app_path <- file.path(app_dir, "app.R")
+writeLines("library(shiny)", app_path)
+shinylive_r_link(app_path)
+
+# Read the app from the clipboard
+if (interactive()) {
+  shinylive_r_link()
 }
-shinyApp(ui = ui, server = server)
-'
-
-link <- shinylive_r_link(app_code, mode = "app")
-print(link)
-
-# Multi-file Shiny app
-files <- list(
-  "app.R" = app_code,
-  "utils.R" = "helper_function <- function(x) { x * 2 }",
-  "data.csv" = "x,y\n1,2\n3,4\n5,6"
-)
-
-link <- shinylive_r_link(files, mode = "editor")
-
 }

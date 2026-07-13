@@ -5,24 +5,28 @@
 \title{Create WebR REPL sharelink for multiple files}
 \usage{
 webr_repl_project(
-  files,
+  input,
   autorun_files = character(0),
   base_path = "/home/web_user/",
-  mode = NULL,
+  panels = NULL,
   version = "latest",
   base_url = NULL
 )
 }
 \arguments{
-\item{files}{Named list where names are filenames and values are file content as character strings}
+\item{input}{Input for multiple files. Can be:
+\itemize{
+\item Named list: \code{list("main.R" = code1, "utils.R" = code2)}
+\item Vector of file paths: \code{c("main.R", "utils.R", "data.csv")}
+}}
 
 \item{autorun_files}{Character vector of filenames to auto-execute when project loads, or "all" to autorun all R files (default: none)}
 
 \item{base_path}{Base directory path for all files (default: \code{"/home/web_user/"})}
 
-\item{mode}{Character vector or string specifying which WebR interface components to show.
-Valid components: \code{"plot"}, \code{"files"}, \code{"terminal"}, \code{"editor"}. Can be \code{c("plot", "files")} or \code{"plot-files"}.
-If NULL (default), shows all components.}
+\item{panels}{Character vector or string specifying which WebR interface panels to show.
+Valid panels: \code{"plot"}, \code{"files"}, \code{"terminal"}, \code{"editor"}. Can be \code{c("plot", "files")} or \code{"plot-files"}.
+If NULL (default), shows all panels.}
 
 \item{version}{WebR version to use (\code{"latest"} or specific version >= "v0.5.4")}
 
@@ -33,35 +37,26 @@ webr_project object containing the WebR sharelink for the multi-file project
 }
 \description{
 Creates a WebR sharelink for projects with multiple R files, data files, or other resources.
-Useful for sharing complete analyses, packages, or educational materials.
+Supports named lists and file path vectors as input.
 }
 \examples{
-# Create a project with multiple files
+# Named list input
 files <- list(
   "main.R" = "source('utils.R')\nresult <- analyze_data(mtcars)",
   "utils.R" = "analyze_data <- function(data) { summary(data) }",
   "README.md" = "# My Analysis\nThis project analyzes the mtcars dataset."
 )
+webr_repl_project(files, autorun_files = "main.R")
 
-# Autorun specific files
-link <- webr_repl_project(files, autorun_files = "main.R")
+# Autorun every R file in the project
+webr_repl_project(files, autorun_files = "all")
 
-# Autorun all R files
-link <- webr_repl_project(files, autorun_files = "all")
-
-# Autorun multiple specific files
-link <- webr_repl_project(files, autorun_files = c("main.R", "utils.R"))
-
-# No autorun (default)
-link <- webr_repl_project(files)
-
-# Show only files and editor for project management
-link <- webr_repl_project(files, mode = c("files", "editor"))
-
-# Custom base path, version, and interface mode
-link <- webr_repl_project(files,
-                         base_path = "/workspace/",
-                         mode = "files-editor-terminal",
-                         version = "v0.5.4")
-
+# File paths input
+project_dir <- tempfile()
+dir.create(project_dir)
+main <- file.path(project_dir, "main.R")
+utils <- file.path(project_dir, "utils.R")
+writeLines("source('utils.R')", main)
+writeLines("# utils", utils)
+webr_repl_project(c(main, utils))
 }

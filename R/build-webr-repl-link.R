@@ -1,7 +1,7 @@
 #' Convert mode to string format
 #' @param mode Mode specification (character vector, string, or NULL)
 #' @return String in format "component1-component2-..." or NULL
-#' @keywords internal
+#' @noRd
 format_mode_string <- function(mode) {
   if (is.null(mode)) {
     return(NULL)
@@ -22,7 +22,7 @@ format_mode_string <- function(mode) {
 #' @param flags URL flags
 #' @param mode Mode string or NULL
 #' @return Complete WebR URL
-#' @keywords internal
+#' @noRd
 build_webr_url <- function(base_url, encoded_data, flags, mode = NULL) {
   if (is.null(mode)) {
     # Original format without mode

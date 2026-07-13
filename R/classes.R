@@ -6,7 +6,7 @@
 #' @param version WebR version
 #' @param autorun Whether autorun is enabled
 #' @return webr_link object
-#' @keywords internal
+#' @noRd
 new_webr_link <- function(url, filename, path, mode, version, autorun) {
   structure(
     list(
@@ -29,7 +29,7 @@ new_webr_link <- function(url, filename, path, mode, version, autorun) {
 #' @param version WebR version
 #' @param autorun_files Files with autorun enabled
 #' @return webr_project object
-#' @keywords internal
+#' @noRd
 new_webr_project <- function(url, files, base_path, mode, version, autorun_files) {
   structure(
     list(
@@ -48,7 +48,7 @@ new_webr_project <- function(url, files, base_path, mode, version, autorun_files
 #' @param exercise webr_link object for exercise
 #' @param solution webr_link object for solution
 #' @return webr_exercise object
-#' @keywords internal
+#' @noRd
 new_webr_exercise <- function(exercise, solution) {
   structure(
     list(
@@ -70,7 +70,7 @@ new_webr_exercise <- function(exercise, solution) {
 #' @return
 #' webr_directory object
 #'
-#' @keywords internal
+#' @noRd
 new_webr_directory <- function(urls, base_path, mode, version, source_directory) {
   structure(
     list(
@@ -92,7 +92,7 @@ new_webr_directory <- function(urls, base_path, mode, version, source_directory)
 #' @param version WebR version
 #' @param flags Encoding flags
 #' @return webr_decoded object
-#' @keywords internal
+#' @noRd
 new_webr_decoded <- function(files_info, output_dir, url, mode, version, flags) {
   structure(
     list(
@@ -112,7 +112,7 @@ new_webr_decoded <- function(files_info, output_dir, url, mode, version, flags) 
 #' @param base_output_dir Base output directory
 #' @param urls Original URLs
 #' @return webr_decoded_batch object
-#' @keywords internal
+#' @noRd
 new_webr_decoded_batch <- function(results, base_output_dir, urls) {
   structure(
     list(
@@ -133,7 +133,7 @@ new_webr_decoded_batch <- function(results, base_output_dir, urls) {
 #' @param total_size Total size in bytes
 #' @param autorun_files Files with autorun enabled
 #' @return webr_preview object
-#' @keywords internal
+#' @noRd
 new_webr_preview <- function(url, mode, version, flags, files_data, total_size, autorun_files) {
   structure(
     list(
@@ -157,7 +157,7 @@ new_webr_preview <- function(url, mode, version, flags, files_data, total_size, 
 #' @param engine Engine type ("r" or "python")
 #' @param mode Shinylive mode ("editor" or "app")
 #' @return shinylive_link object
-#' @keywords internal
+#' @noRd
 new_shinylive_link <- function(url, files, engine, mode) {
   structure(
     list(
@@ -176,7 +176,7 @@ new_shinylive_link <- function(url, files, engine, mode) {
 #' @param engine Engine type ("r" or "python")
 #' @param mode Shinylive mode ("editor" or "app")
 #' @return shinylive_project object
-#' @keywords internal
+#' @noRd
 new_shinylive_project <- function(url, files, engine, mode) {
   structure(
     list(
@@ -195,7 +195,7 @@ new_shinylive_project <- function(url, files, engine, mode) {
 #' @param mode Shinylive mode ("editor" or "app")
 #' @param source_directory Original source directory
 #' @return shinylive_directory object
-#' @keywords internal
+#' @noRd
 new_shinylive_directory <- function(urls, engine, mode, source_directory) {
   structure(
     list(
@@ -215,7 +215,7 @@ new_shinylive_directory <- function(urls, engine, mode, source_directory) {
 #' @param engine Engine type
 #' @param mode Shinylive mode
 #' @return shinylive_decoded object
-#' @keywords internal
+#' @noRd
 new_shinylive_decoded <- function(files_info, output_dir, url, engine, mode) {
   structure(
     list(
@@ -236,7 +236,7 @@ new_shinylive_decoded <- function(files_info, output_dir, url, engine, mode) {
 #' @param base_dir Base output directory
 #' @param urls Original URLs
 #' @return shinylive_decoded_batch object
-#' @keywords internal
+#' @noRd
 new_shinylive_decoded_batch <- function(results, base_dir, urls) {
   total_files <- sum(sapply(results, function(x) if (!is.null(x)) x$total_files else 0))
   total_size <- sum(sapply(results, function(x) if (!is.null(x)) x$total_size else 0))
@@ -263,7 +263,7 @@ new_shinylive_decoded_batch <- function(results, base_dir, urls) {
 #' @param total_size Total size in bytes
 #' @param file_types Unique file types found
 #' @return shinylive_preview object
-#' @keywords internal
+#' @noRd
 new_shinylive_preview <- function(url, engine, mode, files_data, total_size, file_types) {
   structure(
     list(
@@ -438,30 +438,18 @@ print.webr_decoded <- function(x, ...) {
         }
 
         if (length(skip_reasons$no_content) > 0) {
-          files_text <- if (length(skip_reasons$no_content) > 3) {
-            paste0(paste(skip_reasons$no_content[1:3], collapse = ", "), ", and {length(skip_reasons$no_content) - 3} more")
-          } else {
-            cli::cli_vec(skip_reasons$no_content)
-          }
+          files_text <- truncate_file_list(skip_reasons$no_content)
           cli::cli_text("  {cli::symbol$cross} {length(skip_reasons$no_content)} file{?s} had no content: {files_text}")
         }
 
         if (length(skip_reasons$already_exists) > 0) {
-          files_text <- if (length(skip_reasons$already_exists) > 3) {
-            paste0(paste(skip_reasons$already_exists[1:3], collapse = ", "), ", and {length(skip_reasons$already_exists) - 3} more")
-          } else {
-            cli::cli_vec(skip_reasons$already_exists)
-          }
-          cli::cli_text("  {cli::symbol$cross} {length(skip_reasons$already_exists)} file{?s} already exist{?s}: {files_text}")
+          files_text <- truncate_file_list(skip_reasons$already_exists)
+          cli::cli_text("  {cli::symbol$cross} {length(skip_reasons$already_exists)} file{?s} already {?exists/exist}: {files_text}")
           cli::cli_text("    {cli::symbol$info} Use {.code overwrite = TRUE} to replace existing files")
         }
 
         if (length(skip_reasons$save_failed) > 0) {
-          files_text <- if (length(skip_reasons$save_failed) > 3) {
-            paste0(paste(skip_reasons$save_failed[1:3], collapse = ", "), ", and {length(skip_reasons$save_failed) - 3} more")
-          } else {
-            cli::cli_vec(skip_reasons$save_failed)
-          }
+          files_text <- truncate_file_list(skip_reasons$save_failed)
           cli::cli_text("  {cli::symbol$cross} {length(skip_reasons$save_failed)} file{?s} failed to save: {files_text}")
         }
       } else {
@@ -511,8 +499,7 @@ print.webr_decoded_batch <- function(x, ...) {
 
   if (length(successful_results) == 0) {
     cli::cli_text("No URLs were successfully processed.")
-    invisible(x)
-    return()
+    return(invisible(x))
   }
 
   cli::cli_text("Successfully processed {length(successful_results)} URL{?s}:")
@@ -643,6 +630,121 @@ print.webr_preview <- function(x, show_content = FALSE, max_content_length = 500
   invisible(x)
 }
 
+#' Print method for shinylive_preview objects
+#' @param x shinylive_preview object
+#' @param show_content Logical. Whether to print the contents of each file
+#' @param max_content_length Maximum number of characters of content to show per file
+#' @param ... Additional arguments (ignored)
+#' @return Invisibly returns the object
+#' @export
+print.shinylive_preview <- function(x, show_content = FALSE, max_content_length = 500, ...) {
+  engine_name <- if (x$engine == "python") "Python" else "R"
+  cli::cli_h2("Shinylive {engine_name} Preview")
+  cli::cli_text("Source: {.url {x$url}}")
+  cli::cli_text("")
+
+  total_size_label <- format_file_size(x$total_size)
+  cli::cli_text("Files: {x$total_files}")
+  cli::cli_text("Total size: {total_size_label}")
+  cli::cli_text("Engine: {.val {engine_name}}")
+  cli::cli_text("Mode: {.val {x$mode}}")
+  cli::cli_text("")
+
+  for (i in seq_along(x$files_data)) {
+    file_info <- x$files_data[[i]]
+    is_text <- !identical(file_info$type, "binary")
+    content <- if (is.null(file_info$content)) "" else file_info$content
+    file_size <- if (is_text) {
+      nchar(content, type = "bytes")
+    } else {
+      calculate_base64_size(content)
+    }
+
+    size_label <- format_file_size(file_size)
+    type_label <- if (is_text) "text" else "binary"
+    cli::cli_text("{.file {file_info$name}} ({type_label}, {size_label})")
+
+    if (show_content && is_text && nchar(content) > 0) {
+      display_content <- if (nchar(content) <= max_content_length) {
+        content
+      } else {
+        paste0(substr(content, 1, max_content_length), "...")
+      }
+      indented <- paste0("  ", strsplit(display_content, "\n")[[1]])
+      cli::cli_verbatim(paste(indented, collapse = "\n"))
+    }
+
+    if (i < length(x$files_data)) cli::cli_text("")
+  }
+
+  if (!show_content && x$total_files > 0) {
+    cli::cli_text("")
+    cli::cli_text("{.emph Use print(preview, show_content = TRUE) to see file contents}")
+  }
+
+  invisible(x)
+}
+
+#' Print method for shinylive_decoded objects
+#' @param x shinylive_decoded object
+#' @param ... Additional arguments (ignored)
+#' @return Invisibly returns the object
+#' @export
+print.shinylive_decoded <- function(x, ...) {
+  engine_name <- if (x$engine == "python") "Python" else "R"
+  cli::cli_h2("Shinylive {engine_name} Decoded Files")
+  cli::cli_text("Source: {.url {x$url}}")
+  cli::cli_text("Output: {.path {x$output_dir}}")
+  cli::cli_text("")
+
+  if (x$total_files == 0) {
+    cli::cli_text("No files were saved.")
+    return(invisible(x))
+  }
+
+  cli::cli_text("Files ({x$total_files}):")
+  for (i in seq_len(nrow(x$files_info))) {
+    file_info <- x$files_info[i, ]
+    size_label <- format_file_size(file_info$size_bytes)
+    cli::cli_text("  {.file {file_info$filename}} ({size_label})")
+  }
+
+  cli::cli_text("")
+  cli::cli_text("Total size: {format_file_size(x$total_size)}")
+  cli::cli_text("Mode: {.val {x$mode}}")
+
+  invisible(x)
+}
+
+#' Print method for shinylive_decoded_batch objects
+#' @param x shinylive_decoded_batch object
+#' @param ... Additional arguments (ignored)
+#' @return Invisibly returns the object
+#' @export
+print.shinylive_decoded_batch <- function(x, ...) {
+  cli::cli_h2("Shinylive Decoded Batch")
+  cli::cli_text("Base directory: {.path {x$base_dir}}")
+  cli::cli_text("Total URLs: {x$total_urls}")
+  cli::cli_text("")
+
+  if (x$successful_urls == 0) {
+    cli::cli_text("No URLs were successfully processed.")
+    return(invisible(x))
+  }
+
+  cli::cli_text("Successfully processed {x$successful_urls} URL{?s}:")
+  for (result in x$results) {
+    if (is.null(result)) next
+    cli::cli_text("  {.path {result$output_dir}} ({result$total_files} file{?s})")
+  }
+
+  cli::cli_text("")
+  cli::cli_text("Total files: {x$total_files}")
+  cli::cli_text("Total size: {format_file_size(x$total_size)}")
+
+  invisible(x)
+}
+
 #' Print method for shinylive_link objects
 #' @param x shinylive_link object
 #' @param ... Additional arguments (ignored)
@@ -662,6 +764,8 @@ print.shinylive_link <- function(x, ...) {
   cli::cli_text("")
   cli::cli_text("Engine: {.val {engine_name}}")
   cli::cli_text("Mode: {.val {x$mode}}")
+
+  invisible(x)
 }
 
 #' Print method for shinylive_project objects
@@ -700,8 +804,7 @@ print.shinylive_directory <- function(x, ...) {
 
   if (length(x$urls) == 0) {
     cli::cli_text("No apps found.")
-    invisible(x)
-    return()
+    return(invisible(x))
   }
 
   cli::cli_text("Generated {length(x$urls)} app{?s}:")

@@ -6,7 +6,7 @@
 \usage{
 decode_shinylive_link(
   url,
-  output_dir = "./shinylive_files",
+  output_dir = file.path(tempdir(), "shinylive_files"),
   overwrite = FALSE,
   create_subdir = TRUE,
   name_dirs = TRUE
@@ -15,7 +15,9 @@ decode_shinylive_link(
 \arguments{
 \item{url}{Character string or vector containing Shinylive URL(s)}
 
-\item{output_dir}{Character string specifying the output directory path (default: "./shinylive_files")}
+\item{output_dir}{Character string specifying the output directory path.
+Defaults to a \code{shinylive_files} directory inside the session temporary
+directory; pass an explicit path to extract somewhere permanent.}
 
 \item{overwrite}{Logical. Whether to overwrite existing files (default: FALSE)}
 
@@ -35,30 +37,19 @@ to a local directory. This is the reverse operation of creating Shinylive links.
 Handles both single URLs and multiple URLs automatically.
 }
 \examples{
-\dontrun{
-# Single URL
-url <- "https://shinylive.io/r/editor/#code=NobwRAdgh..."
+# Round-trip: build a link, then decode it back to files
+url <- as.character(shinylive_r_link("library(shiny)"))
+
 result <- decode_shinylive_link(url)
 print(result)
 
-# Multiple URLs
-urls <- c(
-  "https://shinylive.io/r/editor/#code=...",
-  "https://shinylive.io/py/app/#code=..."
-)
-results <- decode_shinylive_link(urls)
-print(results)
+# Extract to a directory of your choosing
+out <- file.path(tempdir(), "my_app")
+decode_shinylive_link(url, output_dir = out, create_subdir = FALSE, overwrite = TRUE)
+list.files(out)
 
-# Custom settings for single URL
-result <- decode_shinylive_link(url,
-                               output_dir = "./my_app",
-                               create_subdir = FALSE,
-                               overwrite = TRUE)
-
-# Custom settings for multiple URLs
-results <- decode_shinylive_link(urls,
-                                output_dir = "./my_apps",
-                                name_dirs = FALSE)  # Use hash-based names
-}
+# Both engines at once
+urls <- c(url, as.character(shinylive_py_link("from shiny import App")))
+decode_shinylive_link(urls, output_dir = file.path(tempdir(), "my_apps"))
 
 }

@@ -26,12 +26,6 @@ navbar:
       menu:
       - text: Getting Started
         href: articles/getting-started.html
-      # - text: WebR Links
-      #   href: articles/webr-links.html
-      # - text: Shinylive Links
-      #   href: articles/shinylive-links.html
-      # - text: Decoding Links
-      #   href: articles/decoding-links.html
 
 reference:
 - title: "WebR REPL Links"
@@ -73,4 +67,3 @@ reference:
   desc: "S3 classes and their methods"
   contents:
   - starts_with("print.")
-  - starts_with("new_")

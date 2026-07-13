@@ -77,6 +77,12 @@ as.character.shinylive_decoded_batch <- function(x, ...) {
   x$urls
 }
 
+#' @rdname as.character.webr_link
+#' @export
+as.character.shinylive_preview <- function(x, ...) {
+  x$url
+}
+
 #' Get WebR URLs from objects
 #'
 #' @description
@@ -88,7 +94,6 @@ as.character.shinylive_decoded_batch <- function(x, ...) {
 #' @return Character vector of URLs
 #'
 #' @examples
-#' \dontrun{
 #' # Single link
 #' link <- webr_repl_link("plot(1:10)")
 #' repl_urls(link)
@@ -97,14 +102,12 @@ as.character.shinylive_decoded_batch <- function(x, ...) {
 #' exercise <- webr_repl_exercise("# TODO", "plot(1:10)", "test")
 #' repl_urls(exercise)
 #'
-#' # Directory (returns named vector)
-#' links <- webr_repl_directory("./examples/")
-#' repl_urls(links)
+#' # Shinylive links work the same way
+#' repl_urls(shinylive_r_link("library(shiny)"))
 #'
-#' # Decoded files (returns original URL)
-#' decoded <- decode_webr_link("https://webr.r-wasm.org/latest/#code=...")
+#' # Decoded files (returns the original URL)
+#' decoded <- decode_webr_link(as.character(link))
 #' repl_urls(decoded)
-#' }
 #'
 #' @export
 repl_urls <- function(x, ...) {
@@ -186,9 +189,15 @@ repl_urls.shinylive_decoded_batch <- function(x, ...) {
 
 #' @rdname repl_urls
 #' @export
+repl_urls.shinylive_preview <- function(x, ...) {
+  x$url
+}
+
+#' @rdname repl_urls
+#' @export
 repl_urls.default <- function(x, ...) {
   cli::cli_abort(c(
     "Cannot extract URLs from object of class {.cls {class(x)}}",
-    "i" = "Supported classes: {.cls webr_link}, {.cls webr_project}, {.cls webr_exercise}, {.cls webr_directory}, {.cls webr_decoded}, {.cls webr_decoded_batch}, {.cls shinylive_link}, {.cls shinylive_project}, {.cls shinylive_directory}, {.cls shinylive_decoded}, {.cls shinylive_decoded_batch}"
+    "i" = "Supported classes: {.cls webr_link}, {.cls webr_project}, {.cls webr_exercise}, {.cls webr_directory}, {.cls webr_decoded}, {.cls webr_decoded_batch}, {.cls webr_preview}, {.cls shinylive_link}, {.cls shinylive_project}, {.cls shinylive_directory}, {.cls shinylive_decoded}, {.cls shinylive_decoded_batch}, {.cls shinylive_preview}"
   ))
 }

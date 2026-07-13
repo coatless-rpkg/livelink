@@ -14,6 +14,7 @@
 \alias{repl_urls.shinylive_directory}
 \alias{repl_urls.shinylive_decoded}
 \alias{repl_urls.shinylive_decoded_batch}
+\alias{repl_urls.shinylive_preview}
 \alias{repl_urls.default}
 \title{Get WebR URLs from objects}
 \usage{
@@ -43,6 +44,8 @@ repl_urls(x, ...)
 
 \method{repl_urls}{shinylive_decoded_batch}(x, ...)
 
+\method{repl_urls}{shinylive_preview}(x, ...)
+
 \method{repl_urls}{default}(x, ...)
 }
 \arguments{
@@ -58,7 +61,6 @@ Generic function to extract WebR URLs from different object types.
 Provides a clear way to get just the URLs for sharing or further processing.
 }
 \examples{
-\dontrun{
 # Single link
 link <- webr_repl_link("plot(1:10)")
 repl_urls(link)
@@ -67,13 +69,11 @@ repl_urls(link)
 exercise <- webr_repl_exercise("# TODO", "plot(1:10)", "test")
 repl_urls(exercise)
 
-# Directory (returns named vector)
-links <- webr_repl_directory("./examples/")
-repl_urls(links)
+# Shinylive links work the same way
+repl_urls(shinylive_r_link("library(shiny)"))
 
-# Decoded files (returns original URL)
-decoded <- decode_webr_link("https://webr.r-wasm.org/latest/#code=...")
+# Decoded files (returns the original URL)
+decoded <- decode_webr_link(as.character(link))
 repl_urls(decoded)
-}
 
 }

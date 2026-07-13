@@ -5,7 +5,9 @@
 #' Handles both single URLs and multiple URLs automatically.
 #'
 #' @param url Character string or vector containing webR REPL URL(s)
-#' @param output_dir Character string specifying the output directory path (default: "./webr_files")
+#' @param output_dir Character string specifying the output directory path.
+#'   Defaults to a `webr_files` directory inside the session temporary
+#'   directory; pass an explicit path to extract somewhere permanent.
 #' @param overwrite Logical. Whether to overwrite existing files (default: FALSE)
 #' @param create_subdir Logical. Whether to create subdirectories. For single URLs, creates
 #'   a subdirectory named after the URL hash. For multiple URLs, creates numbered subdirectories
@@ -19,33 +21,22 @@
 #' @include utils.R
 #' @export
 #' @examples
-#' \dontrun{
-#' # Single URL
-#' url <- "https://webr.r-wasm.org/latest/#code=eJy1..."
+#' # Round-trip: build a link, then decode it back to files
+#' url <- as.character(webr_repl_link("plot(1:10)"))
+#'
 #' result <- decode_webr_link(url)
 #' print(result)
 #'
-#' # Multiple URLs
-#' urls <- c(
-#'   "https://webr.r-wasm.org/latest/#code=...",
-#'   "https://webr.r-wasm.org/v0.5.4/#code=..."
-#' )
-#' results <- decode_webr_link(urls)
-#' print(results)
+#' # Extract to a directory of your choosing
+#' out <- file.path(tempdir(), "my_code")
+#' decode_webr_link(url, output_dir = out, create_subdir = FALSE, overwrite = TRUE)
+#' list.files(out)
 #'
-#' # Custom settings for single URL
-#' result <- decode_webr_link(url,
-#'                           output_dir = "./my_code",
-#'                           create_subdir = FALSE,
-#'                           overwrite = TRUE)
-#'
-#' # Custom settings for multiple URLs
-#' results <- decode_webr_link(urls,
-#'                            output_dir = "./my_scripts",
-#'                            name_dirs = FALSE)  # Use hash-based names
-#' }
+#' # Several links at once
+#' urls <- c(url, as.character(webr_repl_link("hist(rnorm(100))")))
+#' decode_webr_link(urls, output_dir = file.path(tempdir(), "my_scripts"))
 decode_webr_link <- function(url,
-                             output_dir = "./webr_files",
+                             output_dir = file.path(tempdir(), "webr_files"),
                              overwrite = FALSE,
                              create_subdir = TRUE,
                              name_dirs = TRUE) {
@@ -72,7 +63,7 @@ decode_webr_link <- function(url,
 #' @param overwrite Whether to overwrite files
 #' @param create_subdir Whether to create subdirectory
 #' @return webr_decoded object
-#' @keywords internal
+#' @noRd
 decode_single_webr_link <- function(url, output_dir, overwrite, create_subdir) {
   # Validate URL
   check_valid_webr_url(url, "url")
@@ -122,7 +113,7 @@ decode_single_webr_link <- function(url, output_dir, overwrite, create_subdir) {
 #' @param create_subdir Whether to create subdirectories
 #' @param name_dirs Whether to use numbered directory names
 #' @return webr_decoded_batch object
-#' @keywords internal
+#' @noRd
 decode_multiple_webr_links <- function(urls, output_dir, overwrite, create_subdir, name_dirs) {
   if (length(urls) == 0) {
     cli::cli_warn("No URLs provided")
@@ -200,7 +191,7 @@ decode_multiple_webr_links <- function(urls, output_dir, overwrite, create_subdi
 #' @param output_dir Directory to save files
 #' @param overwrite Whether to overwrite existing files
 #' @return Data frame with file information
-#' @keywords internal
+#' @noRd
 decode_and_save_webr_files <- function(files_data, output_dir, overwrite) {
   cli::cli_inform("Decoding {length(files_data)} file{?s}...")
 
@@ -315,9 +306,11 @@ decode_and_save_webr_files <- function(files_data, output_dir, overwrite) {
     }, error = function(e) {
       cli::cli_warn(c(
         "Failed to save file: {.file {filename}}",
-        "x" = "{e$message}"
+        "x" = "{conditionMessage(e)}"
       ))
-      skip_reasons$save_failed <- c(skip_reasons$save_failed, filename)
+      # `<<-`, not `<-`: a plain assignment here lands in the handler's frame and
+      # is discarded, which left the save_failed reporting block unreachable.
+      skip_reasons$save_failed <<- c(skip_reasons$save_failed, filename)
     })
   }
 
@@ -330,7 +323,7 @@ decode_and_save_webr_files <- function(files_data, output_dir, overwrite) {
 #' Detect if content is likely binary
 #' @param content Character string to check
 #' @return Logical indicating if content is likely binary
-#' @keywords internal
+#' @noRd
 detect_binary_content <- function(content) {
   if (!is.character(content) || length(content) == 0 || nchar(content) == 0) {
     return(FALSE)
@@ -357,7 +350,7 @@ detect_binary_content <- function(content) {
 #' Normalize msgpack data from RcppMsgPack format to list format
 #' @param msgpack_data Raw msgpack data from RcppMsgPack
 #' @return Normalized list structure
-#' @keywords internal
+#' @noRd
 normalize_msgpack_data <- function(msgpack_data) {
   if (!is.list(msgpack_data)) {
     return(msgpack_data)
@@ -385,7 +378,7 @@ normalize_msgpack_data <- function(msgpack_data) {
 #' Convert key-value structure to named list
 #' @param kv_item Item with key and value lists
 #' @return Named list
-#' @keywords internal
+#' @noRd
 convert_keyvalue_to_list <- function(kv_item) {
   keys <- kv_item$key
   values <- kv_item$value
@@ -403,14 +396,15 @@ convert_keyvalue_to_list <- function(kv_item) {
 
     # Handle different value types
     if (is.raw(value)) {
-      # Convert raw bytes to character string
-      tryCatch({
-        result[[key]] <- rawToChar(value)
-      }, error = function(e) {
-        # If rawToChar fails, keep as raw or convert to hex
-        cli::cli_warn("Failed to convert raw data for key '{key}' to character: {e$message}")
-        result[[key]] <- paste(sprintf("%02x", as.integer(value)), collapse = " ")
-      })
+      # Take the fallback as the value of tryCatch; assigning to `result` inside
+      # the handler would write into the handler's frame and be discarded.
+      result[[key]] <- tryCatch(
+        rawToChar(value),
+        error = function(e) {
+          cli::cli_warn("Failed to convert raw data for key '{key}' to character: {conditionMessage(e)}")
+          paste(sprintf("%02x", as.integer(value)), collapse = " ")
+        }
+      )
     } else if (is.logical(value) && key == "autorun") {
       # Keep autorun as logical
       result[[key]] <- as.logical(value)
@@ -426,7 +420,7 @@ convert_keyvalue_to_list <- function(kv_item) {
 #' Decompress and parse webR URL data
 #' @param url webR URL
 #' @return List containing mode, version, flags, and files_data
-#' @keywords internal
+#' @noRd
 decompress_webr_url <- function(url) {
   # Extract URL metadata
   url_parts <- parse_webr_url(url)
@@ -462,21 +456,27 @@ decompress_webr_url <- function(url) {
     # Uncompressed
     raw_data <- binary_data
   } else if (grepl("z", flags)) {
-    # zlib/gzip compressed - try both formats
-    tryCatch({
-      raw_data <- memDecompress(binary_data, type = "gzip")
-    }, error = function(e1) {
-      tryCatch({
-        # Try without gzip headers (raw zlib)
-        raw_data <- memDecompress(binary_data, type = "unknown")
-      }, error = function(e2) {
-        cli::cli_abort(c(
-          "Error during decompression",
-          "x" = "Failed to decompress data: {e1$message}",
-          "i" = "The URL may be corrupted or use an unsupported compression format"
-        ))
-      })
-    })
+    # zlib/gzip compressed - try both formats.
+    # The fallback must be the *value* of the tryCatch: assigning inside the
+    # error handler writes into the handler's own frame, so `raw_data` would
+    # never reach this one and the graceful path would die with
+    # `object 'raw_data' not found`.
+    raw_data <- tryCatch(
+      memDecompress(binary_data, type = "gzip"),
+      error = function(e1) {
+        tryCatch(
+          # Try without gzip headers (raw zlib)
+          memDecompress(binary_data, type = "unknown"),
+          error = function(e2) {
+            cli::cli_abort(c(
+              "Error during decompression",
+              "x" = "Failed to decompress data: {conditionMessage(e1)}",
+              "i" = "The URL may be corrupted or use an unsupported compression format"
+            ))
+          }
+        )
+      }
+    )
   } else {
     cli::cli_abort(c(
       "Unknown compression flags",
@@ -538,7 +538,7 @@ decompress_webr_url <- function(url) {
 #' Parse webR URL structure
 #' @param url webR URL to parse
 #' @return List with URL components
-#' @keywords internal
+#' @noRd
 parse_webr_url <- function(url) {
   # Extract version from URL path using a more robust approach
   version <- extract_version_from_url(url)
@@ -572,7 +572,7 @@ parse_webr_url <- function(url) {
 #' Extract version from webR URL
 #' @param url webR URL
 #' @return Version string
-#' @keywords internal
+#' @noRd
 extract_version_from_url <- function(url) {
   # Use regmatches and regexec for more reliable capture group extraction
   pattern <- "webr\\.r-wasm\\.org/([^/]+)/"
@@ -597,7 +597,7 @@ extract_version_from_url <- function(url) {
 #' Extract mode from webR URL
 #' @param base_url Base part of URL before fragment
 #' @return Mode string or NULL
-#' @keywords internal
+#' @noRd
 extract_mode_from_url <- function(base_url) {
   # Look for mode parameter in query string - simplified approach
   # Handle both quoted and unquoted mode values
@@ -615,29 +615,33 @@ extract_mode_from_url <- function(base_url) {
       if (length(match_result) >= 3) {
         # Quoted pattern - mode is in third element
         mode <- match_result[3]
-        return(mode)
       } else if (length(match_result) >= 2) {
         # Unquoted pattern - mode is in second element
         mode <- match_result[2]
-        return(mode)
+      } else {
+        next
       }
+
+      # Split back into the panel vector the caller passed to `panels`, so a
+      # decoded link reports what was encoded rather than the wire format.
+      return(strsplit(mode, "-", fixed = TRUE)[[1]])
     }
   }
 
   return(NULL)
 }
 
-#' Format mode string for display using cli
-#' @param mode Mode string (like "editor-plot-terminal")
+#' Format panel vector for display using cli
+#' @param mode Panel vector (like c("editor", "plot")) or string ("editor-plot")
 #' @return Formatted string for display
-#' @keywords internal
+#' @noRd
 format_mode_for_display <- function(mode) {
-  if (is.null(mode) || !is.character(mode) || length(mode) != 1) {
+  if (is.null(mode) || !is.character(mode) || length(mode) == 0) {
     return(NULL)
   }
 
-  # Split by hyphens and capitalize each component
-  components <- strsplit(mode, "-")[[1]]
+  # Accept either the panel vector or the hyphen-joined wire format.
+  components <- unlist(strsplit(mode, "-", fixed = TRUE))
   components <- tools::toTitleCase(components)
 
   # Use cli to format with proper conjunctions (Oxford comma included by default)
@@ -647,7 +651,7 @@ format_mode_for_display <- function(mode) {
 #' Extract parameters from webR URL fragment
 #' @param fragment URL fragment part after '#'
 #' @return List with code and flags
-#' @keywords internal
+#' @noRd
 extract_webr_parameters <- function(fragment) {
   # Split by & to handle multiple parameters
   params <- strsplit(fragment, "&")[[1]]
@@ -684,10 +688,9 @@ extract_webr_parameters <- function(fragment) {
 #' @return webr_preview object with file information and metadata
 #'
 #' @examples
-#' \dontrun{
-#' url <- "https://webr.r-wasm.org/latest/#code=..."
+#' url <- as.character(webr_repl_link("plot(1:10)"))
 #'
-#' # Create preview object
+#' # Inspect a link without writing anything to disk
 #' preview <- preview_webr_link(url)
 #'
 #' # Default print (no content)
@@ -702,7 +705,6 @@ extract_webr_parameters <- function(fragment) {
 #' # Access the preview data
 #' preview$files_data
 #' preview$total_files
-#' }
 #'
 #' @export
 preview_webr_link <- function(url) {

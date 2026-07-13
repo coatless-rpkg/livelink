@@ -1,24 +1,38 @@
 
 
-<!-- README.md is generated from README.Qmd. Please edit that file -->
+<!-- README.md is generated from README.qmd. Please edit that file -->
 
 # livelink <img src="man/figures/livelink-animated-logo.svg" align="right" width="139" />
 
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/coatless-rpkg/livelink/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/coatless-rpkg/livelink/actions/workflows/R-CMD-check.yaml)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/livelink.png)](https://CRAN.R-project.org/package=livelink)
+[![Codecov test
+coverage](https://codecov.io/gh/coatless-rpkg/livelink/graph/badge.svg)](https://app.codecov.io/gh/coatless-rpkg/livelink)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 Create shareable links for R code in WebAssembly (WASM) REPL
 environments like webR and for R and Python Shiny applications using
 Shinylive.
 
+Full documentation is at
+<https://r-pkg.thecoatlessprofessor.com/livelink/>.
+
 ## Installation
 
-You can install the development version of `livelink` from GitHub with:
+You can install `livelink` from CRAN with:
 
 ``` r
-# Install development version from GitHub
+install.packages("livelink")
+```
+
+Or install the development version from GitHub with:
+
+``` r
 # install.packages("remotes")
 remotes::install_github("coatless-rpkg/livelink")
 ```
@@ -135,7 +149,7 @@ print(project)
 #> 
 #> ── WebR Project ──
 #> 
-#> <https://webr.r-wasm.org/latest/#code=eJx1kcFqAjEQhl9lmBZ2F9L1vrQHaaUnoXjpoSkyrtFd2EwkmVRFfPfiGlc9mNMk30%2Fy%2FeTngEzWYIXE1O1DG8oZKtyQNFjhqHHWjLZmMY%2FB%2BNFdRMxOsELNwUVfmzyL0nahnGWF5iUJwesLdI6Wcys1%2BZAXmkO0lvw%2BP%2BFCc%2B0NiZlvOieXI1RIUZyPjJX4aI5q8EvXP5S78sHs5vmTzSpyLa3jvICDZoAz0XzUfCdzl%2B3FzvlB9Nlu1gr6aSsKTqxfllqGN8imX5%2FwF%2BDbtOtGMjXwXUeLxDMF%2B7RLsaIXwZvGs8n4Yzop7fJh59tEav0E7%2BRhnH5K82UCtwJpTCrdywcjJR5%2F%2FwHli6tX&jz>
+#> <https://webr.r-wasm.org/latest/#code=eJx1kcFqAjEQhl9lmBZ2F9L1vrQHaaUnoXjpoSkyrtFd2EwkmVRFfPfiGlc9mNMk30%2Fy%2FeTngEzWYIXE1O1DG8oZKtyQNFjhqHHWjLZmMY%2FB%2BNFdRMxOsELNwUVfmzyL0nahnGWF5iUJwesLdI6Wcys1%2BZAXmkO0lvw%2BP%2BFCc%2B0NiZlvOieXI1RIUZyPjJX4aI5q8EvXP5S78sHs5vmTzSpyLa3jvICDZoAz0XzUfCdzl%2B3FzvlB9Nlu1gr6aSsKTqxfllqGN8imX5%2FwF%2BDbtOtGMjXwXUeLxDMF%2B7RLsaIXwZvGs8n4Yzop7fJh59tEav0E7%2BRhnH5K82UCtwJpTCrdywcjJR5%2F%2FwHli6tX&jza>
 #> 
 #> Files (3):
 #> 'analysis.R' → '/home/web_user/analysis.R' (autorun)
@@ -183,9 +197,9 @@ Process entire directories:
 
 ``` r
 # Process all R files in a directory
-links <- webr_repl_directory("./examples/", 
+links <- webr_repl_directory("./examples/",
                             autorun = TRUE,
-                            mode = c("editor", "plot"))
+                            panels = c("editor", "plot"))
 
 # Process Shiny app directories
 shiny_links <- shinylive_directory("./shiny_apps/", 
@@ -270,3 +284,28 @@ print(py_link)
 ## License
 
 AGPL (\>= 3)
+
+## Acknowledgements
+
+Thanks to [George Stagg][stagg] for [webR][webr] and its browser REPL, and
+to [Winston Chang][chang] for the [Shinylive][shinylive] share-URL feature.
+livelink writes to the share formats they built and opens in the runtimes
+they maintain, so it is mostly a friendly wrapper around a good idea they
+had. [Pyodide][pyodide] is its own remarkable project, and it is what runs
+the Python side of Shinylive. Thanks, too, to [`peeky`][peeky] for stating
+the other half of this idea plainly enough that the feature became obvious.
+And for turning a braced R expression into clean, verbatim source, livelink
+borrows [reprex][reprex]’s [`stringify_expression()`][reprex-stringify],
+copyright the reprex authors and [MIT licensed][reprex-license]. livelink
+is one step, and [webrarian][webrarian] is the next, already taking shape.
+
+[stagg]: https://github.com/georgestagg
+[webr]: https://docs.r-wasm.org/webr/latest/
+[chang]: https://github.com/wch
+[shinylive]: https://github.com/posit-dev/shinylive
+[pyodide]: https://github.com/pyodide/pyodide
+[peeky]: https://github.com/coatless-rpkg/peeky
+[reprex]: https://reprex.tidyverse.org/
+[reprex-stringify]: https://github.com/tidyverse/reprex/blob/main/R/stringify_expression.R
+[reprex-license]: https://github.com/tidyverse/reprex/blob/main/LICENSE.md
+[webrarian]: https://github.com/coatless-rpkg/webrarian

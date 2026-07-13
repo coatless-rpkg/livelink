@@ -9,7 +9,7 @@ webr_repl_directory(
   autorun = FALSE,
   pattern = "\\\\.R$",
   base_path = "/home/web_user/",
-  mode = NULL,
+  panels = NULL,
   version = "latest",
   base_url = NULL
 )
@@ -23,39 +23,39 @@ webr_repl_directory(
 
 \item{base_path}{Base directory path for files in WebR (default: "/home/web_user/")}
 
-\item{mode}{Character vector or string specifying which WebR interface components to show.
-Valid components: "plot", "files", "terminal", "editor". Can be c("plot", "files") or "plot-files".
-If NULL (default), shows all components.}
+\item{panels}{Character vector or string specifying which WebR interface panels to show.
+Valid panels: "plot", "files", "terminal", "editor". Can be c("plot", "files") or "plot-files".
+If NULL (default), shows all panels.}
 
 \item{version}{WebR version to use ("latest" or specific version >= "v0.5.4")}
 
 \item{base_url}{WebR application URL. If NULL, uses global option or builds from version}
 }
 \value{
-Named character vector where names are filenames and values are WebR sharelinks
+A \code{webr_directory} object. Its \code{urls} element is a named character vector
+mapping each filename to its WebR sharelink.
 }
 \description{
 Batch processes all R files in a directory to create individual WebR sharelinks.
 Useful for converting collections of scripts, examples, or course materials.
 }
 \examples{
-\dontrun{
-# Process all R files in a directory
-links <- webr_repl_directory("./examples/", autorun = TRUE)
+# A directory of R scripts
+examples <- tempfile()
+dir.create(examples)
+writeLines("plot(1:10)", file.path(examples, "plot.R"))
+writeLines("hist(rnorm(100))", file.path(examples, "hist.R"))
 
-# Show only editor and terminal for all files
-links <- webr_repl_directory("./examples/",
-                            mode = c("editor", "terminal"))
+links <- webr_repl_directory(examples, autorun = TRUE)
+print(links)
 
-# Process with custom settings and interface mode
-links <- webr_repl_directory("./course/",
-                            pattern = "exercise.*\\\\.R$",
-                            base_path = "/exercises/",
-                            mode = "editor-plot",
-                            version = "v0.5.4")
+# Show only the editor and terminal panels
+webr_repl_directory(examples, panels = c("editor", "terminal"))
 
-# Save links to a file
-writeLines(paste(names(links), links, sep = ": "), "webr_links.txt")
-}
+# Match a subset of files
+webr_repl_directory(examples, pattern = "^plot")
+
+# The URLs, named by file
+repl_urls(links)
 
 }

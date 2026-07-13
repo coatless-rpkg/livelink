@@ -5,53 +5,69 @@
 \title{Create a WebR REPL sharelink from R code}
 \usage{
 webr_repl_link(
-  code,
+  input = NULL,
   filename = "script.R",
   path = NULL,
   autorun = FALSE,
-  mode = NULL,
+  panels = NULL,
   version = "latest",
   base_url = NULL
 )
 }
 \arguments{
-\item{code}{Character string containing R code to share}
+\item{input}{Code input. Can be:
+\itemize{
+\item R expression (no quotes needed): \code{webr_repl_link({ plot(1:10) })}
+\item Character string: R code to execute
+\item File path: Path to R file to read
+\item NULL: Read from clipboard (requires clipr package)
+}}
 
 \item{filename}{Name for the file (default: \code{"script.R"})}
 
 \item{path}{Full path where the file will be placed in WebR (default: \code{"/home/web_user/{filename}"})}
 
-\item{autorun}{Logical. Whether to auto-execute the code when link is opened (default: \code{FALSE})}
+\item{autorun}{Logical. Whether to auto-execute the code when link is opened (default: \code{FALSE}).
+Only R files (\code{.R}) can be auto-executed.}
 
-\item{mode}{Character vector or string specifying which WebR interface components to show.
-Valid components: \code{"plot"}, \code{"files"}, \code{"terminal"}, \code{"editor"}. Can be \code{c("plot", "files")} or \code{"plot-files"}.
-If NULL (default), shows all components.}
+\item{panels}{Character vector or string specifying which WebR interface panels to show.
+Valid panels: \code{"plot"}, \code{"files"}, \code{"terminal"}, \code{"editor"}. Can be \code{c("plot", "files")} or \code{"plot-files"}.
+If NULL (default), shows all panels.}
 
 \item{version}{WebR version to use (\code{"latest"} or specific version >= "v0.5.4")}
 
 \item{base_url}{WebR application URL. If NULL, uses global option or builds from version}
 }
 \value{
-Character string containing the complete WebR sharelink URL
+webr_link object containing the WebR sharelink and metadata
 }
 \description{
 Generates a shareable URL for R code that can be executed in the webR environment.
-The code is compressed, base64-encoded, and embedded in the URL.
+Supports expressions, file paths, character strings, and clipboard input.
 }
 \examples{
-# Simple code sharing
-code <- "plot(1:10)"
-link <- webr_repl_link(code, autorun = TRUE)
+# Expression input (no quotes needed!)
+webr_repl_link({
+  plot(1:10)
+  summary(mtcars)
+})
 
-# Show only plot and editor
-link <- webr_repl_link(code, mode = c("plot", "editor"))
+# Traditional string input
+webr_repl_link("plot(1:10)")
 
-# String format for mode
-link <- webr_repl_link(code, mode = "plot-files-terminal")
+# Choose which panels the REPL shows
+webr_repl_link({ hist(rnorm(100)) }, panels = c("plot", "editor"))
 
-# Custom path and version with mode
-link <- webr_repl_link(code,
-                      path = "/tmp/my_script.R",
-                      mode = c("editor", "terminal"),
-                      version = "v0.5.4")
+# Run the code as soon as the link opens
+webr_repl_link("plot(1:10)", autorun = TRUE)
+
+# File path input
+script <- tempfile(fileext = ".R")
+writeLines("plot(1:10)", script)
+webr_repl_link(script)
+
+# Read the code from the clipboard
+if (interactive()) {
+  webr_repl_link()
+}
 }

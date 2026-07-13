@@ -6,7 +6,7 @@
 \usage{
 decode_webr_link(
   url,
-  output_dir = "./webr_files",
+  output_dir = file.path(tempdir(), "webr_files"),
   overwrite = FALSE,
   create_subdir = TRUE,
   name_dirs = TRUE
@@ -15,7 +15,9 @@ decode_webr_link(
 \arguments{
 \item{url}{Character string or vector containing webR REPL URL(s)}
 
-\item{output_dir}{Character string specifying the output directory path (default: "./webr_files")}
+\item{output_dir}{Character string specifying the output directory path.
+Defaults to a \code{webr_files} directory inside the session temporary
+directory; pass an explicit path to extract somewhere permanent.}
 
 \item{overwrite}{Logical. Whether to overwrite existing files (default: FALSE)}
 
@@ -35,29 +37,18 @@ to a local directory. This is the reverse operation of creating webR links.
 Handles both single URLs and multiple URLs automatically.
 }
 \examples{
-\dontrun{
-# Single URL
-url <- "https://webr.r-wasm.org/latest/#code=eJy1..."
+# Round-trip: build a link, then decode it back to files
+url <- as.character(webr_repl_link("plot(1:10)"))
+
 result <- decode_webr_link(url)
 print(result)
 
-# Multiple URLs
-urls <- c(
-  "https://webr.r-wasm.org/latest/#code=...",
-  "https://webr.r-wasm.org/v0.5.4/#code=..."
-)
-results <- decode_webr_link(urls)
-print(results)
+# Extract to a directory of your choosing
+out <- file.path(tempdir(), "my_code")
+decode_webr_link(url, output_dir = out, create_subdir = FALSE, overwrite = TRUE)
+list.files(out)
 
-# Custom settings for single URL
-result <- decode_webr_link(url,
-                          output_dir = "./my_code",
-                          create_subdir = FALSE,
-                          overwrite = TRUE)
-
-# Custom settings for multiple URLs
-results <- decode_webr_link(urls,
-                           output_dir = "./my_scripts",
-                           name_dirs = FALSE)  # Use hash-based names
-}
+# Several links at once
+urls <- c(url, as.character(webr_repl_link("hist(rnorm(100))")))
+decode_webr_link(urls, output_dir = file.path(tempdir(), "my_scripts"))
 }

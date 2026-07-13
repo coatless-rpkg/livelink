@@ -17,10 +17,9 @@ Decodes a webR URL and returns information about the embedded files
 without actually saving them to disk. Use print method options to control display.
 }
 \examples{
-\dontrun{
-url <- "https://webr.r-wasm.org/latest/#code=..."
+url <- as.character(webr_repl_link("plot(1:10)"))
 
-# Create preview object
+# Inspect a link without writing anything to disk
 preview <- preview_webr_link(url)
 
 # Default print (no content)
@@ -35,6 +34,5 @@ print(preview, show_content = TRUE, max_content_length = 200)
 # Access the preview data
 preview$files_data
 preview$total_files
-}
 
 }

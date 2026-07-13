@@ -13,6 +13,7 @@
 \alias{as.character.shinylive_directory}
 \alias{as.character.shinylive_decoded}
 \alias{as.character.shinylive_decoded_batch}
+\alias{as.character.shinylive_preview}
 \title{Extract URLs as character vector}
 \usage{
 \method{as.character}{webr_link}(x, ...)
@@ -38,6 +39,8 @@
 \method{as.character}{shinylive_decoded}(x, ...)
 
 \method{as.character}{shinylive_decoded_batch}(x, ...)
+
+\method{as.character}{shinylive_preview}(x, ...)
 }
 \arguments{
 \item{x}{Link object}

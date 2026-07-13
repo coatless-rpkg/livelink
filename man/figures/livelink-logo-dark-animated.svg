@@ -1,0 +1,375 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1732 2000" width="1732" height="2000" role="img" aria-label="livelink">
+<title>livelink</title>
+<style type="text/css">
+  /* base state = the complete static logo; every animation departs from it and returns to it */
+  #ll-panel-0,#ll-panel-1,#ll-panel-2,#ll-panel-3,
+  #ll-crease-1,#ll-crease-2,#ll-crease-3,
+  #ll-code-sheet,#ll-code-p1,#ll-code-p2,#ll-code-p3,
+  #ll-button,#ll-glyph-anim { transform-box: view-box; }
+
+  #ll-panel-0 { transform-origin: 866px 372px; animation: ll-fold-0 6500ms linear infinite; }
+  #ll-panel-1 { transform-origin: 866px 768px; animation: ll-fold-1 6500ms linear infinite; }
+  #ll-panel-2 { transform-origin: 866px 966px; animation: ll-fold-2 6500ms linear infinite; }
+  #ll-panel-3 { transform-origin: 866px 1108px; animation: ll-fold-3 6500ms linear infinite; }
+  #ll-crease-1 { transform-origin: 866px 768px; animation: ll-fold-1 6500ms linear infinite; }
+  #ll-crease-2 { transform-origin: 866px 966px; animation: ll-fold-2 6500ms linear infinite; }
+  #ll-crease-3 { transform-origin: 866px 1108px; animation: ll-fold-3 6500ms linear infinite; }
+  #ll-code-sheet { animation: ll-dim-0 6500ms linear infinite; }
+  #ll-code-p1 { animation: ll-dim-1 6500ms linear infinite; }
+  #ll-code-p2 { animation: ll-dim-2 6500ms linear infinite; }
+  #ll-code-p3 { animation: ll-dim-3 6500ms linear infinite; }
+  #ll-button { transform-origin: 866px 1385px; animation: ll-press 6500ms cubic-bezier(.4,0,.3,1) infinite; }
+  #ll-glyph-anim { animation: ll-launch 6500ms linear infinite; }
+
+  @keyframes ll-fold-0 {
+    0% { transform: translateY(0.000px) scaleY(1.00000); }
+    12% { transform: translateY(0.000px) scaleY(1.00000); }
+    13% { transform: translateY(0.315px) scaleY(0.99921); }
+    14% { transform: translateY(1.333px) scaleY(0.99689); }
+    15% { transform: translateY(3.369px) scaleY(0.99327); }
+    16% { transform: translateY(6.540px) scaleY(0.98868); }
+    17% { transform: translateY(10.783px) scaleY(0.98352); }
+    18% { transform: translateY(15.903px) scaleY(0.97827); }
+    19% { transform: translateY(21.441px) scaleY(0.97340); }
+    20% { transform: translateY(26.891px) scaleY(0.96936); }
+    21% { transform: translateY(31.761px) scaleY(0.96651); }
+    22% { transform: translateY(35.606px) scaleY(0.96512); }
+    23% { transform: translateY(38.079px) scaleY(0.96530); }
+    24% { transform: translateY(38.954px) scaleY(0.96705); }
+    25% { transform: translateY(38.153px) scaleY(0.97020); }
+    26% { transform: translateY(35.747px) scaleY(0.97446); }
+    27% { transform: translateY(31.955px) scaleY(0.97946); }
+    28% { transform: translateY(27.122px) scaleY(0.98473); }
+    29% { transform: translateY(21.687px) scaleY(0.98980); }
+    30% { transform: translateY(16.143px) scaleY(0.99421); }
+    31% { transform: translateY(10.993px) scaleY(0.99755); }
+    32% { transform: translateY(6.707px) scaleY(0.99953); }
+    33% { transform: translateY(3.655px) scaleY(1.00000); }
+    34% { transform: translateY(1.690px) scaleY(1.00000); }
+    35% { transform: translateY(0.609px) scaleY(1.00000); }
+    36% { transform: translateY(0.130px) scaleY(1.00000); }
+    37% { transform: translateY(0.000px) scaleY(1.00000); }
+    100% { transform: translateY(0.000px) scaleY(1.00000); }
+  }
+  @keyframes ll-fold-1 {
+    0% { transform: translateY(0.000px) scaleY(1.00000); }
+    12% { transform: translateY(0.000px) scaleY(1.00000); }
+    13% { transform: translateY(0.000px) scaleY(1.00000); }
+    14% { transform: translateY(0.103px) scaleY(0.99948); }
+    15% { transform: translateY(0.706px) scaleY(0.99649); }
+    16% { transform: translateY(2.056px) scaleY(0.99109); }
+    17% { transform: translateY(4.256px) scaleY(0.98377); }
+    18% { transform: translateY(7.297px) scaleY(0.97521); }
+    19% { transform: translateY(10.907px) scaleY(0.96617); }
+    20% { transform: translateY(14.758px) scaleY(0.95748); }
+    21% { transform: translateY(18.500px) scaleY(0.94993); }
+    22% { transform: translateY(21.793px) scaleY(0.94420); }
+    23% { transform: translateY(24.339px) scaleY(0.94081); }
+    24% { transform: translateY(25.906px) scaleY(0.94007); }
+    25% { transform: translateY(26.351px) scaleY(0.94206); }
+    26% { transform: translateY(25.635px) scaleY(0.94658); }
+    27% { transform: translateY(23.822px) scaleY(0.95322); }
+    28% { transform: translateY(21.077px) scaleY(0.96140); }
+    29% { transform: translateY(17.649px) scaleY(0.97035); }
+    30% { transform: translateY(13.850px) scaleY(0.97927); }
+    31% { transform: translateY(10.024px) scaleY(0.98735); }
+    32% { transform: translateY(6.520px) scaleY(0.99385); }
+    33% { transform: translateY(3.655px) scaleY(0.99819); }
+    34% { transform: translateY(1.690px) scaleY(0.99997); }
+    35% { transform: translateY(0.609px) scaleY(1.00000); }
+    36% { transform: translateY(0.130px) scaleY(1.00000); }
+    37% { transform: translateY(0.000px) scaleY(1.00000); }
+    100% { transform: translateY(0.000px) scaleY(1.00000); }
+  }
+  @keyframes ll-fold-2 {
+    0% { transform: translateY(0.000px) scaleY(1.00000); }
+    12% { transform: translateY(0.000px) scaleY(1.00000); }
+    13% { transform: translateY(0.000px) scaleY(1.00000); }
+    14% { transform: translateY(0.000px) scaleY(1.00000); }
+    15% { transform: translateY(0.010px) scaleY(0.99993); }
+    16% { transform: translateY(0.292px) scaleY(0.99794); }
+    17% { transform: translateY(1.043px) scaleY(0.99342); }
+    18% { transform: translateY(2.388px) scaleY(0.98678); }
+    19% { transform: translateY(4.209px) scaleY(0.97860); }
+    20% { transform: translateY(6.339px) scaleY(0.96965); }
+    21% { transform: translateY(8.585px) scaleY(0.96073); }
+    22% { transform: translateY(10.744px) scaleY(0.95265); }
+    23% { transform: translateY(12.619px) scaleY(0.94615); }
+    24% { transform: translateY(14.040px) scaleY(0.94181); }
+    25% { transform: translateY(14.878px) scaleY(0.94003); }
+    26% { transform: translateY(15.057px) scaleY(0.94098); }
+    27% { transform: translateY(14.560px) scaleY(0.94456); }
+    28% { transform: translateY(13.433px) scaleY(0.95045); }
+    29% { transform: translateY(11.778px) scaleY(0.95812); }
+    30% { transform: translateY(9.745px) scaleY(0.96686); }
+    31% { transform: translateY(7.520px) scaleY(0.97590); }
+    32% { transform: translateY(5.303px) scaleY(0.98439); }
+    33% { transform: translateY(3.297px) scaleY(0.99158); }
+    34% { transform: translateY(1.683px) scaleY(0.99681); }
+    35% { transform: translateY(0.609px) scaleY(0.99960); }
+    36% { transform: translateY(0.130px) scaleY(1.00000); }
+    37% { transform: translateY(0.000px) scaleY(1.00000); }
+    100% { transform: translateY(0.000px) scaleY(1.00000); }
+  }
+  @keyframes ll-fold-3 {
+    0% { transform: translateY(0.000px) scaleY(1.00000); }
+    12% { transform: translateY(0.000px) scaleY(1.00000); }
+    13% { transform: translateY(0.000px) scaleY(1.00000); }
+    14% { transform: translateY(0.000px) scaleY(1.00000); }
+    15% { transform: translateY(0.000px) scaleY(1.00000); }
+    16% { transform: translateY(0.000px) scaleY(1.00000); }
+    17% { transform: translateY(0.109px) scaleY(0.99902); }
+    18% { transform: translateY(0.511px) scaleY(0.99544); }
+    19% { transform: translateY(1.170px) scaleY(0.98955); }
+    20% { transform: translateY(2.029px) scaleY(0.98188); }
+    21% { transform: translateY(3.009px) scaleY(0.97314); }
+    22% { transform: translateY(4.020px) scaleY(0.96410); }
+    23% { transform: translateY(4.972px) scaleY(0.95561); }
+    24% { transform: translateY(5.777px) scaleY(0.94842); }
+    25% { transform: translateY(6.363px) scaleY(0.94319); }
+    26% { transform: translateY(6.676px) scaleY(0.94040); }
+    27% { transform: translateY(6.687px) scaleY(0.94029); }
+    28% { transform: translateY(6.397px) scaleY(0.94288); }
+    29% { transform: translateY(5.831px) scaleY(0.94794); }
+    30% { transform: translateY(5.040px) scaleY(0.95500); }
+    31% { transform: translateY(4.097px) scaleY(0.96342); }
+    32% { transform: translateY(3.087px) scaleY(0.97244); }
+    33% { transform: translateY(2.101px) scaleY(0.98124); }
+    34% { transform: translateY(1.230px) scaleY(0.98901); }
+    35% { transform: translateY(0.553px) scaleY(0.99506); }
+    36% { transform: translateY(0.130px) scaleY(0.99884); }
+    37% { transform: translateY(0.000px) scaleY(1.00000); }
+    100% { transform: translateY(0.000px) scaleY(1.00000); }
+  }
+  @keyframes ll-dim-0 {
+    0% { opacity: 1.0000; }
+    12% { opacity: 1.0000; }
+    13% { opacity: 0.9943; }
+    14% { opacity: 0.9778; }
+    15% { opacity: 0.9520; }
+    16% { opacity: 0.9191; }
+    17% { opacity: 0.8823; }
+    18% { opacity: 0.8448; }
+    19% { opacity: 0.8100; }
+    20% { opacity: 0.7811; }
+    21% { opacity: 0.7608; }
+    22% { opacity: 0.7508; }
+    23% { opacity: 0.7522; }
+    24% { opacity: 0.7646; }
+    25% { opacity: 0.7871; }
+    26% { opacity: 0.8176; }
+    27% { opacity: 0.8533; }
+    28% { opacity: 0.8910; }
+    29% { opacity: 0.9272; }
+    30% { opacity: 0.9586; }
+    31% { opacity: 0.9825; }
+    32% { opacity: 0.9966; }
+    33% { opacity: 1.0000; }
+    34% { opacity: 1.0000; }
+    35% { opacity: 1.0000; }
+    36% { opacity: 1.0000; }
+    37% { opacity: 1.0000; }
+    100% { opacity: 1.0000; }
+  }
+  @keyframes ll-dim-1 {
+    0% { opacity: 1.0000; }
+    12% { opacity: 1.0000; }
+    13% { opacity: 1.0000; }
+    14% { opacity: 0.9978; }
+    15% { opacity: 0.9854; }
+    16% { opacity: 0.9629; }
+    17% { opacity: 0.9324; }
+    18% { opacity: 0.8967; }
+    19% { opacity: 0.8590; }
+    20% { opacity: 0.8228; }
+    21% { opacity: 0.7914; }
+    22% { opacity: 0.7675; }
+    23% { opacity: 0.7534; }
+    24% { opacity: 0.7503; }
+    25% { opacity: 0.7586; }
+    26% { opacity: 0.7774; }
+    27% { opacity: 0.8051; }
+    28% { opacity: 0.8391; }
+    29% { opacity: 0.8765; }
+    30% { opacity: 0.9136; }
+    31% { opacity: 0.9473; }
+    32% { opacity: 0.9744; }
+    33% { opacity: 0.9925; }
+    34% { opacity: 0.9999; }
+    35% { opacity: 1.0000; }
+    36% { opacity: 1.0000; }
+    37% { opacity: 1.0000; }
+    100% { opacity: 1.0000; }
+  }
+  @keyframes ll-dim-2 {
+    0% { opacity: 1.0000; }
+    12% { opacity: 1.0000; }
+    13% { opacity: 1.0000; }
+    14% { opacity: 1.0000; }
+    15% { opacity: 0.9997; }
+    16% { opacity: 0.9914; }
+    17% { opacity: 0.9726; }
+    18% { opacity: 0.9449; }
+    19% { opacity: 0.9109; }
+    20% { opacity: 0.8735; }
+    21% { opacity: 0.8364; }
+    22% { opacity: 0.8027; }
+    23% { opacity: 0.7756; }
+    24% { opacity: 0.7575; }
+    25% { opacity: 0.7501; }
+    26% { opacity: 0.7541; }
+    27% { opacity: 0.7690; }
+    28% { opacity: 0.7935; }
+    29% { opacity: 0.8255; }
+    30% { opacity: 0.8619; }
+    31% { opacity: 0.8996; }
+    32% { opacity: 0.9350; }
+    33% { opacity: 0.9649; }
+    34% { opacity: 0.9867; }
+    35% { opacity: 0.9983; }
+    36% { opacity: 1.0000; }
+    37% { opacity: 1.0000; }
+    100% { opacity: 1.0000; }
+  }
+  @keyframes ll-dim-3 {
+    0% { opacity: 1.0000; }
+    12% { opacity: 1.0000; }
+    13% { opacity: 1.0000; }
+    14% { opacity: 1.0000; }
+    15% { opacity: 1.0000; }
+    16% { opacity: 1.0000; }
+    17% { opacity: 0.9959; }
+    18% { opacity: 0.9810; }
+    19% { opacity: 0.9565; }
+    20% { opacity: 0.9245; }
+    21% { opacity: 0.8881; }
+    22% { opacity: 0.8504; }
+    23% { opacity: 0.8150; }
+    24% { opacity: 0.7851; }
+    25% { opacity: 0.7633; }
+    26% { opacity: 0.7517; }
+    27% { opacity: 0.7512; }
+    28% { opacity: 0.7620; }
+    29% { opacity: 0.7831; }
+    30% { opacity: 0.8125; }
+    31% { opacity: 0.8476; }
+    32% { opacity: 0.8852; }
+    33% { opacity: 0.9218; }
+    34% { opacity: 0.9542; }
+    35% { opacity: 0.9794; }
+    36% { opacity: 0.9952; }
+    37% { opacity: 1.0000; }
+    100% { opacity: 1.0000; }
+  }
+  @keyframes ll-press {
+    0%, 40%   { transform: scale(1);     stroke-opacity: 0.72; }
+    46%       { transform: scale(0.985); stroke-opacity: 0.95; }
+    52%, 100% { transform: scale(1);     stroke-opacity: 0.72; }
+  }
+  @keyframes ll-launch {
+    0%, 52%   { transform: translate(0px, 0px);     opacity: 1; animation-timing-function: cubic-bezier(.42,0,.92,.36); }
+    61%       { transform: translate(13px, -13px);  opacity: 0; }
+    61.6%     { transform: translate(-13px, 13px);  opacity: 0; animation-timing-function: cubic-bezier(.12,.66,.24,1); }
+    71%, 100% { transform: translate(0px, 0px);     opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+</style>
+<path id="ll-hex" d="M866 0 L1732 500 L1732 1500 L866 2000 L0 1500 L0 500 Z" fill="#061726"/>
+<g id="livelink-logo-dark-animated-art">
+<g id="ll-art">
+<defs>
+<clipPath id="ll-clip-sheet"><path d="M520.0 372.0 L1212.0 372.0 L1264.0 768.0 Q866 812.0 468.0 768.0 Z"/></clipPath>
+<clipPath id="ll-clip-p1"><path d="M468.0 768.0 Q866 812.0 1264.0 768.0 L1296.0 966.0 Q866 996.0 436.0 966.0 Z"/></clipPath>
+<clipPath id="ll-clip-p2"><path d="M436.0 966.0 Q866 996.0 1296.0 966.0 L1318.0 1108.0 Q866 1128.0 414.0 1108.0 Z"/></clipPath>
+<clipPath id="ll-clip-p3"><path d="M414.0 1108.0 Q866 1128.0 1318.0 1108.0 L1332.0 1220.0 Q866 1230.0 400.0 1220.0 Z"/></clipPath>
+</defs>
+<!-- the sheet of code folds down, panel by panel, and becomes the link -->
+<g id="ll-panel-0">
+<path id="ll-sheet" d="M520.0 372.0 L1212.0 372.0 L1264.0 768.0 Q866 812.0 468.0 768.0 Z" fill="#1D5A96" stroke="#8FB4D4" stroke-opacity="0.26" stroke-width="3"/>
+<g id="ll-code-sheet" clip-path="url(#ll-clip-sheet)">
+<rect x="552.52" y="416" width="112" height="26" rx="3" fill="#8FB4D4"/>
+<rect x="680.52" y="416" width="34" height="26" rx="3" fill="#DCEAF6"/>
+<rect x="730.52" y="416" width="196" height="26" rx="3" fill="#DCEAF6"/>
+<rect x="590.74" y="460" width="138" height="26" rx="3" fill="#DCEAF6"/>
+<rect x="744.74" y="460" width="44" height="26" rx="3" fill="#6FA6D8"/>
+<rect x="804.74" y="460" width="118" height="26" rx="3" fill="#DCEAF6"/>
+<rect x="940.74" y="460" width="208" height="26" rx="3" fill="#8FB4D4"/>
+<rect x="628.96" y="504" width="94" height="26" rx="3" fill="#6FA6D8"/>
+<rect x="736.96" y="504" width="26" height="26" rx="3" fill="#DCEAF6"/>
+<rect x="780.96" y="504" width="148" height="26" rx="3" fill="#8FB4D4"/>
+<rect x="944.96" y="504" width="250" height="26" rx="3" fill="#DCEAF6"/>
+<rect x="623.18" y="548" width="160" height="26" rx="3" fill="#DCEAF6"/>
+<rect x="799.18" y="548" width="72" height="26" rx="3" fill="#8FB4D4"/>
+<rect x="889.18" y="548" width="114" height="26" rx="3" fill="#6FA6D8"/>
+<rect x="567.63" y="636" width="128" height="26" rx="3" fill="#8FB4D4"/>
+<rect x="711.63" y="636" width="36" height="26" rx="3" fill="#DCEAF6"/>
+<rect x="763.63" y="636" width="300" height="26" rx="3" fill="#DCEAF6"/>
+<rect x="1081.63" y="636" width="152" height="26" rx="3" fill="#6FA6D8"/>
+<rect x="517.85" y="680" width="182" height="26" rx="3" fill="#DCEAF6"/>
+<rect x="715.85" y="680" width="74" height="26" rx="3" fill="#6FA6D8"/>
+<rect x="807.85" y="680" width="120" height="26" rx="3" fill="#8FB4D4"/>
+<rect x="943.85" y="680" width="188" height="26" rx="3" fill="#DCEAF6"/>
+</g>
+
+</g><g id="ll-panel-1">
+<path id="ll-p1" d="M468.0 768.0 Q866 812.0 1264.0 768.0 L1296.0 966.0 Q866 996.0 436.0 966.0 Z" fill="#164873" stroke="#8FB4D4" stroke-opacity="0.26" stroke-width="3"/>
+<g id="ll-code-p1" clip-path="url(#ll-clip-p1)">
+<rect x="539.54" y="800" width="150" height="16" rx="2.5" fill="#ACC3D7"/>
+<rect x="702.54" y="800" width="86" height="16" rx="2.5" fill="#5A8FC0"/>
+<rect x="801.54" y="800" width="236" height="16" rx="2.5" fill="#ACC3D7"/>
+<rect x="569.72" y="836" width="78" height="16" rx="2.5" fill="#729ABD"/>
+<rect x="660.72" y="836" width="268" height="16" rx="2.5" fill="#ACC3D7"/>
+<rect x="943.72" y="836" width="102" height="16" rx="2.5" fill="#5A8FC0"/>
+<rect x="491.9" y="872" width="184" height="16" rx="2.5" fill="#ACC3D7"/>
+<rect x="688.9" y="872" width="48" height="16" rx="2.5" fill="#729ABD"/>
+<rect x="751.9" y="872" width="132" height="16" rx="2.5" fill="#ACC3D7"/>
+<rect x="896.9" y="872" width="210" height="16" rx="2.5" fill="#729ABD"/>
+<rect x="522.08" y="908" width="114" height="16" rx="2.5" fill="#5A8FC0"/>
+<rect x="649.08" y="908" width="216" height="16" rx="2.5" fill="#ACC3D7"/>
+<rect x="878.08" y="908" width="76" height="16" rx="2.5" fill="#729ABD"/>
+</g>
+
+</g><g id="ll-panel-2">
+<path id="ll-p2" d="M436.0 966.0 Q866 996.0 1296.0 966.0 L1318.0 1108.0 Q866 1128.0 414.0 1108.0 Z" fill="#0F3251" stroke="#8FB4D4" stroke-opacity="0.26" stroke-width="3"/>
+<g id="ll-code-p2" clip-path="url(#ll-clip-p2)">
+<rect x="474.5" y="996" width="238" height="11" rx="2" fill="#7E95AA"/>
+<rect x="723.5" y="996" width="118" height="11" rx="2" fill="#547898"/>
+<rect x="852.5" y="996" width="70" height="11" rx="2" fill="#43719A"/>
+<rect x="935.5" y="996" width="220" height="11" rx="2" fill="#7E95AA"/>
+<rect x="501.85" y="1026" width="148" height="11" rx="2" fill="#7E95AA"/>
+<rect x="660.85" y="1026" width="82" height="11" rx="2" fill="#43719A"/>
+<rect x="753.85" y="1026" width="360" height="11" rx="2" fill="#7E95AA"/>
+<rect x="529.2" y="1056" width="102" height="11" rx="2" fill="#547898"/>
+<rect x="642.2" y="1056" width="194" height="11" rx="2" fill="#7E95AA"/>
+<rect x="849.2" y="1056" width="146" height="11" rx="2" fill="#7E95AA"/>
+</g>
+
+</g><g id="ll-panel-3">
+<path id="ll-p3" d="M414.0 1108.0 Q866 1128.0 1318.0 1108.0 L1332.0 1220.0 Q866 1230.0 400.0 1220.0 Z" fill="#0C2B47" stroke="#8FB4D4" stroke-opacity="0.26" stroke-width="3"/>
+<g id="ll-code-p3" clip-path="url(#ll-clip-p3)">
+<rect x="484.5" y="1132" width="286" height="8" rx="1.5" fill="#5B748A"/>
+<rect x="779.5" y="1132" width="106" height="8" rx="1.5" fill="#325A7E"/>
+<rect x="896.5" y="1132" width="238" height="8" rx="1.5" fill="#5B748A"/>
+<rect x="509.75" y="1154" width="144" height="8" rx="1.5" fill="#3E5F7D"/>
+<rect x="662.75" y="1154" width="360" height="8" rx="1.5" fill="#5B748A"/>
+<rect x="451.0" y="1176" width="216" height="8" rx="1.5" fill="#5B748A"/>
+<rect x="676.0" y="1176" width="78" height="8" rx="1.5" fill="#3E5F7D"/>
+<rect x="765.0" y="1176" width="300" height="8" rx="1.5" fill="#5B748A"/>
+</g>
+
+</g><g id="ll-crease-1"><path id="ll-crease1" d="M468.0 768.0 Q866 812.0 1264.0 768.0" fill="none" stroke="#8FB4D4" stroke-opacity="0.62" stroke-width="4.5" stroke-linecap="round"/></g>
+<g id="ll-crease-2"><path id="ll-crease2" d="M436.0 966.0 Q866 996.0 1296.0 966.0" fill="none" stroke="#8FB4D4" stroke-opacity="0.48" stroke-width="4.5" stroke-linecap="round"/></g>
+<g id="ll-crease-3"><path id="ll-crease3" d="M414.0 1108.0 Q866 1128.0 1318.0 1108.0" fill="none" stroke="#8FB4D4" stroke-opacity="0.38" stroke-width="4.5" stroke-linecap="round"/></g>
+<!-- the destination of the fold: a link you can press -->
+<rect id="ll-button" x="280.0" y="1220.0" width="1172.0" height="330.0" rx="54.0" fill="#0A2036" stroke="#8FB4D4" stroke-opacity="0.72" stroke-width="9"/>
+<path id="ll-wordmark" transform="translate(8.275 143.34) scale(0.86)" d="M436.94 1333V1552H388.75V1333ZM518.71 1397.73V1552H470.52V1397.73ZM467.67 1357.95Q467.67 1347.69 475.08 1341.13Q482.49 1334.57 494.33 1334.57Q506.16 1334.57 513.58 1341.13Q520.99 1347.69 520.99 1357.95Q520.99 1368.22 513.58 1374.78Q506.16 1381.33 494.33 1381.33Q482.49 1381.33 475.08 1374.78Q467.67 1368.22 467.67 1357.95ZM605.33 1519.06 635.7 1397.73H686.31L635.84 1552H605.9ZM587.36 1397.73 617.3 1519.06 617.02 1552H586.93L536.6 1397.73ZM776.78 1554.85Q757.96 1554.85 743.13 1548.93Q728.3 1543.02 718.11 1532.61Q707.92 1522.2 702.57 1508.66Q697.22 1495.11 697.22 1480V1474.58Q697.22 1457.61 701.93 1443.14Q706.63 1428.67 715.9 1417.83Q725.17 1407 739.14 1400.94Q753.11 1394.88 771.65 1394.88Q788.04 1394.88 801.02 1400.15Q813.99 1405.43 823.05 1415.27Q832.1 1425.11 836.88 1439.08Q841.65 1453.05 841.65 1470.45V1489.98H715.61V1459.89H794.75V1456.19Q794.89 1448.49 792.11 1443.07Q789.33 1437.65 784.05 1434.8Q778.78 1431.95 771.22 1431.95Q763.38 1431.95 758.32 1435.37Q753.25 1438.79 750.47 1444.71Q747.69 1450.63 746.55 1458.33Q745.41 1466.03 745.41 1474.58V1480Q745.41 1488.55 747.77 1495.54Q750.12 1502.53 754.61 1507.44Q759.1 1512.36 765.45 1515.07Q771.79 1517.78 779.92 1517.78Q789.75 1517.78 799.31 1514.07Q808.86 1510.37 815.7 1501.81L837.52 1527.76Q832.81 1534.46 824.19 1540.74Q815.56 1547.01 803.58 1550.93Q791.61 1554.85 776.78 1554.85ZM913.44 1333V1552H865.25V1333ZM995.22 1397.73V1552H947.02V1397.73ZM944.17 1357.95Q944.17 1347.69 951.59 1341.13Q959 1334.57 970.83 1334.57Q982.67 1334.57 990.08 1341.13Q997.5 1347.69 997.5 1357.95Q997.5 1368.22 990.08 1374.78Q982.67 1381.33 970.83 1381.33Q959 1381.33 951.59 1374.78Q944.17 1368.22 944.17 1357.95ZM1073.42 1430.67V1552H1025.37V1397.73H1070.43ZM1067.72 1469.59 1056.46 1469.88Q1056.46 1452.2 1060.73 1438.29Q1065.01 1424.39 1072.85 1414.7Q1080.69 1405 1091.6 1399.94Q1102.51 1394.88 1115.91 1394.88Q1126.6 1394.88 1135.52 1398.02Q1144.43 1401.15 1150.91 1408.14Q1157.4 1415.12 1160.89 1426.6Q1164.39 1438.08 1164.39 1454.9V1552H1116.05V1454.76Q1116.05 1445.49 1113.49 1440.58Q1110.92 1435.66 1106.07 1433.8Q1101.23 1431.95 1094.24 1431.95Q1086.83 1431.95 1081.69 1434.8Q1076.56 1437.65 1073.49 1442.71Q1070.43 1447.78 1069.07 1454.62Q1067.72 1461.46 1067.72 1469.59ZM1241.03 1332.86V1552H1192.98V1332.86ZM1339.69 1397.73 1272.68 1476.29 1237.6 1511.37 1216.65 1480.85 1245.87 1442.79 1282.09 1397.73ZM1288.22 1552 1247.01 1481.71 1282.52 1456.47 1343.25 1552Z" fill="#E9F2FA"/>
+<g id="ll-glyph-anim">
+<g id="ll-glyph" transform="translate(1227.47 1302.89)" fill="none" stroke="#FFB020" stroke-width="26.0" stroke-linecap="round" stroke-linejoin="round">
+<path id="ll-glyph-shaft" d="M13.0 149.0 L149.0 13.0"/>
+<path id="ll-glyph-head" d="M43.22 13.0 L149.0 13.0 L149.0 118.78"/>
+</g>
+</g>
+</g>
+</g>
+<g transform="translate(866 1000) scale(0.944573) translate(-866 -1000)"><path id="ll-rim" d="M866 0 L1732 500 L1732 1500 L866 2000 L0 1500 L0 500 Z" fill="none" stroke="#1D5A96" stroke-width="14.822"/></g>
+</svg>

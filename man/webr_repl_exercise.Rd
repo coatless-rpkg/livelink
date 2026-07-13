@@ -27,7 +27,7 @@ webr_repl_exercise(
 \item{base_url}{WebR application URL. If NULL, uses global option or builds from version}
 }
 \value{
-Named list with 'exercise' and 'solution' WebR sharelinks
+webr_exercise object holding the paired \code{exercise} and \code{solution} links
 }
 \description{
 Generates a pair of WebR links for educational purposes: one for student exercises
@@ -37,7 +37,7 @@ Generates a pair of WebR links for educational purposes: one for student exercis
 exercise_code <- "
 # Exercise: Calculate mean of mtcars$mpg
 # TODO: Complete the line below
-mean_mpg <- # YOUR CODE HERE
+mean_mpg <- 0
 print(mean_mpg)
 "
 
@@ -48,10 +48,11 @@ print(mean_mpg)
 "
 
 links <- webr_repl_exercise(exercise_code, solution_code, "basic_stats")
-# Access with links$exercise and links$solution
+links$exercise
+links$solution
 
 # Custom path and version
-links <- webr_repl_exercise(exercise_code, solution_code, "stats",
-                          base_path = "/exercises/", version = "v0.5.4")
+webr_repl_exercise(exercise_code, solution_code, "stats",
+                   base_path = "/exercises/", version = "v0.5.4")
 
 }

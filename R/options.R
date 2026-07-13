@@ -1,7 +1,7 @@
 #' Get the base WebR URL from options or default
 #' @param version WebR version to use ("latest" or specific version like "v0.5.4")
 #' @return Character string with the base URL
-#' @keywords internal
+#' @noRd
 get_webr_base_url <- function(version = "latest") {
   # Check if user has set a custom base URL
   custom_url <- getOption("livelink.base_url", NULL)
@@ -16,6 +16,8 @@ get_webr_base_url <- function(version = "latest") {
 
 #' Set global base URL for WebR links
 #' @param base_url Custom base URL to use for all WebR links
+#' @return Invisibly returns the `base_url` value (or `NULL` if resetting
+#'   to default).
 #' @export
 #' @examples
 #' # Set custom base URL

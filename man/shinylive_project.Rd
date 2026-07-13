@@ -2,10 +2,10 @@
 % Please edit documentation in R/shinylive-link.R
 \name{shinylive_project}
 \alias{shinylive_project}
-\title{Create a Shinylive sharelink for multi-language projects}
+\title{Create a Shinylive sharelink for multi-file projects}
 \usage{
 shinylive_project(
-  files,
+  input,
   engine,
   mode = "editor",
   header = TRUE,
@@ -13,7 +13,11 @@ shinylive_project(
 )
 }
 \arguments{
-\item{files}{Named list where names are filenames and values are file content as character strings}
+\item{input}{Input for multiple files. Can be:
+\itemize{
+\item Named list: \code{list("app.R" = code1, "utils.R" = code2)}
+\item Vector of file paths: \code{c("app.R", "utils.R", "data.csv")}
+}}
 
 \item{engine}{Engine to use: "r" for R Shiny or "python" for Python Shiny}
 
@@ -27,35 +31,23 @@ shinylive_project(
 shinylive_project object containing the Shinylive URL and metadata
 }
 \description{
-Unified function to create Shinylive projects for either R or Python.
-This provides a consistent interface similar to webr_repl_project().
+Creates Shinylive projects for either R or Python from named lists or
+file path vectors.
 }
 \examples{
-# R Shiny project
-r_files <- list(
-  "app.R" = '
-library(shiny)
-source("utils.R")
-ui <- fluidPage(titlePanel("My App"))
-server <- function(input, output) {}
-shinyApp(ui, server)
-  ',
-  "utils.R" = "helper_function <- function(x) { x * 2 }"
+# Named list input
+files <- list(
+  "app.R" = "library(shiny)\nshinyApp(fluidPage(), function(i, o) {})",
+  "utils.R" = "# Utility functions"
 )
+shinylive_project(files, engine = "r", mode = "editor")
 
-r_project <- shinylive_project(r_files, engine = "r", mode = "editor")
-print(r_project)
-
-# Python Shiny project
-py_files <- list(
-  "app.py" = '
-from shiny import App, ui
-from utils import process_data
-app = App(ui.page_fluid("Hello"), None)
-  ',
-  "utils.py" = "def process_data(x): return x"
-)
-
-py_project <- shinylive_project(py_files, engine = "python", mode = "app")
-
+# File paths input
+project_dir <- tempfile()
+dir.create(project_dir)
+app <- file.path(project_dir, "app.R")
+utils <- file.path(project_dir, "utils.R")
+writeLines("library(shiny)", app)
+writeLines("# utils", utils)
+shinylive_project(c(app, utils), engine = "r")
 }

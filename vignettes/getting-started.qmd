@@ -21,7 +21,7 @@ The `livelink` package revolutionizes how you share R code and Shiny application
 This package supports two powerful platforms:
 
 - **WebR**: Execute R code directly in the browser using [webR](https://docs.r-wasm.org/webr/latest/), a port of R to WebAssembly
-- **Shinylive**: Run R and Python Shiny applications without requiring a server using [Shinylive](https://shiny.posit.co/py/docs/shinylive.html)
+- **Shinylive**: Run R and Python Shiny applications without requiring a server using [Shinylive](https://shiny.posit.co/py/get-started/shinylive.html)
 
 The magic happens through intelligent compression and encoding of your code into URL fragments, making sharing as simple as copying and pasting a link.
 
@@ -189,13 +189,13 @@ WebR offers granular control over which interface components are visible.
 
 ```{r}
 # Show only the editor and plot for focused analysis
-analysis_link <- webr_repl_link(code, mode = c("editor", "plot"))
+analysis_link <- webr_repl_link(code, panels = c("editor", "plot"))
 
 # Show all components for full development environment
-full_link <- webr_repl_link(code, mode = c("editor", "plot", "files", "terminal"))
+full_link <- webr_repl_link(code, panels = c("editor", "plot", "files", "terminal"))
 
 # Use string format for convenience
-focused_link <- webr_repl_link(code, mode = "editor-plot")
+focused_link <- webr_repl_link(code, panels = "editor-plot")
 
 # Default behavior (NULL) shows all components
 default_link <- webr_repl_link(code)
@@ -237,11 +237,21 @@ webr_repl_link(code, version = "latest")
 webr_repl_link(code, version = "v0.5.4")
 
 # Set global base URL for custom WebR deployments
-set_webr_base_url("https://my-institution.edu/webr/")
+set_webr_base_url("https://example.com/webr/")
 webr_repl_link(code)  # Will use custom URL
 
 # Reset to default
 set_webr_base_url(NULL)
+```
+
+`set_webr_base_url()` mutates a global option, so in a script or report prefer
+scoping the change to a single block:
+
+```{r}
+withr::with_options(
+  list(livelink.base_url = "https://example.com/webr/"),
+  webr_repl_link(code)
+)
 ```
 
 **Version Considerations:**
@@ -351,15 +361,12 @@ Links require internet access to load WebR/Shinylive infrastructure, but run loc
 
 ## Next Steps
 
-Now that you understand the basics, explore specific workflows:
+Now that you understand the basics, the reference index documents every
+function in detail:
 
-- **[WebR Links](webr-links.qmd)**: Learn more about R code sharing with
-  advanced multi-file projects, batch processing, and educational tools
-- **[Shinylive Links](shinylive-links.qmd)**: Master Shiny application sharing
-  for both R and Python, including complex multi-file apps
-- **[Decoding Links](decoding-links.qmd)**: Learn to extract files from 
-  existing links, preview contents, and batch process multiple URLs
-
-Each vignette builds on these fundamentals while providing specialized knowledge
-for specific use cases. The combination of these tools makes livelink a comprehensive
-solution for modern, browser-based code sharing and collaboration.
+- `webr_repl_project()` and `webr_repl_directory()` for multi-file projects and
+  batch processing
+- `webr_repl_exercise()` for paired exercise and solution links
+- `shinylive_project()` and `shinylive_directory()` for multi-file Shiny apps
+- `decode_webr_link()` and `preview_webr_link()` to go the other way, turning a
+  link back into files

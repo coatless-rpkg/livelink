@@ -6,7 +6,9 @@
 #' Handles both single URLs and multiple URLs automatically.
 #'
 #' @param url Character string or vector containing Shinylive URL(s)
-#' @param output_dir Character string specifying the output directory path (default: "./shinylive_files")
+#' @param output_dir Character string specifying the output directory path.
+#'   Defaults to a `shinylive_files` directory inside the session temporary
+#'   directory; pass an explicit path to extract somewhere permanent.
 #' @param overwrite Logical. Whether to overwrite existing files (default: FALSE)
 #' @param create_subdir Logical. Whether to create subdirectories. For single URLs, creates
 #'   a subdirectory named after the URL hash. For multiple URLs, creates numbered subdirectories
@@ -17,35 +19,24 @@
 #' @return For single URL: shinylive_decoded object. For multiple URLs: shinylive_decoded_batch object.
 #'
 #' @examples
-#' \dontrun{
-#' # Single URL
-#' url <- "https://shinylive.io/r/editor/#code=NobwRAdgh..."
+#' # Round-trip: build a link, then decode it back to files
+#' url <- as.character(shinylive_r_link("library(shiny)"))
+#'
 #' result <- decode_shinylive_link(url)
 #' print(result)
 #'
-#' # Multiple URLs
-#' urls <- c(
-#'   "https://shinylive.io/r/editor/#code=...",
-#'   "https://shinylive.io/py/app/#code=..."
-#' )
-#' results <- decode_shinylive_link(urls)
-#' print(results)
+#' # Extract to a directory of your choosing
+#' out <- file.path(tempdir(), "my_app")
+#' decode_shinylive_link(url, output_dir = out, create_subdir = FALSE, overwrite = TRUE)
+#' list.files(out)
 #'
-#' # Custom settings for single URL
-#' result <- decode_shinylive_link(url,
-#'                                output_dir = "./my_app",
-#'                                create_subdir = FALSE,
-#'                                overwrite = TRUE)
-#'
-#' # Custom settings for multiple URLs
-#' results <- decode_shinylive_link(urls,
-#'                                 output_dir = "./my_apps",
-#'                                 name_dirs = FALSE)  # Use hash-based names
-#' }
+#' # Both engines at once
+#' urls <- c(url, as.character(shinylive_py_link("from shiny import App")))
+#' decode_shinylive_link(urls, output_dir = file.path(tempdir(), "my_apps"))
 #'
 #' @export
 decode_shinylive_link <- function(url,
-                                  output_dir = "./shinylive_files",
+                                  output_dir = file.path(tempdir(), "shinylive_files"),
                                   overwrite = FALSE,
                                   create_subdir = TRUE,
                                   name_dirs = TRUE) {
@@ -72,7 +63,7 @@ decode_shinylive_link <- function(url,
 #' @param overwrite Whether to overwrite files
 #' @param create_subdir Whether to create subdirectory
 #' @return shinylive_decoded object
-#' @keywords internal
+#' @noRd
 decode_single_shinylive_link <- function(url, output_dir, overwrite, create_subdir) {
   # Validate URL
   check_valid_shinylive_url(url, "url")
@@ -121,7 +112,7 @@ decode_single_shinylive_link <- function(url, output_dir, overwrite, create_subd
 #' @param create_subdir Whether to create subdirectories
 #' @param name_dirs Whether to use numbered directory names
 #' @return shinylive_decoded_batch object
-#' @keywords internal
+#' @noRd
 decode_multiple_shinylive_links <- function(urls, output_dir, overwrite, create_subdir, name_dirs) {
   if (length(urls) == 0) {
     cli::cli_warn("No URLs provided")
@@ -199,7 +190,7 @@ decode_multiple_shinylive_links <- function(urls, output_dir, overwrite, create_
 #' @param output_dir Directory to save files
 #' @param overwrite Whether to overwrite existing files
 #' @return Data frame with file information
-#' @keywords internal
+#' @noRd
 decode_and_save_files <- function(files_data, output_dir, overwrite) {
   cli::cli_inform("Decoding {length(files_data)} file{?s}...")
 
@@ -278,7 +269,7 @@ decode_and_save_files <- function(files_data, output_dir, overwrite) {
 #' Decompress and parse Shinylive URL data
 #' @param url Shinylive URL
 #' @return List containing engine, mode, and files_data
-#' @keywords internal
+#' @noRd
 decompress_shinylive_url <- function(url) {
   # Extract URL metadata
   url_parts <- strsplit(url, "/")[[1]]
@@ -340,7 +331,7 @@ decompress_shinylive_url <- function(url) {
 #' Extract code parameter from Shinylive URL fragment
 #' @param params_string URL fragment part after '#'
 #' @return Encoded data string or NULL if not found
-#' @keywords internal
+#' @noRd
 extract_code_parameter <- function(params_string) {
   # Handle both formats:
   # 1. Direct code parameter: code=...
@@ -369,10 +360,9 @@ extract_code_parameter <- function(params_string) {
 #' @return shinylive_preview object with file information and metadata
 #'
 #' @examples
-#' \dontrun{
-#' url <- "https://shinylive.io/r/editor/#code=..."
+#' url <- as.character(shinylive_r_link("library(shiny)"))
 #'
-#' # Create preview object
+#' # Inspect a link without writing anything to disk
 #' preview <- preview_shinylive_link(url)
 #'
 #' # Default print (no content)
@@ -387,7 +377,6 @@ extract_code_parameter <- function(params_string) {
 #' # Access the preview data
 #' preview$files_data
 #' preview$total_files
-#' }
 #'
 #' @export
 preview_shinylive_link <- function(url) {

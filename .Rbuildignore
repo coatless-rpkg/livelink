@@ -9,3 +9,16 @@
 ^vignettes/\.quarto$
 ^vignettes/*_files$
 ^.*_files$
+^CLAUDE\.md$
+^cran-comments\.md$
+^\.claude$
+^livelink_.*\.tar\.gz$
+^livelink\.Rcheck$
+^\.Rhistory$
+^\.RData$
+^inst/demos$
+^webr_files$
+^shinylive_files$
+\.DS_Store$
+^\.git$
+^\.gitignore$

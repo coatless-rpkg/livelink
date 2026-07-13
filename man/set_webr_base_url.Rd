@@ -9,6 +9,10 @@ set_webr_base_url(base_url = NULL)
 \arguments{
 \item{base_url}{Custom base URL to use for all WebR links}
 }
+\value{
+Invisibly returns the \code{base_url} value (or \code{NULL} if resetting
+to default).
+}
 \description{
 Set global base URL for WebR links
 }

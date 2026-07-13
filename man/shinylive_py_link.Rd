@@ -4,11 +4,22 @@
 \alias{shinylive_py_link}
 \title{Create a Shinylive sharelink for Python Shiny apps}
 \usage{
-shinylive_py_link(files, mode = "editor", header = TRUE, base_url = NULL)
+shinylive_py_link(
+  input = NULL,
+  mode = "editor",
+  header = TRUE,
+  base_url = NULL
+)
 }
 \arguments{
-\item{files}{Named list where names are filenames and values are file content as character strings.
-For single-file apps, can also pass a character string as the app.py content.}
+\item{input}{App input. Can be:
+\itemize{
+\item Character string: Python code for the app
+\item File path: Path to app.py file
+\item Vector of file paths: Multiple files for the app
+\item Named list: \code{list("app.py" = code1, "utils.py" = code2)}
+\item NULL: Read from clipboard
+}}
 
 \item{mode}{Shinylive mode: "editor" (show code editor) or "app" (show app only)}
 
@@ -21,38 +32,33 @@ shinylive_link object containing the Shinylive URL and metadata
 }
 \description{
 Generates a shareable URL for Python Shiny applications that can run in the browser
-using Shinylive. The app files are encoded and embedded in the URL.
+using Shinylive. Supports character strings, file paths, named lists, and clipboard input.
 }
 \examples{
-# Simple single-file Python Shiny app
-app_code <- '
+# String input
+app_code <- "
 from shiny import App, render, ui
-
-app_ui = ui.page_fluid(
-    ui.h2("Hello Shinylive!"),
-    ui.input_slider("n", "N", 0, 100, 20),
-    ui.output_text_verbatim("txt"),
-)
-
-def server(input, output, session):
-    @output
-    @render.text
-    def txt():
-        return f"n*2 is {input.n() * 2}"
-
+app_ui = ui.page_fluid(ui.h2('Hello World'))
+def server(input, output, session): pass
 app = App(app_ui, server)
-'
+"
+shinylive_py_link(app_code)
 
-link <- shinylive_py_link(app_code, mode = "app")
-print(link)
-
-# Multi-file Python Shiny app
-files <- list(
+# Multiple files as a named list
+shinylive_py_link(list(
   "app.py" = app_code,
-  "utils.py" = "def helper_function(x):\n    return x * 2",
-  "data.csv" = "x,y\n1,2\n3,4\n5,6"
-)
+  "utils.py" = "def helper(): return 42"
+))
 
-link <- shinylive_py_link(files, mode = "editor")
+# File path input
+app_dir <- tempfile()
+dir.create(app_dir)
+app_path <- file.path(app_dir, "app.py")
+writeLines("from shiny import App, ui", app_path)
+shinylive_py_link(app_path)
 
+# Read the app from the clipboard
+if (interactive()) {
+  shinylive_py_link()
+}
 }

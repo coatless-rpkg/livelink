@@ -17,10 +17,9 @@ Decodes a Shinylive URL and returns information about the embedded files
 without actually saving them to disk. Use print method options to control display.
 }
 \examples{
-\dontrun{
-url <- "https://shinylive.io/r/editor/#code=..."
+url <- as.character(shinylive_r_link("library(shiny)"))
 
-# Create preview object
+# Inspect a link without writing anything to disk
 preview <- preview_shinylive_link(url)
 
 # Default print (no content)
@@ -35,6 +34,5 @@ print(preview, show_content = TRUE, max_content_length = 200)
 # Access the preview data
 preview$files_data
 preview$total_files
-}
 
 }

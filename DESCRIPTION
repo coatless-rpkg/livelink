@@ -1,25 +1,43 @@
 Package: livelink
-Title: Encode Data for WASM REPL Environments
+Title: Create Shareable Links for 'webR' and 'Shinylive' Environments
 Version: 0.1.0
-Authors@R: 
-    person("James Joseph", "Balamuta", , "james.balamuta@gmail.com", role = c("aut", "cre"))
-Description: Creates shareable links for R code in WebAssembly (WASM) REPL environments like webR
-    and for Shiny applications using Shinylive. Supports single scripts, multi-file projects, 
-    exercise/solution pairs, and batch processing for both R and Python environments.
+Authors@R: c(
+    person("James Joseph", "Balamuta", , "james.balamuta@gmail.com", role = c("aut", "cre", "cph")),
+    person("reprex authors", role = "cph",
+           comment = "stringify_expression() and trim_common_leading_ws(), adapted in R/process-input.R; see LICENSE.note")
+  )
+Description: Creates shareable links for 'R' code in WebAssembly (WASM)
+    Read-Eval-Print Loop (REPL) environments like 'webR'
+    <https://webr.r-wasm.org/> and for 'Shiny' applications using
+    'Shinylive' <https://shinylive.io/>. Supports single scripts,
+    multi-file projects, exercise and solution pairs, and batch
+    processing. Includes encoding, decoding, and previewing of links
+    for both 'R' and 'Python' environments.
 License: AGPL (>= 3)
-URL: https://r-pkg.thecoatlessprofessor.com/livelink/
+URL: https://r-pkg.thecoatlessprofessor.com/livelink/,
+    https://github.com/coatless-rpkg/livelink
+BugReports: https://github.com/coatless-rpkg/livelink/issues
+Depends:
+    R (>= 4.1.0)
 Imports:
-    jsonlite,
     base64enc,
     cli,
+    clipr,
+    jsonlite,
     lzstring,
-    RcppMsgPack
-Suggests: 
+    RcppMsgPack,
+    stats,
+    tools,
+    utils
+Suggests:
     knitr,
     quarto,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    withr
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+SystemRequirements: Quarto command line tools
+    (https://github.com/quarto-dev/quarto-cli).
+Config/Needs/website: pkgdown
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 Collate: 
@@ -30,8 +48,10 @@ Collate:
     'decode-webr-repl-link.R'
     'extract-link.R'
     'options.R'
+    'process-input.R'
     'shinylive-link.R'
     'validators.R'
     'webr-repl-directory-links.R'
     'webr-repl-links.R'
 VignetteBuilder: quarto
+Config/roxygen2/version: 8.0.0

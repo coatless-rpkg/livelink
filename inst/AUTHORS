@@ -1,0 +1,11 @@
+Authors of the livelink package
+===============================
+
+James Joseph Balamuta <james.balamuta@gmail.com>
+    Author, maintainer, and copyright holder.
+
+The reprex authors (https://github.com/tidyverse/reprex)
+    Copyright holders of stringify_expression() and
+    trim_common_leading_ws(), which have been part of
+    R/process-input.R since its introduction and are used under the
+    MIT license. See LICENSE.note and inst/COPYRIGHTS.

@@ -1,185 +1,187 @@
+
 #' Create a WebR REPL sharelink from R code
 #'
 #' Generates a shareable URL for R code that can be executed in the webR environment.
-#' The code is compressed, base64-encoded, and embedded in the URL.
+#' Supports expressions, file paths, character strings, and clipboard input.
 #'
-#' @param code Character string containing R code to share
+#' @param input Code input. Can be:
+#'   - R expression (no quotes needed): `webr_repl_link({ plot(1:10) })`
+#'   - Character string: R code to execute
+#'   - File path: Path to R file to read
+#'   - NULL: Read from clipboard (requires clipr package)
 #' @param filename Name for the file (default: `"script.R"`)
 #' @param path Full path where the file will be placed in WebR (default: `"/home/web_user/{filename}"`)
-#' @param autorun Logical. Whether to auto-execute the code when link is opened (default: `FALSE`)
-#' @param mode Character vector or string specifying which WebR interface components to show.
-#'   Valid components: `"plot"`, `"files"`, `"terminal"`, `"editor"`. Can be `c("plot", "files")` or `"plot-files"`.
-#'   If NULL (default), shows all components.
+#' @param autorun Logical. Whether to auto-execute the code when link is opened (default: `FALSE`).
+#'   Only R files (`.R`) can be auto-executed.
+#' @param panels Character vector or string specifying which WebR interface panels to show.
+#'   Valid panels: `"plot"`, `"files"`, `"terminal"`, `"editor"`. Can be `c("plot", "files")` or `"plot-files"`.
+#'   If NULL (default), shows all panels.
 #' @param version WebR version to use (`"latest"` or specific version >= "v0.5.4")
 #' @param base_url WebR application URL. If NULL, uses global option or builds from version
 #'
-#' @return
-#' Character string containing the complete WebR sharelink URL
+#' @return webr_link object containing the WebR sharelink and metadata
 #'
 #' @export
 #' @examples
-#' # Simple code sharing
-#' code <- "plot(1:10)"
-#' link <- webr_repl_link(code, autorun = TRUE)
+#' # Expression input (no quotes needed!)
+#' webr_repl_link({
+#'   plot(1:10)
+#'   summary(mtcars)
+#' })
 #'
-#' # Show only plot and editor
-#' link <- webr_repl_link(code, mode = c("plot", "editor"))
+#' # Traditional string input
+#' webr_repl_link("plot(1:10)")
 #'
-#' # String format for mode
-#' link <- webr_repl_link(code, mode = "plot-files-terminal")
+#' # Choose which panels the REPL shows
+#' webr_repl_link({ hist(rnorm(100)) }, panels = c("plot", "editor"))
 #'
-#' # Custom path and version with mode
-#' link <- webr_repl_link(code,
-#'                       path = "/tmp/my_script.R",
-#'                       mode = c("editor", "terminal"),
-#'                       version = "v0.5.4")
-webr_repl_link <- function(code,
+#' # Run the code as soon as the link opens
+#' webr_repl_link("plot(1:10)", autorun = TRUE)
+#'
+#' # File path input
+#' script <- tempfile(fileext = ".R")
+#' writeLines("plot(1:10)", script)
+#' webr_repl_link(script)
+#'
+#' # Read the code from the clipboard
+#' if (interactive()) {
+#'   webr_repl_link()
+#' }
+webr_repl_link <- function(input = NULL,
                            filename = "script.R",
                            path = NULL,
                            autorun = FALSE,
-                           mode = NULL,
+                           panels = NULL,
                            version = "latest",
                            base_url = NULL) {
 
-  # Validate inputs using helper functions
-  check_single_string(code, "code")
+  # Capture expression if provided (check expression form without evaluating input)
+  x_expr <- substitute(input)
+  code <- if (!missing(input) && is_brace_call(x_expr)) {
+    process_input(x_expr = x_expr)
+  } else {
+    process_input(input = input)
+  }
+
   check_single_string(filename, "filename")
   check_single_logical(autorun, "autorun")
-  check_valid_mode(mode, "mode")
+  check_valid_mode(panels, "panels")
   check_valid_version(version, "version")
 
-  # Handle path
   if (is.null(path)) {
     path <- paste0("/home/web_user/", filename)
   } else {
     check_valid_path(path, "path")
   }
 
-  # Handle base URL
   if (is.null(base_url)) {
     base_url <- get_webr_base_url(version)
   } else {
     check_single_string(base_url, "base_url")
   }
 
-  # Create share item structure
+  is_r_file <- grepl("\\.R$", filename, ignore.case = TRUE)
+  if (autorun && !is_r_file) {
+    cli::cli_warn(c(
+      "{.arg autorun} was ignored",
+      "!" = "Only R files can be auto-executed, but {.file {filename}} is not one.",
+      "i" = "Give {.arg filename} a {.code .R} extension to enable autorun."
+    ))
+  }
+  autorun_enabled <- autorun && is_r_file
+
   share_item <- list(
     name = filename,
     path = path,
     text = code
   )
 
-  if (autorun && grepl("\\.R$", filename, ignore.case = TRUE)) {
+  if (autorun_enabled) {
     share_item$autorun <- TRUE
   }
 
-  # Convert to JSON
   json_data <- jsonlite::toJSON(list(share_item), auto_unbox = TRUE)
-
-  # Compress using gzip (closest to zlib in R)
   compressed <- memCompress(charToRaw(json_data), type = "gzip")
-
-  # Base64 encode
   base64_data <- base64enc::base64encode(compressed)
-
-  # URL encode for safety
   encoded_data <- utils::URLencode(base64_data, reserved = TRUE)
 
-  # Determine flags
-  flags <- "jz"  # JSON + compressed
-  if (autorun) flags <- paste0(flags, "a")
+  # The `a` flag must agree with the per-item autorun set above, or the link
+  # claims to autorun a file that carries no autorun instruction.
+  flags <- if (autorun_enabled) "jza" else "jz"
 
-  # Build complete URL with mode
-  url <- build_webr_url(base_url, encoded_data, flags, mode)
+  url <- build_webr_url(base_url, encoded_data, flags, panels)
 
-  # Return webr_link object
-  new_webr_link(url, filename, path, mode, version, autorun)
+  new_webr_link(url, filename, path, panels, version, autorun_enabled)
 }
 
 #' Create WebR REPL sharelink for multiple files
 #'
 #' Creates a WebR sharelink for projects with multiple R files, data files, or other resources.
-#' Useful for sharing complete analyses, packages, or educational materials.
+#' Supports named lists and file path vectors as input.
 #'
-#' @param files Named list where names are filenames and values are file content as character strings
+#' @param input Input for multiple files. Can be:
+#'   - Named list: `list("main.R" = code1, "utils.R" = code2)`
+#'   - Vector of file paths: `c("main.R", "utils.R", "data.csv")`
 #' @param autorun_files Character vector of filenames to auto-execute when project loads, or "all" to autorun all R files (default: none)
 #' @param base_path Base directory path for all files (default: `"/home/web_user/"`)
-#' @param mode Character vector or string specifying which WebR interface components to show.
-#'   Valid components: `"plot"`, `"files"`, `"terminal"`, `"editor"`. Can be `c("plot", "files")` or `"plot-files"`.
-#'   If NULL (default), shows all components.
+#' @param panels Character vector or string specifying which WebR interface panels to show.
+#'   Valid panels: `"plot"`, `"files"`, `"terminal"`, `"editor"`. Can be `c("plot", "files")` or `"plot-files"`.
+#'   If NULL (default), shows all panels.
 #' @param version WebR version to use (`"latest"` or specific version >= "v0.5.4")
 #' @param base_url WebR application URL. If NULL, uses global option or builds from version
 #'
 #' @return webr_project object containing the WebR sharelink for the multi-file project
 #'
+#' @export
 #' @examples
-#' # Create a project with multiple files
+#' # Named list input
 #' files <- list(
 #'   "main.R" = "source('utils.R')\nresult <- analyze_data(mtcars)",
 #'   "utils.R" = "analyze_data <- function(data) { summary(data) }",
 #'   "README.md" = "# My Analysis\nThis project analyzes the mtcars dataset."
 #' )
+#' webr_repl_project(files, autorun_files = "main.R")
 #'
-#' # Autorun specific files
-#' link <- webr_repl_project(files, autorun_files = "main.R")
+#' # Autorun every R file in the project
+#' webr_repl_project(files, autorun_files = "all")
 #'
-#' # Autorun all R files
-#' link <- webr_repl_project(files, autorun_files = "all")
-#'
-#' # Autorun multiple specific files
-#' link <- webr_repl_project(files, autorun_files = c("main.R", "utils.R"))
-#'
-#' # No autorun (default)
-#' link <- webr_repl_project(files)
-#'
-#' # Show only files and editor for project management
-#' link <- webr_repl_project(files, mode = c("files", "editor"))
-#'
-#' # Custom base path, version, and interface mode
-#' link <- webr_repl_project(files,
-#'                          base_path = "/workspace/",
-#'                          mode = "files-editor-terminal",
-#'                          version = "v0.5.4")
-#'
-#' @export
-webr_repl_project <- function(files,
+#' # File paths input
+#' project_dir <- tempfile()
+#' dir.create(project_dir)
+#' main <- file.path(project_dir, "main.R")
+#' utils <- file.path(project_dir, "utils.R")
+#' writeLines("source('utils.R')", main)
+#' writeLines("# utils", utils)
+#' webr_repl_project(c(main, utils))
+webr_repl_project <- function(input,
                               autorun_files = character(0),
                               base_path = "/home/web_user/",
-                              mode = NULL,
+                              panels = NULL,
                               version = "latest",
                               base_url = NULL) {
 
-  # Validate inputs using helper functions
-  check_named_list(files, "files")
+  processed_files <- process_project_input(input = input)
+
   check_character_vector(autorun_files, "autorun_files")
   check_valid_path(base_path, "base_path")
-  check_valid_mode(mode, "mode")
+  check_valid_mode(panels, "panels")
   check_valid_version(version, "version")
 
-  # Handle autorun_files validation
-  if (length(autorun_files) > 0) {
-    if (length(autorun_files) == 1 && autorun_files == "all") {
-      # "all" is valid
-    } else {
-      # Check that specified files exist in the files list
-      ensure_files_in_list(autorun_files, files, "files", "autorun_files")
-    }
+  autorun_all <- length(autorun_files) == 1 && autorun_files == "all"
+
+  if (length(autorun_files) > 0 && !autorun_all) {
+    ensure_files_in_list(autorun_files, processed_files, "input", "autorun_files")
   }
 
-  # Handle base URL
   if (is.null(base_url)) {
     base_url <- get_webr_base_url(version)
   } else {
     check_single_string(base_url, "base_url")
   }
 
-  # Ensure base_path ends with /
   if (!grepl("/$", base_path)) {
     base_path <- paste0(base_path, "/")
   }
-
-  # Determine which files should have autorun enabled
-  autorun_all <- length(autorun_files) == 1 && autorun_files == "all"
 
   share_items <- mapply(function(content, filename) {
     item <- list(
@@ -188,9 +190,6 @@ webr_repl_project <- function(files,
       text = content
     )
 
-    # Set autorun if:
-    # 1. autorun_files = "all" and this is an R file, OR
-    # 2. this filename is specifically listed in autorun_files and it's an R file
     should_autorun <- grepl("\\.R$", filename, ignore.case = TRUE) &&
       (autorun_all || filename %in% autorun_files)
 
@@ -199,27 +198,24 @@ webr_repl_project <- function(files,
     }
 
     item
-  }, files, names(files), SIMPLIFY = FALSE, USE.NAMES = FALSE)
+  }, processed_files, names(processed_files), SIMPLIFY = FALSE, USE.NAMES = FALSE)
 
-  # Convert to JSON and encode
   json_data <- jsonlite::toJSON(share_items, auto_unbox = TRUE)
   compressed <- memCompress(charToRaw(json_data), type = "gzip")
   base64_data <- base64enc::base64encode(compressed)
   encoded_data <- utils::URLencode(base64_data, reserved = TRUE)
 
-  # Set flags
-  flags <- "jz"
-  # Add "a" flag only if autorun_files = "all"
-  if (autorun_all) {
-    flags <- paste0(flags, "a")
-  }
+  # Set the `a` flag whenever any file carries autorun, not only for
+  # `autorun_files = "all"` -- a named autorun list used to encode the per-item
+  # flag but never the URL flag that activates it.
+  any_autorun <- any(vapply(share_items, function(i) isTRUE(i$autorun), logical(1)))
+  flags <- if (any_autorun) "jza" else "jz"
 
-  # Build complete URL with mode
-  url <- build_webr_url(base_url, encoded_data, flags, mode)
+  url <- build_webr_url(base_url, encoded_data, flags, panels)
 
-  # Return webr_project object
-  new_webr_project(url, files, base_path, mode, version, autorun_files)
+  new_webr_project(url, processed_files, base_path, panels, version, autorun_files)
 }
+
 
 #' Create paired exercise and solution WebR REPL links
 #'
@@ -233,13 +229,13 @@ webr_repl_project <- function(files,
 #' @param version WebR version to use ("latest" or specific version >= "v0.5.4")
 #' @param base_url WebR application URL. If NULL, uses global option or builds from version
 #'
-#' @return Named list with 'exercise' and 'solution' WebR sharelinks
+#' @return webr_exercise object holding the paired `exercise` and `solution` links
 #'
 #' @examples
 #' exercise_code <- "
 #' # Exercise: Calculate mean of mtcars$mpg
 #' # TODO: Complete the line below
-#' mean_mpg <- # YOUR CODE HERE
+#' mean_mpg <- 0
 #' print(mean_mpg)
 #' "
 #'
@@ -250,11 +246,12 @@ webr_repl_project <- function(files,
 #' "
 #'
 #' links <- webr_repl_exercise(exercise_code, solution_code, "basic_stats")
-#' # Access with links$exercise and links$solution
+#' links$exercise
+#' links$solution
 #'
 #' # Custom path and version
-#' links <- webr_repl_exercise(exercise_code, solution_code, "stats",
-#'                           base_path = "/exercises/", version = "v0.5.4")
+#' webr_repl_exercise(exercise_code, solution_code, "stats",
+#'                    base_path = "/exercises/", version = "v0.5.4")
 #'
 #' @export
 webr_repl_exercise <- function(exercise_text,
@@ -264,36 +261,30 @@ webr_repl_exercise <- function(exercise_text,
                                version = "latest",
                                base_url = NULL) {
 
-  # Validate inputs using helper functions
   check_single_string(exercise_text, "exercise_text")
   check_single_string(solution_text, "solution_text")
   check_single_string(exercise_name, "exercise_name")
   check_valid_path(base_path, "base_path")
   check_valid_version(version, "version")
 
-  # Handle base URL
   if (is.null(base_url)) {
     base_url <- get_webr_base_url(version)
   } else {
     check_single_string(base_url, "base_url")
   }
 
-  # Ensure base_path ends with /
   if (!grepl("/$", base_path)) {
     base_path <- paste0(base_path, "/")
   }
 
-  # Create filenames and paths
   exercise_filename <- paste0(exercise_name, "_exercise.R")
   solution_filename <- paste0(exercise_name, "_solution.R")
-  exercise_path <- paste0(base_path, exercise_filename)
-  solution_path <- paste0(base_path, solution_filename)
 
   # Exercise link (no autorun - student works on it)
   exercise_link <- webr_repl_link(
     exercise_text,
     filename = exercise_filename,
-    path = exercise_path,
+    path = paste0(base_path, exercise_filename),
     autorun = FALSE,
     version = version,
     base_url = base_url
@@ -303,14 +294,11 @@ webr_repl_exercise <- function(exercise_text,
   solution_link <- webr_repl_link(
     solution_text,
     filename = solution_filename,
-    path = solution_path,
+    path = paste0(base_path, solution_filename),
     autorun = TRUE,
     version = version,
     base_url = base_url
   )
 
-  list(
-    exercise = exercise_link,
-    solution = solution_link
-  )
+  new_webr_exercise(exercise_link, solution_link)
 }
