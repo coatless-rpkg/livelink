@@ -83,6 +83,28 @@ Initial CRAN release.
   whatever the block returned.
 
 
+* `use_livelink_hook()`: a 'knitr' chunk hook, so an ordinary `r` chunk can carry
+  its own link. The chunk still runs -- its output, plots and all, appear in the
+  rendered page -- and a link is added underneath:
+
+  ```
+  ```{r}
+  #| livelink: true
+  #| autorun: true
+  data(mtcars)
+  plot(mtcars$mpg, mtcars$wt)   # a comment that survives
+  ```
+  ```
+
+  The engine (```` ```{livelink} ````) *replaces* execution, so it produces a link
+  but no R output. The hook is what you want when the reader should see the result
+  and also be able to open it; the engine is for code the session cannot or should
+  not run -- a Shiny app, or anything needing a package you have not installed.
+
+  Both are registered on load, and both receive the chunk's verbatim source, so
+  comments reach the link either way.
+
+
 ## Naming
 
 The public API was unified before the first release:

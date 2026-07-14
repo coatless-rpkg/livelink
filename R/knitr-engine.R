@@ -1,53 +1,91 @@
-#' Use livelink as a 'knitr' chunk engine
+#' Turn document chunks into shareable links
 #'
 #' @description
-#' Registers a `livelink` engine with 'knitr', letting you turn a code chunk in a
-#' 'Quarto' or 'R Markdown' document into a shareable link. The chunk is shown as
-#' code and *not* executed locally; instead its source is encoded into a webR or
-#' Shinylive link.
+#' livelink plugs into 'knitr' two ways, and which you want depends on one
+#' question: **should the code also run in your document?**
+#'
+#' **A chunk hook**, on an ordinary `r` chunk. The chunk runs as usual -- its
+#' output, plots and all, appear in the rendered page -- and a link is added
+#' underneath. Use this for code you want your reader to *see the result of* and
+#' *also* be able to open and play with.
 #'
 #' ````
-#' ```{livelink}
+#' ```{r}
+#' #| livelink: true
+#' #| autorun: true
 #' # Load the data
 #' data(mtcars)
 #' plot(mtcars$mpg, mtcars$wt)
 #' ```
 #' ````
 #'
-#' @details
-#' Use this rather than expression input (`webr_repl_link({ ... })`) inside a
-#' knitted document. 'knitr' evaluates chunks through `evaluate::evaluate()`,
-#' which discards source references, so comments inside a `{ }` expression are
-#' lost when a document is rendered -- no `keep.source` setting recovers them.
-#' The engine is handed the chunk's verbatim source, so comments survive intact.
+#' **An engine**, as ```` ```{livelink} ````. The chunk is displayed but **not**
+#' run: only the link is produced. Use this for code your session cannot or should
+#' not execute -- a Shiny app, something needing a package you have not installed,
+#' or anything slow.
 #'
-#' The engine is registered automatically when livelink is loaded, provided
-#' 'knitr' is installed. You only need to call this yourself if you have reset
+#' ````
+#' ```{livelink}
+#' #| engine.target: shinylive-r
+#' library(shiny)
+#' shinyApp(fluidPage(), function(input, output) {})
+#' ```
+#' ````
+#'
+#' @details
+#' Reach for either of these rather than expression input
+#' (`webr_repl_link({ ... })`) inside a knitted document. 'knitr' evaluates
+#' chunks through `evaluate::evaluate()`, which discards source references, and
+#' comments live in those -- so comments inside a `{ }` expression are silently
+#' dropped from the link when the document renders, and no `keep.source` setting
+#' brings them back. Both the hook and the engine are handed the chunk's verbatim
+#' source, so nothing is lost.
+#'
+#' Both are registered automatically when livelink is loaded, provided 'knitr' is
+#' installed. Call these yourself only if you have reset `knitr::knit_hooks` or
 #' `knitr::knit_engines`.
 #'
 #' # Chunk options
 #'
 #' \describe{
-#'   \item{`engine.target`}{`"webr"` (default), `"shinylive-r"`, or `"shinylive-py"`.}
+#'   \item{`livelink`}{Hook only. `true` for a webR link, or name the target
+#'     directly: `"webr"`, `"shinylive-r"`, `"shinylive-py"`.}
+#'   \item{`engine.target`}{Engine only. `"webr"` (default), `"shinylive-r"`, or
+#'     `"shinylive-py"`.}
 #'   \item{`autorun`}{Logical. Run the code as soon as the link opens. webR only.}
-#'   \item{`panels`}{Character vector of webR panels to show, e.g. `c("editor", "plot")`.}
+#'   \item{`panels`}{Character vector of webR panels, e.g. `c("editor", "plot")`.}
 #'   \item{`mode`}{Shinylive display mode, `"editor"` or `"app"`.}
 #'   \item{`filename`}{Name for the file inside the environment.}
-#'   \item{`link.text`}{Text for the emitted hyperlink. Defaults to `"Open in webR"`
-#'     or `"Open in Shinylive"`.}
-#'   \item{`link.only`}{Logical. If `TRUE`, emit only the link and not the source
-#'     chunk. Defaults to `FALSE`.}
+#'   \item{`link.text`}{Text for the hyperlink. Defaults to `"Open in webR"` or
+#'     `"Open in Shinylive"`.}
+#'   \item{`link.only`}{Engine only. If `TRUE`, emit the link without the source.}
 #' }
 #'
 #' Standard chunk options such as `echo` and `eval` are honored by 'knitr' as usual.
 #'
-#' @return Called for its side effect. Invisibly returns `TRUE` if the engine was
-#'   registered, and `FALSE` if 'knitr' is not installed.
+#' @return Called for their side effect. Invisibly `TRUE` if registration
+#'   happened, `FALSE` if 'knitr' is not installed.
 #'
 #' @examplesIf requireNamespace("knitr", quietly = TRUE)
-#' # Normally automatic on load; call directly only after resetting knit_engines.
+#' # Both are registered on load; call directly only after resetting knitr's hooks.
+#' use_livelink_hook()
 #' use_livelink_engine()
 #'
+#' @name livelink-knitr
+NULL
+
+#' @rdname livelink-knitr
+#' @export
+use_livelink_hook <- function() {
+  if (!requireNamespace("knitr", quietly = TRUE)) {
+    return(invisible(FALSE))
+  }
+
+  knitr::knit_hooks$set(livelink = livelink_hook)
+  invisible(TRUE)
+}
+
+#' @rdname livelink-knitr
 #' @export
 use_livelink_engine <- function() {
   if (!requireNamespace("knitr", quietly = TRUE)) {
@@ -58,28 +96,40 @@ use_livelink_engine <- function() {
   invisible(TRUE)
 }
 
-#' The knitr engine callback
+#' Resolve the link target from a chunk option
 #'
-#' knitr hands us `options$code`: the chunk's verbatim source lines, comments and
-#' all. That is the whole point of the engine -- it is the only route by which
-#' comments reach us from a knitted document.
-#'
-#' @param options knitr chunk options
-#' @return A string of knitr output
+#' @param x Value of the `livelink` or `engine.target` chunk option
+#' @return One of "webr", "shinylive-r", "shinylive-py"
 #' @noRd
-livelink_engine <- function(options) {
-  code <- paste(options$code, collapse = "\n")
+livelink_target <- function(x) {
+  target <- if (isTRUE(x)) {
+    "webr"
+  } else if (is.character(x) && length(x) == 1) {
+    x
+  } else {
+    "webr"
+  }
 
-  target <- options[["engine.target"]] %||% "webr"
   if (!target %in% c("webr", "shinylive-r", "shinylive-py")) {
     cli::cli_abort(c(
-      "Invalid {.code engine.target} chunk option",
+      "Invalid livelink chunk target",
       "x" = "Got {.val {target}}",
       "i" = "Valid targets: {.val webr}, {.val shinylive-r}, {.val shinylive-py}"
     ))
   }
 
-  link <- switch(target,
+  target
+}
+
+#' Build the link a chunk asks for
+#'
+#' @param code The chunk's source, as one string
+#' @param options knitr chunk options
+#' @param target Resolved target
+#' @return A link object
+#' @noRd
+livelink_from_chunk <- function(code, options, target) {
+  switch(target,
     "webr" = webr_repl_link(
       code,
       filename = options[["filename"]] %||% "script.R",
@@ -95,17 +145,69 @@ livelink_engine <- function(options) {
       mode = options[["mode"]] %||% "editor"
     )
   )
+}
 
-  url <- as.character(link)
+#' The markdown for a chunk's link
+#'
+#' A blank line either side keeps it a paragraph of its own, so the renderer sees
+#' a link rather than a run-on of the preceding output.
+#'
+#' @param link A link object
+#' @param options knitr chunk options
+#' @param target Resolved target
+#' @return A markdown string
+#' @noRd
+livelink_markdown <- function(link, options, target) {
   default_text <- if (target == "webr") "Open in webR" else "Open in Shinylive"
   link_text <- options[["link.text"]] %||% default_text
+
+  paste0("\n\n[", link_text, "](", as.character(link), ")\n")
+}
+
+#' The knitr chunk hook
+#'
+#' Fires after an ordinary R chunk has run, so the chunk's own output is already
+#' in the document; we only append the link. `options$code` is the chunk's
+#' verbatim source, comments and all -- which is the only route by which comments
+#' reach us from a knitted document.
+#'
+#' @param before TRUE before the chunk runs, FALSE after
+#' @param options knitr chunk options
+#' @param envir The chunk's evaluation environment (unused)
+#' @return A markdown string appended after the chunk, or NULL
+#' @noRd
+livelink_hook <- function(before, options, envir) {
+  # Nothing to add before the chunk runs, and `livelink: false` opts out.
+  if (before || isFALSE(options[["livelink"]])) {
+    return(NULL)
+  }
+
+  target <- livelink_target(options[["livelink"]])
+  code <- paste(options$code, collapse = "\n")
+  link <- livelink_from_chunk(code, options, target)
+
+  livelink_markdown(link, options, target)
+}
+
+#' The knitr engine callback
+#'
+#' The chunk is shown but never run, so this is the tool for code the session
+#' cannot execute. As with the hook, `options$code` is the verbatim source.
+#'
+#' @param options knitr chunk options
+#' @return A string of knitr output
+#' @noRd
+livelink_engine <- function(options) {
+  target <- livelink_target(options[["engine.target"]] %||% "webr")
+  code <- paste(options$code, collapse = "\n")
+  link <- livelink_from_chunk(code, options, target)
 
   # The link must travel as `extra`, which engine_output() appends verbatim.
   # Passing it as `out` routes it through the output hook, which prefixes it with
   # the chunk's `comment` string and wraps it in a code block -- so the reader
   # gets a literal `#> [Open in webR](https://...)` instead of a link they can
-  # click. The blank line keeps it a paragraph of its own.
-  markdown_link <- paste0("\n\n[", link_text, "](", url, ")\n")
+  # click.
+  markdown_link <- livelink_markdown(link, options, target)
 
   if (isTRUE(options[["link.only"]])) {
     return(knitr::engine_output(options, code = NULL, out = NULL,
@@ -124,7 +226,8 @@ livelink_engine <- function(options) {
 `%||%` <- function(x, y) if (is.null(x)) y else x
 
 .onLoad <- function(libname, pkgname) {
-  # Registering here (rather than making users call it) means a document can use
-  # a ```{livelink} chunk after nothing more than library(livelink).
+  # Registering here (rather than making users call them) means a document can use
+  # either mechanism after nothing more than library(livelink).
+  use_livelink_hook()
   use_livelink_engine()
 }

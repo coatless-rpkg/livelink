@@ -172,10 +172,12 @@ once you have decided you trust them.
 ## Links inside a document
 
 If you write in Quarto or R Markdown, you do not need to build a link in one chunk and
-paste the URL into another. livelink registers a chunk engine:
+paste the URL into another. Add `livelink: true` to an ordinary chunk and it keeps
+running exactly as before — output, plots and all — with a link added underneath:
 
 ````
-```{{livelink}}
+```{{r}}
+#| livelink: true
 #| autorun: true
 # Load the data
 data(mtcars)
@@ -183,8 +185,12 @@ plot(mtcars$mpg, mtcars$wt)
 ```
 ````
 
-The chunk is displayed as code *and* rendered as a link that runs it. Comments survive,
-which they do not when a `{ }` expression is knitted. See `?use_livelink_engine()`.
+For code your session should *not* run — a Shiny app, or anything needing a package you
+have not installed — use a ```` ```{livelink} ```` chunk instead: the code is shown, a
+link is produced, and nothing is executed.
+
+Either way, your comments survive into the link, which they do not when a `{ }`
+expression is knitted. See [`?livelink-knitr`](../reference/livelink-knitr.html).
 
 ## Where to next
 

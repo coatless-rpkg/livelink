@@ -30,6 +30,74 @@ test_that("the engine is registered when livelink is loaded", {
   expect_true("livelink" %in% names(knitr::knit_engines$get()))
 })
 
+test_that("the chunk hook is registered when livelink is loaded", {
+  expect_true("livelink" %in% names(knitr::knit_hooks$get()))
+})
+
+test_that("use_livelink_hook registers the hook", {
+  expect_true(use_livelink_hook())
+  expect_true("livelink" %in% names(knitr::knit_hooks$get()))
+})
+
+# The reason the hook exists: the engine replaces execution, so a ```{livelink}
+# chunk shows a link but never any R output. The hook leaves the chunk running.
+test_that("a hooked chunk still runs, and gains a link", {
+  rendered <- knit_livelink("```{r}\n#| livelink: true", "mean(c(1, 2, 3))")
+  text <- paste(rendered, collapse = "\n")
+
+  # the chunk's own output is there ...
+  expect_match(text, "[1] 2", fixed = TRUE)
+  # ... and so is the link
+  expect_match(text, "[Open in webR](https://webr.r-wasm.org/", fixed = TRUE)
+})
+
+test_that("comments survive into a hooked chunk's link", {
+  rendered <- knit_livelink(
+    "```{r}\n#| livelink: true",
+    c("# a leading comment", "x <- 1  # a trailing comment")
+  )
+
+  code <- preview_webr_link(extract_url(rendered))$files_data[[1]]$text
+
+  expect_match(code, "# a leading comment", fixed = TRUE)
+  expect_match(code, "# a trailing comment", fixed = TRUE)
+})
+
+test_that("the hook honors autorun and panels", {
+  rendered <- knit_livelink(
+    "```{r}\n#| livelink: true\n#| autorun: true\n#| panels: [\"editor\", \"plot\"]",
+    "plot(1:10)"
+  )
+  url <- extract_url(rendered)
+
+  expect_match(url, "mode='editor-plot'", fixed = TRUE)
+  expect_equal(preview_webr_link(url)$autorun_files, "script.R")
+})
+
+test_that("the hook can target Shinylive", {
+  rendered <- knit_livelink(
+    "```{r}\n#| livelink: shinylive-r\n#| eval: false",
+    "library(shiny)"
+  )
+
+  expect_match(extract_url(rendered), "^https://shinylive\\.io/r/")
+})
+
+test_that("livelink: false opts a chunk out", {
+  rendered <- knit_livelink("```{r}\n#| livelink: false", "mean(c(1, 2, 3))")
+  text <- paste(rendered, collapse = "\n")
+
+  expect_match(text, "[1] 2", fixed = TRUE)
+  expect_false(grepl("Open in webR", text, fixed = TRUE))
+})
+
+test_that("an invalid hook target is rejected", {
+  expect_error(
+    knit_livelink("```{r}\n#| livelink: julia", "x <- 1"),
+    "livelink chunk target"
+  )
+})
+
 test_that("use_livelink_engine registers the engine", {
   expect_true(use_livelink_engine())
   expect_true("livelink" %in% names(knitr::knit_engines$get()))
@@ -139,7 +207,7 @@ test_that("link.text overrides the hyperlink label", {
 test_that("an invalid engine.target is rejected", {
   expect_error(
     knit_livelink("```{livelink, engine.target='julia'}", "x <- 1"),
-    "engine.target"
+    "livelink chunk target"
   )
 })
 

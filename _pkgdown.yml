@@ -71,7 +71,7 @@ reference:
 - title: "Documents"
   desc: "Turn a knitr or Quarto chunk into a shareable link"
   contents:
-  - use_livelink_engine
+  - livelink-knitr
 
 - title: "Configuration"
   desc: "Package configuration and options"
