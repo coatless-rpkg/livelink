@@ -100,12 +100,27 @@ webr_repl_link("hist(rnorm(1000))", autorun = TRUE)
 
 ## Choosing what they see
 
-webR shows an editor, a plot pane, a file browser, and a terminal. `panels` picks
-which of them appear.
+webR opens with four panels: an **editor** for your code, a **terminal** for the R
+console, a **files** browser, and a **plot** pane. `panels` names the ones you want,
+and the rest never appear.
+
+![webR has four panels. `panels` names the ones you want; the rest never appear. Omit it and all four are shown.](../man/figures/panels-light.svg){.ll-fig .ll-light}
+![](../man/figures/panels-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 ```{r}
 webr_repl_link("plot(1:10)", panels = c("editor", "plot"))
 ```
+
+The names are joined into the URL's query string — `?mode='editor-plot'` — so you can
+read a link and tell what the recipient will land on. Omit `panels` and webR shows
+everything:
+
+```{r}
+webr_repl_link("plot(1:10)")
+```
+
+Trimming the panels is worth doing when the terminal would only invite someone to
+wander off. [Teaching with livelink](teaching.html) leans on it.
 
 ## A Shiny app instead
 
