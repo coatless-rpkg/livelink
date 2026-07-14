@@ -175,7 +175,7 @@ If you write in Quarto or R Markdown, you do not need to build a link in one chu
 paste the URL into another. livelink registers a chunk engine:
 
 ````
-```{livelink}
+```{{livelink}}
 #| autorun: true
 # Load the data
 data(mtcars)

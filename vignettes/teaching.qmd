@@ -42,6 +42,9 @@ a school Chromebook.
 `webr_repl_exercise()` is built for the most common teaching shape: give students a
 scaffold with the answer removed, and keep the worked solution behind a second link.
 
+![One call returns two links. They differ by a single flag: the solution carries `a` for autorun and computes the answer on arrival, while the exercise waits.](../man/figures/exercise-light.svg){.ll-fig .ll-light}
+![](../man/figures/exercise-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
+
 ```{r}
 exercise <- "
 # Exercise: what is the mean mpg of the cars in mtcars?
@@ -123,6 +126,9 @@ webr_repl_link("some data", filename = "data.csv", autorun = TRUE)
 Course material tends to live as a directory of scripts. `webr_repl_directory()`
 turns each one into its own link in a single call.
 
+![Each script becomes its own link, named after the file. That is the opposite of `webr_repl_project()`, which bundles a folder into one link.](../man/figures/course-light.svg){.ll-fig .ll-light}
+![](../man/figures/course-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
+
 ```{r}
 # A small course directory
 course <- file.path(tempdir(), "course")
@@ -154,8 +160,11 @@ If you write course notes in Quarto or R Markdown, you do not have to build the 
 in one chunk and paste the URL into another. livelink registers a **chunk engine**:
 write the code as a normal chunk, get a link.
 
+![A `livelink` chunk renders as the code plus a link that runs it — comments and all. A braced expression cannot manage that in a knitted document.](../man/figures/engine-light.svg){.ll-fig .ll-light}
+![](../man/figures/engine-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
+
 ````
-```{livelink}
+```{{livelink}}
 #| autorun: true
 # Load the data
 data(mtcars)
@@ -163,18 +172,26 @@ plot(mtcars$mpg, mtcars$wt)   # a comment students will actually see
 ```
 ````
 
-renders the code *and* a link to run it, with your comments intact.
+renders the code *and* a link to run it, with your comments intact. That chunk is a
+real one — here it is, executed in this very vignette:
 
-This is the recommended way to embed links in a document, and not only for
-convenience. `webr_repl_link({ ... })` recovers your code from R's source
-references, and knitr discards those when it renders a chunk -- so comments inside a
-`{ }` expression silently vanish from the link, exactly where a teaching example
-needs them most. The chunk engine is handed the raw source, so nothing is lost.
+```{livelink}
+#| autorun: true
+# Load the data
+data(mtcars)
+plot(mtcars$mpg, mtcars$wt)   # a comment students will actually see
+```
+
+Follow the link and the comments are still there — which is the whole reason the
+engine exists. `webr_repl_link({ ... })` recovers your code from R's source
+references, and knitr discards those when it renders a chunk, so comments inside a
+`{ }` expression silently vanish from the link. Exactly where a teaching example
+needs them most.
 
 Chunk options map onto the arguments you already know:
 
 ````
-```{livelink}
+```{{livelink}}
 #| panels: ["editor", "plot"]
 #| link.text: "Try it yourself"
 mean(mtcars$mpg)
@@ -184,7 +201,7 @@ mean(mtcars$mpg)
 and `engine.target` switches to Shinylive when you want an app instead of a REPL:
 
 ````
-```{livelink}
+```{{livelink}}
 #| engine.target: shinylive-r
 #| mode: app
 library(shiny)

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 300" role="img" aria-labelledby="t d">
+  <title id="t">Why the chunk engine exists</title>
+  <desc id="d">A livelink chunk in a Quarto document renders as the code plus a link that runs it, with comments intact -- which a braced expression cannot manage in a knitted document.</desc>
+  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}</style>
+  <defs><marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#0054AD"/></marker></defs>
+  <text class="s lbl muted" x="24" y="22" font-size="11">IN YOUR .QMD</text>
+  <text class="s lbl muted" x="470" y="22" font-size="11">IN THE RENDERED PAGE</text>
+  <rect x="24" y="34" width="392" height="128" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
+  <path d="M24 34 h392 v22 h-392 z" fill="#f8fafc"/>
+  <path d="M24 56 h392" stroke="#e2e8f0"/>
+  <text class="m accent" x="32" y="49" font-size="9.5" font-weight="700">notes.qmd</text>
+  <text class="m" x="38" y="76" font-size="10" xml:space="preserve"><tspan class="fn">```{livelink}</tspan></text>
+  <text class="m" x="38" y="91" font-size="10" xml:space="preserve"><tspan class="com">#| autorun: true</tspan></text>
+  <text class="m" x="38" y="106" font-size="10" xml:space="preserve"><tspan class="com"># Load the data</tspan></text>
+  <text class="m" x="38" y="121" font-size="10" xml:space="preserve"><tspan class="fn">data</tspan><tspan class="ink">(mtcars)</tspan></text>
+  <text class="m" x="38" y="136" font-size="10" xml:space="preserve"><tspan class="fn">plot</tspan><tspan class="ink">(mtcars$mpg, mtcars$wt)</tspan></text>
+  <text class="m" x="38" y="151" font-size="10" xml:space="preserve"><tspan class="fn">```</tspan></text>
+  <path d="M424 100 L462 100" stroke="#0054AD" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="470" y="34" width="356" height="128" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
+  <path d="M470 34 h356 v22 h-356 z" fill="#f8fafc"/>
+  <path d="M470 56 h356" stroke="#e2e8f0"/>
+  <text class="m accent" x="478" y="49" font-size="9.5" font-weight="700">the code, and a link</text>
+  <text class="m" x="484" y="76" font-size="10" xml:space="preserve"><tspan class="com"># Load the data</tspan></text>
+  <text class="m" x="484" y="91" font-size="10" xml:space="preserve"><tspan class="fn">data</tspan><tspan class="ink">(mtcars)</tspan></text>
+  <text class="m" x="484" y="106" font-size="10" xml:space="preserve"><tspan class="fn">plot</tspan><tspan class="ink">(mtcars$mpg, mtcars$wt)</tspan></text>
+  <rect x="484" y="122" width="140" height="20" rx="10" fill="#e0edff"/>
+  <text class="s accent" x="554" y="136" font-size="10.5" font-weight="700" text-anchor="middle">Open in webR</text>
+  <text class="s faint" x="484" y="160" font-size="10.5">comments and all</text>
+  <line x1="24" y1="192" x2="826" y2="192" stroke="#e2e8f0"/>
+  <text class="s lbl muted" x="24" y="220" font-size="11">WHY NOT AN EXPRESSION?</text>
+  <text class="m" x="24" y="244" font-size="11.5" xml:space="preserve"><tspan class="fn">webr_repl_link</tspan><tspan class="ink">({ </tspan><tspan class="com"># Load the data</tspan><tspan class="ink"> … })</tspan></text>
+  <text class="s faint" x="360" y="244" font-size="11.5">in a knitted document, the comment is gone</text>
+  <text class="s faint" x="24" y="268" font-size="12">knitr runs chunks through evaluate(), which discards source references -- and comments live in those.</text>
+  <text class="s faint" x="24" y="286" font-size="12">The engine is handed the chunk's raw source, so nothing is lost.</text>
+</svg>
