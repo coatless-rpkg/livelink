@@ -2,7 +2,7 @@
 
 <!-- README.md is generated from README.qmd. Please edit that file -->
 
-# livelink <picture><source media="(prefers-color-scheme: dark)" srcset="man/figures/livelink-logo-dark-animated.svg"><img src="man/figures/livelink-logo-light-animated.svg" align="right" alt="Logo: a hexagon holding a stack of code lines that recede into the distance, with the livelink wordmark and an outbound arrow." width="150"/></picture>
+# livelink <picture><source media="(prefers-color-scheme: dark)" srcset="man/figures/livelink-logo-dark-animated.svg"><img class="ll-logo" src="man/figures/livelink-logo-light-animated.svg" align="right" alt="Logo: a hexagon holding a stack of code lines that recede into the distance, with the livelink wordmark and an outbound arrow." width="150"/></picture>
 
 <!-- badges: start -->
 
@@ -24,7 +24,7 @@ encoded *into the URL itself* — everything after the `#` is a URL
 fragment, which browsers never send anywhere. The recipient clicks the
 link and is looking at a running R session in their browser.
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="man/figures/pipeline-dark.svg"><img src="man/figures/pipeline-light.svg" alt="The call webr_repl_link with a braced expression is serialized to JSON, gzipped, base64-encoded and placed in the fragment of a webR URL. Opening the link runs it in a webR session showing the editor, terminal, files and plot panels." width="100%"/></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="man/figures/pipeline-dark.svg"><img class="ll-hero" src="man/figures/pipeline-light.svg" alt="The call webr_repl_link with a braced expression is serialized to JSON, gzipped, base64-encoded and placed in the fragment of a webR URL. Opening the link runs it in a webR session showing the editor, terminal, files and plot panels." width="100%"/></picture>
 
 Full documentation is at
 <https://r-pkg.thecoatlessprofessor.com/livelink/>.

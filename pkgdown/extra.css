@@ -1,0 +1,31 @@
+/* livelink -- theme-aware images on the pkgdown site.
+ *
+ * The README uses <picture> with a (prefers-color-scheme: dark) source, which is
+ * the right mechanism on GitHub and for the README CRAN renders: both strip CSS,
+ * so a media query is all we have.
+ *
+ * But <picture> resolves against the *operating system's* colour scheme, while
+ * pkgdown's light switch sets [data-bs-theme] on the document. The two disagree
+ * whenever a reader's OS is dark and the site is light (or the reverse), and the
+ * reader gets a dark figure on a light page.
+ *
+ * Overriding `content` on the <img> wins over whichever <source> the browser
+ * picked, so the site's own theme decides. Paths are relative to this stylesheet,
+ * which pkgdown copies to the site root as extra.css.
+ */
+
+[data-bs-theme="light"] img.ll-logo {
+  content: url("reference/figures/livelink-logo-light-animated.svg");
+}
+
+[data-bs-theme="dark"] img.ll-logo {
+  content: url("reference/figures/livelink-logo-dark-animated.svg");
+}
+
+[data-bs-theme="light"] img.ll-hero {
+  content: url("reference/figures/pipeline-light.svg");
+}
+
+[data-bs-theme="dark"] img.ll-hero {
+  content: url("reference/figures/pipeline-dark.svg");
+}
