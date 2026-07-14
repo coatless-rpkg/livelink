@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 598" role="img" aria-labelledby="t d">
+  <title id="t">How livelink turns R code into a URL</title>
+  <desc id="d">The call webr_repl_link with a braced expression is serialized to JSON, gzipped, base64 encoded and placed in the fragment of a webR URL. Opening the link runs it in a webR session whose editor, console, files and plot panels are shown.</desc>
+  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#60a5fa}.str{fill:#34d399}.num{fill:#fbbf24}.com{fill:#64748b}.key{fill:#c4b5fd}.ink{fill:#e2e8f0}.body{fill:#cbd5e1}.muted{fill:#94a3b8}.faint{fill:#64748b}.card{fill:#1e293b}.cardline{fill:#334155}.rail{fill:#475569}.accent{fill:#4C9AFF}.accent_soft{fill:#12315c}.hollow{fill:#475569}.base{fill:#94a3b8}.base_bg{fill:#273244}.ver{fill:#5eead4}.ver_bg{fill:#12332e}.pan{fill:#c4b5fd}.pan_bg{fill:#2e2450}.frag{fill:#4C9AFF}.frag_bg{fill:#12315c}.flag{fill:#fbbf24}.flag_bg{fill:#3d2f10}</style>
+  <line x1="26" y1="42" x2="26" y2="376" stroke="#475569" stroke-width="2"/>
+  <circle cx="26" cy="42" r="5" fill="#475569"/>
+  <text class="s lbl ink" x="46" y="40" font-size="11">YOU WRITE</text>
+  <text class="m muted" x="46" y="60" font-size="12">braces, no quotes</text>
+  <rect x="212" y="22" width="618" height="40" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m" x="226" y="46" font-size="11.5" xml:space="preserve"><tspan class="fn">webr_repl_link</tspan><tspan class="ink">({ </tspan><tspan class="fn">plot</tspan><tspan class="ink">(</tspan><tspan class="num">1</tspan><tspan class="ink">:</tspan><tspan class="num">10</tspan><tspan class="ink">)</tspan><tspan class="ink"> })</tspan></text>
+  <circle cx="26" cy="108" r="5" fill="#475569"/>
+  <text class="s lbl ink" x="46" y="106" font-size="11">SERIALIZE</text>
+  <text class="m muted" x="46" y="126" font-size="12">jsonlite::toJSON()</text>
+  <rect x="212" y="88" width="618" height="40" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m" x="226" y="112" font-size="10.5" xml:space="preserve"><tspan class="ink">[{</tspan><tspan class="key">"name"</tspan><tspan class="ink">:</tspan><tspan class="str">"script.R"</tspan><tspan class="ink">,</tspan><tspan class="key">"path"</tspan><tspan class="ink">:</tspan><tspan class="str">"/home/web_user/script.R"</tspan><tspan class="ink">,</tspan><tspan class="key">"text"</tspan><tspan class="ink">:</tspan><tspan class="str">"plot(1:10)"</tspan><tspan class="ink">}]</tspan></text>
+  <text class="s faint" x="816" y="112" font-size="11" text-anchor="end">74 characters</text>
+  <circle cx="26" cy="174" r="5" fill="#475569"/>
+  <text class="s lbl ink" x="46" y="172" font-size="11">COMPRESS</text>
+  <text class="m muted" x="46" y="192" font-size="12">memCompress("gzip")</text>
+  <rect x="212" y="154" width="618" height="40" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m" x="226" y="178" font-size="11.5" xml:space="preserve"><tspan class="ink">78 9c 8b ae 56 ca 4b cc 4d 55 …</tspan></text>
+  <text class="s faint" x="816" y="178" font-size="11" text-anchor="end">71 raw bytes</text>
+  <circle cx="26" cy="240" r="5" fill="#475569"/>
+  <text class="s lbl ink" x="46" y="238" font-size="11">ENCODE</text>
+  <text class="m muted" x="46" y="258" font-size="12">base64enc + URLencode</text>
+  <rect x="212" y="220" width="618" height="40" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m" x="226" y="244" font-size="11.5" xml:space="preserve"><tspan class="ink">eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIro…</tspan></text>
+  <circle cx="26" cy="306" r="5" fill="#475569"/>
+  <text class="s lbl ink" x="46" y="304" font-size="11">YOU GET</text>
+  <text class="m muted" x="46" y="324" font-size="12">one shareable URL</text>
+  <rect x="212" y="286" width="618" height="40" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m" x="226" y="310" font-size="11.5" xml:space="preserve"><tspan class="ink">https://webr.r-wasm.org/latest/</tspan><tspan class="frag">#code=eJyLrlbKS8xNVbJS…</tspan><tspan class="flag">&amp;jz</tspan></text>
+  <circle cx="26" cy="376" r="5" fill="#4C9AFF"/>
+  <text class="s lbl ink" x="46" y="374" font-size="11">IT RUNS</text>
+  <text class="m muted" x="46" y="394" font-size="12">in the browser</text>
+  <rect x="212" y="364" width="618" height="200" rx="8" fill="#1e293b" stroke="#334155"/>
+  <path d="M212 392 h618" stroke="#334155"/>
+  <circle cx="230" cy="378" r="4" fill="#475569"/>
+  <circle cx="244" cy="378" r="4" fill="#475569"/>
+  <circle cx="258" cy="378" r="4" fill="#475569"/>
+  <text class="m faint" x="282" y="382" font-size="10.5">webr.r-wasm.org/latest/</text>
+  <rect x="222.0" y="402" width="294.0" height="66" rx="6" fill="none" stroke="#334155"/>
+  <text class="m accent" x="232.0" y="419" font-size="10.5" font-weight="700">editor</text>
+  <text class="m" x="232.0" y="439" font-size="10.5" xml:space="preserve"><tspan class="fn">plot</tspan><tspan class="ink">(</tspan><tspan class="num">1</tspan><tspan class="ink">:</tspan><tspan class="num">10</tspan><tspan class="ink">)</tspan></text>
+  <text class="m" x="232.0" y="454" font-size="10.5" xml:space="preserve"><tspan class="com"># 10 points, ascending</tspan></text>
+  <rect x="526.0" y="402" width="294.0" height="66" rx="6" fill="none" stroke="#334155"/>
+  <text class="m accent" x="536.0" y="419" font-size="10.5" font-weight="700">files</text>
+  <text class="m" x="536.0" y="439" font-size="10.5" xml:space="preserve"><tspan class="str">/home/web_user/</tspan></text>
+  <text class="m" x="546.0" y="454" font-size="10.5" xml:space="preserve"><tspan class="ink">script.R</tspan></text>
+  <rect x="222.0" y="478" width="294.0" height="66" rx="6" fill="none" stroke="#334155"/>
+  <text class="m accent" x="232.0" y="495" font-size="10.5" font-weight="700">terminal</text>
+  <text class="m" x="232.0" y="515" font-size="10.5" xml:space="preserve"><tspan class="com">&gt; </tspan><tspan class="fn">source</tspan><tspan class="ink">(</tspan><tspan class="str">'script.R'</tspan><tspan class="ink">)</tspan></text>
+  <text class="m" x="232.0" y="530" font-size="10.5" xml:space="preserve"><tspan class="com">&gt; </tspan></text>
+  <rect x="526.0" y="478" width="294.0" height="66" rx="6" fill="none" stroke="#334155"/>
+  <text class="m accent" x="536.0" y="495" font-size="10.5" font-weight="700">plot</text>
+  <circle cx="544.0" cy="536.0" r="2.2" fill="#4C9AFF"/>
+  <circle cx="572.4" cy="533.0" r="2.2" fill="#4C9AFF"/>
+  <circle cx="600.9" cy="530.0" r="2.2" fill="#4C9AFF"/>
+  <circle cx="629.3" cy="527.0" r="2.2" fill="#4C9AFF"/>
+  <circle cx="657.8" cy="524.0" r="2.2" fill="#4C9AFF"/>
+  <circle cx="686.2" cy="521.0" r="2.2" fill="#4C9AFF"/>
+  <circle cx="714.7" cy="518.0" r="2.2" fill="#4C9AFF"/>
+  <circle cx="743.1" cy="515.0" r="2.2" fill="#4C9AFF"/>
+  <circle cx="771.6" cy="512.0" r="2.2" fill="#4C9AFF"/>
+  <circle cx="800.0" cy="509.0" r="2.2" fill="#4C9AFF"/>
+  <text class="s faint" x="46" y="588" font-size="12">Everything after the # is a URL fragment. Browsers never send it to a server.</text>
+</svg>

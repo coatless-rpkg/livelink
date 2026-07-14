@@ -99,15 +99,26 @@ livelink_engine <- function(options) {
   url <- as.character(link)
   default_text <- if (target == "webr") "Open in webR" else "Open in Shinylive"
   link_text <- options[["link.text"]] %||% default_text
-  markdown_link <- paste0("[", link_text, "](", url, ")")
 
-  # engine_output() takes `code` positionally with no default; NULL drops the
-  # source block and emits only the link.
+  # The link must travel as `extra`, which engine_output() appends verbatim.
+  # Passing it as `out` routes it through the output hook, which prefixes it with
+  # the chunk's `comment` string and wraps it in a code block -- so the reader
+  # gets a literal `#> [Open in webR](https://...)` instead of a link they can
+  # click. The blank line keeps it a paragraph of its own.
+  markdown_link <- paste0("\n\n[", link_text, "](", url, ")\n")
+
   if (isTRUE(options[["link.only"]])) {
-    return(knitr::engine_output(options, code = NULL, out = markdown_link))
+    return(knitr::engine_output(options, code = NULL, out = NULL,
+                                extra = markdown_link))
   }
 
-  knitr::engine_output(options, code = options$code, out = markdown_link)
+  # The fenced source block takes its language from `options$engine`, which is
+  # "livelink" here -- a language no highlighter knows. Name the real one so the
+  # code is highlighted as the R or Python it is.
+  options$engine <- if (target == "shinylive-py") "python" else "r"
+
+  knitr::engine_output(options, code = options$code, out = NULL,
+                       extra = markdown_link)
 }
 
 `%||%` <- function(x, y) if (is.null(x)) y else x

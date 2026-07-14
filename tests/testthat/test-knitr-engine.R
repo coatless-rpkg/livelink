@@ -61,6 +61,31 @@ test_that("the engine emits both the source and a link by default", {
   expect_match(text, "[Open in webR](https://webr.r-wasm.org/", fixed = TRUE)
 })
 
+# Regression: the link used to travel to engine_output() as `out`, which routes
+# it through knitr's output hook. That prefixed it with the chunk's `comment`
+# string and wrapped it in a code block, so the reader got a literal
+# `#> [Open in webR](https://...)` rather than a link they could click.
+test_that("the link is rendered as markdown, not as commented chunk output", {
+  rendered <- knit_livelink("```{livelink}", "plot(1:10)")
+
+  expect_false(any(grepl("#>\\s*\\[Open in webR\\]", rendered)))
+  expect_true(any(grepl("^\\[Open in webR\\]\\(https://", rendered)))
+})
+
+# The fenced block used to be tagged with the engine name, `livelink`, which no
+# highlighter knows -- so the code rendered unhighlighted.
+test_that("the source block is fenced as the language it actually is", {
+  r_chunk <- knit_livelink("```{livelink}", "plot(1:10)")
+  expect_true(any(grepl("^```+\\s*r\\s*$", r_chunk)))
+  expect_false(any(grepl("^```+\\s*livelink", r_chunk)))
+
+  py_chunk <- knit_livelink(
+    "```{livelink, engine.target='shinylive-py'}",
+    "from shiny import App"
+  )
+  expect_true(any(grepl("^```+\\s*python\\s*$", py_chunk)))
+})
+
 test_that("link.only suppresses the source chunk", {
   rendered <- knit_livelink("```{livelink, link.only=TRUE}", "secret_marker <- 1")
   text <- paste(rendered, collapse = "\n")

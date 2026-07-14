@@ -13,6 +13,18 @@ knitr:
     comment: '#>'
 ---
 
+```{=html}
+<style>
+.ll-fig{display:block;margin:1.5rem auto;max-width:100%;height:auto}
+.ll-dark{display:none}
+@media (prefers-color-scheme:dark){.ll-light{display:none}.ll-dark{display:block}}
+[data-bs-theme=light] .ll-light{display:block}
+[data-bs-theme=light] .ll-dark{display:none}
+[data-bs-theme=dark] .ll-light{display:none}
+[data-bs-theme=dark] .ll-dark{display:block}
+</style>
+```
+
 ```{r setup}
 library(livelink)
 ```
@@ -20,6 +32,9 @@ library(livelink)
 Real work is rarely one file. This article covers the multi-file half of livelink:
 webR projects, Shinylive apps in R and Python, and batch-processing a directory of
 them.
+
+![A named list or a vector of file paths goes in; one URL carrying every file comes out, and webR unpacks them into its filesystem.](../man/figures/projects-light.svg){.ll-fig .ll-light}
+![](../man/figures/projects-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 ## Two ways to describe a project
 
@@ -79,8 +94,11 @@ webr_repl_project(project, autorun_files = "nonexistent.R")
 
 ## Shiny apps
 
-`shinylive_r_link()` takes an app the same three ways: a string, a file path, or a
-named list of files.
+![`shinylive_r_link()` and `shinylive_py_link()` pick the R or Python path; `mode` picks whether a visitor lands on the code beside the app, or the running app alone.](../man/figures/shinylive-light.svg){.ll-fig .ll-light}
+![](../man/figures/shinylive-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
+
+`shinylive_r_link()` takes an app four ways: a string, a file path, a named list of
+files, or a braced expression.
 
 A single-file app is the common case, and a bare string becomes `app.R`:
 
@@ -105,6 +123,20 @@ shinyApp(ui, server)
 
 shinylive_r_link(app)
 ```
+
+::: {.callout-tip}
+## A string, rather than a braced expression
+
+`shinylive_r_link({ ... })` accepts an expression, and for a quick app it reads
+nicely. But a Shiny app is source text destined for *another* runtime. Putting
+`library(shiny)` inside braces makes it look like R that your own package runs:
+`R CMD check` scans documents for `library()` calls and reports shiny as an
+undeclared dependency, which for livelink it is not.
+
+Reach for braces when the code is R you want executed in webR. For a Shiny app, a
+string or a file path says what you actually mean — and keeps the app's own quoting
+intact.
+:::
 
 For an app split across files, pass a named list:
 

@@ -36,8 +36,8 @@ anywhere, which is what makes these links work offline and forever.
 That has a useful consequence: any link can be turned back into the files it came
 from, by anyone, with no network access.
 
-![Encoding and decoding are inverse operations. The files you put into a link are the files you get back, byte for byte, with no server and no network.](figures/roundtrip-light.svg){.ll-fig .ll-light}
-![](figures/roundtrip-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
+![Encoding and decoding are inverse operations. The files you put into a link are the files you get back, byte for byte, with no server and no network.](../man/figures/roundtrip-light.svg){.ll-fig .ll-light}
+![](../man/figures/roundtrip-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 ## Look before you leap
 

@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 360" role="img" aria-labelledby="t d">
   <title id="t">The parts of a webR URL</title>
   <desc id="d">A webR URL with each part highlighted in place: the base address, the version, the panels, the code fragment carrying your files, and the encoding flags.</desc>
-  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}</style>
+  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}</style>
   <rect x="273" y="31" width="186.0" height="22" rx="4" fill="#e9edf2"/>
   <text class="m" x="276" y="46" font-size="12.5" textLength="180.0" lengthAdjust="spacing" fill="#475569">https://webr.r-wasm.org/</text>
   <rect x="453.0" y="31" width="58.5" height="22" rx="4" fill="#d8f1ee"/>
@@ -14,23 +14,23 @@
   <text class="m" x="778.5" y="46" font-size="12.5" textLength="22.5" lengthAdjust="spacing" fill="#b45309">&amp;jz</text>
   <path d="M366.0 57 V82 H266" fill="none" stroke="#475569" stroke-width="1.3" stroke-linejoin="round" opacity="0.55"/>
   <circle cx="266" cy="82" r="3" fill="#475569"/>
-  <text class="s lbl" fill="#475569" x="252" y="78" font-size="11.5" text-anchor="end">base address</text>
+  <text class="s lbl" x="252" y="78" font-size="11.5" text-anchor="end" fill="#475569">base address</text>
   <text class="s muted" x="252" y="94" font-size="11.5" text-anchor="end">where webR is served from</text>
   <path d="M482.2 57 V122 H266" fill="none" stroke="#0f766e" stroke-width="1.3" stroke-linejoin="round" opacity="0.55"/>
   <circle cx="266" cy="122" r="3" fill="#0f766e"/>
-  <text class="s lbl" fill="#0f766e" x="252" y="118" font-size="11.5" text-anchor="end">version</text>
+  <text class="s lbl" x="252" y="118" font-size="11.5" text-anchor="end" fill="#0f766e">version</text>
   <text class="s muted" x="252" y="134" font-size="11.5" text-anchor="end">pin a release, e.g. "v0.5.4"</text>
   <path d="M579.8 57 V162 H266" fill="none" stroke="#6d28d9" stroke-width="1.3" stroke-linejoin="round" opacity="0.55"/>
   <circle cx="266" cy="162" r="3" fill="#6d28d9"/>
-  <text class="s lbl" fill="#6d28d9" x="252" y="158" font-size="11.5" text-anchor="end">panels</text>
+  <text class="s lbl" x="252" y="158" font-size="11.5" text-anchor="end" fill="#6d28d9">panels</text>
   <text class="s muted" x="252" y="174" font-size="11.5" text-anchor="end">panels = c("editor", "plot")</text>
   <path d="M714.8 57 V202 H266" fill="none" stroke="#0054AD" stroke-width="1.3" stroke-linejoin="round" opacity="0.55"/>
   <circle cx="266" cy="202" r="3" fill="#0054AD"/>
-  <text class="s lbl" fill="#0054AD" x="252" y="198" font-size="11.5" text-anchor="end">the fragment</text>
+  <text class="s lbl" x="252" y="198" font-size="11.5" text-anchor="end" fill="#0054AD">the fragment</text>
   <text class="s muted" x="252" y="214" font-size="11.5" text-anchor="end">your files, gzipped and base64'd</text>
   <path d="M789.8 57 V242 H266" fill="none" stroke="#b45309" stroke-width="1.3" stroke-linejoin="round" opacity="0.55"/>
   <circle cx="266" cy="242" r="3" fill="#b45309"/>
-  <text class="s lbl" fill="#b45309" x="252" y="238" font-size="11.5" text-anchor="end">flags</text>
+  <text class="s lbl" x="252" y="238" font-size="11.5" text-anchor="end" fill="#b45309">flags</text>
   <text class="s muted" x="252" y="254" font-size="11.5" text-anchor="end">how to read the payload</text>
   <line x1="24" y1="290" x2="826" y2="290" stroke="#e2e8f0"/>
   <rect x="36" y="305" width="18" height="18" rx="4" fill="#e0edff"/>

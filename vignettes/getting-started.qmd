@@ -38,8 +38,8 @@ at a running R session in their browser.
 There is no server and no upload. The code is compressed and encoded into the part of
 the URL after the `#`, which browsers never send anywhere. The link is the payload.
 
-![Your code is serialized to JSON, gzipped, base64-encoded, and placed in the fragment of a webR URL after the `#`. Opening the link runs it in the browser.](figures/pipeline-light.svg){.ll-fig .ll-light}
-![](figures/pipeline-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
+![Your code is serialized to JSON, gzipped, base64-encoded, and placed in the fragment of a webR URL after the `#`. Opening the link runs it in the browser.](../man/figures/pipeline-light.svg){.ll-fig .ll-light}
+![](../man/figures/pipeline-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 Two destinations are supported:
 
@@ -131,12 +131,24 @@ shinylive_r_link(app, mode = "app")
 it, which is what you want when the point is to teach. Python apps work the same way
 through `shinylive_py_link()`.
 
+::: {.callout-tip}
+## Why a string, and not a braced expression?
+
+`shinylive_r_link({ ... })` does work. But a Shiny app is source text destined for
+*another* runtime, and putting `library(shiny)` inside braces makes it look like R
+code your own package runs: `R CMD check` scans vignettes for `library()` calls and
+will report shiny as an undeclared dependency of livelink, which it is not.
+
+Braces are for R you want executed in webR. For a Shiny app, a string or a file path
+says what you mean.
+:::
+
 ## What a link actually looks like
 
 Nothing here is magic, and the URL is readable if you know where to look.
 
-![A webR URL in five parts: the base address, the version, the panels to show, the `#code=` fragment carrying your files, and the flags saying how the payload was encoded.](figures/url-anatomy-light.svg){.ll-fig .ll-light}
-![](figures/url-anatomy-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
+![A webR URL in five parts: the base address, the version, the panels to show, the `#code=` fragment carrying your files, and the flags saying how the payload was encoded.](../man/figures/url-anatomy-light.svg){.ll-fig .ll-light}
+![](../man/figures/url-anatomy-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 The flags at the end say how the payload was encoded: `j` for JSON, `z` for gzip,
 `m` for msgpack, `u` for uncompressed, `a` for autorun. livelink writes `jz`; webR's
