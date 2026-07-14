@@ -1,27 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 300" role="img" aria-labelledby="t d">
-  <title id="t">Multi-file projects in one link</title>
-  <desc id="d">A named list or a vector of file paths goes into webr_repl_project and comes out as one URL carrying every file, which webR unpacks into its filesystem.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 358" role="img" aria-labelledby="t d">
+  <title id="t">A multi-file project in one link</title>
+  <desc id="d">A braced list of files goes into webr_repl_project and comes out as one URL, which webR unpacks into its filesystem with main.R marked to autorun.</desc>
   <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#60a5fa}.str{fill:#34d399}.num{fill:#fbbf24}.com{fill:#64748b}.key{fill:#c4b5fd}.ink{fill:#e2e8f0}.body{fill:#cbd5e1}.muted{fill:#94a3b8}.faint{fill:#64748b}.card{fill:#1e293b}.cardline{fill:#334155}.rail{fill:#475569}.accent{fill:#4C9AFF}.accent_soft{fill:#12315c}.hollow{fill:#475569}.chrome{fill:#172033}.pane{fill:#0b1220}.panehdr{fill:#131c2e}.base{fill:#94a3b8}.base_bg{fill:#273244}.ver{fill:#5eead4}.ver_bg{fill:#12332e}.pan{fill:#c4b5fd}.pan_bg{fill:#2e2450}.frag{fill:#4C9AFF}.frag_bg{fill:#12315c}.flag{fill:#fbbf24}.flag_bg{fill:#3d2f10}</style>
-  <defs><marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#4C9AFF"/></marker></defs>
-  <text class="s lbl muted" x="42" y="24" font-size="11">EITHER SHAPE OF INPUT</text>
-  <rect x="24" y="38" width="396" height="74" rx="8" fill="#1e293b" stroke="#334155"/>
-  <text class="m" x="40" y="60" font-size="11.5" xml:space="preserve"><tspan class="fn">list</tspan><tspan class="ink">(</tspan><tspan class="str">"main.R"</tspan><tspan class="ink"> = code, </tspan><tspan class="str">"utils.R"</tspan><tspan class="ink"> = helpers)</tspan></text>
-  <text class="s faint" x="40" y="78" font-size="11">a named list</text>
-  <text class="m" x="40" y="100" font-size="11.5" xml:space="preserve"><tspan class="fn">c</tspan><tspan class="ink">(</tspan><tspan class="str">"main.R"</tspan><tspan class="ink">, </tspan><tspan class="str">"utils.R"</tspan><tspan class="ink">, </tspan><tspan class="str">"data.csv"</tspan><tspan class="ink">)</tspan></text>
-  <text class="s faint" x="404" y="100" font-size="11" text-anchor="end">or file paths</text>
-  <path d="M428 76 L468 76" stroke="#4C9AFF" stroke-width="2" marker-end="url(#a)"/>
-  <text class="s lbl muted" x="480" y="24" font-size="11">ONE LINK, ALL THE FILES</text>
-  <rect x="478" y="38" width="348" height="74" rx="8" fill="#1e293b" stroke="#334155"/>
-  <text class="m" x="494" y="62" font-size="11" xml:space="preserve"><tspan class="fn">webr_repl_project</tspan><tspan class="ink">(</tspan><tspan class="ink">files</tspan><tspan class="ink">, </tspan><tspan class="ink">autorun_files</tspan><tspan class="ink"> = </tspan><tspan class="str">"main.R"</tspan><tspan class="ink">)</tspan></text>
-  <text class="m" x="494" y="84" font-size="10.5" xml:space="preserve"><tspan class="ink">https://webr.r-wasm.org/latest/</tspan></text>
-  <text class="m" x="494" y="100" font-size="10.5" xml:space="preserve"><tspan class="frag">#code=</tspan><tspan class="frag">eJyLrlbKS8…</tspan><tspan class="flag">&amp;jza</tspan></text>
-  <text class="s lbl muted" x="42" y="148" font-size="11">THE FILES LAND IN webR's FILESYSTEM</text>
-  <rect x="24" y="162" width="802" height="96" rx="8" fill="#1e293b" stroke="#334155"/>
-  <text class="m" x="44" y="186" font-size="11.5" xml:space="preserve"><tspan class="str">/home/web_user/</tspan></text>
-  <text class="m" x="62" y="204" font-size="11.5" xml:space="preserve"><tspan class="ink">main.R</tspan></text>
-  <text class="m" x="62" y="222" font-size="11.5" xml:space="preserve"><tspan class="ink">utils.R</tspan></text>
-  <text class="m" x="62" y="240" font-size="11.5" xml:space="preserve"><tspan class="ink">data.csv</tspan></text>
-  <text class="s faint" x="812" y="186" font-size="11" text-anchor="end">autorun_files runs main.R on arrival</text>
-  <text class="s faint" x="812" y="208" font-size="11" text-anchor="end">pass "all" to run every R file</text>
-  <text class="s faint" x="42" y="286" font-size="12">The whole project travels in the link. Non-R files -- data, README, CSS -- come along too.</text>
+  <line x1="26" y1="42" x2="26" y2="226" stroke="#475569" stroke-width="2"/>
+  <circle cx="26" cy="42" r="5" fill="#475569"/>
+  <text class="s lbl ink" x="46" y="40" font-size="11">YOU WRITE</text>
+  <text class="m muted" x="46" y="60" font-size="12">a braced list</text>
+  <rect x="212" y="22" width="618" height="100" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m" x="226" y="42" font-size="10.5" xml:space="preserve"><tspan class="fn">webr_repl_project</tspan><tspan class="ink">(</tspan><tspan class="fn">list</tspan><tspan class="ink">(</tspan></text>
+  <text class="m" x="226" y="58" font-size="10.5" xml:space="preserve"><tspan class="str">  "main.R"    </tspan><tspan class="ink">= { </tspan><tspan class="fn">source</tspan><tspan class="ink">(</tspan><tspan class="str">"utils.R"</tspan><tspan class="ink">); </tspan><tspan class="fn">summarise</tspan><tspan class="ink">(</tspan><tspan class="ink">mtcars</tspan><tspan class="ink">) },</tspan></text>
+  <text class="m" x="226" y="74" font-size="10.5" xml:space="preserve"><tspan class="str">  "utils.R"   </tspan><tspan class="ink">= { </tspan><tspan class="fn">summarise</tspan><tspan class="ink"> &lt;- </tspan><tspan class="fn">function</tspan><tspan class="ink">(d) </tspan><tspan class="fn">summary</tspan><tspan class="ink">(d) },</tspan></text>
+  <text class="m" x="226" y="90" font-size="10.5" xml:space="preserve"><tspan class="str">  "README.md" </tspan><tspan class="ink">= </tspan><tspan class="str">"# Analysis"</tspan></text>
+  <text class="m" x="226" y="106" font-size="10.5" xml:space="preserve"><tspan class="ink">), </tspan><tspan class="ink">autorun_files</tspan><tspan class="ink"> = </tspan><tspan class="str">"main.R"</tspan><tspan class="ink">)</tspan></text>
+  <circle cx="26" cy="164" r="5" fill="#475569"/>
+  <text class="s lbl ink" x="46" y="162" font-size="11">YOU GET</text>
+  <text class="m muted" x="46" y="182" font-size="12">one link</text>
+  <rect x="212" y="144" width="618" height="40" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m" x="226" y="168" font-size="11.5" xml:space="preserve"><tspan class="ink">https://webr.r-wasm.org/latest/</tspan><tspan class="frag">#code=eJx1jUELgkAQhf…</tspan><tspan class="flag">&amp;jza</tspan></text>
+  <circle cx="26" cy="226" r="5" fill="#4C9AFF"/>
+  <text class="s lbl ink" x="46" y="224" font-size="11">WEBR UNPACKS IT</text>
+  <text class="m muted" x="46" y="244" font-size="12">into its filesystem</text>
+  <rect x="212" y="206" width="618" height="112" rx="6" fill="#0b1220" stroke="#334155"/>
+  <path d="M212 206 h618 v22 h-618 z" fill="#131c2e"/>
+  <path d="M212 228 h618" stroke="#334155"/>
+  <text class="m accent" x="220" y="221" font-size="9.5" font-weight="700">files</text>
+  <path d="M226 239 l4 4 l-4 4z" fill="#64748b"/>
+  <text class="m" x="236" y="246" font-size="10.5" xml:space="preserve"><tspan class="str">home/</tspan></text>
+  <path d="M240 255 l4 4 l-4 4z" fill="#64748b"/>
+  <text class="m" x="250" y="262" font-size="10.5" xml:space="preserve"><tspan class="str">web_user/</tspan></text>
+  <rect x="254" y="270" width="7" height="9" rx="1.5" fill="none" stroke="#64748b"/>
+  <text class="m" x="267" y="278" font-size="10.5" xml:space="preserve"><tspan class="ink">main.R</tspan></text>
+  <rect x="770" y="268" width="46" height="14" rx="7" fill="#3d2f10"/>
+  <text class="m flag" x="793.0" y="278" font-size="9" text-anchor="middle">autorun</text>
+  <rect x="254" y="286" width="7" height="9" rx="1.5" fill="none" stroke="#64748b"/>
+  <text class="m" x="267" y="294" font-size="10.5" xml:space="preserve"><tspan class="ink">utils.R</tspan></text>
+  <rect x="254" y="302" width="7" height="9" rx="1.5" fill="none" stroke="#64748b"/>
+  <text class="m" x="267" y="310" font-size="10.5" xml:space="preserve"><tspan class="ink">README.md</tspan></text>
+  <text class="s faint" x="46" y="346" font-size="12">Strings and expressions mix. Data, a README, anything the code needs travels with it.</text>
 </svg>
