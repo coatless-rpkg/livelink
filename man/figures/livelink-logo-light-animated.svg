@@ -1,199 +1,261 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1732 2000" width="1732" height="2000" role="img" aria-label="livelink">
 <title>livelink</title>
 <style>
-/* The base state IS the complete static logo. Every rule below only adds motion that
-   departs from that base and returns to it exactly. Renderers that ignore CSS animation
-   (rsvg, feed readers) draw the finished mark, untouched. */
-#ll-pnl0,#ll-pnl1,#ll-pnl2,#ll-pnl3,
-#ll-lift1,#ll-lift2,#ll-lift3,
-#ll-lift1c,#ll-lift2c,#ll-lift3c{transform-box:fill-box;transform-origin:50% 0%}
-#ll-button,#ll-glyph{transform-box:fill-box;transform-origin:50% 50%}
+/* THE FOLD -- 7000ms. A page of code is folded down and becomes a link.
 
+     0-8    HOLD      the finished mark, at rest
+     8-38   THE FOLD  the accordion loses 40% of its height, top panel first, 70ms
+                      apart, and the whole sheet sinks 150 units -- so its top edge falls
+                      465.456 and its last two panels go BEHIND the button.
+     38-48  THE FORGE the link takes the fold: it gives 2.2% and its border lights.
+     48-64  THE LAUNCH the arrow leaves up its own 45-degree shaft and the next one
+                      arrives from the down-left. Both ends of the cut are invisible.
+     64-90  THE UNFOLD the paper springs open, 1.6% past, and settles.
+     90-100 HOLD
+
+   THE BASE STATE IS THE COMPLETE STATIC LOGO. Every track below rests at the value the
+   artwork already carries, so rsvg, a PDF, a feed reader and prefers-reduced-motion all
+   draw the finished mark. The loop ends where it began -- no jump on repeat.
+   THE WORDMARK DOES NOT MOVE. It is the hero, and the one fixed thing in the frame. */
 #ll-pnl0,#ll-pnl1,#ll-pnl2,#ll-pnl3,
 #ll-lift1,#ll-lift2,#ll-lift3,
 #ll-lift1c,#ll-lift2c,#ll-lift3c,
-#ll-code0,#ll-code1,#ll-code2,#ll-code3{
-  animation-duration:6500ms;
+#ll-crease1,#ll-crease2,#ll-crease3{transform-box:fill-box;transform-origin:50% 0%}
+#ll-button,#ll-glyph{transform-box:fill-box;transform-origin:50% 50%}
+
+#ll-sheet,#ll-pnl0,#ll-pnl1,#ll-pnl2,#ll-pnl3,
+#ll-lift1,#ll-lift2,#ll-lift3,
+#ll-lift1c,#ll-lift2c,#ll-lift3c,
+#ll-crease1,#ll-crease2,#ll-crease3,
+#ll-code0,#ll-code1,#ll-code2,#ll-code3,
+#ll-button,#ll-glyph,#ll-arrow{
+  animation-duration:7000ms;
   animation-iteration-count:infinite;
-  animation-timing-function:cubic-bezier(.42,0,.28,1)
+  animation-timing-function:linear
 }
 
-/* THE CREASE: a fold pulse travels down the sheet, panel by panel, 90ms apart.
-   Each panel compresses in Y about its own top edge; the panels above it settle
-   down by the same amount, so the fold closes without ever opening a seam. */
+/* THE FOLD. A fold pulse walks down the sheet, 70ms per panel. The sheet also
+   DESCENDS: the button is painted after it, so the paper slides behind the link. */
+#ll-sheet{animation-name:ll-sink}
 #ll-pnl0{animation-name:ll-fold0}
-#ll-pnl1{animation-name:ll-fold1;animation-delay:90ms}
-#ll-pnl2{animation-name:ll-fold2;animation-delay:180ms}
-#ll-pnl3{animation-name:ll-fold3;animation-delay:270ms}
-#ll-lift1,#ll-lift1c{animation-name:ll-drop1;animation-delay:90ms}
-#ll-lift2,#ll-lift2c{animation-name:ll-drop2;animation-delay:180ms}
-#ll-lift3,#ll-lift3c{animation-name:ll-drop3;animation-delay:270ms}
+#ll-pnl1{animation-name:ll-fold1;animation-delay:70ms}
+#ll-pnl2{animation-name:ll-fold2;animation-delay:140ms}
+#ll-pnl3{animation-name:ll-fold3;animation-delay:210ms}
+#ll-lift1,#ll-lift1c{animation-name:ll-drop1;animation-delay:70ms}
+#ll-lift2,#ll-lift2c{animation-name:ll-drop2;animation-delay:140ms}
+#ll-lift3,#ll-lift3c{animation-name:ll-drop3;animation-delay:210ms}
+#ll-crease1{animation-name:ll-crease;animation-delay:70ms}
+#ll-crease2{animation-name:ll-crease;animation-delay:140ms}
+#ll-crease3{animation-name:ll-crease;animation-delay:210ms}
 #ll-code0{animation-name:ll-dim}
-#ll-code1{animation-name:ll-dim;animation-delay:90ms}
-#ll-code2{animation-name:ll-dim;animation-delay:180ms}
-#ll-code3{animation-name:ll-dim;animation-delay:270ms}
+#ll-code1{animation-name:ll-dim;animation-delay:70ms}
+#ll-code2{animation-name:ll-dim;animation-delay:140ms}
+#ll-code3{animation-name:ll-dim;animation-delay:210ms}
 
-/* THE PRESS and THE LAUNCH */
-#ll-button{animation:ll-press 6500ms cubic-bezier(.34,0,.3,1) infinite}
-#ll-glyph{animation:ll-launch 6500ms linear infinite}
-
+/* THE FORGE and THE LAUNCH */
+#ll-button{animation-name:ll-press}
+#ll-glyph{animation-name:ll-launch}
+#ll-arrow{animation-name:ll-fade}
 @keyframes ll-fold0{
-  0%,12%{transform:translateY(0) scaleY(1)}
-  25%{transform:translateY(17.82px) scaleY(.955)}
-  38%,100%{transform:translateY(0) scaleY(1)}
+  0%,8%{transform:translateY(0) scaleY(1);animation-timing-function:cubic-bezier(.62,.02,.24,1)}
+  38%,64%{transform:translateY(147.312px) scaleY(.6);animation-timing-function:cubic-bezier(.24,.1,.32,1)}
+  82%{transform:translateY(-5.8925px) scaleY(1.016);animation-timing-function:cubic-bezier(.42,0,.3,1)}
+  90%,100%{transform:translateY(0) scaleY(1)}
 }
 @keyframes ll-fold1{
-  0%,12%{transform:translateY(0) scaleY(1)}
-  25%{transform:translateY(10.89px) scaleY(.945)}
-  38%,100%{transform:translateY(0) scaleY(1)}
+  0%,8%{transform:translateY(0) scaleY(1);animation-timing-function:cubic-bezier(.62,.02,.24,1)}
+  38%,64%{transform:translateY(73.656px) scaleY(.6);animation-timing-function:cubic-bezier(.24,.1,.32,1)}
+  82%{transform:translateY(-2.9462px) scaleY(1.016);animation-timing-function:cubic-bezier(.42,0,.3,1)}
+  90%,100%{transform:translateY(0) scaleY(1)}
 }
 @keyframes ll-fold2{
-  0%,12%{transform:translateY(0) scaleY(1)}
-  25%{transform:translateY(8.236px) scaleY(.942)}
-  38%,100%{transform:translateY(0) scaleY(1)}
+  0%,8%{transform:translateY(0) scaleY(1);animation-timing-function:cubic-bezier(.62,.02,.24,1)}
+  38%,64%{transform:translateY(52.824px) scaleY(.6);animation-timing-function:cubic-bezier(.24,.1,.32,1)}
+  82%{transform:translateY(-2.113px) scaleY(1.016);animation-timing-function:cubic-bezier(.42,0,.3,1)}
+  90%,100%{transform:translateY(0) scaleY(1)}
 }
 @keyframes ll-fold3{
-  0%,12%{transform:translateY(0) scaleY(1)}
-  25%{transform:translateY(6.72px) scaleY(.94)}
-  38%,100%{transform:translateY(0) scaleY(1)}
+  0%,8%{transform:translateY(0) scaleY(1);animation-timing-function:cubic-bezier(.62,.02,.24,1)}
+  38%,64%{transform:translateY(41.664px) scaleY(.6);animation-timing-function:cubic-bezier(.24,.1,.32,1)}
+  82%{transform:translateY(-1.6666px) scaleY(1.016);animation-timing-function:cubic-bezier(.42,0,.3,1)}
+  90%,100%{transform:translateY(0) scaleY(1)}
 }
 @keyframes ll-drop1{
-  0%,12%{transform:translateY(0)}
-  25%{transform:translateY(10.89px)}
-  38%,100%{transform:translateY(0)}
+  0%,8%{transform:translateY(0);animation-timing-function:cubic-bezier(.62,.02,.24,1)}
+  38%,64%{transform:translateY(73.656px);animation-timing-function:cubic-bezier(.24,.1,.32,1)}
+  82%{transform:translateY(-2.9462px);animation-timing-function:cubic-bezier(.42,0,.3,1)}
+  90%,100%{transform:translateY(0)}
 }
 @keyframes ll-drop2{
-  0%,12%{transform:translateY(0)}
-  25%{transform:translateY(8.236px)}
-  38%,100%{transform:translateY(0)}
+  0%,8%{transform:translateY(0);animation-timing-function:cubic-bezier(.62,.02,.24,1)}
+  38%,64%{transform:translateY(52.824px);animation-timing-function:cubic-bezier(.24,.1,.32,1)}
+  82%{transform:translateY(-2.113px);animation-timing-function:cubic-bezier(.42,0,.3,1)}
+  90%,100%{transform:translateY(0)}
 }
 @keyframes ll-drop3{
-  0%,12%{transform:translateY(0)}
-  25%{transform:translateY(6.72px)}
-  38%,100%{transform:translateY(0)}
+  0%,8%{transform:translateY(0);animation-timing-function:cubic-bezier(.62,.02,.24,1)}
+  38%,64%{transform:translateY(41.664px);animation-timing-function:cubic-bezier(.24,.1,.32,1)}
+  82%{transform:translateY(-1.6666px);animation-timing-function:cubic-bezier(.42,0,.3,1)}
+  90%,100%{transform:translateY(0)}
+}
+/* A fold line is welded to the fold it draws: same S, same stagger, so the crease
+   closes with the panel edge it lies on instead of floating off it. Its bounding box
+   starts at its own chord, so scaling about 50% 0% squashes the SAG and leaves the
+   chord where the lift groups put it. */
+@keyframes ll-crease{
+  0%,8%{transform:scaleY(1);animation-timing-function:cubic-bezier(.62,.02,.24,1)}
+  38%,64%{transform:scaleY(.6);animation-timing-function:cubic-bezier(.24,.1,.32,1)}
+  82%{transform:scaleY(1.016);animation-timing-function:cubic-bezier(.42,0,.3,1)}
+  90%,100%{transform:scaleY(1)}
+}
+/* THE SINK. The sheet does not just shorten, it DESCENDS -- the fold is a page being put
+   away. This is the move that makes the panels disappear behind the link. */
+@keyframes ll-sink{
+  0%,8%{transform:translateY(0);animation-timing-function:cubic-bezier(.62,.02,.24,1)}
+  38%,64%{transform:translateY(150px);animation-timing-function:cubic-bezier(.3,.02,.28,1)}
+  82%,100%{transform:translateY(0)}
 }
 @keyframes ll-dim{
-  0%,12%{opacity:1}
-  25%{opacity:.75}
-  38%,100%{opacity:1}
+  0%,8%{opacity:1;animation-timing-function:cubic-bezier(.62,.02,.24,1)}
+  38%,64%{opacity:.4;animation-timing-function:cubic-bezier(.24,.1,.32,1)}
+  90%,100%{opacity:1}
 }
+/* THE FORGE: the sheet has just poured into it, so the link gives, and its border comes
+   up and STAYS up until the arrow is home. The link exists now. */
 @keyframes ll-press{
-  0%,40%{transform:scale(1);stroke:#1D5A96}
-  46%{transform:scale(.985);stroke:#4B7EAF}
-  52%,100%{transform:scale(1);stroke:#1D5A96}
+  0%,38%{transform:scale(1);stroke:#1D5A96;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+  43%{transform:scale(.978);stroke:#4B7EAF;animation-timing-function:cubic-bezier(.3,0,.3,1)}
+  50%,64%{transform:scale(1);stroke:#4B7EAF;animation-timing-function:cubic-bezier(.3,0,.3,1)}
+  76%,100%{transform:scale(1);stroke:#1D5A96}
 }
+/* THE LAUNCH: 48.0833 units up the 45-degree shaft the arrow is already drawn on. It is
+   cut and re-seeded at the mirrored offset while it is at opacity 0, then decelerates
+   back to EXACTLY its base position. No drift, and no jump on repeat. */
 @keyframes ll-launch{
-  0%,52%{transform:translate(0,0);opacity:1;animation-timing-function:cubic-bezier(.45,0,.85,.3)}
-  63%{transform:translate(13px,-13px);opacity:0}
-  63.5%{transform:translate(-13px,13px);opacity:0;animation-timing-function:cubic-bezier(.15,.7,.25,1)}
-  74%,100%{transform:translate(0,0);opacity:1}
+  0%,48%{transform:translate(0,0);animation-timing-function:cubic-bezier(.5,0,.85,.15)}
+  57%{transform:translate(34px,-34px)}
+  57.5%{transform:translate(-34px,34px);animation-timing-function:cubic-bezier(.12,.7,.24,1)}
+  66%,100%{transform:translate(0,0)}
+}
+@keyframes ll-fade{
+  0%,52%{opacity:1;animation-timing-function:cubic-bezier(.5,0,.85,.15)}
+  57%,57.5%{opacity:0;animation-timing-function:cubic-bezier(.12,.7,.24,1)}
+  63%,100%{opacity:1}
 }
 
 @media (prefers-reduced-motion: reduce){*{animation:none !important}}
 </style>
-<path d="M866 0 L1732 500 L1732 1500 L866 2000 L0 1500 L0 500 Z" fill="#EDF2F7"/>
-<g transform="translate(866 1000) scale(0.872979) translate(-866 -1000)"><path d="M866 0 L1732 500 L1732 1500 L866 2000 L0 1500 L0 500 Z" fill="none" stroke="#A8C4DD" stroke-opacity="0.6" stroke-width="3.437"/></g>
-<g id="livelink-logo-light-animated-art"><g id="ll-art">
+<path id="ll-hex" d="M866 0 L1732 500 L1732 1500 L866 2000 L0 1500 L0 500 Z" fill="#EDF2F7"/>
+<g transform="translate(866 1000) scale(0.872979) translate(-866 -1000)"><path id="ll-rule" d="M866 0 L1732 500 L1732 1500 L866 2000 L0 1500 L0 500 Z" fill="none" stroke="#A8C4DD" stroke-opacity="0.6" stroke-width="3.437"/></g>
+<g id="livelink-logo-light-animated-art">
+<g id="ll-art">
 <defs>
-<clipPath id="ll-clip-sheet"><path d="M520.0 372.0 L1212.0 372.0 L1264.0 768.0 Q866 812.0 468.0 768.0 Z"/></clipPath>
-<clipPath id="ll-clip-p1"><path d="M468.0 768.0 Q866 812.0 1264.0 768.0 L1296.0 966.0 Q866 996.0 436.0 966.0 Z"/></clipPath>
-<clipPath id="ll-clip-p2"><path d="M436.0 966.0 Q866 996.0 1296.0 966.0 L1318.0 1108.0 Q866 1128.0 414.0 1108.0 Z"/></clipPath>
-<clipPath id="ll-clip-p3"><path d="M414.0 1108.0 Q866 1128.0 1318.0 1108.0 L1332.0 1220.0 Q866 1230.0 400.0 1220.0 Z"/></clipPath>
+<clipPath id="ll-clip0"><path d="M544.22 390.06 L1187.78 390.06 L1236.14 758.34 Q866 799.26 495.86 758.34 Z"/></clipPath>
+<clipPath id="ll-clip1"><path d="M495.86 758.34 Q866 799.26 1236.14 758.34 L1265.9 942.48 Q866 970.38 466.1 942.48 Z"/></clipPath>
+<clipPath id="ll-clip2"><path d="M466.1 942.48 Q866 970.38 1265.9 942.48 L1286.36 1074.54 Q866 1093.1399999999999 445.64 1074.54 Z"/></clipPath>
+<clipPath id="ll-clip3"><path d="M445.64 1074.54 Q866 1093.1399999999999 1286.36 1074.54 L1299.38 1178.7 Q866 1188.0 432.62 1178.7 Z"/></clipPath>
 </defs>
 <!-- the sheet of code folds down, panel by panel, and becomes the link -->
+<g id="ll-sheet">
 <g id="ll-lift3"><g id="ll-lift2"><g id="ll-lift1">
 <g id="ll-pnl0">
-<path id="ll-sheet" d="M520.0 372.0 L1212.0 372.0 L1264.0 768.0 Q866 812.0 468.0 768.0 Z" fill="#1D5A96" stroke="#8FB4D4" stroke-opacity="0.26" stroke-width="3"/>
-<g id="ll-code0" clip-path="url(#ll-clip-sheet)">
-<rect x="552.52" y="416" width="112" height="26" rx="3" fill="#8FB4D4"/>
-<rect x="680.52" y="416" width="34" height="26" rx="3" fill="#DCEAF6"/>
-<rect x="730.52" y="416" width="196" height="26" rx="3" fill="#DCEAF6"/>
-<rect x="590.74" y="460" width="138" height="26" rx="3" fill="#DCEAF6"/>
-<rect x="744.74" y="460" width="44" height="26" rx="3" fill="#6FA6D8"/>
-<rect x="804.74" y="460" width="118" height="26" rx="3" fill="#DCEAF6"/>
-<rect x="940.74" y="460" width="208" height="26" rx="3" fill="#8FB4D4"/>
-<rect x="628.96" y="504" width="94" height="26" rx="3" fill="#6FA6D8"/>
-<rect x="736.96" y="504" width="26" height="26" rx="3" fill="#DCEAF6"/>
-<rect x="780.96" y="504" width="148" height="26" rx="3" fill="#8FB4D4"/>
-<rect x="944.96" y="504" width="250" height="26" rx="3" fill="#DCEAF6"/>
-<rect x="623.18" y="548" width="160" height="26" rx="3" fill="#DCEAF6"/>
-<rect x="799.18" y="548" width="72" height="26" rx="3" fill="#8FB4D4"/>
-<rect x="889.18" y="548" width="114" height="26" rx="3" fill="#6FA6D8"/>
-<rect x="567.63" y="636" width="128" height="26" rx="3" fill="#8FB4D4"/>
-<rect x="711.63" y="636" width="36" height="26" rx="3" fill="#DCEAF6"/>
-<rect x="763.63" y="636" width="300" height="26" rx="3" fill="#DCEAF6"/>
-<rect x="1081.63" y="636" width="152" height="26" rx="3" fill="#6FA6D8"/>
-<rect x="517.85" y="680" width="182" height="26" rx="3" fill="#DCEAF6"/>
-<rect x="715.85" y="680" width="74" height="26" rx="3" fill="#6FA6D8"/>
-<rect x="807.85" y="680" width="120" height="26" rx="3" fill="#8FB4D4"/>
-<rect x="943.85" y="680" width="188" height="26" rx="3" fill="#DCEAF6"/>
+<path id="ll-sheet0" d="M544.22 390.06 L1187.78 390.06 L1236.14 758.34 Q866 799.26 495.86 758.34 Z" fill="#1D5A96" stroke="#8FB4D4" stroke-opacity="0.26" stroke-width="3"/>
+<g id="ll-code0" clip-path="url(#ll-clip0)">
+<rect x="574.46" y="427.26" width="104.16" height="24.18" rx="2.79" fill="#8FB4D4"/>
+<rect x="693.5" y="427.26" width="31.62" height="24.18" rx="2.79" fill="#DCEAF6"/>
+<rect x="740.0" y="427.26" width="182.28" height="24.18" rx="2.79" fill="#DCEAF6"/>
+<rect x="610.01" y="466.32" width="128.34" height="24.18" rx="2.79" fill="#DCEAF6"/>
+<rect x="753.23" y="466.32" width="40.92" height="24.18" rx="2.79" fill="#6FA6D8"/>
+<rect x="809.03" y="466.32" width="109.74" height="24.18" rx="2.79" fill="#DCEAF6"/>
+<rect x="935.51" y="466.32" width="193.44" height="24.18" rx="2.79" fill="#8FB4D4"/>
+<rect x="645.55" y="505.38" width="87.42" height="24.18" rx="2.79" fill="#6FA6D8"/>
+<rect x="745.99" y="505.38" width="24.18" height="24.18" rx="2.79" fill="#DCEAF6"/>
+<rect x="786.91" y="505.38" width="137.64" height="24.18" rx="2.79" fill="#8FB4D4"/>
+<rect x="939.43" y="505.38" width="232.5" height="24.18" rx="2.79" fill="#DCEAF6"/>
+<g id="ll-plot">
+<g fill="none" stroke="#8FB4D4" stroke-opacity="0.3" stroke-width="3.0"><path d="M577.70 613.87 H923.66"/><path d="M577.70 590.11 H923.66"/></g>
+<path id="ll-plot-axis" d="M577.70 548.44 V647.62 H923.66" fill="none" stroke="#8FB4D4" stroke-width="4.0"/>
+<path id="ll-plot-series" d="M607.70 613.87L668.49 572.69L729.28 591.70L790.08 624.95L850.87 594.07L911.66 566.36" fill="none" stroke="#6FA6D8" stroke-width="9.0" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#6FA6D8"><circle cx="607.70" cy="613.87" r="9.0"/><circle cx="668.49" cy="572.69" r="9.0"/><circle cx="729.28" cy="591.70" r="9.0"/><circle cx="790.08" cy="624.95" r="9.0"/><circle cx="850.87" cy="594.07" r="9.0"/><circle cx="911.66" cy="566.36" r="9.0"/></g>
+</g>
+<rect x="588.52" y="661.62" width="119.04" height="24.18" rx="2.79" fill="#8FB4D4"/>
+<rect x="722.44" y="661.62" width="33.48" height="24.18" rx="2.79" fill="#DCEAF6"/>
+<rect x="770.8" y="661.62" width="279.0" height="24.18" rx="2.79" fill="#DCEAF6"/>
+<rect x="1066.54" y="661.62" width="141.36" height="24.18" rx="2.79" fill="#6FA6D8"/>
+<rect x="542.22" y="700.6800000000001" width="169.26" height="24.18" rx="2.79" fill="#DCEAF6"/>
+<rect x="726.36" y="700.6800000000001" width="68.82" height="24.18" rx="2.79" fill="#6FA6D8"/>
+<rect x="811.92" y="700.6800000000001" width="111.6" height="24.18" rx="2.79" fill="#8FB4D4"/>
+<rect x="938.4" y="700.6800000000001" width="174.84" height="24.18" rx="2.79" fill="#DCEAF6"/>
 </g>
 </g>
 </g>
 <g id="ll-pnl1">
-<path id="ll-p1" d="M468.0 768.0 Q866 812.0 1264.0 768.0 L1296.0 966.0 Q866 996.0 436.0 966.0 Z" fill="#164873" stroke="#8FB4D4" stroke-opacity="0.26" stroke-width="3"/>
-<g id="ll-code1" clip-path="url(#ll-clip-p1)">
-<rect x="539.54" y="800" width="150" height="16" rx="2.5" fill="#ACC3D7"/>
-<rect x="702.54" y="800" width="86" height="16" rx="2.5" fill="#5A8FC0"/>
-<rect x="801.54" y="800" width="236" height="16" rx="2.5" fill="#ACC3D7"/>
-<rect x="569.72" y="836" width="78" height="16" rx="2.5" fill="#729ABD"/>
-<rect x="660.72" y="836" width="268" height="16" rx="2.5" fill="#ACC3D7"/>
-<rect x="943.72" y="836" width="102" height="16" rx="2.5" fill="#5A8FC0"/>
-<rect x="491.9" y="872" width="184" height="16" rx="2.5" fill="#ACC3D7"/>
-<rect x="688.9" y="872" width="48" height="16" rx="2.5" fill="#729ABD"/>
-<rect x="751.9" y="872" width="132" height="16" rx="2.5" fill="#ACC3D7"/>
-<rect x="896.9" y="872" width="210" height="16" rx="2.5" fill="#729ABD"/>
-<rect x="522.08" y="908" width="114" height="16" rx="2.5" fill="#5A8FC0"/>
-<rect x="649.08" y="908" width="216" height="16" rx="2.5" fill="#ACC3D7"/>
-<rect x="878.08" y="908" width="76" height="16" rx="2.5" fill="#729ABD"/>
+<path id="ll-sheet1" d="M495.86 758.34 Q866 799.26 1236.14 758.34 L1265.9 942.48 Q866 970.38 466.1 942.48 Z" fill="#164873" stroke="#8FB4D4" stroke-opacity="0.26" stroke-width="3"/>
+<g id="ll-code1" clip-path="url(#ll-clip1)">
+<rect x="562.39" y="788.1" width="139.5" height="14.88" rx="2.33" fill="#ACC3D7"/>
+<rect x="713.98" y="788.1" width="79.98" height="14.88" rx="2.33" fill="#5A8FC0"/>
+<rect x="806.05" y="788.1" width="219.48" height="14.88" rx="2.33" fill="#ACC3D7"/>
+<rect x="590.46" y="821.58" width="72.54" height="14.88" rx="2.33" fill="#729ABD"/>
+<rect x="675.09" y="821.58" width="249.24" height="14.88" rx="2.33" fill="#ACC3D7"/>
+<rect x="938.28" y="821.58" width="94.86" height="14.88" rx="2.33" fill="#5A8FC0"/>
+<rect x="518.09" y="855.0600000000001" width="171.12" height="14.88" rx="2.33" fill="#ACC3D7"/>
+<rect x="701.3" y="855.0600000000001" width="44.64" height="14.88" rx="2.33" fill="#729ABD"/>
+<rect x="759.89" y="855.0600000000001" width="122.76" height="14.88" rx="2.33" fill="#ACC3D7"/>
+<rect x="894.74" y="855.0600000000001" width="195.3" height="14.88" rx="2.33" fill="#729ABD"/>
+<rect x="546.15" y="888.54" width="106.02" height="14.88" rx="2.33" fill="#5A8FC0"/>
+<rect x="664.26" y="888.54" width="200.88" height="14.88" rx="2.33" fill="#ACC3D7"/>
+<rect x="877.23" y="888.54" width="70.68" height="14.88" rx="2.33" fill="#729ABD"/>
 </g>
 </g>
 </g>
 <g id="ll-pnl2">
-<path id="ll-p2" d="M436.0 966.0 Q866 996.0 1296.0 966.0 L1318.0 1108.0 Q866 1128.0 414.0 1108.0 Z" fill="#0F3251" stroke="#8FB4D4" stroke-opacity="0.26" stroke-width="3"/>
-<g id="ll-code2" clip-path="url(#ll-clip-p2)">
-<rect x="474.5" y="996" width="238" height="11" rx="2" fill="#7E95AA"/>
-<rect x="723.5" y="996" width="118" height="11" rx="2" fill="#547898"/>
-<rect x="852.5" y="996" width="70" height="11" rx="2" fill="#43719A"/>
-<rect x="935.5" y="996" width="220" height="11" rx="2" fill="#7E95AA"/>
-<rect x="501.85" y="1026" width="148" height="11" rx="2" fill="#7E95AA"/>
-<rect x="660.85" y="1026" width="82" height="11" rx="2" fill="#43719A"/>
-<rect x="753.85" y="1026" width="360" height="11" rx="2" fill="#7E95AA"/>
-<rect x="529.2" y="1056" width="102" height="11" rx="2" fill="#547898"/>
-<rect x="642.2" y="1056" width="194" height="11" rx="2" fill="#7E95AA"/>
-<rect x="849.2" y="1056" width="146" height="11" rx="2" fill="#7E95AA"/>
+<path id="ll-sheet2" d="M466.1 942.48 Q866 970.38 1265.9 942.48 L1286.36 1074.54 Q866 1093.1399999999999 445.64 1074.54 Z" fill="#0F3251" stroke="#8FB4D4" stroke-opacity="0.26" stroke-width="3"/>
+<g id="ll-code2" clip-path="url(#ll-clip2)">
+<rect x="501.9" y="970.38" width="221.34" height="10.23" rx="1.86" fill="#7E95AA"/>
+<rect x="733.48" y="970.38" width="109.74" height="10.23" rx="1.86" fill="#547898"/>
+<rect x="853.45" y="970.38" width="65.1" height="10.23" rx="1.86" fill="#43719A"/>
+<rect x="930.63" y="970.38" width="204.6" height="10.23" rx="1.86" fill="#7E95AA"/>
+<rect x="527.34" y="998.28" width="137.64" height="10.23" rx="1.86" fill="#7E95AA"/>
+<rect x="675.21" y="998.28" width="76.26" height="10.23" rx="1.86" fill="#43719A"/>
+<rect x="761.7" y="998.28" width="334.8" height="10.23" rx="1.86" fill="#7E95AA"/>
+<rect x="552.78" y="1026.18" width="94.86" height="10.23" rx="1.86" fill="#547898"/>
+<rect x="657.87" y="1026.18" width="180.42" height="10.23" rx="1.86" fill="#7E95AA"/>
+<rect x="850.38" y="1026.18" width="135.78" height="10.23" rx="1.86" fill="#7E95AA"/>
 </g>
 </g>
 </g>
 <g id="ll-pnl3">
-<path id="ll-p3" d="M414.0 1108.0 Q866 1128.0 1318.0 1108.0 L1332.0 1220.0 Q866 1230.0 400.0 1220.0 Z" fill="#0C2B47" stroke="#8FB4D4" stroke-opacity="0.26" stroke-width="3"/>
-<g id="ll-code3" clip-path="url(#ll-clip-p3)">
-<rect x="484.5" y="1132" width="286" height="8" rx="1.5" fill="#5B748A"/>
-<rect x="779.5" y="1132" width="106" height="8" rx="1.5" fill="#325A7E"/>
-<rect x="896.5" y="1132" width="238" height="8" rx="1.5" fill="#5B748A"/>
-<rect x="509.75" y="1154" width="144" height="8" rx="1.5" fill="#3E5F7D"/>
-<rect x="662.75" y="1154" width="360" height="8" rx="1.5" fill="#5B748A"/>
-<rect x="451.0" y="1176" width="216" height="8" rx="1.5" fill="#5B748A"/>
-<rect x="676.0" y="1176" width="78" height="8" rx="1.5" fill="#3E5F7D"/>
-<rect x="765.0" y="1176" width="300" height="8" rx="1.5" fill="#5B748A"/>
+<path id="ll-sheet3" d="M445.64 1074.54 Q866 1093.1399999999999 1286.36 1074.54 L1299.38 1178.7 Q866 1188.0 432.62 1178.7 Z" fill="#0C2B47" stroke="#8FB4D4" stroke-opacity="0.26" stroke-width="3"/>
+<g id="ll-code3" clip-path="url(#ll-clip3)">
+<rect x="511.2" y="1096.86" width="265.98" height="7.44" rx="1.4" fill="#5B748A"/>
+<rect x="785.55" y="1096.86" width="98.58" height="7.44" rx="1.4" fill="#325A7E"/>
+<rect x="894.37" y="1096.86" width="221.34" height="7.44" rx="1.4" fill="#5B748A"/>
+<rect x="534.69" y="1117.32" width="133.92" height="7.44" rx="1.4" fill="#3E5F7D"/>
+<rect x="676.98" y="1117.32" width="334.8" height="7.44" rx="1.4" fill="#5B748A"/>
+<rect x="480.05" y="1137.78" width="200.88" height="7.44" rx="1.4" fill="#5B748A"/>
+<rect x="689.3" y="1137.78" width="72.54" height="7.44" rx="1.4" fill="#3E5F7D"/>
+<rect x="772.07" y="1137.78" width="279.0" height="7.44" rx="1.4" fill="#5B748A"/>
 </g>
 </g>
 <g id="ll-lift3c"><g id="ll-lift2c"><g id="ll-lift1c">
-<path id="ll-crease1" d="M468.0 768.0 Q866 812.0 1264.0 768.0" fill="none" stroke="#8FB4D4" stroke-opacity="0.62" stroke-width="4.5" stroke-linecap="round"/>
+<path id="ll-crease1" d="M495.86 758.34 Q866 799.26 1236.14 758.34" fill="none" stroke="#8FB4D4" stroke-opacity="0.62" stroke-width="4.5" stroke-linecap="round"/>
 </g>
-<path id="ll-crease2" d="M436.0 966.0 Q866 996.0 1296.0 966.0" fill="none" stroke="#8FB4D4" stroke-opacity="0.48" stroke-width="4.5" stroke-linecap="round"/>
+<path id="ll-crease2" d="M466.1 942.48 Q866 970.38 1265.9 942.48" fill="none" stroke="#8FB4D4" stroke-opacity="0.48" stroke-width="4.5" stroke-linecap="round"/>
 </g>
-<path id="ll-crease3" d="M414.0 1108.0 Q866 1128.0 1318.0 1108.0" fill="none" stroke="#8FB4D4" stroke-opacity="0.38" stroke-width="4.5" stroke-linecap="round"/>
+<path id="ll-crease3" d="M445.64 1074.54 Q866 1093.1399999999999 1286.36 1074.54" fill="none" stroke="#8FB4D4" stroke-opacity="0.38" stroke-width="4.5" stroke-linecap="round"/>
 </g>
-<!-- the destination of the fold: a link you can press -->
-<rect id="ll-button" x="280.0" y="1220.0" width="1172.0" height="330.0" rx="54.0" fill="#0A2036" stroke="#1D5A96" stroke-width="9"/>
-<g transform="translate(8.275 143.34) scale(0.86)"><path id="ll-wordmark" d="M436.94 1333V1552H388.75V1333ZM518.71 1397.73V1552H470.52V1397.73ZM467.67 1357.95Q467.67 1347.69 475.08 1341.13Q482.49 1334.57 494.33 1334.57Q506.16 1334.57 513.58 1341.13Q520.99 1347.69 520.99 1357.95Q520.99 1368.22 513.58 1374.78Q506.16 1381.33 494.33 1381.33Q482.49 1381.33 475.08 1374.78Q467.67 1368.22 467.67 1357.95ZM605.33 1519.06 635.7 1397.73H686.31L635.84 1552H605.9ZM587.36 1397.73 617.3 1519.06 617.02 1552H586.93L536.6 1397.73ZM776.78 1554.85Q757.96 1554.85 743.13 1548.93Q728.3 1543.02 718.11 1532.61Q707.92 1522.2 702.57 1508.66Q697.22 1495.11 697.22 1480V1474.58Q697.22 1457.61 701.93 1443.14Q706.63 1428.67 715.9 1417.83Q725.17 1407 739.14 1400.94Q753.11 1394.88 771.65 1394.88Q788.04 1394.88 801.02 1400.15Q813.99 1405.43 823.05 1415.27Q832.1 1425.11 836.88 1439.08Q841.65 1453.05 841.65 1470.45V1489.98H715.61V1459.89H794.75V1456.19Q794.89 1448.49 792.11 1443.07Q789.33 1437.65 784.05 1434.8Q778.78 1431.95 771.22 1431.95Q763.38 1431.95 758.32 1435.37Q753.25 1438.79 750.47 1444.71Q747.69 1450.63 746.55 1458.33Q745.41 1466.03 745.41 1474.58V1480Q745.41 1488.55 747.77 1495.54Q750.12 1502.53 754.61 1507.44Q759.1 1512.36 765.45 1515.07Q771.79 1517.78 779.92 1517.78Q789.75 1517.78 799.31 1514.07Q808.86 1510.37 815.7 1501.81L837.52 1527.76Q832.81 1534.46 824.19 1540.74Q815.56 1547.01 803.58 1550.93Q791.61 1554.85 776.78 1554.85ZM913.44 1333V1552H865.25V1333ZM995.22 1397.73V1552H947.02V1397.73ZM944.17 1357.95Q944.17 1347.69 951.59 1341.13Q959 1334.57 970.83 1334.57Q982.67 1334.57 990.08 1341.13Q997.5 1347.69 997.5 1357.95Q997.5 1368.22 990.08 1374.78Q982.67 1381.33 970.83 1381.33Q959 1381.33 951.59 1374.78Q944.17 1368.22 944.17 1357.95ZM1073.42 1430.67V1552H1025.37V1397.73H1070.43ZM1067.72 1469.59 1056.46 1469.88Q1056.46 1452.2 1060.73 1438.29Q1065.01 1424.39 1072.85 1414.7Q1080.69 1405 1091.6 1399.94Q1102.51 1394.88 1115.91 1394.88Q1126.6 1394.88 1135.52 1398.02Q1144.43 1401.15 1150.91 1408.14Q1157.4 1415.12 1160.89 1426.6Q1164.39 1438.08 1164.39 1454.9V1552H1116.05V1454.76Q1116.05 1445.49 1113.49 1440.58Q1110.92 1435.66 1106.07 1433.8Q1101.23 1431.95 1094.24 1431.95Q1086.83 1431.95 1081.69 1434.8Q1076.56 1437.65 1073.49 1442.71Q1070.43 1447.78 1069.07 1454.62Q1067.72 1461.46 1067.72 1469.59ZM1241.03 1332.86V1552H1192.98V1332.86ZM1339.69 1397.73 1272.68 1476.29 1237.6 1511.37 1216.65 1480.85 1245.87 1442.79 1282.09 1397.73ZM1288.22 1552 1247.01 1481.71 1282.52 1456.47 1343.25 1552Z" fill="#E9F2FA"/></g>
+</g>
+<!-- the destination of the fold: a link you can press. The wordmark IS the link.
+     PAINTED AFTER THE SHEET ON PURPOSE: the paper folds down BEHIND it. -->
+<rect id="ll-button" x="284.0" y="1179.0" width="1164.0" height="300.0" rx="54.0" fill="#0A2036" stroke="#1D5A96" stroke-width="9"/>
+<g id="ll-wordmark-xf" transform="translate(8.275 87.28) scale(0.86)"><path id="ll-wordmark" d="M436.94 1333V1552H388.75V1333ZM518.71 1397.73V1552H470.52V1397.73ZM467.67 1357.95Q467.67 1347.69 475.08 1341.13Q482.49 1334.57 494.33 1334.57Q506.16 1334.57 513.58 1341.13Q520.99 1347.69 520.99 1357.95Q520.99 1368.22 513.58 1374.78Q506.16 1381.33 494.33 1381.33Q482.49 1381.33 475.08 1374.78Q467.67 1368.22 467.67 1357.95ZM605.33 1519.06 635.7 1397.73H686.31L635.84 1552H605.9ZM587.36 1397.73 617.3 1519.06 617.02 1552H586.93L536.6 1397.73ZM776.78 1554.85Q757.96 1554.85 743.13 1548.93Q728.3 1543.02 718.11 1532.61Q707.92 1522.2 702.57 1508.66Q697.22 1495.11 697.22 1480V1474.58Q697.22 1457.61 701.93 1443.14Q706.63 1428.67 715.9 1417.83Q725.17 1407 739.14 1400.94Q753.11 1394.88 771.65 1394.88Q788.04 1394.88 801.02 1400.15Q813.99 1405.43 823.05 1415.27Q832.1 1425.11 836.88 1439.08Q841.65 1453.05 841.65 1470.45V1489.98H715.61V1459.89H794.75V1456.19Q794.89 1448.49 792.11 1443.07Q789.33 1437.65 784.05 1434.8Q778.78 1431.95 771.22 1431.95Q763.38 1431.95 758.32 1435.37Q753.25 1438.79 750.47 1444.71Q747.69 1450.63 746.55 1458.33Q745.41 1466.03 745.41 1474.58V1480Q745.41 1488.55 747.77 1495.54Q750.12 1502.53 754.61 1507.44Q759.1 1512.36 765.45 1515.07Q771.79 1517.78 779.92 1517.78Q789.75 1517.78 799.31 1514.07Q808.86 1510.37 815.7 1501.81L837.52 1527.76Q832.81 1534.46 824.19 1540.74Q815.56 1547.01 803.58 1550.93Q791.61 1554.85 776.78 1554.85ZM913.44 1333V1552H865.25V1333ZM995.22 1397.73V1552H947.02V1397.73ZM944.17 1357.95Q944.17 1347.69 951.59 1341.13Q959 1334.57 970.83 1334.57Q982.67 1334.57 990.08 1341.13Q997.5 1347.69 997.5 1357.95Q997.5 1368.22 990.08 1374.78Q982.67 1381.33 970.83 1381.33Q959 1381.33 951.59 1374.78Q944.17 1368.22 944.17 1357.95ZM1073.42 1430.67V1552H1025.37V1397.73H1070.43ZM1067.72 1469.59 1056.46 1469.88Q1056.46 1452.2 1060.73 1438.29Q1065.01 1424.39 1072.85 1414.7Q1080.69 1405 1091.6 1399.94Q1102.51 1394.88 1115.91 1394.88Q1126.6 1394.88 1135.52 1398.02Q1144.43 1401.15 1150.91 1408.14Q1157.4 1415.12 1160.89 1426.6Q1164.39 1438.08 1164.39 1454.9V1552H1116.05V1454.76Q1116.05 1445.49 1113.49 1440.58Q1110.92 1435.66 1106.07 1433.8Q1101.23 1431.95 1094.24 1431.95Q1086.83 1431.95 1081.69 1434.8Q1076.56 1437.65 1073.49 1442.71Q1070.43 1447.78 1069.07 1454.62Q1067.72 1461.46 1067.72 1469.59ZM1241.03 1332.86V1552H1192.98V1332.86ZM1339.69 1397.73 1272.68 1476.29 1237.6 1511.37 1216.65 1480.85 1245.87 1442.79 1282.09 1397.73ZM1288.22 1552 1247.01 1481.71 1282.52 1456.47 1343.25 1552Z" fill="#E9F2FA"/></g>
 <g id="ll-glyph">
-<g transform="translate(1227.47 1302.89)" fill="none" stroke="#FFB020" stroke-width="26.0" stroke-linecap="round" stroke-linejoin="round">
+<g id="ll-arrow" transform="translate(1227.47 1246.83)" fill="none" stroke="#FFB020" stroke-width="26.0" stroke-linecap="round" stroke-linejoin="round">
 <path id="ll-glyph-shaft" d="M13.0 149.0 L149.0 13.0"/>
 <path id="ll-glyph-head" d="M43.22 13.0 L149.0 13.0 L149.0 118.78"/>
 </g>
 </g>
-</g></g>
-<g transform="translate(866 1000) scale(0.944573) translate(-866 -1000)"><path d="M866 0 L1732 500 L1732 1500 L866 2000 L0 1500 L0 500 Z" fill="none" stroke="#1D5A96" stroke-width="14.822"/></g>
+</g>
+</g>
+<g transform="translate(866 1000) scale(0.944573) translate(-866 -1000)"><path id="ll-rim" d="M866 0 L1732 500 L1732 1500 L866 2000 L0 1500 L0 500 Z" fill="none" stroke="#1D5A96" stroke-width="14.822"/></g>
 </svg>

@@ -29,19 +29,25 @@ knitr:
 library(livelink)
 ```
 
-Real work is rarely one file. This article covers the multi-file half of livelink:
-webR projects, Shinylive apps in R and Python, and batch-processing a directory of
-them.
+Real work is rarely one file. A script sources a helper, an app is split across
+`ui.R` and `server.R`, an analysis needs its data. All of it fits in one link.
+
+This article covers webR projects, Shiny apps in R and Python, and turning a whole
+directory into links.
+
+# webR projects
+
+`webr_repl_project()` packs several files into a single link. webR unpacks them into
+its filesystem, so `source("utils.R")` finds `utils.R` exactly where it expects it.
 
 ![A named list or a vector of file paths goes in; one URL carrying every file comes out, and webR unpacks them into its filesystem.](../man/figures/projects-light.svg){.ll-fig .ll-light}
 ![](../man/figures/projects-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
-## Two ways to describe a project
+## Describing the files
 
-Every multi-file function accepts the same two input shapes, and you can use whichever
-is closer to hand.
+Two input shapes, and you can use whichever is closer to hand.
 
-A **named list**, when the code is already in R:
+A **named list**, when the code is already in R. The names become the filenames:
 
 ```{r}
 project <- list(
@@ -53,30 +59,31 @@ project <- list(
 webr_repl_project(project)
 ```
 
-The list names become the filenames inside the environment. Non-R files are welcome --
-data, documentation, anything the code needs.
+Non-R files are welcome. Data, documentation, anything the code needs travels with it.
 
-A **vector of file paths**, when the code is on disk:
+A **vector of file paths**, when the code is already on disk:
 
 ```{r}
 dir <- file.path(tempdir(), "project")
 dir.create(dir, showWarnings = FALSE)
-writeLines("source('utils.R')", file.path(dir, "main.R"))
+writeLines("source('utils.R')",  file.path(dir, "main.R"))
 writeLines("f <- function() 42", file.path(dir, "utils.R"))
 
 webr_repl_project(c(file.path(dir, "main.R"), file.path(dir, "utils.R")))
 ```
 
-Files are read and named by their basename, so the paths on your machine do not leak
-into the link.
+Files are read and named by their basename, so the paths on your machine never leave
+it.
 
 ## Running something on arrival
 
-`autorun_files` names the files to execute when the link opens.
+`autorun_files` names the files to execute when the link opens. The link then carries
+webR's `a` flag, which is what actually triggers the run:
 
 ```{r}
 link <- webr_repl_project(project, autorun_files = "main.R")
-link$url |> substr(1, 60)
+
+preview_webr_link(as.character(link))$autorun_files
 ```
 
 Pass `"all"` to run every R file in the project:
@@ -85,20 +92,32 @@ Pass `"all"` to run every R file in the project:
 webr_repl_project(project, autorun_files = "all")
 ```
 
-Naming a file that is not in the project is an error rather than a silent no-op:
+Naming a file that is not in the project is an error, rather than a link that quietly
+does nothing:
 
 ```{r}
 #| error: true
 webr_repl_project(project, autorun_files = "nonexistent.R")
 ```
 
-## Shiny apps
+Only `.R` files can autorun. Listing a `.csv` is harmless — it simply is not run.
+
+## Where the files land
+
+By default everything is placed in `/home/web_user/`, which is webR's working
+directory, so relative paths in your code just work. `base_path` moves them:
+
+```{r}
+webr_repl_project(project, base_path = "/home/web_user/analysis/")
+```
+
+Move them and relative `source()` calls have to move with them, so leave this alone
+unless you have a reason.
+
+# Shiny apps
 
 ![`shinylive_r_link()` and `shinylive_py_link()` pick the R or Python path; `mode` picks whether a visitor lands on the code beside the app, or the running app alone.](../man/figures/shinylive-light.svg){.ll-fig .ll-light}
 ![](../man/figures/shinylive-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
-
-`shinylive_r_link()` takes an app four ways: a string, a file path, a named list of
-files, or a braced expression.
 
 A single-file app is the common case, and a bare string becomes `app.R`:
 
@@ -130,35 +149,36 @@ shinylive_r_link(app)
 `shinylive_r_link({ ... })` accepts an expression, and for a quick app it reads
 nicely. But a Shiny app is source text destined for *another* runtime. Putting
 `library(shiny)` inside braces makes it look like R that your own package runs:
-`R CMD check` scans documents for `library()` calls and reports shiny as an
-undeclared dependency, which for livelink it is not.
+`R CMD check` scans documents for `library()` calls and would report shiny as an
+undeclared dependency of livelink, which it is not.
 
 Reach for braces when the code is R you want executed in webR. For a Shiny app, a
-string or a file path says what you actually mean — and keeps the app's own quoting
-intact.
+string or a file path says what you actually mean — and leaves the app's own quoting
+alone.
 :::
 
-For an app split across files, pass a named list:
+For an app split across files, pass a named list. `app.R` is the entry point; the rest
+come along:
 
 ```{r}
 shinylive_r_link(list(
-  "app.R"   = "library(shiny)\nsource('ui.R')\nsource('server.R')\nshinyApp(ui, server)",
-  "ui.R"    = "ui <- fluidPage(titlePanel('Split app'))",
+  "app.R"    = "library(shiny)\nsource('ui.R')\nsource('server.R')\nshinyApp(ui, server)",
+  "ui.R"     = "ui <- fluidPage(titlePanel('Split app'))",
   "server.R" = "server <- function(input, output) {}"
 ))
 ```
 
-### Editor or app?
+## Editor or app?
 
 `mode` decides what a visitor lands on.
 
 ```{r}
-# "editor" -- code and app side by side. Good for teaching and code review.
+# code and app side by side -- for teaching and review
 shinylive_r_link(app, mode = "editor")
 ```
 
 ```{r}
-# "app" -- the running application only. Good for end users.
+# the running application only -- for the people who just want to use it
 shinylive_r_link(app, mode = "app")
 ```
 
@@ -169,13 +189,19 @@ app is going into an `<iframe>` on someone else's page:
 shinylive_r_link(app, mode = "app", header = FALSE)
 ```
 
-Note that `mode` here means something different from webR's `panels`. Shinylive has
-two display modes; webR has four panels you can show or hide. They are separate
-arguments because they are separate ideas.
+`header` does nothing in `editor` mode — there is no header to hide.
 
-### Python
+::: {.callout-note}
+## `mode` is not `panels`
 
-Python Shiny apps work identically, and a bare string becomes `app.py`:
+Shinylive has two display *modes*, `"editor"` and `"app"`. webR has four *panels* you
+can show or hide. They are different arguments because they are different ideas: one
+picks a layout, the other picks which parts of a layout appear.
+:::
+
+## Python
+
+Python apps work the same way, and a bare string becomes `app.py`:
 
 ```{r}
 py_app <- "
@@ -197,7 +223,11 @@ app = App(app_ui, server)
 shinylive_py_link(py_app, mode = "app")
 ```
 
-`shinylive_project()` is the explicit form when you want to name the engine yourself:
+The engine is in the URL — `shinylive.io/r/` versus `shinylive.io/py/` — so a link
+carries its own language with it.
+
+`shinylive_project()` is the same thing with the engine named explicitly, which is
+useful when the engine is a variable rather than a decision you already made:
 
 ```{r}
 shinylive_project(
@@ -206,29 +236,26 @@ shinylive_project(
 )
 ```
 
-## A directory of apps
+# A directory at a time
 
-If you keep each app in its own folder -- the usual Shiny layout -- `shinylive_directory()`
-turns the lot into links in one pass.
+Each Shiny app in its own folder is the usual layout, and `shinylive_directory()`
+turns the lot into links in one pass:
 
 ```{r}
 apps <- file.path(tempdir(), "apps")
 dir.create(file.path(apps, "histogram"), recursive = TRUE, showWarnings = FALSE)
 dir.create(file.path(apps, "scatter"),   recursive = TRUE, showWarnings = FALSE)
 writeLines(app, file.path(apps, "histogram", "app.R"))
-writeLines(app, file.path(apps, "scatter", "app.R"))
+writeLines(app, file.path(apps, "scatter",   "app.R"))
 
 links <- shinylive_directory(apps, engine = "r", mode = "app")
-links
-```
 
-Each subdirectory containing an `app.R` (or `app.py`, for Python) becomes one link,
-named after the folder. Every other file in that folder -- helpers, data, CSS -- is
-bundled into the app.
-
-```{r}
 repl_urls(links)
 ```
+
+Every subdirectory holding an `app.R` — or `app.py`, for Python — becomes one link,
+named after the folder. Helpers, data and CSS in that folder are bundled in with it.
+Binary files are skipped with a warning, because a link is the wrong place for them.
 
 A directory with no apps in it warns and hands back an empty result, rather than
 failing:
@@ -240,11 +267,34 @@ dir.create(empty, showWarnings = FALSE)
 shinylive_directory(empty, engine = "r")
 ```
 
-## How big can a link get?
+`webr_repl_directory()` is the webR counterpart, but it works the other way round: it
+gives each R script in a directory *its own* link, rather than bundling a folder into
+one. That suits a folder of course scripts, and
+[Teaching with livelink](teaching.html) puts it to work.
 
-The files travel *inside* the URL, so a project's size is bounded by what a browser
-will accept in a URL -- in practice tens of kilobytes of code, which is a lot of R.
+# How big can a link get?
 
-The payload is gzipped before it is encoded, so ordinary source code compresses well.
-Large binary data is the wrong thing to put in a link; point at it from the code
-instead.
+The files travel *inside* the URL, so the ceiling is whatever a browser accepts in a
+URL. Current browsers handle tens of thousands of characters, which is a lot of R.
+
+The payload is gzipped before it is encoded, and source code compresses well. Real R
+source, rather than a toy example:
+
+```{r}
+src <- paste(
+  unlist(lapply(c("lm", "glm", "aov"), function(f) {
+    paste(deparse(get(f, envir = asNamespace("stats"))), collapse = "\n")
+  })),
+  collapse = "\n\n"
+)
+
+url <- as.character(webr_repl_link(src, filename = "stats.R"))
+
+c(source_chars = nchar(src), url_chars = nchar(url))
+```
+
+The link comes out *smaller than the code it carries*, because gzip more than pays for
+what base64 costs.
+
+Binary data is the case that does not work: it does not compress, and base64 inflates
+it by a third. Do not put a PNG in a link — have the code fetch it, or point at it.
