@@ -47,7 +47,54 @@ its filesystem, so `source("utils.R")` finds `utils.R` exactly where it expects 
 
 Two input shapes, and you can use whichever is closer to hand.
 
-A **named list**, when the code is already in R. The names become the filenames:
+A **named list**, where the names become the filenames. Write each file as R, in
+braces — no escaped newlines, no fighting with quotes, and your editor keeps
+highlighting it:
+
+```{r}
+webr_repl_project(list(
+  "main.R"    = { source("utils.R"); summarise(mtcars) },
+  "utils.R"   = { summarise <- function(d) summary(d) },
+  "README.md" = "# Analysis\n\nRun main.R to start."
+))
+```
+
+Non-R files stay strings, and the two forms mix freely — a project is usually code
+*and* something else.
+
+::: {.callout-important}
+## Write the list inside the call
+
+The braces only work when the list is written *in* the call. `list()` is an ordinary
+function, so if you assign it to a variable first, R evaluates its arguments — the
+block runs, right there, and livelink never sees the source:
+
+```r
+# WRONG: the block runs now, and actually tries to source("utils.R")
+project <- list("main.R" = { source("utils.R"); summarise(mtcars) })
+webr_repl_project(project)
+
+# RIGHT: written in the call, the block is captured and never run
+webr_repl_project(list("main.R" = { source("utils.R"); summarise(mtcars) }))
+```
+
+livelink notices the first case and stops with an error rather than encoding whatever
+the block happened to return. A list of *strings* in a variable is fine, of course —
+that is the older form, and it still works.
+:::
+
+Because the blocks are captured rather than evaluated, an assignment inside one leaves
+nothing behind in your session. `{ summarise <- function(d) summary(d) }` defines
+nothing here; it is source to ship, not code to run.
+
+Two caveats carry over from single-file expressions. Comments inside `{ }` survive
+interactively but not in a knitted document, and a `library()` call inside a block is
+visible to `R CMD check`, which will report that package as an undeclared dependency
+of *yours*. Use a string for code that loads packages.
+
+When a project has to be reused across several calls — as it is through the rest of
+this section — keep it as a list of **strings** in a variable. A list of strings is a
+plain value, so it assigns without surprises:
 
 ```{r}
 project <- list(
@@ -58,8 +105,6 @@ project <- list(
 
 webr_repl_project(project)
 ```
-
-Non-R files are welcome. Data, documentation, anything the code needs travels with it.
 
 A **vector of file paths**, when the code is already on disk:
 

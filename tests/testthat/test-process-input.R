@@ -110,6 +110,30 @@ test_that("expression input preserves comments when source refs are available", 
   expect_false(grepl("^\\s+#", strsplit(code, "\n")[[1]][1]))
 })
 
+# Regression: the trailing-comment rescue scanned forward to Inf looking for a
+# line starting with `}`. A one-line brace nested in a call -- whose own `}` is
+# not on a line of its own -- therefore swallowed every source line down to the
+# next such line, shipping unrelated code into the link.
+test_that("a one-line brace does not swallow the lines after it", {
+  expr <- parse(
+    text = paste(
+      'f(list(',
+      '  "main.R" = { plot(1:10) },',
+      '  "other"  = "not code"',
+      '))',
+      sep = "\n"
+    ),
+    keep.source = TRUE
+  )[[1]]
+
+  brace <- expr[[2]][[2]]
+  code <- paste(stringify_expression(brace), collapse = "\n")
+
+  expect_equal(code, "plot(1:10)")
+  expect_false(grepl("not code", code, fixed = TRUE))
+  expect_false(grepl("main.R", code, fixed = TRUE))
+})
+
 # Regression: with keep.source = FALSE (the default under Rscript and R CMD
 # check) there are no srcrefs, and the deparse fallback shipped the wrapping
 # braces into the shared script.

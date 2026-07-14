@@ -69,8 +69,15 @@ stringify_expression <- function(x) {
     lines[length(lines)] <- paste0(last_line, rescue_me)
   }
 
-  ## rescue trailing comment lines
-  tail_lines <- getSrcLines(.srcfile, n + 1, Inf)
+  ## rescue trailing comment lines, but only those still INSIDE the block.
+  ## Scanning to Inf for a closing brace swallows unrelated source whenever the
+  ## block's own `}` is not on a line of its own -- a one-line `{ plot(1:10) }`
+  ## nested in a call would take everything down to the next line starting with
+  ## `}`. The `{` call carries a wholeSrcref spanning itself; that is the bound.
+  whole <- attr(x, "wholeSrcref")
+  block_end <- if (!is.null(whole)) whole[[3L]] else n
+
+  tail_lines <- getSrcLines(.srcfile, n + 1, block_end)
   closing_bracket_line <- max(grep("^\\s*[}]", tail_lines), 0)
   tail_lines <- utils::head(tail_lines, closing_bracket_line - 1)
 
@@ -303,6 +310,58 @@ is_brace_call <- function(x_expr) {
   is.call(x_expr) && identical(x_expr[[1]], as.name("{"))
 }
 
+#' Is this captured expression a literal `list(...)` call?
+#'
+#' Only a literal call written at the call site can be taken apart without
+#' evaluating it. A symbol -- `webr_repl_project(project)` -- has to be forced
+#' and handled the ordinary way.
+#'
+#' @param x_expr Result of [substitute()] on the input argument
+#' @return TRUE if `x_expr` is a call to `list`
+#' @noRd
+is_literal_list_call <- function(x_expr) {
+  is.call(x_expr) && identical(x_expr[[1]], as.name("list"))
+}
+
+#' Turn a literal `list(...)` call into a named list of file contents
+#'
+#' Each element is either a `{ ... }` block, taken as literal source, or an
+#' ordinary value, evaluated in the caller's environment.
+#'
+#' The braces must NOT be evaluated. `list("a.R" = { x <- 1 })` would otherwise
+#' run the block in the caller's frame and leave `x` behind; the whole point is
+#' that this is code to ship, not code to run. Because we work from
+#' [substitute()] and never force the promise, nothing in a brace is executed.
+#'
+#' @param x_expr The captured `list(...)` call
+#' @param env Environment in which to evaluate the non-braced elements
+#' @return Named list of file contents, or NULL if this is not the shape we want
+#' @noRd
+eval_project_list <- function(x_expr, env) {
+  args <- as.list(x_expr)[-1]
+
+  if (length(args) == 0 || is.null(names(args)) || !all(nzchar(names(args)))) {
+    return(NULL)
+  }
+
+  contents <- lapply(args, function(arg) {
+    if (is_brace_call(arg)) {
+      code <- stringify_expression(arg)
+      if (is.null(code)) {
+        cli::cli_abort("Failed to convert expression to source code")
+      }
+      paste(code, collapse = "\n")
+    } else {
+      eval(arg, env)
+    }
+  })
+
+  files <- stats::setNames(contents, names(args))
+  check_file_contents(files)
+
+  files
+}
+
 #' Process input for a Shinylive app
 #'
 #' Shinylive apps are single-file or multi-file, so the input can be a lone code
@@ -312,31 +371,59 @@ is_brace_call <- function(x_expr) {
 #'
 #' @param input Input provided by the user
 #' @param x_expr Expression provided by the user
+#' @param env Environment for evaluating list elements
 #' @return A single code string, or a named list of file contents
 #' @noRd
-process_shinylive_input <- function(input = NULL, x_expr = NULL) {
+process_shinylive_input <- function(input = NULL, x_expr = NULL,
+                                    env = parent.frame()) {
+  # A literal list() may carry braced file contents, and must be taken apart
+  # before anything in it is forced.
+  if (is_literal_list_call(x_expr)) {
+    files <- eval_project_list(x_expr, env)
+    if (!is.null(files)) {
+      return(files)
+    }
+  }
+
   is_multi_file <- is.list(input) || (is.character(input) && length(input) > 1)
 
   if (is_multi_file) {
     return(process_project_input(input = input))
   }
 
-  process_input(input = input, x_expr = x_expr)
+  # As above: a symbol is a value, not source to deparse.
+  process_input(input = input,
+                x_expr = if (is_brace_call(x_expr)) x_expr else NULL)
 }
 
 #' Process input for multi-file projects
 #' @param input Input provided by user
 #' @param x_expr Expression provided by user
+#' @param env Environment for evaluating list elements
 #' @return Named list of file contents
 #' @noRd
-process_project_input <- function(input = NULL, x_expr = NULL) {
-  where <- locate_input(input, x_expr)
+process_project_input <- function(input = NULL, x_expr = NULL,
+                                  env = parent.frame()) {
+  # A literal list() written at the call site may name each file's contents as a
+  # `{ ... }` block. Take it apart before the promise is forced -- forcing would
+  # execute the blocks in the caller's frame.
+  if (is_literal_list_call(x_expr)) {
+    files <- eval_project_list(x_expr, env)
+    if (!is.null(files)) {
+      return(files)
+    }
+  }
+
+  # Only a brace block is an "expression" here. `webr_repl_project(project)`
+  # captures a symbol, which must be forced and handled like any other value.
+  where <- locate_input(input, if (is_brace_call(x_expr)) x_expr else NULL)
 
   switch(where,
          expr = {
            cli::cli_abort(c(
              "Expressions not supported for multi-file projects",
-             "i" = "Use a named list, file paths, or clipboard input"
+             "i" = "Use a named list of files, or file paths",
+             "i" = "Example: {.code list('main.R' = {{ plot(1:10) }})}"
            ))
          },
          clipboard = {
@@ -361,7 +448,43 @@ process_project_input <- function(input = NULL, x_expr = NULL) {
                "i" = "Example: {.code list('main.R' = code1, 'utils.R' = code2)}"
              ))
            }
+           check_file_contents(input)
            input
          }
   )
+}
+
+#' Check that every element of a project list is file contents
+#'
+#' Catches the one way the braced form goes wrong. `list()` is an ordinary call,
+#' so its arguments evaluate unless livelink captures them -- which it can only do
+#' when the list is written inside the call:
+#'
+#' ```
+#' project <- list("main.R" = { plot(1:10) })   # the block RUNS, here and now
+#' webr_repl_project(project)                   # and we receive its value
+#'
+#' webr_repl_project(list("main.R" = { plot(1:10) }))   # captured, never run
+#' ```
+#'
+#' Assigning first leaves non-character values in the list, so say what happened
+#' rather than serializing a function into a link.
+#'
+#' @param files Named list of file contents
+#' @return Invisible TRUE, or aborts
+#' @noRd
+check_file_contents <- function(files) {
+  bad <- !vapply(files, function(x) is.character(x) && length(x) == 1, logical(1))
+
+  if (any(bad)) {
+    cli::cli_abort(c(
+      "Each file's contents must be a single string",
+      "x" = "Not a string: {.file {names(files)[bad]}}",
+      "i" = "Writing a file as {.code {{ ... }}} only works inside the call:",
+      "*" = "{.code webr_repl_project(list('main.R' = {{ plot(1:10) }}))}",
+      "!" = "Assigning the list to a variable first runs the block instead."
+    ))
+  }
+
+  invisible(TRUE)
 }

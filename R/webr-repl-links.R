@@ -133,8 +133,14 @@ webr_repl_link <- function(input = NULL,
 #' Supports named lists and file path vectors as input.
 #'
 #' @param input Input for multiple files. Can be:
-#'   - Named list: `list("main.R" = code1, "utils.R" = code2)`
+#'   - Named list of braced expressions, so each file is written as R rather than
+#'     as a string full of escaped newlines:
+#'     `list("main.R" = { plot(1:10) }, "utils.R" = { f <- function() 42 })`
+#'   - Named list of strings: `list("main.R" = code1, "utils.R" = code2)`
 #'   - Vector of file paths: `c("main.R", "utils.R", "data.csv")`
+#'
+#'   The two list forms mix freely, which is what you want for a project holding
+#'   both code and, say, a `README.md`.
 #' @param autorun_files Character vector of filenames to auto-execute when project loads, or "all" to autorun all R files (default: none)
 #' @param base_path Base directory path for all files (default: `"/home/web_user/"`)
 #' @param panels Character vector or string specifying which WebR interface panels to show.
@@ -145,9 +151,38 @@ webr_repl_link <- function(input = NULL,
 #'
 #' @return webr_project object containing the WebR sharelink for the multi-file project
 #'
+#' @section Writing a project as code:
+#' A file's contents can be given as a `{ ... }` block instead of a string, which
+#' spares you escaping every newline and quote:
+#'
+#' ```
+#' webr_repl_project(list(
+#'   "main.R"    = { source("utils.R"); summarise(mtcars) },
+#'   "utils.R"   = { summarise <- function(d) summary(d) },
+#'   "README.md" = "# Analysis"
+#' ))
+#' ```
+#'
+#' The blocks are **never evaluated** -- they are source to ship, not code to run
+#' -- so an assignment inside one leaves nothing behind in your session.
+#'
+#' Two things to know. Comments inside `{ }` survive in an interactive session but
+#' not in a knitted document (see [webr_repl_link()]). And a `library()` call
+#' inside a block is visible to `R CMD check`, which will report the package as an
+#' undeclared dependency of *yours*; in a vignette or an example, use a string for
+#' code that loads packages.
+#'
+#' @seealso [webr_repl_link()] for the single-file case.
+#'
 #' @export
 #' @examples
-#' # Named list input
+#' # Each file written as R, rather than as an escaped string
+#' webr_repl_project(list(
+#'   "main.R"  = { source("utils.R"); summarise(mtcars) },
+#'   "utils.R" = { summarise <- function(d) summary(d) }
+#' ))
+#'
+#' # Strings still work, and the two forms mix
 #' files <- list(
 #'   "main.R" = "source('utils.R')\nresult <- analyze_data(mtcars)",
 #'   "utils.R" = "analyze_data <- function(data) { summary(data) }",
@@ -173,7 +208,13 @@ webr_repl_project <- function(input,
                               version = "latest",
                               base_url = NULL) {
 
-  processed_files <- process_project_input(input = input)
+  # Captured, not forced: a literal list() may name each file's contents as a
+  # `{ ... }` block, and forcing it would run those blocks instead of shipping
+  # them.
+  x_expr <- substitute(input)
+  processed_files <- process_project_input(
+    input = input, x_expr = x_expr, env = parent.frame()
+  )
 
   check_character_vector(autorun_files, "autorun_files")
   check_valid_path(base_path, "base_path")

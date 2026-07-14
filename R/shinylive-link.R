@@ -195,7 +195,8 @@ shinylive_r_link <- function(input = NULL, mode = "editor", header = TRUE, base_
   processed_input <- if (!missing(input) && is_brace_call(x_expr)) {
     process_input(x_expr = x_expr)
   } else {
-    process_shinylive_input(input = input)
+    process_shinylive_input(input = input, x_expr = x_expr,
+                            env = parent.frame())
   }
 
   build_shinylive_link(
@@ -241,8 +242,12 @@ shinylive_r_link <- function(input = NULL, mode = "editor", header = TRUE, base_
 #' shinylive_project(c(app, utils), engine = "r")
 shinylive_project <- function(input, engine, mode = "editor", header = TRUE, base_url = NULL) {
 
-  # Process input to get named list of files
-  processed_files <- process_project_input(input = input)
+  # Captured, not forced: a literal list() may name each file's contents as a
+  # `{ ... }` block.
+  x_expr <- substitute(input)
+  processed_files <- process_project_input(
+    input = input, x_expr = x_expr, env = parent.frame()
+  )
 
   # Validate inputs
   check_valid_shinylive_engine(engine, "engine")

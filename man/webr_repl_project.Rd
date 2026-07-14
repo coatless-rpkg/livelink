@@ -16,9 +16,15 @@ webr_repl_project(
 \arguments{
 \item{input}{Input for multiple files. Can be:
 \itemize{
-\item Named list: \code{list("main.R" = code1, "utils.R" = code2)}
+\item Named list of braced expressions, so each file is written as R rather than
+as a string full of escaped newlines:
+\code{list("main.R" = { plot(1:10) }, "utils.R" = { f <- function() 42 })}
+\item Named list of strings: \code{list("main.R" = code1, "utils.R" = code2)}
 \item Vector of file paths: \code{c("main.R", "utils.R", "data.csv")}
-}}
+}
+
+The two list forms mix freely, which is what you want for a project holding
+both code and, say, a \code{README.md}.}
 
 \item{autorun_files}{Character vector of filenames to auto-execute when project loads, or "all" to autorun all R files (default: none)}
 
@@ -39,8 +45,36 @@ webr_project object containing the WebR sharelink for the multi-file project
 Creates a WebR sharelink for projects with multiple R files, data files, or other resources.
 Supports named lists and file path vectors as input.
 }
+\section{Writing a project as code}{
+
+A file's contents can be given as a \code{{ ... }} block instead of a string, which
+spares you escaping every newline and quote:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{webr_repl_project(list(
+  "main.R"    = \{ source("utils.R"); summarise(mtcars) \},
+  "utils.R"   = \{ summarise <- function(d) summary(d) \},
+  "README.md" = "# Analysis"
+))
+}\if{html}{\out{</div>}}
+
+The blocks are \strong{never evaluated} -- they are source to ship, not code to run
+-- so an assignment inside one leaves nothing behind in your session.
+
+Two things to know. Comments inside \code{{ }} survive in an interactive session but
+not in a knitted document (see \code{\link[=webr_repl_link]{webr_repl_link()}}). And a \code{library()} call
+inside a block is visible to \verb{R CMD check}, which will report the package as an
+undeclared dependency of \emph{yours}; in a vignette or an example, use a string for
+code that loads packages.
+}
+
 \examples{
-# Named list input
+# Each file written as R, rather than as an escaped string
+webr_repl_project(list(
+  "main.R"  = { source("utils.R"); summarise(mtcars) },
+  "utils.R" = { summarise <- function(d) summary(d) }
+))
+
+# Strings still work, and the two forms mix
 files <- list(
   "main.R" = "source('utils.R')\nresult <- analyze_data(mtcars)",
   "utils.R" = "analyze_data <- function(data) { summary(data) }",
@@ -59,4 +93,7 @@ utils <- file.path(project_dir, "utils.R")
 writeLines("source('utils.R')", main)
 writeLines("# utils", utils)
 webr_repl_project(c(main, utils))
+}
+\seealso{
+\code{\link[=webr_repl_link]{webr_repl_link()}} for the single-file case.
 }

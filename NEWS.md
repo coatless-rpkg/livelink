@@ -58,6 +58,31 @@ Initial CRAN release.
   `panels`, `mode`, `filename`, `link.text`, `link.only`, and `engine.target`
   (`"webr"`, `"shinylive-r"`, or `"shinylive-py"`).
 
+### Projects as code
+
+* `webr_repl_project()`, `shinylive_project()` and `shinylive_r_link()` accept a
+  file's contents as a braced expression, so a multi-file project can be written as
+  R rather than as strings full of escaped newlines:
+
+  ```r
+  webr_repl_project(list(
+    "main.R"    = { source("utils.R"); summarise(mtcars) },
+    "utils.R"   = { summarise <- function(d) summary(d) },
+    "README.md" = "# Analysis"
+  ))
+  ```
+
+  The blocks are captured, never evaluated -- they are source to ship, not code to
+  run -- so an assignment inside one leaves nothing behind in the session. Strings
+  and expressions mix freely, which is what a project holding both code and a
+  `README.md` needs.
+
+  This only works when the list is written *inside* the call. `list()` is an ordinary
+  function, so assigning it to a variable first evaluates its arguments and the block
+  runs there and then. livelink detects that case and errors, rather than encoding
+  whatever the block returned.
+
+
 ## Naming
 
 The public API was unified before the first release:
