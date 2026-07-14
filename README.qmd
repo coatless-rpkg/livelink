@@ -26,6 +26,12 @@ knitr::opts_chunk$set(
 Create shareable links for R code in WebAssembly (WASM) REPL environments like
 webR and for R and Python Shiny applications using Shinylive.
 
+There is no server and nothing to upload. Your code is compressed and encoded
+*into the URL itself* — the recipient clicks the link and is looking at a running
+R session in their browser.
+
+<img src="man/figures/livelink-pipeline.svg" width="100%" alt="A pipeline diagram. R code is serialized to JSON with jsonlite, compressed with gzip, encoded as base64, and packed into the fragment of a webR URL after a hash symbol. Opening the URL runs the code in the browser. Nothing is uploaded, because browsers never send the fragment to a server." />
+
 Full documentation is at
 <https://r-pkg.thecoatlessprofessor.com/livelink/>.
 

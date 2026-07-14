@@ -101,7 +101,11 @@ new_webr_decoded <- function(files_info, output_dir, url, mode, version, flags) 
       url = url,
       mode = mode,
       version = version,
-      flags = flags
+      flags = flags,
+      # Same summary fields as shinylive_decoded, so callers can treat a decoded
+      # result the same way regardless of which environment it came from.
+      total_files = nrow(files_info),
+      total_size = sum(files_info$size_bytes, na.rm = TRUE)
     ),
     class = "webr_decoded"
   )
@@ -109,16 +113,23 @@ new_webr_decoded <- function(files_info, output_dir, url, mode, version, flags) 
 
 #' Create a webr_decoded_batch object
 #' @param results List of webr_decoded objects
-#' @param base_output_dir Base output directory
+#' @param base_dir Base output directory
 #' @param urls Original URLs
 #' @return webr_decoded_batch object
 #' @noRd
-new_webr_decoded_batch <- function(results, base_output_dir, urls) {
+new_webr_decoded_batch <- function(results, base_dir, urls) {
+  successful <- results[!vapply(results, is.null, logical(1))]
+
   structure(
     list(
       results = results,
-      base_output_dir = base_output_dir,
-      urls = urls
+      base_dir = base_dir,
+      urls = urls,
+      # Mirrors shinylive_decoded_batch field for field.
+      total_urls = length(urls),
+      successful_urls = length(successful),
+      total_files = sum(vapply(successful, function(x) x$total_files, numeric(1))),
+      total_size = sum(vapply(successful, function(x) x$total_size, numeric(1)))
     ),
     class = "webr_decoded_batch"
   )
@@ -491,7 +502,7 @@ print.webr_decoded <- function(x, ...) {
 #' @export
 print.webr_decoded_batch <- function(x, ...) {
   cli::cli_h2("WebR Decoded Batch")
-  cli::cli_text("Base directory: {.path {x$base_output_dir}}")
+  cli::cli_text("Base directory: {.path {x$base_dir}}")
   cli::cli_text("Total URLs: {length(x$urls)}")
   cli::cli_text("")
 

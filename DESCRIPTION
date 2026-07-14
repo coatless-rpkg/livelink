@@ -47,6 +47,7 @@ Collate:
     'utils.R'
     'decode-webr-repl-link.R'
     'extract-link.R'
+    'knitr-engine.R'
     'options.R'
     'process-input.R'
     'shinylive-link.R'

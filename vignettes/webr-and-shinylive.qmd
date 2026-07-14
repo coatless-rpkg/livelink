@@ -1,0 +1,218 @@
+---
+title: "Multi-file projects and Shiny apps"
+vignette: >
+  %\VignetteIndexEntry{Multi-file projects and Shiny apps}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+format:
+  html:
+    embed-resources: true
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+```{r setup}
+library(livelink)
+```
+
+Real work is rarely one file. This article covers the multi-file half of livelink:
+webR projects, Shinylive apps in R and Python, and batch-processing a directory of
+them.
+
+## Two ways to describe a project
+
+Every multi-file function accepts the same two input shapes, and you can use whichever
+is closer to hand.
+
+A **named list**, when the code is already in R:
+
+```{r}
+project <- list(
+  "main.R"    = "source('utils.R')\nsummarise(mtcars)",
+  "utils.R"   = "summarise <- function(d) summary(d)",
+  "README.md" = "# Analysis\n\nRun main.R to start."
+)
+
+webr_repl_project(project)
+```
+
+The list names become the filenames inside the environment. Non-R files are welcome --
+data, documentation, anything the code needs.
+
+A **vector of file paths**, when the code is on disk:
+
+```{r}
+dir <- file.path(tempdir(), "project")
+dir.create(dir, showWarnings = FALSE)
+writeLines("source('utils.R')", file.path(dir, "main.R"))
+writeLines("f <- function() 42", file.path(dir, "utils.R"))
+
+webr_repl_project(c(file.path(dir, "main.R"), file.path(dir, "utils.R")))
+```
+
+Files are read and named by their basename, so the paths on your machine do not leak
+into the link.
+
+## Running something on arrival
+
+`autorun_files` names the files to execute when the link opens.
+
+```{r}
+link <- webr_repl_project(project, autorun_files = "main.R")
+link$url |> substr(1, 60)
+```
+
+Pass `"all"` to run every R file in the project:
+
+```{r}
+webr_repl_project(project, autorun_files = "all")
+```
+
+Naming a file that is not in the project is an error rather than a silent no-op:
+
+```{r}
+#| error: true
+webr_repl_project(project, autorun_files = "nonexistent.R")
+```
+
+## Shiny apps
+
+`shinylive_r_link()` takes an app the same three ways: a string, a file path, or a
+named list of files.
+
+A single-file app is the common case, and a bare string becomes `app.R`:
+
+```{r}
+app <- "
+library(shiny)
+
+ui <- fluidPage(
+  titlePanel('Old Faithful'),
+  sliderInput('bins', 'Bins:', 1, 50, 30),
+  plotOutput('hist')
+)
+
+server <- function(input, output) {
+  output$hist <- renderPlot({
+    hist(faithful$waiting, breaks = input$bins, col = 'steelblue')
+  })
+}
+
+shinyApp(ui, server)
+"
+
+shinylive_r_link(app)
+```
+
+For an app split across files, pass a named list:
+
+```{r}
+shinylive_r_link(list(
+  "app.R"   = "library(shiny)\nsource('ui.R')\nsource('server.R')\nshinyApp(ui, server)",
+  "ui.R"    = "ui <- fluidPage(titlePanel('Split app'))",
+  "server.R" = "server <- function(input, output) {}"
+))
+```
+
+### Editor or app?
+
+`mode` decides what a visitor lands on.
+
+```{r}
+# "editor" -- code and app side by side. Good for teaching and code review.
+shinylive_r_link(app, mode = "editor")
+```
+
+```{r}
+# "app" -- the running application only. Good for end users.
+shinylive_r_link(app, mode = "app")
+```
+
+In `app` mode you can also drop the Shinylive header, which is what you want when the
+app is going into an `<iframe>` on someone else's page:
+
+```{r}
+shinylive_r_link(app, mode = "app", header = FALSE)
+```
+
+Note that `mode` here means something different from webR's `panels`. Shinylive has
+two display modes; webR has four panels you can show or hide. They are separate
+arguments because they are separate ideas.
+
+### Python
+
+Python Shiny apps work identically, and a bare string becomes `app.py`:
+
+```{r}
+py_app <- "
+from shiny import App, render, ui
+
+app_ui = ui.page_fluid(
+    ui.h2('Hello from Python'),
+    ui.output_text('greeting'),
+)
+
+def server(input, output, session):
+    @render.text
+    def greeting():
+        return 'Running in the browser, no server required.'
+
+app = App(app_ui, server)
+"
+
+shinylive_py_link(py_app, mode = "app")
+```
+
+`shinylive_project()` is the explicit form when you want to name the engine yourself:
+
+```{r}
+shinylive_project(
+  list("app.py" = py_app, "utils.py" = "def helper():\n    return 42"),
+  engine = "python"
+)
+```
+
+## A directory of apps
+
+If you keep each app in its own folder -- the usual Shiny layout -- `shinylive_directory()`
+turns the lot into links in one pass.
+
+```{r}
+apps <- file.path(tempdir(), "apps")
+dir.create(file.path(apps, "histogram"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(apps, "scatter"),   recursive = TRUE, showWarnings = FALSE)
+writeLines(app, file.path(apps, "histogram", "app.R"))
+writeLines(app, file.path(apps, "scatter", "app.R"))
+
+links <- shinylive_directory(apps, engine = "r", mode = "app")
+links
+```
+
+Each subdirectory containing an `app.R` (or `app.py`, for Python) becomes one link,
+named after the folder. Every other file in that folder -- helpers, data, CSS -- is
+bundled into the app.
+
+```{r}
+repl_urls(links)
+```
+
+A directory with no apps in it warns and hands back an empty result, rather than
+failing:
+
+```{r}
+empty <- file.path(tempdir(), "no-apps")
+dir.create(empty, showWarnings = FALSE)
+
+shinylive_directory(empty, engine = "r")
+```
+
+## How big can a link get?
+
+The files travel *inside* the URL, so a project's size is bounded by what a browser
+will accept in a URL -- in practice tens of kilobytes of code, which is a lot of R.
+
+The payload is gzipped before it is encoded, so ordinary source code compresses well.
+Large binary data is the wrong thing to put in a link; point at it from the code
+instead.

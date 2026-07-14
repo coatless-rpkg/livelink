@@ -26,6 +26,12 @@ navbar:
       menu:
       - text: Getting Started
         href: articles/getting-started.html
+      - text: Multi-file projects and Shiny apps
+        href: articles/webr-and-shinylive.html
+      - text: Decoding and previewing links
+        href: articles/decoding-links.html
+      - text: Teaching with livelink
+        href: articles/teaching.html
 
 reference:
 - title: "WebR REPL Links"
@@ -57,6 +63,11 @@ reference:
   contents:
   - repl_urls
   - starts_with("as.character")
+
+- title: "Documents"
+  desc: "Turn a knitr or Quarto chunk into a shareable link"
+  contents:
+  - use_livelink_engine
 
 - title: "Configuration"
   desc: "Package configuration and options"

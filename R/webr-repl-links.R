@@ -21,6 +21,19 @@
 #'
 #' @return webr_link object containing the WebR sharelink and metadata
 #'
+#' @section Comments in expression input:
+#' Expression input recovers your source from R's *source references*, which R only
+#' attaches when `keep.source` is enabled. Comments therefore survive in an
+#' interactive session, but are dropped when the calling code is parsed without
+#' source references -- notably inside a knitted 'Quarto' or 'R Markdown' document,
+#' because 'knitr' evaluates chunks through `evaluate::evaluate()`, which discards
+#' them. No `keep.source` setting recovers them there.
+#'
+#' If you need comments preserved, pass the code as a string or a file path, or use
+#' the `livelink` chunk engine in a knitted document (see [use_livelink_engine()]).
+#'
+#' @seealso [use_livelink_engine()] to turn a document chunk into a link.
+#'
 #' @export
 #' @examples
 #' # Expression input (no quotes needed!)

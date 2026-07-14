@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 532" role="img" aria-labelledby="ttl desc">
+  <title id="ttl">The livelink round trip: files to URL and back again</title>
+  <desc id="desc">Three files - main.R, utils.R and README.md - flow right through webr_repl_link() or shinylive_r_link() into a single URL, and the same URL flows on through decode_webr_link() or preview_webr_link() back into the identical three files. The round trip is lossless and happens entirely on your machine: decode_webr_link() writes the files to disk, while preview_webr_link() inspects them without writing anything.</desc>
+  <style>
+    .s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+    .m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}
+    .plate{fill:#f8fafc;stroke:#e2e8f0}
+    .chip{fill:#ffffff;stroke:#e2e8f0}
+    .h{fill:#0f172a}
+    .b{fill:#334155}
+    .mut{fill:#64748b}
+    .t-cy{fill:#0e7490}
+    .t-am{fill:#b45309}
+    .t-bl{fill:#1d4ed8}
+    .t-gn{fill:#047857}
+    .t-vi{fill:#6d28d9}
+    .ring{stroke:#f8fafc}
+    .eyebrow{letter-spacing:.14em}
+    .rule{stroke:#94a3b8;stroke-opacity:.25}
+    .file{fill:#f8fafc;stroke:#cbd5e1}
+    .arrow{stroke-width:2;fill:none}
+    .ic-cy{stroke:#0e7490}
+    .ic-gn{stroke:#047857}
+    .ic-mut{stroke:#94a3b8}
+    @media (prefers-color-scheme: dark){
+      .plate{fill:#0f172a;stroke:#1e293b}
+      .chip{fill:#1e293b;stroke:#334155}
+      .h{fill:#f1f5f9}
+      .b{fill:#cbd5e1}
+      .mut{fill:#94a3b8}
+      .t-cy{fill:#22d3ee}
+      .t-am{fill:#fbbf24}
+      .t-bl{fill:#60a5fa}
+      .t-gn{fill:#34d399}
+      .t-vi{fill:#c4b5fd}
+      .ring{stroke:#0f172a}
+      .file{fill:#0f172a;stroke:#334155}
+      .ic-cy{stroke:#22d3ee}
+      .ic-gn{stroke:#34d399}
+      .ic-mut{stroke:#64748b}
+    }
+  </style>
+  <defs>
+    <marker id="ac" markerWidth="7" markerHeight="7" refX="5.6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="ab" markerWidth="7" markerHeight="7" refX="5.6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#3b82f6"/>
+    </marker>
+  </defs>
+
+  <rect class="plate" x="0.5" y="0.5" width="699" height="531" rx="16"/>
+
+  <!-- masthead -->
+  <text class="s eyebrow mut" x="28" y="38" font-size="12" font-weight="600">THE ROUND TRIP</text>
+  <text class="m h" x="28" y="66" font-size="17" font-weight="600">files &#8594; link &#8594; files</text>
+  <text class="s b" x="28" y="90" font-size="13">Encoding is reversible. What goes into the URL comes back out, byte for byte.</text>
+  <line class="rule" x1="28" y1="104" x2="672" y2="104"/>
+
+  <!-- LEFT: source files -->
+  <rect class="chip" x="28" y="126" width="196" height="164" rx="10"/>
+  <text class="s eyebrow mut" x="44" y="148" font-size="11" font-weight="600">YOUR FILES</text>
+  <g>
+    <rect class="file" x="44" y="158" width="164" height="30" rx="6"/>
+    <rect x="56" y="166" width="10" height="13" rx="1.5" fill="none" class="ic-cy" stroke-width="1.4"/>
+    <text class="m b" x="76" y="177" font-size="12.5">main.R</text>
+    <rect class="file" x="44" y="194" width="164" height="30" rx="6"/>
+    <rect x="56" y="202" width="10" height="13" rx="1.5" fill="none" class="ic-cy" stroke-width="1.4"/>
+    <text class="m b" x="76" y="213" font-size="12.5">utils.R</text>
+    <rect class="file" x="44" y="230" width="164" height="30" rx="6"/>
+    <rect x="56" y="238" width="10" height="13" rx="1.5" fill="none" class="ic-mut" stroke-width="1.4"/>
+    <text class="m b" x="76" y="249" font-size="12.5">README.md</text>
+  </g>
+  <text class="s mut" x="44" y="278" font-size="12">on disk, or in a named list</text>
+
+  <!-- arrow 1 -->
+  <line class="arrow" x1="234" y1="208" x2="252" y2="208" stroke="#06b6d4" marker-end="url(#ac)"/>
+
+  <!-- CENTRE: the link -->
+  <rect x="264" y="126" width="172" height="164" rx="10" fill="#06b6d4" fill-opacity="0.08" stroke="#0e7490" stroke-opacity="0.4"/>
+  <text class="s eyebrow t-cy" x="280" y="148" font-size="11" font-weight="600">ONE URL</text>
+  <g transform="translate(280,158)">
+    <path d="M2,7 a5,5 0 0 1 5,-5 h4 a5,5 0 0 1 0,10 h-4 a5,5 0 0 1 -5,-5 z" fill="none" class="ic-cy" stroke-width="1.5"/>
+    <path d="M11,7 a5,5 0 0 1 5,-5 h4 a5,5 0 0 1 0,10 h-4 a5,5 0 0 1 -5,-5 z" fill="none" class="ic-cy" stroke-width="1.5"/>
+  </g>
+  <text class="m b" x="280" y="190" font-size="12">webr.r-wasm.org</text>
+  <text class="m" x="280" y="208" font-size="12"><tspan class="t-cy" font-weight="600">/latest/#code=</tspan></text>
+  <text class="m mut" x="280" y="226" font-size="12">eJyLrlbKS8xNVbJS</text>
+  <text class="m" x="280" y="244" font-size="12"><tspan class="mut">Kk4uyiwo0QtS&#8230;</tspan><tspan class="t-am" font-weight="600">&amp;jz</tspan></text>
+  <text class="s mut" x="280" y="270" font-size="12">gzip + base64, in the</text>
+  <text class="s mut" x="280" y="284" font-size="12">fragment</text>
+
+  <!-- arrow 2 -->
+  <line class="arrow" x1="446" y1="208" x2="464" y2="208" stroke="#3b82f6" marker-end="url(#ab)"/>
+
+  <!-- RIGHT: the same files back -->
+  <rect class="chip" x="476" y="126" width="196" height="164" rx="10"/>
+  <text class="s eyebrow t-gn" x="492" y="148" font-size="11" font-weight="600">THE SAME FILES</text>
+  <g>
+    <rect class="file" x="492" y="158" width="164" height="30" rx="6"/>
+    <rect x="504" y="166" width="10" height="13" rx="1.5" fill="none" class="ic-gn" stroke-width="1.4"/>
+    <text class="m b" x="524" y="177" font-size="12.5">main.R</text>
+    <path class="arrow ic-gn" d="M634,172 l3,3 l6,-7"/>
+    <rect class="file" x="492" y="194" width="164" height="30" rx="6"/>
+    <rect x="504" y="202" width="10" height="13" rx="1.5" fill="none" class="ic-gn" stroke-width="1.4"/>
+    <text class="m b" x="524" y="213" font-size="12.5">utils.R</text>
+    <path class="arrow ic-gn" d="M634,208 l3,3 l6,-7"/>
+    <rect class="file" x="492" y="230" width="164" height="30" rx="6"/>
+    <rect x="504" y="238" width="10" height="13" rx="1.5" fill="none" class="ic-gn" stroke-width="1.4"/>
+    <text class="m b" x="524" y="249" font-size="12.5">README.md</text>
+    <path class="arrow ic-gn" d="M634,244 l3,3 l6,-7"/>
+  </g>
+  <text class="s t-gn" x="492" y="278" font-size="12" font-weight="600">identical, byte for byte</text>
+
+  <!-- captions -->
+  <rect class="chip" x="28" y="308" width="316" height="116" rx="10"/>
+  <circle cx="46" cy="331" r="4" fill="#06b6d4" class="ring" stroke-width="2.5"/>
+  <text class="s h" x="60" y="335" font-size="13" font-weight="600">encode</text>
+  <text class="m t-cy" x="46" y="358" font-size="12.5" font-weight="600">webr_repl_link()</text>
+  <text class="s mut" x="46" y="374" font-size="12">JSON, gzip, base64 &#8212; then into the fragment.</text>
+  <text class="m t-cy" x="46" y="396" font-size="12.5" font-weight="600">shinylive_r_link()</text>
+  <text class="s mut" x="46" y="412" font-size="12">Same idea, LZ-string instead of gzip.</text>
+
+  <rect class="chip" x="356" y="308" width="316" height="116" rx="10"/>
+  <circle cx="374" cy="331" r="4" fill="#3b82f6" class="ring" stroke-width="2.5"/>
+  <text class="s h" x="388" y="335" font-size="13" font-weight="600">decode</text>
+  <text class="m t-bl" x="374" y="358" font-size="12.5" font-weight="600">decode_webr_link()</text>
+  <text class="s mut" x="374" y="374" font-size="12">Writes the files to a directory you choose.</text>
+  <text class="m t-bl" x="374" y="396" font-size="12.5" font-weight="600">preview_webr_link()</text>
+  <text class="s mut" x="374" y="412" font-size="12">Inspects the link, writing nothing to disk.</text>
+
+  <!-- offline badge -->
+  <rect x="28" y="438" width="644" height="44" rx="10" fill="#10b981" fill-opacity="0.10" stroke="#10b981" stroke-opacity="0.35"/>
+  <text class="s t-gn" x="44" y="458" font-size="13" font-weight="600">No server. No network. No account.</text>
+  <text class="s mut" x="44" y="475" font-size="12.5">Both directions are pure computation in your R session &#8212; livelink never phones home.</text>
+
+  <line class="rule" x1="28" y1="498" x2="672" y2="498"/>
+  <text class="s mut" x="28" y="518" font-size="12.5">The link is the archive: hand it to a student, get the project back &#8212; every file, unchanged.</text>
+</svg>

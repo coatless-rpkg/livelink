@@ -31,6 +31,14 @@ Generates a shareable URL for R Shiny applications that can run in the browser
 using Shinylive. Supports expressions, character strings, file paths, named lists,
 and clipboard input.
 }
+\section{Comments in expression input}{
+
+Comments inside a \code{{ }} expression are recovered from R's source references, so
+they survive interactively but are dropped inside a knitted 'Quarto' or
+'R Markdown' document. Pass a string or a file path, or use the \code{livelink} chunk
+engine, if you need them preserved. See \code{\link[=webr_repl_link]{webr_repl_link()}} for the details.
+}
+
 \examples{
 # Expression input (no quotes needed!)
 shinylive_r_link({
@@ -56,4 +64,7 @@ shinylive_r_link(app_path)
 if (interactive()) {
   shinylive_r_link()
 }
+}
+\seealso{
+\code{\link[=use_livelink_engine]{use_livelink_engine()}} to turn a document chunk into a link.
 }

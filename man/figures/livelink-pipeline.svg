@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 656" role="img" aria-labelledby="ttl desc">
+  <title id="ttl">The livelink encode pipeline</title>
+  <desc id="desc">R code is serialized to JSON with jsonlite, compressed with memCompress, base64 encoded, percent escaped, and packed into the fragment of a webR URL, where it runs in the browser.</desc>
+  <style>
+    .s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+    .m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}
+    .plate{fill:#f8fafc;stroke:#e2e8f0}
+    .chip{fill:#ffffff;stroke:#e2e8f0}
+    .h{fill:#0f172a}
+    .b{fill:#334155}
+    .mut{fill:#64748b}
+    .t-cy{fill:#0e7490}
+    .t-am{fill:#b45309}
+    .t-bl{fill:#1d4ed8}
+    .ring{stroke:#f8fafc}
+    .eyebrow{letter-spacing:.14em}
+    @media (prefers-color-scheme: dark){
+      .plate{fill:#0f172a;stroke:#1e293b}
+      .chip{fill:#1e293b;stroke:#334155}
+      .h{fill:#f1f5f9}
+      .b{fill:#cbd5e1}
+      .mut{fill:#94a3b8}
+      .t-cy{fill:#22d3ee}
+      .t-am{fill:#fbbf24}
+      .t-bl{fill:#60a5fa}
+      .ring{stroke:#0f172a}
+    }
+  </style>
+  <defs>
+    <linearGradient id="rail" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#10b981"/>
+      <stop offset="0.24" stop-color="#10b981"/>
+      <stop offset="0.42" stop-color="#64748b"/>
+      <stop offset="0.62" stop-color="#64748b"/>
+      <stop offset="0.80" stop-color="#06b6d4"/>
+      <stop offset="1" stop-color="#3b82f6"/>
+    </linearGradient>
+  </defs>
+
+  <rect class="plate" x="0.5" y="0.5" width="699" height="655" rx="16"/>
+
+  <!-- masthead -->
+  <text class="s eyebrow mut" x="28" y="38" font-size="12" font-weight="600">THE ENCODE PIPELINE</text>
+  <text class="m h" x="28" y="66" font-size="17" font-weight="600">webr_repl_link(&quot;plot(1:10)&quot;)</text>
+  <text class="s b" x="28" y="90" font-size="13">Serialize, compress, encode &#8212; the whole file lands in the URL fragment.</text>
+  <line x1="28" y1="104" x2="672" y2="104" stroke="#94a3b8" stroke-opacity="0.25"/>
+
+  <!-- rail -->
+  <line x1="40" y1="130" x2="40" y2="566" stroke="url(#rail)" stroke-width="2"/>
+
+  <!-- 1. your R code -->
+  <circle cx="40" cy="130" r="5.5" fill="#10b981" class="ring" stroke-width="3"/>
+  <text class="s h" x="66" y="134" font-size="15" font-weight="600">your R code</text>
+  <text class="s mut" x="672" y="134" font-size="12.5" text-anchor="end">expression, string, file path, or clipboard</text>
+  <rect class="chip" x="62" y="144" width="610" height="34" rx="8"/>
+  <text class="m h" x="76" y="166" font-size="13.5">plot(1:10)</text>
+
+  <!-- 2. serialize -->
+  <circle cx="40" cy="200" r="5.5" fill="#10b981" class="ring" stroke-width="3"/>
+  <text class="s h" x="66" y="204" font-size="15" font-weight="600">serialize</text>
+  <text class="m mut" x="672" y="204" font-size="12.5" text-anchor="end">jsonlite::toJSON(auto_unbox = TRUE)</text>
+  <rect class="chip" x="62" y="214" width="610" height="58" rx="8"/>
+  <text class="m h" x="76" y="237" font-size="13">[{&quot;name&quot;:&quot;script.R&quot;,&quot;path&quot;:&quot;/home/web_user/script.R&quot;,</text>
+  <text class="m h" x="76" y="257" font-size="13">&quot;text&quot;:&quot;plot(1:10)&quot;}]</text>
+  <text class="s mut" x="658" y="257" font-size="12" text-anchor="end">74 characters</text>
+
+  <!-- 3. compress -->
+  <circle cx="40" cy="294" r="5.5" fill="#64748b" class="ring" stroke-width="3"/>
+  <text class="s h" x="66" y="298" font-size="15" font-weight="600">compress</text>
+  <text class="m mut" x="672" y="298" font-size="12.5" text-anchor="end">memCompress(type = &quot;gzip&quot;)</text>
+  <rect class="chip" x="62" y="308" width="610" height="34" rx="8"/>
+  <text class="m mut" x="76" y="330" font-size="13">78 9c 8b ae 56 ca 4b cc 4d 55 b2 52 2a 4e &#8230;</text>
+  <text class="s mut" x="658" y="330" font-size="12" text-anchor="end">71 raw bytes</text>
+
+  <!-- 4. encode -->
+  <circle cx="40" cy="364" r="5.5" fill="#64748b" class="ring" stroke-width="3"/>
+  <text class="s h" x="66" y="368" font-size="15" font-weight="600">encode</text>
+  <text class="m mut" x="672" y="368" font-size="12.5" text-anchor="end">base64enc::base64encode()</text>
+  <rect class="chip" x="62" y="378" width="610" height="34" rx="8"/>
+  <text class="m mut" x="76" y="400" font-size="13">eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ+TnpuqXpybFlxanFukj&#8230;</text>
+
+  <!-- 5. assemble -->
+  <circle cx="40" cy="434" r="5.5" fill="#06b6d4" class="ring" stroke-width="3"/>
+  <text class="s h" x="66" y="438" font-size="15" font-weight="600">assemble the link</text>
+  <text class="m mut" x="672" y="438" font-size="12.5" text-anchor="end">utils::URLencode(reserved = TRUE)</text>
+  <rect class="chip" x="62" y="448" width="610" height="62" rx="8"/>
+  <text class="m" x="76" y="472" font-size="14"><tspan class="b">https://webr.r-wasm.org/latest/</tspan><tspan class="t-cy" font-weight="600">#code=</tspan><tspan class="b">eJyLrlbKS8xNVbJS&#8230;</tspan><tspan class="t-am" font-weight="600">&amp;jz</tspan></text>
+  <text class="s mut" x="76" y="495" font-size="12.5">+ / = become %2B %2F %3D &#183; the jz flag says: JSON, gzip compressed</text>
+
+  <!-- 6. runs -->
+  <circle cx="40" cy="566" r="5.5" fill="#3b82f6" class="ring" stroke-width="3"/>
+  <rect x="62" y="544" width="610" height="46" rx="8" fill="#3b82f6" fill-opacity="0.10" stroke="#3b82f6" stroke-opacity="0.35"/>
+  <g transform="translate(80,556)">
+    <rect x="0" y="0" width="26" height="20" rx="3" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+    <line x1="0" y1="6" x2="26" y2="6" stroke="#3b82f6" stroke-width="1.5"/>
+    <circle cx="4" cy="3" r="1.2" fill="#3b82f6"/>
+    <circle cx="8" cy="3" r="1.2" fill="#3b82f6"/>
+    <circle cx="12" cy="3" r="1.2" fill="#3b82f6"/>
+  </g>
+  <text class="s t-bl" x="118" y="565" font-size="15" font-weight="600">runs in the browser</text>
+  <text class="s mut" x="118" y="582" font-size="12.5">webR boots R in WebAssembly, writes /home/web_user/script.R, and opens it</text>
+
+  <line x1="28" y1="614" x2="672" y2="614" stroke="#94a3b8" stroke-opacity="0.25"/>
+  <text class="s mut" x="28" y="636" font-size="12.5">Nothing is uploaded &#8212; everything after the # is a URL fragment, which browsers never send to a server.</text>
+</svg>

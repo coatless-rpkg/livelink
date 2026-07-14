@@ -155,6 +155,14 @@ shinylive_py_link <- function(input = NULL, mode = "editor", header = TRUE, base
 #'
 #' @return shinylive_link object containing the Shinylive URL and metadata
 #'
+#' @section Comments in expression input:
+#' Comments inside a `{ }` expression are recovered from R's source references, so
+#' they survive interactively but are dropped inside a knitted 'Quarto' or
+#' 'R Markdown' document. Pass a string or a file path, or use the `livelink` chunk
+#' engine, if you need them preserved. See [webr_repl_link()] for the details.
+#'
+#' @seealso [use_livelink_engine()] to turn a document chunk into a link.
+#'
 #' @export
 #' @examples
 #' # Expression input (no quotes needed!)

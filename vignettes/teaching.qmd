@@ -1,0 +1,198 @@
+---
+title: "Teaching with livelink"
+vignette: >
+  %\VignetteIndexEntry{Teaching with livelink}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+format:
+  html:
+    embed-resources: true
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+```{r setup}
+library(livelink)
+```
+
+The hardest part of teaching R is not R. It is the twenty minutes at the start of a
+workshop spent installing R, then RStudio, then a package that fails to compile on
+one student's laptop.
+
+livelink sidesteps that. A link opens a working R session in the browser, with your
+code already in the editor. Nothing to install, nothing to configure, and it works on
+a school Chromebook.
+
+## Exercise and solution pairs
+
+`webr_repl_exercise()` is built for the most common teaching shape: give students a
+scaffold with the answer removed, and keep the worked solution behind a second link.
+
+```{r}
+exercise <- "
+# Exercise: what is the mean mpg of the cars in mtcars?
+# Replace the 0 below with your answer.
+
+mean_mpg <- 0
+print(mean_mpg)
+"
+
+solution <- "
+# Solution
+mean_mpg <- mean(mtcars$mpg)
+print(mean_mpg)
+"
+
+links <- webr_repl_exercise(exercise, solution, "mean_mpg")
+links
+```
+
+The two links differ in one deliberate way: the solution **autoruns** and the exercise
+does not. Students landing on the exercise see the code sitting there waiting for
+them. Students landing on the solution see the answer already computed.
+
+```{r}
+links$exercise$autorun
+links$solution$autorun
+```
+
+Hand out the exercise link in class; hold the solution link back until afterwards, or
+put it behind a collapsed callout in your notes.
+
+```{r}
+repl_urls(links)
+```
+
+## Choosing what students see
+
+A full webR session shows an editor, a plot pane, a file browser, and a terminal. For
+a first-year class that is a lot of surface area, and the terminal in particular
+invites students to wander off.
+
+`panels` controls which of them appear.
+
+![The four webR panels. `panels` selects which are shown.](../man/figures/livelink-panels.svg){fig-alt="A schematic browser window divided into four labelled regions: an editor pane for code, a plot pane for graphics, a files pane for the file browser, and a terminal pane for the R console."}
+
+```{r}
+# A focused exercise: just write code and see the plot
+webr_repl_link("plot(1:10)", panels = c("editor", "plot"))
+```
+
+```{r}
+#| eval: false
+# The full environment, for a project week
+webr_repl_link(code, panels = c("editor", "plot", "files", "terminal"))
+```
+
+For a lecture demo, where students should see the *result* and not the machinery,
+combine `autorun` with a plot-only view:
+
+```{r}
+webr_repl_link(
+  "hist(rnorm(1000), col = 'steelblue', main = 'The central limit theorem, again')",
+  autorun = TRUE,
+  panels  = "plot"
+)
+```
+
+Only `.R` files can autorun. Ask for it on something else and livelink tells you
+rather than quietly producing a link that does nothing:
+
+```{r}
+#| error: true
+webr_repl_link("some data", filename = "data.csv", autorun = TRUE)
+```
+
+## A whole folder of scripts
+
+Course material tends to live as a directory of scripts. `webr_repl_directory()`
+turns each one into its own link in a single call.
+
+```{r}
+# A small course directory
+course <- file.path(tempdir(), "course")
+dir.create(course, showWarnings = FALSE)
+writeLines("plot(1:10)",           file.path(course, "01-plotting.R"))
+writeLines("mean(mtcars$mpg)",     file.path(course, "02-summaries.R"))
+writeLines("lm(mpg ~ wt, mtcars)", file.path(course, "03-models.R"))
+
+links <- webr_repl_directory(course, panels = c("editor", "plot"))
+links
+```
+
+The result is named by file, so you can drop it straight into a table of contents:
+
+```{r}
+urls <- repl_urls(links)
+cat(sprintf("- [%s](%s)", names(urls), urls), sep = "\n")
+```
+
+Use `pattern` to pick out a subset -- exercises but not solutions, say:
+
+```{r}
+webr_repl_directory(course, pattern = "^0[12]")
+```
+
+## Embedding links in your notes
+
+If you write course notes in Quarto or R Markdown, you do not have to build the link
+in one chunk and paste the URL into another. livelink registers a **chunk engine**:
+write the code as a normal chunk, get a link.
+
+````
+```{livelink}
+#| autorun: true
+# Load the data
+data(mtcars)
+plot(mtcars$mpg, mtcars$wt)   # a comment students will actually see
+```
+````
+
+renders the code *and* a link to run it, with your comments intact.
+
+This is the recommended way to embed links in a document, and not only for
+convenience. `webr_repl_link({ ... })` recovers your code from R's source
+references, and knitr discards those when it renders a chunk -- so comments inside a
+`{ }` expression silently vanish from the link, exactly where a teaching example
+needs them most. The chunk engine is handed the raw source, so nothing is lost.
+
+Chunk options map onto the arguments you already know:
+
+````
+```{livelink}
+#| panels: ["editor", "plot"]
+#| link.text: "Try it yourself"
+mean(mtcars$mpg)
+```
+````
+
+and `engine.target` switches to Shinylive when you want an app instead of a REPL:
+
+````
+```{livelink}
+#| engine.target: shinylive-r
+#| mode: app
+library(shiny)
+shinyApp(fluidPage(sliderInput("n", "n", 1, 100, 50)), function(input, output) {})
+```
+````
+
+## Collecting work back in
+
+Students send you links. `decode_webr_link()` accepts a vector of them and writes each
+into its own directory, so a stack of submissions becomes a folder you can grade.
+
+```{r}
+submissions <- c(
+  as.character(webr_repl_link("mean(mtcars$mpg)",   filename = "student_a.R")),
+  as.character(webr_repl_link("median(mtcars$mpg)", filename = "student_b.R"))
+)
+
+decode_webr_link(submissions, output_dir = file.path(tempdir(), "submissions"))
+```
+
+If you would rather read the code than write it to disk, `preview_webr_link()` shows
+you a submission without touching your filesystem at all -- which is the safer default
+when the code came from someone else.

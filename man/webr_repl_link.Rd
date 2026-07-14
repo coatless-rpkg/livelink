@@ -45,6 +45,19 @@ webr_link object containing the WebR sharelink and metadata
 Generates a shareable URL for R code that can be executed in the webR environment.
 Supports expressions, file paths, character strings, and clipboard input.
 }
+\section{Comments in expression input}{
+
+Expression input recovers your source from R's \emph{source references}, which R only
+attaches when \code{keep.source} is enabled. Comments therefore survive in an
+interactive session, but are dropped when the calling code is parsed without
+source references -- notably inside a knitted 'Quarto' or 'R Markdown' document,
+because 'knitr' evaluates chunks through \code{evaluate::evaluate()}, which discards
+them. No \code{keep.source} setting recovers them there.
+
+If you need comments preserved, pass the code as a string or a file path, or use
+the \code{livelink} chunk engine in a knitted document (see \code{\link[=use_livelink_engine]{use_livelink_engine()}}).
+}
+
 \examples{
 # Expression input (no quotes needed!)
 webr_repl_link({
@@ -70,4 +83,7 @@ webr_repl_link(script)
 if (interactive()) {
   webr_repl_link()
 }
+}
+\seealso{
+\code{\link[=use_livelink_engine]{use_livelink_engine()}} to turn a document chunk into a link.
 }

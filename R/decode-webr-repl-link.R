@@ -329,22 +329,23 @@ detect_binary_content <- function(content) {
     return(FALSE)
   }
 
-  # Check for null bytes or other non-printable characters that suggest binary
-  # For now, assume most webR content is text unless it's clearly hex-encoded
   raw_chars <- charToRaw(content)
 
-  # Check for null bytes
-  has_nulls <- any(raw_chars == 0)
+  if (any(raw_chars == 0)) {
+    return(TRUE)
+  }
 
-  # Check percentage of non-printable characters (excluding common whitespace)
-  printable <- raw_chars >= 32 & raw_chars <= 126  # Basic ASCII printable
-  whitespace <- raw_chars %in% c(9, 10, 13)        # Tab, LF, CR
-  valid_chars <- printable | whitespace
+  # Well-formed UTF-8 is text, even though its bytes run above 126. Judging
+  # "printable" byte by byte would call "café" and "你好" binary.
+  if (!validUTF8(content)) {
+    return(TRUE)
+  }
 
-  # If more than 10% non-printable, consider binary
-  non_printable_ratio <- sum(!valid_chars) / length(raw_chars)
+  # Control characters (other than tab, newline, carriage return) are the real
+  # signal that this is not text.
+  control <- raw_chars < as.raw(32) & !(raw_chars %in% as.raw(c(9, 10, 13)))
 
-  return(has_nulls || non_printable_ratio > 0.1)
+  sum(control) / length(raw_chars) > 0.1
 }
 
 #' Normalize msgpack data from RcppMsgPack format to list format

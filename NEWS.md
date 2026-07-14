@@ -36,6 +36,28 @@ Initial CRAN release.
 * Support for webR interface panels (plot, files, terminal, editor)
 * Autorun capability for automatic code execution
 
+### Documents
+
+* `use_livelink_engine()`: registers a `livelink` chunk engine for 'knitr' and
+  'Quarto', so a code chunk in a document becomes a runnable link.
+
+  ````
+  ```{livelink}
+  #| autorun: true
+  # Load the data
+  data(mtcars)
+  plot(mtcars$mpg, mtcars$wt)
+  ```
+  ````
+
+  Use this rather than expression input inside a knitted document. 'knitr' runs
+  chunks through `evaluate::evaluate()`, which discards source references, so
+  comments inside a `{ }` expression are silently dropped when a document is
+  rendered -- and no `keep.source` setting recovers them. The engine receives the
+  chunk's verbatim source, so comments survive. Chunk options cover `autorun`,
+  `panels`, `mode`, `filename`, `link.text`, `link.only`, and `engine.target`
+  (`"webr"`, `"shinylive-r"`, or `"shinylive-py"`).
+
 ## Naming
 
 The public API was unified before the first release:
@@ -47,6 +69,12 @@ The public API was unified before the first release:
 * webR's interface argument is now `panels`, not `mode`. `mode` meant two
   unrelated things: which webR panels to display, and Shinylive's
   `"editor"`/`"app"` display mode. Shinylive keeps `mode`.
+* Decoded results now expose the same fields whether they came from webR or
+  Shinylive. `webr_decoded` gains `total_files` and `total_size`;
+  `webr_decoded_batch` gains `total_urls`, `successful_urls`, `total_files`, and
+  `total_size`, and its `base_output_dir` field is renamed `base_dir` to match
+  `shinylive_decoded_batch`. Previously the two engines returned different shapes,
+  so no caller could handle both.
 
 ## Fixes made before release
 
@@ -81,3 +109,11 @@ The public API was unified before the first release:
   `Rscript` and `R CMD check`).
 * `decode_*()` functions now default to writing inside the session temporary
   directory rather than the current working directory.
+* Only a `{ ... }` block is now treated as literal source. Previously any call
+  was, so `webr_repl_link(paste0("plot(", "1:10", ")"))` shared the text
+  `paste0(...)` instead of the plot it produces.
+* Named-list input to `shinylive_r_link()` and `shinylive_py_link()` was
+  documented but never worked; `process_input()` rejected any multi-element input.
+* `detect_binary_content()` judged "printable" byte by byte, so every byte above
+  126 counted against a file -- meaning ordinary UTF-8 text such as `café` or
+  `你好` was classified as binary and previewed as `[Binary data]`.
