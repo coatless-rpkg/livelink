@@ -2,7 +2,7 @@
 
 <!-- README.md is generated from README.qmd. Please edit that file -->
 
-# livelink <img src="man/figures/livelink-animated-logo.svg" align="right" width="139" />
+# livelink <img src="man/figures/livelink-animated-logo.svg" align="right" width="139" alt="livelink package logo: a browser window showing a code editor beside a live plot output, with dashed arcs flowing between them" />
 
 <!-- badges: start -->
 

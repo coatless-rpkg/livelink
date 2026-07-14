@@ -40,6 +40,15 @@ jobs:
           extra-packages: any::pkgdown, local::.
           needs: website
 
+      # pkgdown renders every root-level .md into the site, and its skip list is
+      # hardcoded (README/LICENSE/NEWS/cran-comments). CLAUDE.md is internal
+      # contributor guidance, not a public page -- and deleting the generated
+      # page afterwards is not enough, because it also lands in search.json and
+      # sitemap.xml. Drop it before the build; the checkout is ephemeral.
+      - name: Hide internal contributor docs from pkgdown
+        run: rm -f CLAUDE.md
+        shell: bash
+
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
