@@ -36,7 +36,7 @@
 
   <!-- masthead -->
   <text class="s eyebrow mut" x="28" y="38" font-size="12" font-weight="600">ANATOMY OF A LINK</text>
-  <text class="m h" x="28" y="66" font-size="17" font-weight="600">webr_repl_link(&quot;plot(1:10)&quot;, panels = c(&quot;editor&quot;, &quot;plot&quot;))</text>
+  <text class="m h" x="28" y="66" font-size="17" font-weight="600">webr_repl_link({ plot(1:10) }, panels = c(&quot;editor&quot;, &quot;plot&quot;))</text>
   <text class="s b" x="28" y="90" font-size="13">Every piece of the URL is doing a job. Here is what that call actually returns.</text>
   <line class="rule" x1="28" y1="104" x2="672" y2="104"/>
 

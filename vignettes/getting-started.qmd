@@ -26,6 +26,11 @@ at a running R session in their browser.
 There is no server and no upload. The code is compressed and encoded into the part of
 the URL after the `#`, which browsers never send anywhere. The link is the payload.
 
+![R code in, a live browser session out.](../man/figures/livelink-hero.svg){fig-alt="The call webr_repl_link({ plot(1:10) }) becomes a webR URL whose #code fragment carries the whole script, and the link opens a running R session showing the plot. Everything after the hash is a URL fragment, which browsers never send to a server."}
+
+The steps in between — serialize to JSON, gzip, base64, percent-escape — are worth
+seeing once:
+
 ![How livelink turns R code into a shareable URL.](../man/figures/livelink-pipeline.svg){fig-alt="A pipeline diagram. R code is serialized to JSON, compressed with gzip, encoded as base64, and placed in the fragment of a URL after a hash symbol. Opening the URL runs the code in the browser."}
 
 Two destinations are supported:

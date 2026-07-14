@@ -2,7 +2,7 @@
 
 <!-- README.md is generated from README.qmd. Please edit that file -->
 
-# livelink <img src="man/figures/livelink-animated-logo.svg" align="right" width="139" alt="livelink package logo: a browser window showing a code editor beside a live plot output, with dashed arcs flowing between them" />
+# livelink <a href="https://r-pkg.thecoatlessprofessor.com/livelink/"><img src="man/figures/livelink-logo-light-animated.svg" align="right" height="139" alt="livelink website" /></a>
 
 <!-- badges: start -->
 
@@ -23,7 +23,7 @@ There is no server and nothing to upload. Your code is compressed and
 encoded *into the URL itself* — the recipient clicks the link and is
 looking at a running R session in their browser.
 
-<img src="man/figures/livelink-pipeline.svg" width="100%" alt="A pipeline diagram. R code is serialized to JSON with jsonlite, compressed with gzip, encoded as base64, and packed into the fragment of a webR URL after a hash symbol. Opening the URL runs the code in the browser. Nothing is uploaded, because browsers never send the fragment to a server." />
+<img src="man/figures/livelink-hero.svg" width="100%" alt="R code in, live browser session out. The call webr_repl_link({ plot(1:10) }) becomes a webR URL whose #code fragment carries the whole script, and the link opens a running R session showing the plot. Everything after the hash is a URL fragment, which browsers never send to a server." />
 
 Full documentation is at
 <https://r-pkg.thecoatlessprofessor.com/livelink/>.
@@ -58,23 +58,34 @@ applications, and Python Shiny applications using `livelink`.
 
 Share R code that runs in the browser:
 
+Pass the code straight in. No quotes, no escaping — just braces:
+
 ``` r
 library(livelink)
 
-# Some R code to share
-code <- "1 + 1"
+link <- webr_repl_link({
+  data(mtcars)
+  plot(mtcars$mpg, mtcars$wt)
+})
 
-# Create shareable link that runs in webR
-link <- webr_repl_link(code)
 print(link)
 #> 
 #> ── WebR Link ──
 #> 
-#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKjBU0FYwVKqNBQAccxXr&jz>
+#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKkhJLEnUyC1JTiwq1ozJK8jJL4HyVHIL0nUUoOzyEk2l2lgAXmokRA%3D%3D&jz>
 #> 
 #> File: 'script.R' → '/home/web_user/script.R'
 #> Version: "latest"
 #> Autorun: FALSE
+```
+
+Strings, file paths, and the clipboard work too, if the code is already
+somewhere else:
+
+``` r
+webr_repl_link("plot(1:10)")     # a string
+webr_repl_link("analysis.R")     # a file on disk
+webr_repl_link()                 # whatever is on your clipboard
 ```
 
 ### Shinylive Apps

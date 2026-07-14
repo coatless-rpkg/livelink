@@ -2,6 +2,7 @@ url: https://r-pkg.thecoatlessprofessor.com/livelink/
 
 template:
   bootstrap: 5
+  light-switch: true
   bslib:
     primary: "#0054AD"
     border-radius: 0.5rem
@@ -18,8 +19,11 @@ home:
 
 navbar:
   structure:
+    # `lightswitch` must be listed explicitly. Setting `light-switch: true`
+    # alone only enables the feature; pkgdown drops the toggle whenever
+    # `structure.right` is overridden, as it is here.
     left:  [intro, reference, articles, news]
-    right: [search, github]
+    right: [search, github, lightswitch]
   components:
     articles:
       text: Articles

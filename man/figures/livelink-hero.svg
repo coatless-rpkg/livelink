@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 460" role="img" aria-labelledby="llTitle llDesc">
+  <title id="llTitle">livelink — R code in, live browser session out</title>
+  <desc id="llDesc">The call webr_repl_link({ plot(1:10) }) shown large in monospace. An amber line traces the braced expression down into the fragment of a URL, https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0Q…&amp;jz. To the right, a browser window shows the same link in its address bar and the resulting plot of ten ascending points.</desc>
+
+  <style>
+    .bg     { fill: #f8fafc; stroke: #e2e8f0; }
+    .ink    { fill: #0f172a; }
+    .muted  { fill: #64748b; }
+    .blue   { fill: #0054AD; }
+    .amber  { fill: #f59e0b; }
+    .rule   { stroke: #e2e8f0; }
+    .hair   { stroke: #cbd5e1; }
+    .wire   { stroke: #f59e0b; fill: none; stroke-width: 2; }
+    .pane   { fill: #ffffff; stroke: #e2e8f0; }
+    .chrome { fill: #eef2f7; }
+    .dot    { fill: #cbd5e1; }
+    .pt     { fill: #0054AD; }
+    .glow   { fill: #f59e0b; }
+
+    .mono   { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; }
+    .sans   { font-family: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg     { fill: #0b1120; stroke: #1e293b; }
+      .ink    { fill: #e2e8f0; }
+      .muted  { fill: #94a3b8; }
+      .blue   { fill: #38bdf8; }
+      .rule   { stroke: #1e293b; }
+      .hair   { stroke: #334155; }
+      .pane   { fill: #0f172a; stroke: #1e293b; }
+      .chrome { fill: #1e293b; }
+      .dot    { fill: #475569; }
+      .pt     { fill: #38bdf8; }
+    }
+
+    @keyframes pop  { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    @keyframes send { 0% { opacity: 0; offset-distance: 0%; } 12% { opacity: 1; } 78% { opacity: 1; } 88%,100% { opacity: 0; offset-distance: 100%; } }
+
+    .pt { animation: pop .55s cubic-bezier(.2,.8,.2,1) backwards; transform-box: fill-box; transform-origin: center; }
+    .spark {
+      opacity: 0;
+      offset-path: path("M 592 190 L 592 214 C 592 246 386 230 386 268");
+      animation: send 4.6s cubic-bezier(.6,0,.4,1) infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pt, .spark { animation: none; }
+    }
+  </style>
+
+  <rect class="bg" x="0.5" y="0.5" width="1199" height="459" rx="22"/>
+
+  <!-- eyebrow -->
+  <text class="sans muted" x="64" y="78" font-size="13" font-weight="600" letter-spacing="2.6">R CODE IN&#160;&#160;&#8594;&#160;&#160;LIVE BROWSER SESSION OUT</text>
+
+  <!-- headline: the call itself -->
+  <text class="mono ink" x="64" y="160" font-size="40" font-weight="600" letter-spacing="0">webr_repl_link(<tspan class="amber">{</tspan><tspan class="blue"> plot(1:10) </tspan><tspan class="amber">}</tspan>)</text>
+
+  <!-- amber trace: the braced expression becomes the fragment -->
+  <path class="wire" d="M 436 190 L 748 190" stroke-linecap="round"/>
+  <path class="wire" d="M 592 190 L 592 214 C 592 246 386 230 386 268" stroke-linecap="round"/>
+  <path class="amber" d="M 386 278 l -5 -9 l 10 0 z"/>
+  <circle class="spark glow" cx="0" cy="0" r="4"/>
+
+  <!-- the link -->
+  <text class="mono" x="64" y="300" font-size="17"><tspan class="muted">https://webr.r-wasm.org/latest/</tspan><tspan class="amber" font-weight="600">#code=</tspan><tspan class="blue">eJyLrlbKS8xNVbJSKk4uyiwo0Q</tspan><tspan class="muted">&#8230;&amp;jz</tspan></text>
+
+  <text class="sans muted" x="64" y="332" font-size="14">Everything after the # is a URL fragment. Browsers never send it — no server, no upload.</text>
+
+  <!-- footer -->
+  <line class="rule" x1="64" y1="378" x2="1136" y2="378" stroke-width="1"/>
+  <text class="sans muted" x="64" y="406" font-size="14">webR REPL &#183; Shinylive apps in R and Python &#183; decode any link back into files</text>
+
+  <!-- browser motif -->
+  <g>
+    <rect class="pane" x="846.5" y="92.5" width="289" height="247" rx="12" stroke-width="1"/>
+    <path class="chrome" d="M 846.5 104.5 a 12 12 0 0 1 12 -12 h 265 a 12 12 0 0 1 12 12 v 22 h -289 z"/>
+    <line class="rule" x1="846.5" y1="126.5" x2="1135.5" y2="126.5" stroke-width="1"/>
+    <circle class="dot" cx="868" cy="109" r="4"/>
+    <circle class="dot" cx="884" cy="109" r="4"/>
+    <circle class="dot" cx="900" cy="109" r="4"/>
+    <text class="mono" x="922" y="114" font-size="12"><tspan class="muted">webr.r-wasm.org/</tspan><tspan class="amber" font-weight="600">#code=</tspan><tspan class="muted">&#8230;</tspan></text>
+
+    <!-- plot(1:10) -->
+    <line class="hair" x1="886" y1="160" x2="886" y2="312" stroke-width="1.5" stroke-linecap="round"/>
+    <line class="hair" x1="886" y1="312" x2="1108" y2="312" stroke-width="1.5" stroke-linecap="round"/>
+    <g>
+      <circle class="pt" cx="906"  cy="300" r="5" style="animation-delay:.30s"/>
+      <circle class="pt" cx="928"  cy="285" r="5" style="animation-delay:.38s"/>
+      <circle class="pt" cx="950"  cy="270" r="5" style="animation-delay:.46s"/>
+      <circle class="pt" cx="972"  cy="255" r="5" style="animation-delay:.54s"/>
+      <circle class="pt" cx="994"  cy="240" r="5" style="animation-delay:.62s"/>
+      <circle class="pt" cx="1016" cy="225" r="5" style="animation-delay:.70s"/>
+      <circle class="pt" cx="1038" cy="210" r="5" style="animation-delay:.78s"/>
+      <circle class="pt" cx="1060" cy="195" r="5" style="animation-delay:.86s"/>
+      <circle class="pt" cx="1082" cy="180" r="5" style="animation-delay:.94s"/>
+      <circle class="pt" cx="1104" cy="165" r="5" style="animation-delay:1.02s"/>
+    </g>
+  </g>
+</svg>
