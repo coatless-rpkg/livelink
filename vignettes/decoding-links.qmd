@@ -13,6 +13,18 @@ knitr:
     comment: '#>'
 ---
 
+```{=html}
+<style>
+.ll-fig{display:block;margin:1.5rem auto;max-width:100%;height:auto}
+.ll-dark{display:none}
+@media (prefers-color-scheme:dark){.ll-light{display:none}.ll-dark{display:block}}
+[data-bs-theme=light] .ll-light{display:block}
+[data-bs-theme=light] .ll-dark{display:none}
+[data-bs-theme=dark] .ll-light{display:none}
+[data-bs-theme=dark] .ll-dark{display:block}
+</style>
+```
+
 ```{r setup}
 library(livelink)
 ```
@@ -24,7 +36,8 @@ anywhere, which is what makes these links work offline and forever.
 That has a useful consequence: any link can be turned back into the files it came
 from, by anyone, with no network access.
 
-![Encoding a link and decoding it again are inverse operations: the files you put in are the files you get back.](../man/figures/livelink-roundtrip.svg){fig-alt="A round-trip diagram. On the left, a set of R files flows through webr_repl_link into a URL. On the right, the same URL flows back through decode_webr_link into the identical set of files."}
+![Encoding and decoding are inverse operations. The files you put into a link are the files you get back, byte for byte, with no server and no network.](figures/roundtrip-light.svg){.ll-fig .ll-light}
+![](figures/roundtrip-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 ## Look before you leap
 

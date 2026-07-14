@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 288" role="img" aria-labelledby="t d">
+  <title id="t">Which webR panels each call shows</title>
+  <desc id="d">A matrix of the four webR panels against three example calls, showing which panels each one displays.</desc>
+  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.ink{fill:#e2e8f0}.body{fill:#cbd5e1}.muted{fill:#94a3b8}.faint{fill:#64748b}.card{fill:#1e293b}.cardline{fill:#334155}.rail{fill:#475569}.accent{fill:#4C9AFF}.accent_soft{fill:#12315c}.hollow{fill:#475569}</style>
+  <text class="m muted" x="300" y="24" font-size="12">panels =</text>
+  <text class="m accent" x="300" y="42" font-size="12.5">c("editor", "plot")</text>
+  <text class="m muted" x="485" y="24" font-size="12">panels =</text>
+  <text class="m accent" x="485" y="42" font-size="12.5">"editor"</text>
+  <text class="m muted" x="670" y="24" font-size="12">panels =</text>
+  <text class="m accent" x="670" y="42" font-size="12.5">NULL (the default)</text>
+  <rect x="24" y="58" width="802" height="36" rx="6" fill="#1e293b"/>
+  <text class="m ink" x="42" y="82" font-size="13.5">editor</text>
+  <circle cx="326" cy="77" r="7" fill="#4C9AFF"/>
+  <circle cx="511" cy="77" r="7" fill="#4C9AFF"/>
+  <circle cx="696" cy="77" r="7" fill="#4C9AFF"/>
+  <text class="m ink" x="42" y="122" font-size="13.5">plot</text>
+  <circle cx="326" cy="117" r="7" fill="#4C9AFF"/>
+  <circle cx="511" cy="117" r="6.5" fill="none" stroke="#475569" stroke-width="1.5"/>
+  <circle cx="696" cy="117" r="7" fill="#4C9AFF"/>
+  <rect x="24" y="138" width="802" height="36" rx="6" fill="#1e293b"/>
+  <text class="m ink" x="42" y="162" font-size="13.5">files</text>
+  <circle cx="326" cy="157" r="6.5" fill="none" stroke="#475569" stroke-width="1.5"/>
+  <circle cx="511" cy="157" r="6.5" fill="none" stroke="#475569" stroke-width="1.5"/>
+  <circle cx="696" cy="157" r="7" fill="#4C9AFF"/>
+  <text class="m ink" x="42" y="202" font-size="13.5">terminal</text>
+  <circle cx="326" cy="197" r="6.5" fill="none" stroke="#475569" stroke-width="1.5"/>
+  <circle cx="511" cy="197" r="6.5" fill="none" stroke="#475569" stroke-width="1.5"/>
+  <circle cx="696" cy="197" r="7" fill="#4C9AFF"/>
+  <text class="m muted" x="300" y="244" font-size="12">?mode='editor-plot'</text>
+  <text class="m muted" x="485" y="244" font-size="12">?mode='editor'</text>
+  <text class="m muted" x="670" y="244" font-size="12">no ?mode= at all</text>
+  <text class="s faint" x="42" y="274" font-size="12">Panel names are hyphen-joined into the query string. Omit panels and webR shows all four.</text>
+</svg>

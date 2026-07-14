@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 394" role="img" aria-labelledby="t d">
+  <title id="t">The parts of a webR URL</title>
+  <desc id="d">A webR URL split into base address, version, panels, the code fragment, and the encoding flags.</desc>
+  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}</style>
+  <rect x="24" y="12" width="802" height="46" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <text class="m ink" x="42" y="41" font-size="13">https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyLrlbKS8xNVbJS…&amp;jz</text>
+  <text class="m accent" x="42" y="92" font-size="13">https://webr.r-wasm.org/</text>
+  <text class="s lbl muted" x="826" y="92" font-size="11" text-anchor="end">base address</text>
+  <text class="s muted" x="42" y="111" font-size="12.5">where webR is served from</text>
+  <text class="m accent" x="42" y="138" font-size="13">latest/</text>
+  <text class="s lbl muted" x="826" y="138" font-size="11" text-anchor="end">version</text>
+  <text class="s muted" x="42" y="157" font-size="12.5">pin a release such as "v0.5.4" to freeze the environment</text>
+  <text class="m accent" x="42" y="184" font-size="13">?mode='editor-plot'</text>
+  <text class="s lbl muted" x="826" y="184" font-size="11" text-anchor="end">panels</text>
+  <text class="s muted" x="42" y="203" font-size="12.5">panels = c("editor", "plot"), hyphen-joined</text>
+  <text class="m accent" x="42" y="230" font-size="13">#code=eJyLrlbKS8xNVbJS…</text>
+  <text class="s lbl muted" x="826" y="230" font-size="11" text-anchor="end">the fragment</text>
+  <text class="s muted" x="42" y="249" font-size="12.5">your files as JSON, gzipped, base64'd</text>
+  <text class="m accent" x="42" y="276" font-size="13">&amp;jz</text>
+  <text class="s lbl muted" x="826" y="276" font-size="11" text-anchor="end">flags</text>
+  <text class="s muted" x="42" y="295" font-size="12.5">how to read the payload</text>
+  <line x1="24" y1="326" x2="826" y2="326" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="36" y="339" width="18" height="18" rx="4" fill="#e0edff"/>
+  <text class="m accent" x="42" y="352" font-size="12" font-weight="700">j</text>
+  <text class="s muted" x="64" y="352" font-size="12.5">JSON</text>
+  <rect x="166" y="339" width="18" height="18" rx="4" fill="#e0edff"/>
+  <text class="m accent" x="172" y="352" font-size="12" font-weight="700">z</text>
+  <text class="s muted" x="194" y="352" font-size="12.5">gzip</text>
+  <rect x="296" y="339" width="18" height="18" rx="4" fill="#e0edff"/>
+  <text class="m accent" x="302" y="352" font-size="12" font-weight="700">m</text>
+  <text class="s muted" x="324" y="352" font-size="12.5">msgpack</text>
+  <rect x="446" y="339" width="18" height="18" rx="4" fill="#e0edff"/>
+  <text class="m accent" x="452" y="352" font-size="12" font-weight="700">u</text>
+  <text class="s muted" x="474" y="352" font-size="12.5">uncompressed</text>
+  <rect x="626" y="339" width="18" height="18" rx="4" fill="#e0edff"/>
+  <text class="m accent" x="632" y="352" font-size="12" font-weight="700">a</text>
+  <text class="s muted" x="654" y="352" font-size="12.5">autorun</text>
+  <text class="s faint" x="42" y="380" font-size="12">livelink writes jz. webR's own share button writes mz. livelink reads both.</text>
+</svg>

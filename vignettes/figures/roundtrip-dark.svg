@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 332" role="img" aria-labelledby="t d">
+  <title id="t">Encoding and decoding are inverse operations</title>
+  <desc id="d">Files flow through webr_repl_link into one URL, and back out through decode_webr_link as the identical files.</desc>
+  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.ink{fill:#e2e8f0}.body{fill:#cbd5e1}.muted{fill:#94a3b8}.faint{fill:#64748b}.card{fill:#1e293b}.cardline{fill:#334155}.rail{fill:#475569}.accent{fill:#4C9AFF}.accent_soft{fill:#12315c}.hollow{fill:#475569}</style>
+  <defs><marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#4C9AFF"/></marker></defs>
+  <text class="s lbl muted" x="42" y="24" font-size="11">YOUR FILES</text>
+  <text class="s lbl muted" x="360" y="24" font-size="11">ONE URL</text>
+  <text class="s lbl muted" x="662" y="24" font-size="11">THE SAME FILES</text>
+  <rect x="24" y="44" width="210" height="32" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m ink" x="40" y="65" font-size="13">main.R</text>
+  <rect x="640" y="44" width="186" height="32" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m ink" x="656" y="65" font-size="13">main.R</text>
+  <text class="s accent" x="812" y="65" font-size="14" text-anchor="end">✓</text>
+  <rect x="24" y="86" width="210" height="32" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m ink" x="40" y="107" font-size="13">utils.R</text>
+  <rect x="640" y="86" width="186" height="32" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m ink" x="656" y="107" font-size="13">utils.R</text>
+  <text class="s accent" x="812" y="107" font-size="14" text-anchor="end">✓</text>
+  <rect x="24" y="128" width="210" height="32" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m ink" x="40" y="149" font-size="13">README.md</text>
+  <rect x="640" y="128" width="186" height="32" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m ink" x="656" y="149" font-size="13">README.md</text>
+  <text class="s accent" x="812" y="149" font-size="14" text-anchor="end">✓</text>
+  <rect x="276" y="44" width="320" height="116" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m muted" x="292" y="70" font-size="12">webr.r-wasm.org/latest/</text>
+  <text class="m accent" x="292" y="92" font-size="12.5">#code=eJyLrlbKS8xNVbJS</text>
+  <text class="m accent" x="292" y="112" font-size="12.5">Kk4uyiwo0QtS0lEq…&amp;jz</text>
+  <text class="s muted" x="292" y="140" font-size="12">gzip + base64, in the fragment</text>
+  <path d="M240 102 L270 102" stroke="#4C9AFF" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M602 102 L634 102" stroke="#4C9AFF" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="24" y1="190" x2="826" y2="190" stroke="#334155"/>
+  <text class="s lbl muted" x="42" y="218" font-size="11">ENCODE</text>
+  <text class="s lbl muted" x="444" y="218" font-size="11">DECODE</text>
+  <text class="m accent" x="42" y="240" font-size="13">webr_repl_link()</text>
+  <text class="s muted" x="230" y="240" font-size="12.5">R code, into a link</text>
+  <text class="m accent" x="42" y="264" font-size="13">shinylive_r_link()</text>
+  <text class="s muted" x="230" y="264" font-size="12.5">a Shiny app, into a link</text>
+  <text class="m accent" x="444" y="240" font-size="13">decode_webr_link()</text>
+  <text class="s muted" x="636" y="240" font-size="12.5">writes the files to a directory</text>
+  <text class="m accent" x="444" y="264" font-size="13">preview_webr_link()</text>
+  <text class="s muted" x="636" y="264" font-size="12.5">inspects it, writing nothing</text>
+  <text class="s faint" x="42" y="318" font-size="12">Both directions are pure computation in your R session. No server, no network.</text>
+</svg>

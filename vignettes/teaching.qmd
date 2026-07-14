@@ -13,6 +13,18 @@ knitr:
     comment: '#>'
 ---
 
+```{=html}
+<style>
+.ll-fig{display:block;margin:1.5rem auto;max-width:100%;height:auto}
+.ll-dark{display:none}
+@media (prefers-color-scheme:dark){.ll-light{display:none}.ll-dark{display:block}}
+[data-bs-theme=light] .ll-light{display:block}
+[data-bs-theme=light] .ll-dark{display:none}
+[data-bs-theme=dark] .ll-light{display:none}
+[data-bs-theme=dark] .ll-dark{display:block}
+</style>
+```
+
 ```{r setup}
 library(livelink)
 ```
@@ -73,7 +85,8 @@ invites students to wander off.
 
 `panels` controls which of them appear.
 
-![The four webR panels. `panels` selects which are shown.](../man/figures/livelink-panels.svg){fig-alt="A schematic browser window divided into four labelled regions: an editor pane for code, a plot pane for graphics, a files pane for the file browser, and a terminal pane for the R console."}
+![webR has four panels. `panels` names the ones you want; the rest never appear.](figures/panels-light.svg){.ll-fig .ll-light}
+![](figures/panels-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 ```{r}
 # A focused exercise: just write code and see the plot

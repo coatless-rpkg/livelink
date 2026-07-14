@@ -2,7 +2,7 @@
 
 <!-- README.md is generated from README.qmd. Please edit that file -->
 
-# livelink <a href="https://r-pkg.thecoatlessprofessor.com/livelink/"><img src="man/figures/livelink-logo-light-animated.svg" align="right" height="139" alt="livelink website" /></a>
+# livelink <picture><source media="(prefers-color-scheme: dark)" srcset="man/figures/livelink-logo-dark-animated.svg"><img src="man/figures/livelink-logo-light-animated.svg" align="right" alt="Logo: a hexagon holding a stack of code lines that recede into the distance, with the livelink wordmark and an outbound arrow." width="150"/></picture>
 
 <!-- badges: start -->
 
@@ -20,10 +20,9 @@ environments like webR and for R and Python Shiny applications using
 Shinylive.
 
 There is no server and nothing to upload. Your code is compressed and
-encoded *into the URL itself* — the recipient clicks the link and is
-looking at a running R session in their browser.
-
-<img src="man/figures/livelink-hero.svg" width="100%" alt="R code in, live browser session out. The call webr_repl_link({ plot(1:10) }) becomes a webR URL whose #code fragment carries the whole script, and the link opens a running R session showing the plot. Everything after the hash is a URL fragment, which browsers never send to a server." />
+encoded *into the URL itself* — everything after the `#` is a URL
+fragment, which browsers never send anywhere. The recipient clicks the
+link and is looking at a running R session in their browser.
 
 Full documentation is at
 <https://r-pkg.thecoatlessprofessor.com/livelink/>.

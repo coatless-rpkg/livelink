@@ -1,0 +1,41 @@
+// livelink pkgdown theme
+// ----------------------
+// Brand palette, taken from the hexagon logo mark.
+//   #0f172a  navy    ink
+//   #0054AD  blue    the brand accent (pkgdown `primary`)
+//   #4C9AFF  blue+   the same accent, lifted for dark backgrounds
+//
+// Everything here is mode-aware: light rules sit at :root, dark overrides under
+// [data-bs-theme="dark"], so the `light-switch` toggle keeps working.
+
+// ---------------------------------------------------------------------------
+// Figures.
+//
+// Diagrams ship as light/dark SVG PAIRS rather than one file with an internal
+// @media (prefers-color-scheme) query. The pkgdown light switch sets
+// [data-bs-theme] on the document -- it does not change the OS colour scheme --
+// so a media query inside the SVG cannot see it, and the figure would stay light
+// while the rest of the page went dark. Swapping two <img> elements with CSS is
+// the only thing that tracks the toggle.
+//
+// The vignettes carry the same rules inline, so the figures also behave in the
+// standalone HTML that CRAN serves, where this stylesheet is absent.
+// ---------------------------------------------------------------------------
+.ll-fig {
+  display: block;
+  margin: 1.5rem auto;
+  max-width: 100%;
+  height: auto;
+}
+
+.ll-dark {
+  display: none;
+}
+
+[data-bs-theme="dark"] .ll-light {
+  display: none;
+}
+
+[data-bs-theme="dark"] .ll-dark {
+  display: block;
+}

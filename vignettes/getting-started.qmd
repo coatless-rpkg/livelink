@@ -13,6 +13,18 @@ knitr:
     comment: '#>'
 ---
 
+```{=html}
+<style>
+.ll-fig{display:block;margin:1.5rem auto;max-width:100%;height:auto}
+.ll-dark{display:none}
+@media (prefers-color-scheme:dark){.ll-light{display:none}.ll-dark{display:block}}
+[data-bs-theme=light] .ll-light{display:block}
+[data-bs-theme=light] .ll-dark{display:none}
+[data-bs-theme=dark] .ll-light{display:none}
+[data-bs-theme=dark] .ll-dark{display:block}
+</style>
+```
+
 ```{r setup}
 library(livelink)
 ```
@@ -26,12 +38,8 @@ at a running R session in their browser.
 There is no server and no upload. The code is compressed and encoded into the part of
 the URL after the `#`, which browsers never send anywhere. The link is the payload.
 
-![R code in, a live browser session out.](../man/figures/livelink-hero.svg){fig-alt="The call webr_repl_link({ plot(1:10) }) becomes a webR URL whose #code fragment carries the whole script, and the link opens a running R session showing the plot. Everything after the hash is a URL fragment, which browsers never send to a server."}
-
-The steps in between — serialize to JSON, gzip, base64, percent-escape — are worth
-seeing once:
-
-![How livelink turns R code into a shareable URL.](../man/figures/livelink-pipeline.svg){fig-alt="A pipeline diagram. R code is serialized to JSON, compressed with gzip, encoded as base64, and placed in the fragment of a URL after a hash symbol. Opening the URL runs the code in the browser."}
+![Your code is serialized to JSON, gzipped, base64-encoded, and placed in the fragment of a webR URL after the `#`. Opening the link runs it in the browser.](figures/pipeline-light.svg){.ll-fig .ll-light}
+![](figures/pipeline-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 Two destinations are supported:
 
@@ -127,7 +135,8 @@ through `shinylive_py_link()`.
 
 Nothing here is magic, and the URL is readable if you know where to look.
 
-![The parts of a webR URL.](../man/figures/livelink-url-anatomy.svg){fig-alt="A labelled webR URL, broken into parts: the base address, the webR version, a mode parameter listing which panels to show, a code fragment containing the base64-encoded files, and trailing flags indicating the encoding used."}
+![A webR URL in five parts: the base address, the version, the panels to show, the `#code=` fragment carrying your files, and the flags saying how the payload was encoded.](figures/url-anatomy-light.svg){.ll-fig .ll-light}
+![](figures/url-anatomy-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 The flags at the end say how the payload was encoded: `j` for JSON, `z` for gzip,
 `m` for msgpack, `u` for uncompressed, `a` for autorun. livelink writes `jz`; webR's
