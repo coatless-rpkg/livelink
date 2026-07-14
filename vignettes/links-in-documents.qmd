@@ -1,0 +1,163 @@
+---
+title: "Links inside documents"
+vignette: >
+  %\VignetteIndexEntry{Links inside documents}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+format:
+  html:
+    embed-resources: true
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+```{=html}
+<style>
+.ll-fig{display:block;margin:1.5rem auto;max-width:100%;height:auto}
+.ll-dark{display:none}
+@media (prefers-color-scheme:dark){.ll-light{display:none}.ll-dark{display:block}}
+[data-bs-theme=light] .ll-light{display:block}
+[data-bs-theme=light] .ll-dark{display:none}
+[data-bs-theme=dark] .ll-light{display:none}
+[data-bs-theme=dark] .ll-dark{display:block}
+</style>
+```
+
+```{r setup}
+library(livelink)
+```
+
+If you write in Quarto or R Markdown, you should not have to build a link in one chunk
+and paste the URL into another. livelink plugs into knitr, so a chunk can carry its own
+link.
+
+There are two ways in, and the choice comes down to one question: **should the code
+also run in your document?**
+
+![The hook leaves the chunk running, so the reader sees the output *and* gets a link. The engine replaces execution: the code is shown, nothing runs, and only a link is produced.](../man/figures/chunk-modes-light.svg){.ll-fig .ll-light}
+![](../man/figures/chunk-modes-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
+
+# The hook: output *and* a link
+
+Add `livelink: true` to an ordinary `r` chunk. Nothing else changes — the chunk runs,
+its output appears, and a link is added underneath.
+
+````
+```{{r}}
+#| livelink: true
+#| autorun: true
+# Load the data
+data(mtcars)
+plot(mtcars$mpg, mtcars$wt)   # a comment your reader will actually see
+```
+````
+
+That is a real chunk. Here it is, running in this very vignette — the plot below is
+drawn by R, here, and the link under it opens the same code in the browser:
+
+```{r}
+#| livelink: true
+#| autorun: true
+#| panels: ["editor", "plot"]
+# Load the data
+data(mtcars)
+plot(mtcars$mpg, mtcars$wt)   # a comment your reader will actually see
+```
+
+This is usually what you want. Readers see the result, and can still go and poke at it.
+
+# The engine: a link, and no execution
+
+Sometimes the code must *not* run in your document: a Shiny app, something needing a
+package you have not installed, something slow. Use a ```` ```{livelink} ```` chunk.
+The code is displayed, a link is produced, and nothing is executed.
+
+````
+```{{livelink}}
+#| engine.target: shinylive-r
+#| mode: app
+library(shiny)
+shinyApp(fluidPage(sliderInput("n", "n", 1, 100, 50)), function(input, output) {})
+```
+````
+
+That is how the Shiny examples in these vignettes are built. livelink does not depend
+on shiny, and does not want to.
+
+# Chunk options
+
+![Each option changes one part of the URL. `echo` is the exception: it changes what the reader sees, not the link.](../man/figures/chunk-options-light.svg){.ll-fig .ll-light}
+![](../man/figures/chunk-options-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
+
+| Option | Applies to | Effect |
+|---|---|---|
+| `livelink` | hook | `true` for webR, or name the target: `"webr"`, `"shinylive-r"`, `"shinylive-py"` |
+| `engine.target` | engine | the same three targets |
+| `autorun` | webR | run the code the moment the link opens |
+| `panels` | webR | which panels appear, e.g. `["editor", "plot"]` |
+| `mode` | Shinylive | `"editor"` or `"app"` |
+| `filename` | both | the file's name inside the environment |
+| `link.text` | both | the words the reader clicks |
+| `link.only` | engine | emit the link without the source |
+
+## `echo` does not do what you might think
+
+It is natural to assume the code must be visible for a link to be made. It does not.
+
+`echo` controls whether the **source is displayed in your page**. The link is built
+from the chunk's source, which knitr hands over regardless. So `echo: false` gives you
+a working link whose code you simply cannot see in the document:
+
+```{r}
+#| livelink: true
+#| echo: false
+#| link.text: "This link works, though you cannot see its code above"
+mean(mtcars$mpg)   # this comment still travels in the link
+```
+
+The code, and that comment, are both in the link. Follow it and look.
+
+`eval: false` is the other half: the chunk is shown but not run, which makes an `r`
+chunk behave rather like the engine.
+
+# Setting options once
+
+Chunk options are knitr options, so `opts_chunk` sets them for the whole document:
+
+```{r}
+#| eval: false
+knitr::opts_chunk$set(livelink = TRUE, autorun = TRUE)
+```
+
+Every subsequent `r` chunk then carries a link, and you opt one out where you do not
+want it:
+
+````
+```{{r}}
+#| livelink: false
+# scaffolding the reader does not need a link for
+setup_the_data()
+```
+````
+
+This is worth doing in course notes, where nearly every chunk should be something a
+student can open and edit.
+
+# Why not a braced expression?
+
+`webr_repl_link({ ... })` looks like it ought to work in a document. It does — but it
+loses your comments.
+
+knitr runs chunks through `evaluate::evaluate()`, which discards **source
+references**, and comments live in those. So a `{ }` expression inside a knitted
+document arrives at livelink with the comments already gone, and no `keep.source`
+setting brings them back.
+
+Both the hook and the engine are handed the chunk's **raw source**, which is the only
+route by which a comment reaches a link from a rendered document. That is the whole
+reason they exist.
+
+Use braces in an interactive session, where source references are present. Inside a
+document, use a chunk.

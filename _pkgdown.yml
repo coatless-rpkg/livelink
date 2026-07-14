@@ -34,6 +34,8 @@ navbar:
         href: articles/webr-and-shinylive.html
       - text: Decoding and previewing links
         href: articles/decoding-links.html
+      - text: Links inside documents
+        href: articles/links-in-documents.html
       - text: Teaching with livelink
         href: articles/teaching.html
 

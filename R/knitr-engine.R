@@ -61,10 +61,31 @@
 #'   \item{`link.only`}{Engine only. If `TRUE`, emit the link without the source.}
 #' }
 #'
-#' Standard chunk options such as `echo` and `eval` are honored by 'knitr' as usual.
+#' # Setting options once
+#'
+#' These are ordinary 'knitr' chunk options, so `opts_chunk` sets them for a whole
+#' document, and a single chunk opts out with `livelink: false`:
+#'
+#' ```
+#' knitr::opts_chunk$set(livelink = TRUE, autorun = TRUE)
+#' ```
+#'
+#' # `echo` does not gate the link
+#'
+#' It is natural to assume the code must be visible for a link to be made. It need
+#' not be. `echo` controls whether the **source is shown in your page**; the link is
+#' built from the chunk's source, which 'knitr' hands over either way. So
+#' `echo: false` gives a working link whose code the reader simply cannot see.
+#'
+#' `eval: false` is the other half: the chunk is displayed but not run, which makes
+#' an `r` chunk behave rather like the engine.
 #'
 #' @return Called for their side effect. Invisibly `TRUE` if registration
 #'   happened, `FALSE` if 'knitr' is not installed.
+#'
+#' @seealso `vignette("links-in-documents", package = "livelink")` for the whole
+#'   picture, and [webr_repl_link()] for why a braced expression loses comments in
+#'   a knitted document.
 #'
 #' @examplesIf requireNamespace("knitr", quietly = TRUE)
 #' # Both are registered on load; call directly only after resetting knitr's hooks.

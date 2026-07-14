@@ -66,5 +66,5 @@ if (interactive()) {
 }
 }
 \seealso{
-\code{\link[=use_livelink_engine]{use_livelink_engine()}} to turn a document chunk into a link.
+\link{livelink-knitr} to give a document chunk its own link.
 }

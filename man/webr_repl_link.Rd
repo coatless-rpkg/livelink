@@ -54,8 +54,9 @@ source references -- notably inside a knitted 'Quarto' or 'R Markdown' document,
 because 'knitr' evaluates chunks through \code{evaluate::evaluate()}, which discards
 them. No \code{keep.source} setting recovers them there.
 
-If you need comments preserved, pass the code as a string or a file path, or use
-the \code{livelink} chunk engine in a knitted document (see \code{\link[=use_livelink_engine]{use_livelink_engine()}}).
+If you need comments preserved, pass the code as a string or a file path, or write
+it as a chunk in the document -- see \link{livelink-knitr} and
+\code{vignette("links-in-documents", package = "livelink")}.
 }
 
 \examples{
@@ -85,5 +86,5 @@ if (interactive()) {
 }
 }
 \seealso{
-\code{\link[=use_livelink_engine]{use_livelink_engine()}} to turn a document chunk into a link.
+\link{livelink-knitr} to give a document chunk its own link.
 }

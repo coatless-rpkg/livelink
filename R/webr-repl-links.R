@@ -29,10 +29,11 @@
 #' because 'knitr' evaluates chunks through `evaluate::evaluate()`, which discards
 #' them. No `keep.source` setting recovers them there.
 #'
-#' If you need comments preserved, pass the code as a string or a file path, or use
-#' the `livelink` chunk engine in a knitted document (see [use_livelink_engine()]).
+#' If you need comments preserved, pass the code as a string or a file path, or write
+#' it as a chunk in the document -- see [livelink-knitr] and
+#' `vignette("links-in-documents", package = "livelink")`.
 #'
-#' @seealso [use_livelink_engine()] to turn a document chunk into a link.
+#' @seealso [livelink-knitr] to give a document chunk its own link.
 #'
 #' @export
 #' @examples

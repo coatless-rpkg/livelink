@@ -161,7 +161,7 @@ shinylive_py_link <- function(input = NULL, mode = "editor", header = TRUE, base
 #' 'R Markdown' document. Pass a string or a file path, or use the `livelink` chunk
 #' engine, if you need them preserved. See [webr_repl_link()] for the details.
 #'
-#' @seealso [use_livelink_engine()] to turn a document chunk into a link.
+#' @seealso [livelink-knitr] to give a document chunk its own link.
 #'
 #' @export
 #' @examples

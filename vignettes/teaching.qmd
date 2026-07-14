@@ -163,26 +163,9 @@ carry its own link.
 ![A `livelink` chunk renders as the code plus a link that runs it — comments and all. A braced expression cannot manage that in a knitted document.](../man/figures/engine-light.svg){.ll-fig .ll-light}
 ![](../man/figures/engine-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
-There are two ways in, and the choice comes down to one question: **should the code
-also run in your notes?**
-
-### The chunk hook — output *and* a link
-
 Add `livelink: true` to an ordinary `r` chunk. It runs as it always did — the plot
-appears in your notes — and a link is added underneath.
-
-````
-```{{r}}
-#| livelink: true
-#| autorun: true
-# Load the data
-data(mtcars)
-plot(mtcars$mpg, mtcars$wt)   # a comment students will actually see
-```
-````
-
-That is a real chunk, and here it is running in this very vignette. The plot below is
-rendered by R, here; the link beneath it opens the same code in the browser:
+appears in your notes — and a link is added underneath. Here it is, running in this
+very vignette:
 
 ```{r}
 #| livelink: true
@@ -193,54 +176,19 @@ data(mtcars)
 plot(mtcars$mpg, mtcars$wt)   # a comment students will actually see
 ```
 
-This is usually what you want for teaching notes. Students read the result *and* get
-to go and poke at it.
+Students read the result *and* get to go and poke at it. Follow the link: the comments
+are still there, which they would not be had you written `webr_repl_link({ ... })`.
 
-### The engine — a link, and no execution
+For a folder of course notes, set it once and let every chunk carry a link:
 
-Sometimes the code must not run in your notes: a Shiny app, something needing a
-package you have not installed, something slow. Then use a ```` ```{livelink} ````
-chunk. The code is shown, a link is produced, and nothing is executed:
-
-````
-```{{livelink}}
-#| engine.target: shinylive-r
-#| mode: app
-library(shiny)
-shinyApp(fluidPage(sliderInput("n", "n", 1, 100, 50)), function(input, output) {})
-```
-````
-
-### Why not a braced expression?
-
-Follow either link and the comments are still there. They would not be if you had
-written `webr_repl_link({ ... })`: knitr renders chunks through `evaluate()`, which
-discards the source references that comments live in. Both the hook and the engine are
-handed the chunk's raw source, so nothing is lost — exactly where a teaching example
-needs it most.
-
-Chunk options map onto the arguments you already know:
-
-````
-```{{r}}
-#| livelink: true
-#| panels: ["editor", "plot"]
-#| link.text: "Try it yourself"
-mean(mtcars$mpg)
-```
-````
-
-and the target can be named directly, when a REPL is not what you want:
-
-````
-```{{r}}
-#| livelink: shinylive-r
-#| mode: app
+```{r}
 #| eval: false
-library(shiny)
-shinyApp(fluidPage(), function(input, output) {})
+knitr::opts_chunk$set(livelink = TRUE, autorun = TRUE)
 ```
-````
+
+[Links inside documents](links-in-documents.html) covers the rest: the engine, for code
+your notes should not run; every chunk option; and why `echo` is not what stands between
+you and a link.
 
 ## Collecting work back in
 

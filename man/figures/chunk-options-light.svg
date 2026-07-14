@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 380" role="img" aria-labelledby="t d">
+  <title id="t">What each chunk option does to the link</title>
+  <desc id="d">A table mapping livelink's knitr chunk options to the part of the URL each one changes, and what that means for the reader.</desc>
+  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}</style>
+  <text class="s lbl muted" x="24" y="22" font-size="11">CHUNK OPTION</text>
+  <text class="s lbl muted" x="300" y="22" font-size="11">IN THE LINK</text>
+  <text class="s lbl muted" x="560" y="22" font-size="11">WHAT IT MEANS</text>
+  <rect x="24" y="28" width="802" height="28" rx="6" fill="#f1f5f9"/>
+  <text class="m" x="36" y="47" font-size="11" xml:space="preserve"><tspan class="ink">livelink</tspan><tspan class="ink">: </tspan><tspan class="num">true</tspan></text>
+  <text class="m" x="300" y="47" font-size="11" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/…</tspan></text>
+  <text class="s muted" x="560" y="47" font-size="11.5">which environment the link opens</text>
+  <text class="m" x="36" y="79" font-size="11" xml:space="preserve"><tspan class="ink">livelink</tspan><tspan class="ink">: </tspan><tspan class="str">shinylive-r</tspan></text>
+  <text class="m" x="300" y="79" font-size="11" xml:space="preserve"><tspan class="ink">shinylive.io/r/…</tspan></text>
+  <text class="s muted" x="560" y="79" font-size="11.5">a Shiny app instead of a REPL</text>
+  <rect x="24" y="92" width="802" height="28" rx="6" fill="#f1f5f9"/>
+  <text class="m" x="36" y="111" font-size="11" xml:space="preserve"><tspan class="ink">autorun</tspan><tspan class="ink">: </tspan><tspan class="num">true</tspan></text>
+  <text class="m" x="300" y="111" font-size="11" xml:space="preserve"><tspan class="ink">&amp;jz</tspan><tspan class="flag">a</tspan></text>
+  <text class="s muted" x="560" y="111" font-size="11.5">runs the moment the link opens</text>
+  <text class="m" x="36" y="143" font-size="11" xml:space="preserve"><tspan class="ink">panels</tspan><tspan class="ink">: </tspan><tspan class="str">["editor", "plot"]</tspan></text>
+  <text class="m" x="300" y="143" font-size="11" xml:space="preserve"><tspan class="ink">?mode=</tspan><tspan class="pan">'editor-plot'</tspan></text>
+  <text class="s muted" x="560" y="143" font-size="11.5">which webR panels appear</text>
+  <rect x="24" y="156" width="802" height="28" rx="6" fill="#f1f5f9"/>
+  <text class="m" x="36" y="175" font-size="11" xml:space="preserve"><tspan class="ink">mode</tspan><tspan class="ink">: </tspan><tspan class="str">app</tspan></text>
+  <text class="m" x="300" y="175" font-size="11" xml:space="preserve"><tspan class="ink">shinylive.io/r/</tspan><tspan class="ver">app</tspan><tspan class="ink">/</tspan></text>
+  <text class="s muted" x="560" y="175" font-size="11.5">the running app, not the code</text>
+  <text class="m" x="36" y="207" font-size="11" xml:space="preserve"><tspan class="ink">filename</tspan><tspan class="ink">: </tspan><tspan class="str">analysis.R</tspan></text>
+  <text class="m" x="300" y="207" font-size="11" xml:space="preserve"><tspan class="str">analysis.R</tspan></text>
+  <text class="s muted" x="560" y="207" font-size="11.5">the file's name inside webR</text>
+  <rect x="24" y="220" width="802" height="28" rx="6" fill="#f1f5f9"/>
+  <text class="m" x="36" y="239" font-size="11" xml:space="preserve"><tspan class="ink">link.text</tspan><tspan class="ink">: </tspan><tspan class="str">"Try it"</tspan></text>
+  <text class="m" x="300" y="239" font-size="11" xml:space="preserve"><tspan class="ink">[Try it](…)</tspan></text>
+  <text class="s muted" x="560" y="239" font-size="11.5">the words the reader clicks</text>
+  <text class="m" x="36" y="271" font-size="11" xml:space="preserve"><tspan class="ink">echo</tspan><tspan class="ink">: </tspan><tspan class="num">false</tspan></text>
+  <text class="m" x="300" y="271" font-size="11" xml:space="preserve"><tspan class="com">— </tspan><tspan class="com">(no change)</tspan></text>
+  <text class="s muted" x="560" y="271" font-size="11.5">hides the code in the page; the link still works</text>
+  <line x1="24" y1="318" x2="826" y2="318" stroke="#e2e8f0"/>
+  <text class="m" x="24" y="344" font-size="12" xml:space="preserve"><tspan class="fn">knitr</tspan><tspan class="ink">::</tspan><tspan class="fn">opts_chunk</tspan><tspan class="ink">$set(</tspan><tspan class="ink">livelink</tspan><tspan class="ink"> = </tspan><tspan class="num">TRUE</tspan><tspan class="ink">, </tspan><tspan class="ink">autorun</tspan><tspan class="ink"> = </tspan><tspan class="num">TRUE</tspan><tspan class="ink">)</tspan></text>
+  <text class="s faint" x="24" y="366" font-size="12">Set them once for the whole document, and opt a chunk out with livelink: false.</text>
+</svg>

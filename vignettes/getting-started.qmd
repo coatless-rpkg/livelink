@@ -73,8 +73,8 @@ Expression input reconstructs your code from R's *source references*. Those exis
 an interactive session, but not when a document is knitted -- so comments inside
 `{ }` are dropped from the link when this vignette is rendered.
 
-If your code has comments worth keeping, pass it as a string or a file path, or use
-the `livelink` chunk engine described below. See `?webr_repl_link`.
+If your code has comments worth keeping, pass it as a string or a file path, or write
+it as a chunk — see [Links inside documents](links-in-documents.html).
 :::
 
 You can also point at a file:
@@ -171,29 +171,26 @@ once you have decided you trust them.
 
 ## Links inside a document
 
-If you write in Quarto or R Markdown, you do not need to build a link in one chunk and
-paste the URL into another. Add `livelink: true` to an ordinary chunk and it keeps
-running exactly as before — output, plots and all — with a link added underneath:
+If you write in Quarto or R Markdown, a chunk can carry its own link. Add
+`livelink: true` to an ordinary chunk and it keeps running exactly as before — output,
+plots and all — with a link added underneath:
 
 ````
 ```{{r}}
 #| livelink: true
 #| autorun: true
-# Load the data
 data(mtcars)
-plot(mtcars$mpg, mtcars$wt)
+plot(mtcars$mpg, mtcars$wt)   # a comment that survives
 ```
 ````
 
-For code your session should *not* run — a Shiny app, or anything needing a package you
-have not installed — use a ```` ```{livelink} ```` chunk instead: the code is shown, a
-link is produced, and nothing is executed.
-
-Either way, your comments survive into the link, which they do not when a `{ }`
-expression is knitted. See [`?livelink-knitr`](../reference/livelink-knitr.html).
+Your comments reach the link, which they do not when a `{ }` expression is knitted.
+[Links inside documents](links-in-documents.html) covers this properly: the hook, the
+engine, every chunk option, and how to set them once for a whole document.
 
 ## Where to next
 
-- **Multi-file projects and Shiny apps** -- projects, apps in R and Python, and batch-processing directories.
-- **Decoding and previewing links** -- turning a link back into files, and inspecting one before you trust it.
-- **Teaching with livelink** -- exercise and solution pairs, whole course directories, and embedding links in notes.
+- **[Multi-file projects and Shiny apps](webr-and-shinylive.html)** -- projects, apps in R and Python, and whole directories.
+- **[Decoding and previewing links](decoding-links.html)** -- turning a link back into files, and inspecting one before you trust it.
+- **[Links inside documents](links-in-documents.html)** -- the chunk hook and the chunk engine, and every option they take.
+- **[Teaching with livelink](teaching.html)** -- exercise and solution pairs, whole course directories, and embedding links in notes.

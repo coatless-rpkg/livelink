@@ -71,8 +71,24 @@ directly: \code{"webr"}, \code{"shinylive-r"}, \code{"shinylive-py"}.}
 \code{"Open in Shinylive"}.}
 \item{\code{link.only}}{Engine only. If \code{TRUE}, emit the link without the source.}
 }
+}
 
-Standard chunk options such as \code{echo} and \code{eval} are honored by 'knitr' as usual.
+\section{Setting options once}{
+These are ordinary 'knitr' chunk options, so \code{opts_chunk} sets them for a whole
+document, and a single chunk opts out with \code{livelink: false}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{knitr::opts_chunk$set(livelink = TRUE, autorun = TRUE)
+}\if{html}{\out{</div>}}
+}
+
+\section{\code{echo} does not gate the link}{
+It is natural to assume the code must be visible for a link to be made. It need
+not be. \code{echo} controls whether the \strong{source is shown in your page}; the link is
+built from the chunk's source, which 'knitr' hands over either way. So
+\code{echo: false} gives a working link whose code the reader simply cannot see.
+
+\code{eval: false} is the other half: the chunk is displayed but not run, which makes
+an \code{r} chunk behave rather like the engine.
 }
 
 \examples{
@@ -81,4 +97,9 @@ Standard chunk options such as \code{echo} and \code{eval} are honored by 'knitr
 use_livelink_hook()
 use_livelink_engine()
 \dontshow{\}) # examplesIf}
+}
+\seealso{
+\code{vignette("links-in-documents", package = "livelink")} for the whole
+picture, and \code{\link[=webr_repl_link]{webr_repl_link()}} for why a braced expression loses comments in
+a knitted document.
 }
