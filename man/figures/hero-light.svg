@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 240" role="img" aria-labelledby="t d">
+  <title id="t">Share R code as a link that opens a live R session</title>
+  <desc id="d">R code goes into webr_repl_link, comes out as one URL, and opening that URL gives the recipient a running webR session with the code in the editor and the plot drawn.</desc>
+  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}</style>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#0054AD"/></marker></defs>
+  <circle cx="32" cy="18" r="9" fill="#0054AD"/>
+  <text class="s" fill="#ffffff" x="32" y="22" font-size="10.5" font-weight="700" text-anchor="middle">1</text>
+  <text class="s lbl ink" x="48" y="22" font-size="11">YOU WRITE R</text>
+  <circle cx="294" cy="18" r="9" fill="#0054AD"/>
+  <text class="s" fill="#ffffff" x="294" y="22" font-size="10.5" font-weight="700" text-anchor="middle">2</text>
+  <text class="s lbl ink" x="310" y="22" font-size="11">YOU GET A URL</text>
+  <circle cx="556" cy="18" r="9" fill="#0054AD"/>
+  <text class="s" fill="#ffffff" x="556" y="22" font-size="10.5" font-weight="700" text-anchor="middle">3</text>
+  <text class="s lbl ink" x="572" y="22" font-size="11">THEY GET A LIVE R SESSION</text>
+  <rect x="24" y="44" width="222" height="150" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <text class="m" x="40" y="72" font-size="11" xml:space="preserve"><tspan class="fn">webr_repl_link</tspan><tspan class="ink">({</tspan></text>
+  <text class="m" x="40" y="89" font-size="11" xml:space="preserve"><tspan class="fn">  data</tspan><tspan class="ink">(mtcars)</tspan></text>
+  <text class="m" x="40" y="106" font-size="11" xml:space="preserve"><tspan class="fn">  plot</tspan><tspan class="ink">(mtcars$mpg,</tspan></text>
+  <text class="m" x="40" y="123" font-size="11" xml:space="preserve"><tspan class="ink">       mtcars$wt)</tspan></text>
+  <text class="m" x="40" y="140" font-size="11" xml:space="preserve"><tspan class="ink">})</tspan></text>
+  <text class="s faint" x="40" y="178" font-size="10.5">no quotes, no escaping</text>
+  <path d="M254 119.0 H278" stroke="#0054AD" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="286" y="44" width="222" height="150" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <text class="m" x="302" y="76" font-size="10.5" xml:space="preserve"><tspan class="ink">https://</tspan></text>
+  <text class="m" x="302" y="92" font-size="10.5" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/latest/</tspan></text>
+  <text class="m" x="302" y="112" font-size="10.5" xml:space="preserve"><tspan class="frag">#code=</tspan></text>
+  <text class="m" x="302" y="128" font-size="10.5" xml:space="preserve"><tspan class="frag">eJyLrlbKS8xNVbJSKk4u</tspan></text>
+  <text class="m" x="302" y="143" font-size="10.5" xml:space="preserve"><tspan class="frag">yiwo0QtS0lEqSCzJAIro</tspan></text>
+  <text class="m" x="302" y="158" font-size="10.5" xml:space="preserve"><tspan class="flag">&amp;jz</tspan></text>
+  <text class="s faint" x="302" y="178" font-size="10.5">the code IS the link</text>
+  <path d="M516 119.0 H540" stroke="#0054AD" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="548" y="44" width="278" height="150" rx="8" fill="#e2e8f0" stroke="#e2e8f0"/>
+  <path d="M548 66 h278" stroke="#e2e8f0"/>
+  <circle cx="560" cy="55" r="3" fill="#cbd5e1"/>
+  <circle cx="570" cy="55" r="3" fill="#cbd5e1"/>
+  <circle cx="580" cy="55" r="3" fill="#cbd5e1"/>
+  <text class="m faint" x="596" y="59" font-size="8.5">webr.r-wasm.org/latest/</text>
+  <rect x="555" y="73" width="128.5" height="53.5" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+  <text class="m accent" x="562" y="86" font-size="8.5" font-weight="700">editor</text>
+  <text class="m" x="562" y="100" font-size="8" xml:space="preserve"><tspan class="fn">data</tspan><tspan class="ink">(mtcars)</tspan></text>
+  <text class="m" x="562" y="111" font-size="8" xml:space="preserve"><tspan class="fn">plot</tspan><tspan class="ink">(...)</tspan></text>
+  <rect x="690.5" y="73" width="128.5" height="53.5" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+  <text class="m accent" x="697.5" y="86" font-size="8.5" font-weight="700">files</text>
+  <text class="m" x="697.5" y="100" font-size="8" xml:space="preserve"><tspan class="str">script.R</tspan></text>
+  <rect x="555" y="133.5" width="128.5" height="53.5" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+  <text class="m accent" x="562" y="146.5" font-size="8.5" font-weight="700">terminal</text>
+  <text class="m" x="562" y="160.5" font-size="8" xml:space="preserve"><tspan class="com">&gt; </tspan><tspan class="fn">source</tspan><tspan class="ink">(...)</tspan></text>
+  <rect x="690.5" y="133.5" width="128.5" height="53.5" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+  <text class="m accent" x="697.5" y="146.5" font-size="8.5" font-weight="700">plot</text>
+  <path d="M702.5 153.5 V177.0 H809.0" fill="none" stroke="#94a3b8" stroke-width="0.8"/>
+  <circle cx="707.5" cy="171.7" r="1.8" fill="none" stroke="#0054AD" stroke-width="1"/>
+  <circle cx="721.3" cy="168.6" r="1.8" fill="none" stroke="#0054AD" stroke-width="1"/>
+  <circle cx="735.1" cy="169.7" r="1.8" fill="none" stroke="#0054AD" stroke-width="1"/>
+  <circle cx="748.9" cy="165.5" r="1.8" fill="none" stroke="#0054AD" stroke-width="1"/>
+  <circle cx="762.6" cy="166.6" r="1.8" fill="none" stroke="#0054AD" stroke-width="1"/>
+  <circle cx="776.4" cy="162.8" r="1.8" fill="none" stroke="#0054AD" stroke-width="1"/>
+  <circle cx="790.2" cy="164.4" r="1.8" fill="none" stroke="#0054AD" stroke-width="1"/>
+  <circle cx="804.0" cy="160.4" r="1.8" fill="none" stroke="#0054AD" stroke-width="1"/>
+  <text class="s faint" x="24" y="226" font-size="12">Nothing is uploaded. Everything after the # is a URL fragment, which browsers never send to a server.</text>
+</svg>

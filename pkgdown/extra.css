@@ -23,9 +23,9 @@
 }
 
 [data-bs-theme="light"] img.ll-hero {
-  content: url("reference/figures/pipeline-light.svg");
+  content: url("reference/figures/hero-light.svg");
 }
 
 [data-bs-theme="dark"] img.ll-hero {
-  content: url("reference/figures/pipeline-dark.svg");
+  content: url("reference/figures/hero-dark.svg");
 }
