@@ -1,73 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 402" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 406" role="img" aria-labelledby="t d">
   <title id="t">Shinylive engines and modes</title>
   <desc id="d">shinylive_r_link and shinylive_py_link put an r or py segment in the URL. mode = editor shows the source beside the running app; mode = app shows the app alone.</desc>
   <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}</style>
   <text class="s lbl muted" x="24" y="22" font-size="11">THE ENGINE PICKS THE PATH</text>
-  <text class="m" x="24" y="50" font-size="12.5" xml:space="preserve"><tspan class="fn">shinylive_r_link</tspan><tspan class="ink">()</tspan></text>
-  <text class="m" x="232" y="50" font-size="12" xml:space="preserve"><tspan class="ink">https://shinylive.io/</tspan><tspan class="ver">r</tspan><tspan class="ink">/editor/#code=…</tspan></text>
-  <text class="s faint" x="826" y="50" font-size="11.5" text-anchor="end">an R app</text>
-  <text class="m" x="24" y="80" font-size="12.5" xml:space="preserve"><tspan class="fn">shinylive_py_link</tspan><tspan class="ink">()</tspan></text>
-  <text class="m" x="232" y="80" font-size="12" xml:space="preserve"><tspan class="ink">https://shinylive.io/</tspan><tspan class="ver">py</tspan><tspan class="ink">/editor/#code=…</tspan></text>
-  <text class="s faint" x="826" y="80" font-size="11.5" text-anchor="end">a Python app</text>
-  <line x1="24" y1="122" x2="826" y2="122" stroke="#e2e8f0"/>
-  <text class="s lbl muted" x="24" y="152" font-size="11">THE MODE PICKS WHAT THEY LAND ON</text>
-  <rect x="24" y="170" width="392" height="150" rx="8" fill="#e2e8f0" stroke="#e2e8f0"/>
-  <path d="M24 196 h392" stroke="#e2e8f0"/>
-  <circle cx="42" cy="185" r="4" fill="#cbd5e1"/>
-  <circle cx="55" cy="185" r="4" fill="#cbd5e1"/>
-  <circle cx="68" cy="185" r="4" fill="#cbd5e1"/>
-  <rect x="86" y="176" width="200" height="18" rx="9" fill="#ffffff" stroke="#e2e8f0"/>
-  <text class="m faint" x="96" y="189" font-size="9.5">shinylive.io/r/editor/</text>
-  <rect x="32" y="204" width="184.0" height="108" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
-  <path d="M32 204 h184.0 v22 h-184.0 z" fill="#f8fafc"/>
-  <path d="M32 226 h184.0" stroke="#e2e8f0"/>
-  <text class="m accent" x="40" y="219" font-size="9.5" font-weight="700">app.R</text>
-  <text class="m" x="40" y="242" font-size="9.5" xml:space="preserve"><tspan class="fn">library</tspan><tspan class="ink">(</tspan><tspan class="ink">shiny</tspan><tspan class="ink">)</tspan></text>
-  <text class="m" x="40" y="256" font-size="9.5" xml:space="preserve"><tspan class="ink">ui </tspan><tspan class="ink">&lt;- </tspan><tspan class="fn">fluidPage</tspan><tspan class="ink">(…)</tspan></text>
-  <text class="m" x="40" y="270" font-size="9.5" xml:space="preserve"><tspan class="ink">server </tspan><tspan class="ink">&lt;- </tspan><tspan class="fn">function</tspan><tspan class="ink">(…)</tspan></text>
-  <text class="m" x="40" y="284" font-size="9.5" xml:space="preserve"><tspan class="fn">shinyApp</tspan><tspan class="ink">(ui, server)</tspan></text>
-  <rect x="224.0" y="204" width="184.0" height="108" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
-  <path d="M224.0 204 h184.0 v22 h-184.0 z" fill="#f8fafc"/>
-  <path d="M224.0 226 h184.0" stroke="#e2e8f0"/>
-  <text class="m accent" x="232.0" y="219" font-size="9.5" font-weight="700">app</text>
-  <text class="s ink" x="236.0" y="244" font-size="10.5" font-weight="700">Old Faithful</text>
-  <path d="M236.0 260 H392.0" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round"/>
-  <path d="M236.0 260 H322" stroke="#0054AD" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="322" cy="260" r="4.5" fill="#ffffff" stroke="#0054AD" stroke-width="2"/>
-  <rect x="238.0" y="292.2" width="16.2" height="7.8" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <rect x="257.2" y="285.7" width="16.2" height="14.3" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <rect x="276.5" y="277.9" width="16.2" height="22.1" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <rect x="295.8" y="283.1" width="16.2" height="16.9" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <rect x="315.0" y="289.6" width="16.2" height="10.4" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <rect x="334.2" y="281.3" width="16.2" height="18.7" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <rect x="353.5" y="275.3" width="16.2" height="24.7" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <rect x="372.8" y="287.0" width="16.2" height="13.0" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <text class="m" x="24" y="344" font-size="12.5" xml:space="preserve"><tspan class="ink">mode = "</tspan><tspan class="str">editor</tspan><tspan class="ink">"</tspan></text>
-  <text class="s faint" x="24" y="362" font-size="11.5">the code beside the running app, for teaching</text>
-  <rect x="458" y="170" width="392" height="150" rx="8" fill="#e2e8f0" stroke="#e2e8f0"/>
-  <path d="M458 196 h392" stroke="#e2e8f0"/>
-  <circle cx="476" cy="185" r="4" fill="#cbd5e1"/>
-  <circle cx="489" cy="185" r="4" fill="#cbd5e1"/>
-  <circle cx="502" cy="185" r="4" fill="#cbd5e1"/>
-  <rect x="520" y="176" width="200" height="18" rx="9" fill="#ffffff" stroke="#e2e8f0"/>
-  <text class="m faint" x="530" y="189" font-size="9.5">shinylive.io/r/app/</text>
-  <rect x="466" y="204" width="376" height="108" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
-  <path d="M466 204 h376 v22 h-376 z" fill="#f8fafc"/>
-  <path d="M466 226 h376" stroke="#e2e8f0"/>
-  <text class="m accent" x="474" y="219" font-size="9.5" font-weight="700">app</text>
-  <text class="s ink" x="478" y="244" font-size="10.5" font-weight="700">Old Faithful</text>
-  <path d="M478 260 H826" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round"/>
-  <path d="M478 260 H669" stroke="#0054AD" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="669" cy="260" r="4.5" fill="#ffffff" stroke="#0054AD" stroke-width="2"/>
-  <rect x="480.0" y="292.2" width="40.2" height="7.8" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <rect x="523.2" y="285.7" width="40.2" height="14.3" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <rect x="566.5" y="277.9" width="40.2" height="22.1" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <rect x="609.8" y="283.1" width="40.2" height="16.9" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <rect x="653.0" y="289.6" width="40.2" height="10.4" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <rect x="696.2" y="281.3" width="40.2" height="18.7" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <rect x="739.5" y="275.3" width="40.2" height="24.7" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <rect x="782.8" y="287.0" width="40.2" height="13.0" rx="1.5" fill="#0054AD" opacity="0.75"/>
-  <text class="m" x="458" y="344" font-size="12.5" xml:space="preserve"><tspan class="ink">mode = "</tspan><tspan class="str">app</tspan><tspan class="ink">"</tspan></text>
-  <text class="s faint" x="458" y="362" font-size="11.5">the running app alone, for the people using it</text>
-  <text class="s faint" x="24" y="388" font-size="12">header = FALSE drops the Shinylive header in app mode, for embedding in a page. In editor mode there is none to drop.</text>
+  <text class="m" x="24" y="58" font-size="12.5" xml:space="preserve"><tspan class="fn">shinylive_r_link</tspan><tspan class="ink">()</tspan></text>
+  <rect x="236" y="36" width="232" height="32" rx="7" fill="#e2e8f0" stroke="#e2e8f0"/>
+  <rect x="246" y="43" width="212" height="18" rx="9" fill="#ffffff" stroke="#e2e8f0"/>
+  <rect x="328.1" y="45" width="9.7" height="14" rx="3" fill="#e0edff"/>
+  <text class="m" x="256" y="57" font-size="9.5" xml:space="preserve"><tspan class="ink">shinylive.io/</tspan><tspan class="accent">r</tspan><tspan class="ink">/editor/#code=…</tspan></text>
+  <text class="s faint" x="824" y="57" font-size="11.5" text-anchor="end">an R app</text>
+  <text class="m" x="24" y="98" font-size="12.5" xml:space="preserve"><tspan class="fn">shinylive_py_link</tspan><tspan class="ink">()</tspan></text>
+  <rect x="236" y="76" width="232" height="32" rx="7" fill="#e2e8f0" stroke="#e2e8f0"/>
+  <rect x="246" y="83" width="212" height="18" rx="9" fill="#ffffff" stroke="#e2e8f0"/>
+  <rect x="328.1" y="85" width="15.4" height="14" rx="3" fill="#e0edff"/>
+  <text class="m" x="256" y="97" font-size="9.5" xml:space="preserve"><tspan class="ink">shinylive.io/</tspan><tspan class="accent">py</tspan><tspan class="ink">/editor/#code=…</tspan></text>
+  <text class="s faint" x="824" y="97" font-size="11.5" text-anchor="end">a Python app</text>
+  <line x1="24" y1="126" x2="826" y2="126" stroke="#e2e8f0"/>
+  <text class="s lbl muted" x="24" y="156" font-size="11">THE MODE PICKS WHAT THEY LAND ON</text>
+  <rect x="24" y="174" width="392" height="150" rx="8" fill="#e2e8f0" stroke="#e2e8f0"/>
+  <path d="M24 200 h392" stroke="#e2e8f0"/>
+  <circle cx="42" cy="189" r="4" fill="#cbd5e1"/>
+  <circle cx="55" cy="189" r="4" fill="#cbd5e1"/>
+  <circle cx="68" cy="189" r="4" fill="#cbd5e1"/>
+  <rect x="86" y="180" width="200" height="18" rx="9" fill="#ffffff" stroke="#e2e8f0"/>
+  <text class="m faint" x="96" y="193" font-size="9.5">shinylive.io/r/editor/</text>
+  <rect x="33" y="209" width="182.5" height="106" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
+  <path d="M33 209 h182.5 v22 h-182.5 z" fill="#f8fafc"/>
+  <path d="M33 231 h182.5" stroke="#e2e8f0"/>
+  <text class="m accent" x="41" y="224" font-size="9.5" font-weight="700">app.R</text>
+  <text class="m" x="41" y="247" font-size="9" xml:space="preserve"><tspan class="fn">library</tspan><tspan class="ink">(</tspan><tspan class="ink">shiny</tspan><tspan class="ink">)</tspan></text>
+  <text class="m" x="41" y="261" font-size="9" xml:space="preserve"><tspan class="ink">ui </tspan><tspan class="ink">&lt;- </tspan><tspan class="fn">fluidPage</tspan><tspan class="ink">(…)</tspan></text>
+  <text class="m" x="41" y="275" font-size="9" xml:space="preserve"><tspan class="ink">server </tspan><tspan class="ink">&lt;- </tspan><tspan class="fn">function</tspan><tspan class="ink">(…)</tspan></text>
+  <text class="m" x="41" y="289" font-size="9" xml:space="preserve"><tspan class="fn">shinyApp</tspan><tspan class="ink">(ui, server)</tspan></text>
+  <rect x="224.5" y="209" width="182.5" height="106" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
+  <path d="M224.5 209 h182.5 v22 h-182.5 z" fill="#f8fafc"/>
+  <path d="M224.5 231 h182.5" stroke="#e2e8f0"/>
+  <text class="m accent" x="232.5" y="224" font-size="9.5" font-weight="700">app</text>
+  <text class="s ink" x="236.5" y="249" font-size="10.5" font-weight="700">Old Faithful</text>
+  <path d="M236.5 265 H391.0" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round"/>
+  <path d="M236.5 265 H321" stroke="#0054AD" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="321" cy="265" r="4.5" fill="#ffffff" stroke="#0054AD" stroke-width="2"/>
+  <rect x="238.5" y="295.8" width="16.1" height="7.2" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <rect x="257.6" y="289.8" width="16.1" height="13.2" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <rect x="276.6" y="282.6" width="16.1" height="20.4" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <rect x="295.7" y="287.4" width="16.1" height="15.6" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <rect x="314.8" y="293.4" width="16.1" height="9.6" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <rect x="333.8" y="285.7" width="16.1" height="17.3" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <rect x="352.9" y="280.2" width="16.1" height="22.8" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <rect x="371.9" y="291.0" width="16.1" height="12.0" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <text class="m" x="24" y="348" font-size="12.5" xml:space="preserve"><tspan class="ink">mode = "</tspan><tspan class="str">editor</tspan><tspan class="ink">"</tspan></text>
+  <text class="s faint" x="24" y="366" font-size="11.5">the code beside the running app, for teaching</text>
+  <rect x="458" y="174" width="392" height="150" rx="8" fill="#e2e8f0" stroke="#e2e8f0"/>
+  <path d="M458 200 h392" stroke="#e2e8f0"/>
+  <circle cx="476" cy="189" r="4" fill="#cbd5e1"/>
+  <circle cx="489" cy="189" r="4" fill="#cbd5e1"/>
+  <circle cx="502" cy="189" r="4" fill="#cbd5e1"/>
+  <rect x="520" y="180" width="200" height="18" rx="9" fill="#ffffff" stroke="#e2e8f0"/>
+  <text class="m faint" x="530" y="193" font-size="9.5">shinylive.io/r/app/</text>
+  <rect x="467" y="209" width="374" height="106" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
+  <path d="M467 209 h374 v22 h-374 z" fill="#f8fafc"/>
+  <path d="M467 231 h374" stroke="#e2e8f0"/>
+  <text class="m accent" x="475" y="224" font-size="9.5" font-weight="700">app</text>
+  <text class="s ink" x="479" y="249" font-size="10.5" font-weight="700">Old Faithful</text>
+  <path d="M479 265 H825" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round"/>
+  <path d="M479 265 H669" stroke="#0054AD" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="669" cy="265" r="4.5" fill="#ffffff" stroke="#0054AD" stroke-width="2"/>
+  <rect x="481.0" y="295.8" width="40.0" height="7.2" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <rect x="524.0" y="289.8" width="40.0" height="13.2" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <rect x="567.0" y="282.6" width="40.0" height="20.4" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <rect x="610.0" y="287.4" width="40.0" height="15.6" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <rect x="653.0" y="293.4" width="40.0" height="9.6" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <rect x="696.0" y="285.7" width="40.0" height="17.3" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <rect x="739.0" y="280.2" width="40.0" height="22.8" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <rect x="782.0" y="291.0" width="40.0" height="12.0" rx="1.5" fill="#0054AD" opacity="0.75"/>
+  <text class="m" x="458" y="348" font-size="12.5" xml:space="preserve"><tspan class="ink">mode = "</tspan><tspan class="str">app</tspan><tspan class="ink">"</tspan></text>
+  <text class="s faint" x="458" y="366" font-size="11.5">the running app alone, for the people using it</text>
+  <text class="s faint" x="24" y="392" font-size="12">header = FALSE drops the Shinylive header in app mode, for embedding in a page. In editor mode there is none to drop.</text>
 </svg>

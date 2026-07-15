@@ -164,52 +164,63 @@ unless you have a reason.
 ![`shinylive_r_link()` and `shinylive_py_link()` pick the R or Python path, and `mode` picks whether a visitor lands on the code beside the app, or the running app alone.](../man/figures/shinylive-light.svg){.ll-fig .ll-light}
 ![](../man/figures/shinylive-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
-A single-file app is the common case, and a bare string becomes `app.R`:
+Write the app as a braced expression, exactly as you would write it anywhere. No
+quotes around the whole thing, no escaped newlines, and your editor keeps highlighting
+the code:
 
 ```{r}
-app <- "
-library(shiny)
+#| eval: false
+shinylive_r_link({
+  library(shiny)
 
-ui <- fluidPage(
-  titlePanel('Old Faithful'),
-  sliderInput('bins', 'Bins:', 1, 50, 30),
-  plotOutput('hist')
-)
+  ui <- fluidPage(
+    titlePanel("Old Faithful"),
+    sliderInput("bins", "Bins:", 1, 50, 30),
+    plotOutput("hist")
+  )
 
-server <- function(input, output) {
-  output$hist <- renderPlot({
-    hist(faithful$waiting, breaks = input$bins, col = 'steelblue')
-  })
-}
+  server <- function(input, output) {
+    output$hist <- renderPlot({
+      hist(faithful$waiting, breaks = input$bins, col = "steelblue")
+    })
+  }
 
-shinyApp(ui, server)
-"
+  shinyApp(ui, server)
+})
+```
+
+That is real, working code. It is marked `eval: false` here for one narrow reason,
+which does not apply to your own documents.
+
+::: {.callout-note}
+## Why that chunk is not run
+
+Only to keep this package's vignette honest about its dependencies. `R CMD check`
+reads the live code in a vignette and, finding `library(shiny)` in a braced
+expression, would decide livelink depends on shiny. It does not. Marking the chunk
+`eval: false` keeps that call out of the scanned code.
+
+Your own course notes are not a package under check, so there is no such constraint.
+Write the app as an expression and let it run.
+:::
+
+When you want the link built and inspected here, a string sidesteps the scan, so this
+vignette can execute it. A bare string becomes `app.R`:
+
+```{r}
+app <- "library(shiny)\nshinyApp(fluidPage(), function(input, output) {})"
 
 shinylive_r_link(app)
 ```
 
-::: {.callout-tip}
-## A string, rather than a braced expression
-
-`shinylive_r_link({ ... })` accepts an expression, and for a quick app it reads
-nicely. But a Shiny app is source text destined for *another* runtime. Putting
-`library(shiny)` inside braces makes it look like R that your own package runs:
-`R CMD check` scans documents for `library()` calls and would report shiny as an
-undeclared dependency of livelink, which it is not.
-
-Reach for braces when the code is R you want executed in webR. For a Shiny app, a
-string or a file path says what you actually mean, and leaves the app's own quoting
-alone.
-:::
-
-For an app split across files, pass a named list. `app.R` is the entry point, and the rest
-come along:
+For an app split across files, the same choice applies. Write each file in braces:
 
 ```{r}
+#| eval: false
 shinylive_r_link(list(
-  "app.R"    = "library(shiny)\nsource('ui.R')\nsource('server.R')\nshinyApp(ui, server)",
-  "ui.R"     = "ui <- fluidPage(titlePanel('Split app'))",
-  "server.R" = "server <- function(input, output) {}"
+  "app.R"    = { library(shiny); source("ui.R"); source("server.R"); shinyApp(ui, server) },
+  "ui.R"     = { ui <- fluidPage(titlePanel("Split app")) },
+  "server.R" = { server <- function(input, output) {} }
 ))
 ```
 
