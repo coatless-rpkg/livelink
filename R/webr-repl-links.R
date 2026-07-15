@@ -129,7 +129,7 @@ webr_repl_link <- function(input = NULL,
   new_webr_link(url, filename, path, panels, version, autorun_enabled)
 }
 
-#' Create WebR REPL sharelink for multiple files
+#' Create webR REPL sharelink for multiple files
 #'
 #' Creates a webR sharelink for projects with multiple R files, data files, or other resources.
 #' Supports named lists and file path vectors as input.

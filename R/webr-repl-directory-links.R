@@ -1,7 +1,7 @@
-#' Create WebR REPL sharelinks from a directory of R files
+#' Create webR REPL sharelinks from a directory of R files
 #'
 #' Batch processes all R files in a directory. By default each file becomes its
-#' own WebR sharelink; with `single_link = TRUE` the whole directory is bundled
+#' own webR sharelink; with `single_link = TRUE` the whole directory is bundled
 #' into one link instead, exactly as [webr_repl_project()] would. Useful for
 #' converting collections of scripts, examples, or course materials.
 #'
@@ -11,17 +11,18 @@
 #' @param single_link Logical. If `FALSE` (default), each matched file becomes its
 #'   own link and the result is a `webr_directory`. If `TRUE`, all matched files
 #'   are packed into one link and the result is a single `webr_project`.
-#' @param pattern Regular expression pattern to match files (default: "\\\\.R$" for R files)
-#' @param base_path Base directory path for files in WebR (default: "/home/web_user/")
-#' @param panels Character vector or string specifying which WebR interface panels to show.
+#' @param pattern Regular expression matched against file names in
+#'   `directory_path`. Defaults to `"\\.R$"`, i.e. files ending in `.R`.
+#' @param base_path Base directory path for files in webR (default: "/home/web_user/")
+#' @param panels Character vector or string specifying which webR interface panels to show.
 #'   Valid panels: "plot", "files", "terminal", "editor". Can be c("plot", "files") or "plot-files".
 #'   If NULL (default), shows all panels.
-#' @param version WebR version to use ("latest" or specific version >= "v0.5.4")
-#' @param base_url WebR application URL. If NULL, uses global option or builds from version
+#' @param version webR version to use ("latest" or specific version >= "v0.5.4")
+#' @param base_url webR application URL. If NULL, uses global option or builds from version
 #'
 #' @return
 #' By default a `webr_directory` object, whose `urls` element is a named character
-#' vector mapping each filename to its WebR sharelink. With `single_link = TRUE`, a
+#' vector mapping each filename to its webR sharelink. With `single_link = TRUE`, a
 #' single `webr_project` object bundling every matched file into one link.
 #'
 #' @seealso [webr_repl_project()], which bundles a named list or a vector of file

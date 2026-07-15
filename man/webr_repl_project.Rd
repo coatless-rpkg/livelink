@@ -2,7 +2,7 @@
 % Please edit documentation in R/webr-repl-links.R
 \name{webr_repl_project}
 \alias{webr_repl_project}
-\title{Create WebR REPL sharelink for multiple files}
+\title{Create webR REPL sharelink for multiple files}
 \usage{
 webr_repl_project(
   input,

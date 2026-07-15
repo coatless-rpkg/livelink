@@ -2,7 +2,7 @@
 % Please edit documentation in R/webr-repl-directory-links.R
 \name{webr_repl_directory}
 \alias{webr_repl_directory}
-\title{Create WebR REPL sharelinks from a directory of R files}
+\title{Create webR REPL sharelinks from a directory of R files}
 \usage{
 webr_repl_directory(
   directory_path,
@@ -25,26 +25,27 @@ With \code{single_link = TRUE}, this runs every R file in the bundle on arrival.
 own link and the result is a \code{webr_directory}. If \code{TRUE}, all matched files
 are packed into one link and the result is a single \code{webr_project}.}
 
-\item{pattern}{Regular expression pattern to match files (default: "\\\\.R$" for R files)}
+\item{pattern}{Regular expression matched against file names in
+\code{directory_path}. Defaults to \code{"\\\\.R$"}, i.e. files ending in \code{.R}.}
 
-\item{base_path}{Base directory path for files in WebR (default: "/home/web_user/")}
+\item{base_path}{Base directory path for files in webR (default: "/home/web_user/")}
 
-\item{panels}{Character vector or string specifying which WebR interface panels to show.
+\item{panels}{Character vector or string specifying which webR interface panels to show.
 Valid panels: "plot", "files", "terminal", "editor". Can be c("plot", "files") or "plot-files".
 If NULL (default), shows all panels.}
 
-\item{version}{WebR version to use ("latest" or specific version >= "v0.5.4")}
+\item{version}{webR version to use ("latest" or specific version >= "v0.5.4")}
 
-\item{base_url}{WebR application URL. If NULL, uses global option or builds from version}
+\item{base_url}{webR application URL. If NULL, uses global option or builds from version}
 }
 \value{
 By default a \code{webr_directory} object, whose \code{urls} element is a named character
-vector mapping each filename to its WebR sharelink. With \code{single_link = TRUE}, a
+vector mapping each filename to its webR sharelink. With \code{single_link = TRUE}, a
 single \code{webr_project} object bundling every matched file into one link.
 }
 \description{
 Batch processes all R files in a directory. By default each file becomes its
-own WebR sharelink; with \code{single_link = TRUE} the whole directory is bundled
+own webR sharelink; with \code{single_link = TRUE} the whole directory is bundled
 into one link instead, exactly as \code{\link[=webr_repl_project]{webr_repl_project()}} would. Useful for
 converting collections of scripts, examples, or course materials.
 }
