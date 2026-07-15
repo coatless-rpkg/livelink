@@ -2,7 +2,7 @@
 % Please edit documentation in R/webr-repl-links.R
 \name{webr_repl_link}
 \alias{webr_repl_link}
-\title{Create a WebR REPL sharelink from R code}
+\title{Create a webR REPL sharelink from R code}
 \usage{
 webr_repl_link(
   input = NULL,
@@ -25,21 +25,22 @@ webr_repl_link(
 
 \item{filename}{Name for the file (default: \code{"script.R"})}
 
-\item{path}{Full path where the file will be placed in WebR (default: \code{"/home/web_user/{filename}"})}
+\item{path}{Full path where the file will be placed in webR. If NULL (default),
+the file is placed at \code{"/home/web_user/{filename}"}.}
 
 \item{autorun}{Logical. Whether to auto-execute the code when link is opened (default: \code{FALSE}).
 Only R files (\code{.R}) can be auto-executed.}
 
-\item{panels}{Character vector or string specifying which WebR interface panels to show.
+\item{panels}{Character vector or string specifying which webR interface panels to show.
 Valid panels: \code{"plot"}, \code{"files"}, \code{"terminal"}, \code{"editor"}. Can be \code{c("plot", "files")} or \code{"plot-files"}.
 If NULL (default), shows all panels.}
 
-\item{version}{WebR version to use (\code{"latest"} or specific version >= "v0.5.4")}
+\item{version}{webR version to use (\code{"latest"} or specific version >= "v0.5.4")}
 
-\item{base_url}{WebR application URL. If NULL, uses global option or builds from version}
+\item{base_url}{webR application URL. If NULL, uses global option or builds from version}
 }
 \value{
-webr_link object containing the WebR sharelink and metadata
+webr_link object containing the webR sharelink and metadata
 }
 \description{
 Generates a shareable URL for R code that can be executed in the webR environment.
@@ -86,5 +87,7 @@ if (interactive()) {
 }
 }
 \seealso{
-\link{livelink-knitr} to give a document chunk its own link.
+\code{\link[=webr_repl_project]{webr_repl_project()}} for multi-file projects and
+\code{\link[=webr_repl_exercise]{webr_repl_exercise()}} for exercise and solution pairs; \link{livelink-knitr} to
+give a document chunk its own link; \code{vignette("getting-started", package = "livelink")} for an introduction.
 }

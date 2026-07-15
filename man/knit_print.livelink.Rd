@@ -26,7 +26,7 @@
 \method{knit_print}{shinylive_directory}(x, ...)
 }
 \arguments{
-\item{x}{A livelink link object.}
+\item{x}{A livelink object (a link, project, exercise, or directory).}
 
 \item{...}{Ignored.}
 }
@@ -46,4 +46,9 @@ bulleted list, one titled link per entry.
 
 These fire only inside 'knitr'. Call \code{\link[=print]{print()}} explicitly for the full cli
 description, or \code{\link[=as.character]{as.character()}} for the bare URL.
+}
+\seealso{
+\link{livelink-knitr} for the chunk hook and engine, \code{\link[=format.livelink]{format.livelink()}}
+and \code{\link[=as.character.webr_link]{as.character.webr_link()}} for other renderings, and
+\code{vignette("links-in-documents", package = "livelink")}.
 }

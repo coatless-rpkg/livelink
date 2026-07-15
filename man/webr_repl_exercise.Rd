@@ -2,7 +2,7 @@
 % Please edit documentation in R/webr-repl-links.R
 \name{webr_repl_exercise}
 \alias{webr_repl_exercise}
-\title{Create paired exercise and solution WebR REPL links}
+\title{Create paired exercise and solution webR REPL links}
 \usage{
 webr_repl_exercise(
   exercise_text,
@@ -22,15 +22,15 @@ webr_repl_exercise(
 
 \item{base_path}{Base directory path for files (default: \code{"/home/web_user/"})}
 
-\item{version}{WebR version to use ("latest" or specific version >= "v0.5.4")}
+\item{version}{webR version to use ("latest" or specific version >= "v0.5.4")}
 
-\item{base_url}{WebR application URL. If NULL, uses global option or builds from version}
+\item{base_url}{webR application URL. If NULL, uses global option or builds from version}
 }
 \value{
 webr_exercise object holding the paired \code{exercise} and \code{solution} links
 }
 \description{
-Generates a pair of WebR links for educational purposes: one for student exercises
+Generates a pair of webR links for educational purposes: one for student exercises
 (without autorun) and one for solutions (with autorun enabled).
 }
 \examples{
@@ -55,4 +55,8 @@ links$solution
 webr_repl_exercise(exercise_code, solution_code, "stats",
                    base_path = "/exercises/", version = "v0.5.4")
 
+}
+\seealso{
+\code{\link[=webr_repl_link]{webr_repl_link()}}, which this builds on;
+\code{vignette("teaching", package = "livelink")} for using links in a course.
 }

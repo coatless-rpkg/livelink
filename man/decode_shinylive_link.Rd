@@ -21,15 +21,23 @@ directory; pass an explicit path to extract somewhere permanent.}
 
 \item{overwrite}{Logical. Whether to overwrite existing files (default: FALSE)}
 
-\item{create_subdir}{Logical. Whether to create subdirectories. For single URLs, creates
-a subdirectory named after the URL hash. For multiple URLs, creates numbered subdirectories
-(default: TRUE)}
+\item{create_subdir}{Logical. If \code{TRUE} (default), each decoded link is
+extracted into its own subdirectory under \code{output_dir} rather than directly
+into it. For a single URL the subdirectory is named \verb{shinylive_<hash>}, where
+\verb{<hash>} is a short fingerprint of the URL. For multiple URLs, see
+\code{name_dirs}. Set \code{FALSE} to extract straight into \code{output_dir}; with multiple
+URLs this means identically named files (such as \code{app.R}) collide, so a later
+app overwrites an earlier one when \code{overwrite = TRUE}, or is skipped when
+\code{overwrite = FALSE}.}
 
-\item{name_dirs}{Logical. For multiple URLs only: whether to name directories by URL index
-rather than hash (default: TRUE). Ignored for single URLs.}
+\item{name_dirs}{Logical. For multiple URLs, controls how the per-link
+subdirectories are named: \code{TRUE} (default) numbers them \code{app_01}, \code{app_02},
+...; \code{FALSE} names each one \verb{shinylive_<hash>} from the URL fingerprint.
+Ignored for a single URL, and ignored when \code{create_subdir = FALSE}.}
 }
 \value{
-For single URL: shinylive_decoded object. For multiple URLs: shinylive_decoded_batch object.
+For a single URL, a \code{shinylive_decoded} object. For multiple URLs, a
+\code{shinylive_decoded_batch} object.
 }
 \description{
 Decodes Shinylive sharelinks to extract the embedded files and save them
@@ -52,4 +60,8 @@ list.files(out)
 urls <- c(url, as.character(shinylive_py_link("from shiny import App")))
 decode_shinylive_link(urls, output_dir = file.path(tempdir(), "my_apps"))
 
+}
+\seealso{
+\code{\link[=preview_shinylive_link]{preview_shinylive_link()}} to inspect a link without writing files;
+\code{\link[=shinylive_r_link]{shinylive_r_link()}} and \code{\link[=shinylive_py_link]{shinylive_py_link()}} to create links.
 }

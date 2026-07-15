@@ -108,11 +108,16 @@ encode_shinylive_url <- function(files_list, engine, mode, header, base_url) {
 #'   - Vector of file paths: Multiple files for the app
 #'   - Named list: `list("app.py" = code1, "utils.py" = code2)`
 #'   - NULL: Read from clipboard
-#' @param mode Shinylive mode: "editor" (show code editor) or "app" (show app only)
-#' @param header Logical. Whether to show header in app mode (default: TRUE)
-#' @param base_url Custom Shinylive base URL. If NULL, uses default Shinylive URL
+#' @param mode Shinylive display mode (default `"editor"`). `"editor"` shows an
+#'   editable code panel beside the running app; `"app"` shows only the running app.
+#' @param header Logical, whether to show the Shinylive header bar. It applies only
+#'   when `mode = "app"` and is ignored in the default `"editor"` mode. Defaults to `TRUE`.
+#' @param base_url Custom Shinylive base URL. If NULL (default), links point at https://shinylive.io.
 #'
 #' @return shinylive_link object containing the Shinylive URL and metadata
+#'
+#' @seealso [shinylive_project()] for multi-file apps; [decode_shinylive_link()]
+#'   and [preview_shinylive_link()] to read a link back.
 #'
 #' @export
 #' @examples
@@ -165,9 +170,11 @@ shinylive_py_link <- function(input = NULL, mode = "editor", header = TRUE, base
 #'   - Vector of file paths: Multiple files for the app
 #'   - Named list: `list("app.R" = code1, "utils.R" = code2)`
 #'   - NULL: Read from clipboard
-#' @param mode Shinylive mode: "editor" (show code editor) or "app" (show app only)
-#' @param header Logical. Whether to show header in app mode (default: TRUE)
-#' @param base_url Custom Shinylive base URL. If NULL, uses default Shinylive URL
+#' @param mode Shinylive display mode (default `"editor"`). `"editor"` shows an
+#'   editable code panel beside the running app; `"app"` shows only the running app.
+#' @param header Logical, whether to show the Shinylive header bar. It applies only
+#'   when `mode = "app"` and is ignored in the default `"editor"` mode. Defaults to `TRUE`.
+#' @param base_url Custom Shinylive base URL. If NULL (default), links point at https://shinylive.io.
 #'
 #' @return shinylive_link object containing the Shinylive URL and metadata
 #'
@@ -177,7 +184,10 @@ shinylive_py_link <- function(input = NULL, mode = "editor", header = TRUE, base
 #' 'R Markdown' document. Pass a string or a file path, or use the `livelink` chunk
 #' engine, if you need them preserved. See [webr_repl_link()] for the details.
 #'
-#' @seealso [livelink-knitr] to give a document chunk its own link.
+#' @seealso [shinylive_project()] for multi-file apps; [decode_shinylive_link()]
+#'   and [preview_shinylive_link()] to read a link back; [livelink-knitr] to give
+#'   a document chunk its own link;
+#'   `vignette("webr-and-shinylive", package = "livelink")` for the guide.
 #'
 #' @export
 #' @examples
@@ -233,11 +243,16 @@ shinylive_r_link <- function(input = NULL, mode = "editor", header = TRUE, base_
 #'   - Named list: `list("app.R" = code1, "utils.R" = code2)`
 #'   - Vector of file paths: `c("app.R", "utils.R", "data.csv")`
 #' @param engine Engine to use: "r" for R Shiny or "python" for Python Shiny
-#' @param mode Shinylive mode: "editor" (show code editor) or "app" (show app only)
-#' @param header Logical. Whether to show header in app mode (default: TRUE)
-#' @param base_url Custom Shinylive base URL. If NULL, uses default Shinylive URL
+#' @param mode Shinylive display mode (default `"editor"`). `"editor"` shows an
+#'   editable code panel beside the running app; `"app"` shows only the running app.
+#' @param header Logical, whether to show the Shinylive header bar. It applies only
+#'   when `mode = "app"` and is ignored in the default `"editor"` mode. Defaults to `TRUE`.
+#' @param base_url Custom Shinylive base URL. If NULL (default), links point at https://shinylive.io.
 #'
 #' @return shinylive_project object containing the Shinylive URL and metadata
+#'
+#' @seealso [shinylive_r_link()] and [shinylive_py_link()] for single apps;
+#'   [decode_shinylive_link()] and [preview_shinylive_link()] to read a link back.
 #'
 #' @export
 #' @examples
@@ -284,12 +299,18 @@ shinylive_project <- function(input, engine, mode = "editor", header = TRUE, bas
 #' Batch processes directories containing Shiny applications to create individual Shinylive links.
 #' Each subdirectory is treated as a separate Shiny app project.
 #'
+#' Only text files with extensions .R, .py, .txt, .md, .csv, .json, .yaml, or
+#' .yml are embedded in a link. Other files (for example images or binary data)
+#' are skipped with a warning.
+#'
 #' @param directory_path Character string specifying the path to the directory containing Shiny app directories
 #' @param engine Engine to use: "r" for R Shiny or "python" for Python Shiny
-#' @param mode Shinylive mode: "editor" (show code editor) or "app" (show app only)
-#' @param header Logical. Whether to show header in app mode (default: TRUE)
+#' @param mode Shinylive display mode (default `"editor"`). `"editor"` shows an
+#'   editable code panel beside the running app; `"app"` shows only the running app.
+#' @param header Logical, whether to show the Shinylive header bar. It applies only
+#'   when `mode = "app"` and is ignored in the default `"editor"` mode. Defaults to `TRUE`.
 #' @param app_file Main app filename to look for (default: "app.R" for R, "app.py" for Python)
-#' @param base_url Custom Shinylive base URL. If NULL, uses default Shinylive URL
+#' @param base_url Custom Shinylive base URL. If NULL (default), links point at https://shinylive.io.
 #'
 #' @return shinylive_directory object containing URLs and metadata for all found apps
 #'

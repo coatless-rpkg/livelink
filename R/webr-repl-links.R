@@ -1,5 +1,5 @@
 
-#' Create a WebR REPL sharelink from R code
+#' Create a webR REPL sharelink from R code
 #'
 #' Generates a shareable URL for R code that can be executed in the webR environment.
 #' Supports expressions, file paths, character strings, and clipboard input.
@@ -10,16 +10,17 @@
 #'   - File path: Path to R file to read
 #'   - NULL: Read from clipboard (requires clipr package)
 #' @param filename Name for the file (default: `"script.R"`)
-#' @param path Full path where the file will be placed in WebR (default: `"/home/web_user/{filename}"`)
+#' @param path Full path where the file will be placed in webR. If NULL (default),
+#'   the file is placed at `"/home/web_user/{filename}"`.
 #' @param autorun Logical. Whether to auto-execute the code when link is opened (default: `FALSE`).
 #'   Only R files (`.R`) can be auto-executed.
-#' @param panels Character vector or string specifying which WebR interface panels to show.
+#' @param panels Character vector or string specifying which webR interface panels to show.
 #'   Valid panels: `"plot"`, `"files"`, `"terminal"`, `"editor"`. Can be `c("plot", "files")` or `"plot-files"`.
 #'   If NULL (default), shows all panels.
-#' @param version WebR version to use (`"latest"` or specific version >= "v0.5.4")
-#' @param base_url WebR application URL. If NULL, uses global option or builds from version
+#' @param version webR version to use (`"latest"` or specific version >= "v0.5.4")
+#' @param base_url webR application URL. If NULL, uses global option or builds from version
 #'
-#' @return webr_link object containing the WebR sharelink and metadata
+#' @return webr_link object containing the webR sharelink and metadata
 #'
 #' @section Comments in expression input:
 #' Expression input recovers your source from R's *source references*, which R only
@@ -33,7 +34,10 @@
 #' it as a chunk in the document -- see [livelink-knitr] and
 #' `vignette("links-in-documents", package = "livelink")`.
 #'
-#' @seealso [livelink-knitr] to give a document chunk its own link.
+#' @seealso [webr_repl_project()] for multi-file projects and
+#'   [webr_repl_exercise()] for exercise and solution pairs; [livelink-knitr] to
+#'   give a document chunk its own link; `vignette("getting-started", package =
+#'   "livelink")` for an introduction.
 #'
 #' @export
 #' @examples
@@ -127,7 +131,7 @@ webr_repl_link <- function(input = NULL,
 
 #' Create WebR REPL sharelink for multiple files
 #'
-#' Creates a WebR sharelink for projects with multiple R files, data files, or other resources.
+#' Creates a webR sharelink for projects with multiple R files, data files, or other resources.
 #' Supports named lists and file path vectors as input.
 #'
 #' @param input Input for multiple files. Can be:
@@ -141,13 +145,13 @@ webr_repl_link <- function(input = NULL,
 #'   both code and, say, a `README.md`.
 #' @param autorun_files Character vector of filenames to auto-execute when project loads, or "all" to autorun all R files (default: none)
 #' @param base_path Base directory path for all files (default: `"/home/web_user/"`)
-#' @param panels Character vector or string specifying which WebR interface panels to show.
+#' @param panels Character vector or string specifying which webR interface panels to show.
 #'   Valid panels: `"plot"`, `"files"`, `"terminal"`, `"editor"`. Can be `c("plot", "files")` or `"plot-files"`.
 #'   If NULL (default), shows all panels.
-#' @param version WebR version to use (`"latest"` or specific version >= "v0.5.4")
-#' @param base_url WebR application URL. If NULL, uses global option or builds from version
+#' @param version webR version to use (`"latest"` or specific version >= "v0.5.4")
+#' @param base_url webR application URL. If NULL, uses global option or builds from version
 #'
-#' @return webr_project object containing the WebR sharelink for the multi-file project
+#' @return webr_project object containing the webR sharelink for the multi-file project
 #'
 #' @section Writing a project as code:
 #' A file's contents can be given as a `{ ... }` block instead of a string, which
@@ -290,19 +294,22 @@ build_webr_project <- function(processed_files, autorun_files, base_path,
 }
 
 
-#' Create paired exercise and solution WebR REPL links
+#' Create paired exercise and solution webR REPL links
 #'
-#' Generates a pair of WebR links for educational purposes: one for student exercises
+#' Generates a pair of webR links for educational purposes: one for student exercises
 #' (without autorun) and one for solutions (with autorun enabled).
 #'
 #' @param exercise_text Character string containing the exercise code with placeholders or TODOs
 #' @param solution_text Character string containing the complete solution code
 #' @param exercise_name Base name for the exercise (will create `"name_exercise.R"` and `"name_solution.R"`)
 #' @param base_path Base directory path for files (default: `"/home/web_user/"`)
-#' @param version WebR version to use ("latest" or specific version >= "v0.5.4")
-#' @param base_url WebR application URL. If NULL, uses global option or builds from version
+#' @param version webR version to use ("latest" or specific version >= "v0.5.4")
+#' @param base_url webR application URL. If NULL, uses global option or builds from version
 #'
 #' @return webr_exercise object holding the paired `exercise` and `solution` links
+#'
+#' @seealso [webr_repl_link()], which this builds on;
+#'   `vignette("teaching", package = "livelink")` for using links in a course.
 #'
 #' @examples
 #' exercise_code <- "

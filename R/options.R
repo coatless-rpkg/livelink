@@ -14,8 +14,16 @@ get_webr_base_url <- function(version = "latest") {
   paste0("https://webr.r-wasm.org/", version, "/")
 }
 
-#' Set global base URL for WebR links
-#' @param base_url Custom base URL to use for all WebR links
+#' Set global base URL for webR links
+#'
+#' @description
+#' Overrides the base URL used when building webR REPL links, for instance to
+#' point at a self-hosted or pinned webR deployment. The value is stored in the
+#' `livelink.base_url` option and applies to webR links only; Shinylive links are
+#' unaffected. Once set, a custom base URL takes precedence over the `version`
+#' argument passed to the link builders.
+#'
+#' @param base_url Custom base URL to use for all webR links
 #' @return Invisibly returns the `base_url` value (or `NULL` if resetting
 #'   to default).
 #' @export

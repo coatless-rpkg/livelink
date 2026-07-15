@@ -14,10 +14,14 @@
 #' These fire only inside 'knitr'. Call [print()] explicitly for the full cli
 #' description, or [as.character()] for the bare URL.
 #'
-#' @param x A livelink link object.
+#' @param x A livelink object (a link, project, exercise, or directory).
 #' @param ... Ignored.
 #'
 #' @return A `knit_asis` object (via [knitr::asis_output()]).
+#'
+#' @seealso [livelink-knitr] for the chunk hook and engine, [format.livelink()]
+#'   and [as.character.webr_link()] for other renderings, and
+#'   `vignette("links-in-documents", package = "livelink")`.
 #'
 #' @name knit_print.livelink
 NULL

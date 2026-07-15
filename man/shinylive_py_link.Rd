@@ -21,11 +21,13 @@ shinylive_py_link(
 \item NULL: Read from clipboard
 }}
 
-\item{mode}{Shinylive mode: "editor" (show code editor) or "app" (show app only)}
+\item{mode}{Shinylive display mode (default \code{"editor"}). \code{"editor"} shows an
+editable code panel beside the running app; \code{"app"} shows only the running app.}
 
-\item{header}{Logical. Whether to show header in app mode (default: TRUE)}
+\item{header}{Logical, whether to show the Shinylive header bar. It applies only
+when \code{mode = "app"} and is ignored in the default \code{"editor"} mode. Defaults to \code{TRUE}.}
 
-\item{base_url}{Custom Shinylive base URL. If NULL, uses default Shinylive URL}
+\item{base_url}{Custom Shinylive base URL. If NULL (default), links point at https://shinylive.io.}
 }
 \value{
 shinylive_link object containing the Shinylive URL and metadata
@@ -61,4 +63,8 @@ shinylive_py_link(app_path)
 if (interactive()) {
   shinylive_py_link()
 }
+}
+\seealso{
+\code{\link[=shinylive_project]{shinylive_project()}} for multi-file apps; \code{\link[=decode_shinylive_link]{decode_shinylive_link()}}
+and \code{\link[=preview_shinylive_link]{preview_shinylive_link()}} to read a link back.
 }

@@ -21,15 +21,21 @@ directory; pass an explicit path to extract somewhere permanent.}
 
 \item{overwrite}{Logical. Whether to overwrite existing files (default: FALSE)}
 
-\item{create_subdir}{Logical. Whether to create subdirectories. For single URLs, creates
-a subdirectory named after the URL hash. For multiple URLs, creates numbered subdirectories
-(default: TRUE)}
+\item{create_subdir}{Logical. If \code{TRUE} (default), each decoded link is
+extracted into its own subdirectory under \code{output_dir} rather than directly
+into it. For a single URL the subdirectory is named \verb{webr_<hash>}, where
+\verb{<hash>} is a short fingerprint of the URL. For multiple URLs, see
+\code{name_dirs}. Set \code{FALSE} to extract straight into \code{output_dir}.}
 
-\item{name_dirs}{Logical. For multiple URLs only: whether to name directories by URL index
-rather than hash (default: TRUE). Ignored for single URLs.}
+\item{name_dirs}{Logical. For multiple URLs, controls how the per-link
+subdirectories are named: \code{TRUE} (default) numbers them \code{script_01},
+\code{script_02}, ...; \code{FALSE} names each one \verb{webr_<hash>} from the URL
+fingerprint. Ignored for a single URL, and ignored when
+\code{create_subdir = FALSE} (all files then extract into \code{output_dir}).}
 }
 \value{
-For single URL: webr_decoded object. For multiple URLs: webr_decoded_batch object.
+For a single URL, a \code{webr_decoded} object. For multiple URLs, a
+\code{webr_decoded_batch} object.
 }
 \description{
 Decodes webR REPL sharelinks to extract the embedded files and save them
@@ -51,4 +57,9 @@ list.files(out)
 # Several links at once
 urls <- c(url, as.character(webr_repl_link("hist(rnorm(100))")))
 decode_webr_link(urls, output_dir = file.path(tempdir(), "my_scripts"))
+}
+\seealso{
+\code{\link[=preview_webr_link]{preview_webr_link()}} to inspect a link without writing files, and
+\code{\link[=webr_repl_link]{webr_repl_link()}}, \code{\link[=webr_repl_project]{webr_repl_project()}}, and \code{\link[=webr_repl_exercise]{webr_repl_exercise()}}, which
+create the links this function decodes.
 }

@@ -30,19 +30,19 @@ both code and, say, a \code{README.md}.}
 
 \item{base_path}{Base directory path for all files (default: \code{"/home/web_user/"})}
 
-\item{panels}{Character vector or string specifying which WebR interface panels to show.
+\item{panels}{Character vector or string specifying which webR interface panels to show.
 Valid panels: \code{"plot"}, \code{"files"}, \code{"terminal"}, \code{"editor"}. Can be \code{c("plot", "files")} or \code{"plot-files"}.
 If NULL (default), shows all panels.}
 
-\item{version}{WebR version to use (\code{"latest"} or specific version >= "v0.5.4")}
+\item{version}{webR version to use (\code{"latest"} or specific version >= "v0.5.4")}
 
-\item{base_url}{WebR application URL. If NULL, uses global option or builds from version}
+\item{base_url}{webR application URL. If NULL, uses global option or builds from version}
 }
 \value{
-webr_project object containing the WebR sharelink for the multi-file project
+webr_project object containing the webR sharelink for the multi-file project
 }
 \description{
-Creates a WebR sharelink for projects with multiple R files, data files, or other resources.
+Creates a webR sharelink for projects with multiple R files, data files, or other resources.
 Supports named lists and file path vectors as input.
 }
 \section{Writing a project as code}{

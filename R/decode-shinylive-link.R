@@ -10,13 +10,24 @@
 #'   Defaults to a `shinylive_files` directory inside the session temporary
 #'   directory; pass an explicit path to extract somewhere permanent.
 #' @param overwrite Logical. Whether to overwrite existing files (default: FALSE)
-#' @param create_subdir Logical. Whether to create subdirectories. For single URLs, creates
-#'   a subdirectory named after the URL hash. For multiple URLs, creates numbered subdirectories
-#'   (default: TRUE)
-#' @param name_dirs Logical. For multiple URLs only: whether to name directories by URL index
-#'   rather than hash (default: TRUE). Ignored for single URLs.
+#' @param create_subdir Logical. If `TRUE` (default), each decoded link is
+#'   extracted into its own subdirectory under `output_dir` rather than directly
+#'   into it. For a single URL the subdirectory is named `shinylive_<hash>`, where
+#'   `<hash>` is a short fingerprint of the URL. For multiple URLs, see
+#'   `name_dirs`. Set `FALSE` to extract straight into `output_dir`; with multiple
+#'   URLs this means identically named files (such as `app.R`) collide, so a later
+#'   app overwrites an earlier one when `overwrite = TRUE`, or is skipped when
+#'   `overwrite = FALSE`.
+#' @param name_dirs Logical. For multiple URLs, controls how the per-link
+#'   subdirectories are named: `TRUE` (default) numbers them `app_01`, `app_02`,
+#'   ...; `FALSE` names each one `shinylive_<hash>` from the URL fingerprint.
+#'   Ignored for a single URL, and ignored when `create_subdir = FALSE`.
 #'
-#' @return For single URL: shinylive_decoded object. For multiple URLs: shinylive_decoded_batch object.
+#' @return For a single URL, a `shinylive_decoded` object. For multiple URLs, a
+#'   `shinylive_decoded_batch` object.
+#'
+#' @seealso [preview_shinylive_link()] to inspect a link without writing files;
+#'   [shinylive_r_link()] and [shinylive_py_link()] to create links.
 #'
 #' @examples
 #' # Round-trip: build a link, then decode it back to files
@@ -349,7 +360,7 @@ extract_code_parameter <- function(params_string) {
   return(NULL)
 }
 
-#' Preview Shinylive link contents without decoding to files
+#' Preview Shinylive link contents without writing files to disk
 #'
 #' @description
 #' Decodes a Shinylive URL and returns information about the embedded files
@@ -358,6 +369,9 @@ extract_code_parameter <- function(params_string) {
 #' @param url Character string containing the Shinylive URL
 #'
 #' @return shinylive_preview object with file information and metadata
+#'
+#' @seealso [decode_shinylive_link()] to extract files to disk;
+#'   [shinylive_r_link()] and [shinylive_py_link()] to create links.
 #'
 #' @examples
 #' url <- as.character(shinylive_r_link("library(shiny)"))

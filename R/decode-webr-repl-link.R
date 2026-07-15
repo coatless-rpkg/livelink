@@ -9,14 +9,24 @@
 #'   Defaults to a `webr_files` directory inside the session temporary
 #'   directory; pass an explicit path to extract somewhere permanent.
 #' @param overwrite Logical. Whether to overwrite existing files (default: FALSE)
-#' @param create_subdir Logical. Whether to create subdirectories. For single URLs, creates
-#'   a subdirectory named after the URL hash. For multiple URLs, creates numbered subdirectories
-#'   (default: TRUE)
-#' @param name_dirs Logical. For multiple URLs only: whether to name directories by URL index
-#'   rather than hash (default: TRUE). Ignored for single URLs.
+#' @param create_subdir Logical. If `TRUE` (default), each decoded link is
+#'   extracted into its own subdirectory under `output_dir` rather than directly
+#'   into it. For a single URL the subdirectory is named `webr_<hash>`, where
+#'   `<hash>` is a short fingerprint of the URL. For multiple URLs, see
+#'   `name_dirs`. Set `FALSE` to extract straight into `output_dir`.
+#' @param name_dirs Logical. For multiple URLs, controls how the per-link
+#'   subdirectories are named: `TRUE` (default) numbers them `script_01`,
+#'   `script_02`, ...; `FALSE` names each one `webr_<hash>` from the URL
+#'   fingerprint. Ignored for a single URL, and ignored when
+#'   `create_subdir = FALSE` (all files then extract into `output_dir`).
 #'
 #' @return
-#' For single URL: webr_decoded object. For multiple URLs: webr_decoded_batch object.
+#' For a single URL, a `webr_decoded` object. For multiple URLs, a
+#' `webr_decoded_batch` object.
+#'
+#' @seealso [preview_webr_link()] to inspect a link without writing files, and
+#'   [webr_repl_link()], [webr_repl_project()], and [webr_repl_exercise()], which
+#'   create the links this function decodes.
 #'
 #' @include utils.R
 #' @export
@@ -680,7 +690,7 @@ extract_webr_parameters <- function(fragment) {
 }
 
 
-#' Preview webR REPL link contents without decoding to files
+#' Preview webR REPL link contents without writing files to disk
 #'
 #' @description
 #' Decodes a webR URL and returns information about the embedded files
@@ -688,7 +698,13 @@ extract_webr_parameters <- function(fragment) {
 #'
 #' @param url Character string containing the webR URL
 #'
-#' @return webr_preview object with file information and metadata
+#' @return A `webr_preview` object (a list) with elements including `files_data`
+#'   (the embedded files), `total_files`, `total_size`, `mode`, `version`,
+#'   `flags`, and `autorun_files`. Its `print()` method accepts `show_content`
+#'   and `max_content_length` to display file bodies.
+#'
+#' @seealso [decode_webr_link()] to extract the embedded files to disk once you
+#'   are happy with the preview.
 #'
 #' @examples
 #' url <- as.character(webr_repl_link("plot(1:10)"))

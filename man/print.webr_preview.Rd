@@ -9,9 +9,9 @@
 \arguments{
 \item{x}{webr_preview object}
 
-\item{show_content}{Logical. Whether to show file contents (default: FALSE)}
+\item{show_content}{Logical. Whether to print the contents of each file (default: FALSE)}
 
-\item{max_content_length}{Maximum length of content to show (default: 500)}
+\item{max_content_length}{Maximum number of characters of content to show per file (default: 500)}
 
 \item{...}{Additional arguments (ignored)}
 }

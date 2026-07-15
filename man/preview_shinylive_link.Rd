@@ -2,7 +2,7 @@
 % Please edit documentation in R/decode-shinylive-link.R
 \name{preview_shinylive_link}
 \alias{preview_shinylive_link}
-\title{Preview Shinylive link contents without decoding to files}
+\title{Preview Shinylive link contents without writing files to disk}
 \usage{
 preview_shinylive_link(url)
 }
@@ -35,4 +35,8 @@ print(preview, show_content = TRUE, max_content_length = 200)
 preview$files_data
 preview$total_files
 
+}
+\seealso{
+\code{\link[=decode_shinylive_link]{decode_shinylive_link()}} to extract files to disk;
+\code{\link[=shinylive_r_link]{shinylive_r_link()}} and \code{\link[=shinylive_py_link]{shinylive_py_link()}} to create links.
 }

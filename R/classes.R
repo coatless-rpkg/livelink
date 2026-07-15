@@ -536,8 +536,8 @@ print.webr_decoded_batch <- function(x, ...) {
 
 #' Print method for webr_preview objects
 #' @param x webr_preview object
-#' @param show_content Logical. Whether to show file contents (default: FALSE)
-#' @param max_content_length Maximum length of content to show (default: 500)
+#' @param show_content Logical. Whether to print the contents of each file (default: FALSE)
+#' @param max_content_length Maximum number of characters of content to show per file (default: 500)
 #' @param ... Additional arguments (ignored)
 #' @return Invisibly returns the object
 #' @export
@@ -626,8 +626,8 @@ print.webr_preview <- function(x, show_content = FALSE, max_content_length = 500
 
 #' Print method for shinylive_preview objects
 #' @param x shinylive_preview object
-#' @param show_content Logical. Whether to print the contents of each file
-#' @param max_content_length Maximum number of characters of content to show per file
+#' @param show_content Logical. Whether to print the contents of each file (default: FALSE)
+#' @param max_content_length Maximum number of characters of content to show per file (default: 500)
 #' @param ... Additional arguments (ignored)
 #' @return Invisibly returns the object
 #' @export

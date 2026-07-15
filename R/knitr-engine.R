@@ -59,8 +59,9 @@
 #'     `"shinylive-py"`.}
 #'   \item{`autorun`}{Logical. Run the code as soon as the link opens. webR only.}
 #'   \item{`panels`}{Character vector of webR panels, e.g. `c("editor", "plot")`.}
-#'   \item{`mode`}{Shinylive display mode, `"editor"` or `"app"`.}
-#'   \item{`filename`}{Name for the file inside the environment.}
+#'   \item{`mode`}{Shinylive only. Display mode, `"editor"` (default) or `"app"`.}
+#'   \item{`filename`}{webR only. Name for the script file in the webR virtual
+#'     filesystem (default `"script.R"`); must end in `.R` for `autorun` to work.}
 #'   \item{`link.text`}{Text for the hyperlink. Defaults to `"Open in webR"` or
 #'     `"Open in Shinylive"`.}
 #'   \item{`link.only`}{Engine only. If `TRUE`, emit the link without the source.}

@@ -2,19 +2,23 @@
 % Please edit documentation in R/options.R
 \name{set_webr_base_url}
 \alias{set_webr_base_url}
-\title{Set global base URL for WebR links}
+\title{Set global base URL for webR links}
 \usage{
 set_webr_base_url(base_url = NULL)
 }
 \arguments{
-\item{base_url}{Custom base URL to use for all WebR links}
+\item{base_url}{Custom base URL to use for all webR links}
 }
 \value{
 Invisibly returns the \code{base_url} value (or \code{NULL} if resetting
 to default).
 }
 \description{
-Set global base URL for WebR links
+Overrides the base URL used when building webR REPL links, for instance to
+point at a self-hosted or pinned webR deployment. The value is stored in the
+\code{livelink.base_url} option and applies to webR links only; Shinylive links are
+unaffected. Once set, a custom base URL takes precedence over the \code{version}
+argument passed to the link builders.
 }
 \examples{
 # Set custom base URL

@@ -2,7 +2,7 @@
 % Please edit documentation in R/decode-webr-repl-link.R
 \name{preview_webr_link}
 \alias{preview_webr_link}
-\title{Preview webR REPL link contents without decoding to files}
+\title{Preview webR REPL link contents without writing files to disk}
 \usage{
 preview_webr_link(url)
 }
@@ -10,7 +10,10 @@ preview_webr_link(url)
 \item{url}{Character string containing the webR URL}
 }
 \value{
-webr_preview object with file information and metadata
+A \code{webr_preview} object (a list) with elements including \code{files_data}
+(the embedded files), \code{total_files}, \code{total_size}, \code{mode}, \code{version},
+\code{flags}, and \code{autorun_files}. Its \code{print()} method accepts \code{show_content}
+and \code{max_content_length} to display file bodies.
 }
 \description{
 Decodes a webR URL and returns information about the embedded files
@@ -35,4 +38,8 @@ print(preview, show_content = TRUE, max_content_length = 200)
 preview$files_data
 preview$total_files
 
+}
+\seealso{
+\code{\link[=decode_webr_link]{decode_webr_link()}} to extract the embedded files to disk once you
+are happy with the preview.
 }

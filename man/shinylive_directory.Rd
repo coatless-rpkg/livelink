@@ -18,13 +18,15 @@ shinylive_directory(
 
 \item{engine}{Engine to use: "r" for R Shiny or "python" for Python Shiny}
 
-\item{mode}{Shinylive mode: "editor" (show code editor) or "app" (show app only)}
+\item{mode}{Shinylive display mode (default \code{"editor"}). \code{"editor"} shows an
+editable code panel beside the running app; \code{"app"} shows only the running app.}
 
-\item{header}{Logical. Whether to show header in app mode (default: TRUE)}
+\item{header}{Logical, whether to show the Shinylive header bar. It applies only
+when \code{mode = "app"} and is ignored in the default \code{"editor"} mode. Defaults to \code{TRUE}.}
 
 \item{app_file}{Main app filename to look for (default: "app.R" for R, "app.py" for Python)}
 
-\item{base_url}{Custom Shinylive base URL. If NULL, uses default Shinylive URL}
+\item{base_url}{Custom Shinylive base URL. If NULL (default), links point at https://shinylive.io.}
 }
 \value{
 shinylive_directory object containing URLs and metadata for all found apps
@@ -32,6 +34,10 @@ shinylive_directory object containing URLs and metadata for all found apps
 \description{
 Batch processes directories containing Shiny applications to create individual Shinylive links.
 Each subdirectory is treated as a separate Shiny app project.
+
+Only text files with extensions .R, .py, .txt, .md, .csv, .json, .yaml, or
+.yml are embedded in a link. Other files (for example images or binary data)
+are skipped with a warning.
 }
 \examples{
 # Each app lives in its own subdirectory:

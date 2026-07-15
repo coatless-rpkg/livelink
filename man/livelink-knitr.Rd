@@ -70,8 +70,9 @@ directly: \code{"webr"}, \code{"shinylive-r"}, \code{"shinylive-py"}.}
 \code{"shinylive-py"}.}
 \item{\code{autorun}}{Logical. Run the code as soon as the link opens. webR only.}
 \item{\code{panels}}{Character vector of webR panels, e.g. \code{c("editor", "plot")}.}
-\item{\code{mode}}{Shinylive display mode, \code{"editor"} or \code{"app"}.}
-\item{\code{filename}}{Name for the file inside the environment.}
+\item{\code{mode}}{Shinylive only. Display mode, \code{"editor"} (default) or \code{"app"}.}
+\item{\code{filename}}{webR only. Name for the script file in the webR virtual
+filesystem (default \code{"script.R"}); must end in \code{.R} for \code{autorun} to work.}
 \item{\code{link.text}}{Text for the hyperlink. Defaults to \code{"Open in webR"} or
 \code{"Open in Shinylive"}.}
 \item{\code{link.only}}{Engine only. If \code{TRUE}, emit the link without the source.}

@@ -4,7 +4,12 @@
 #' @param ... Additional arguments
 #'
 #' @return
-#' Character vector of URLs
+#' A character vector of URLs. Most objects yield a single URL; exercise objects
+#' return a length-2 named vector (`exercise`, `solution`); directory and batch
+#' objects return one URL per file.
+#'
+#' @seealso [repl_urls()] for the same extraction as a named generic you can call
+#'   explicitly.
 #'
 #' @export
 as.character.webr_link <- function(x, ...) {
@@ -95,7 +100,12 @@ as.character.shinylive_preview <- function(x, ...) {
 #'   `webr_preview`, `shinylive_link`, `shinylive_project`, `shinylive_directory`,
 #'   `shinylive_decoded`, `shinylive_decoded_batch`, and `shinylive_preview`.
 #' @param ... Additional arguments passed to methods
-#' @return Character vector of URLs
+#' @return A character vector of URLs. Most objects yield a single URL; exercise
+#'   objects return a length-2 named vector (`exercise`, `solution`); directory
+#'   and batch objects return one URL per file.
+#'
+#' @seealso The `as.character()` methods (for example [as.character.webr_link()]),
+#'   which `repl_urls()` delegates to.
 #'
 #' @examples
 #' # Single link

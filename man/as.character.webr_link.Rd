@@ -48,8 +48,14 @@
 \item{...}{Additional arguments}
 }
 \value{
-Character vector of URLs
+A character vector of URLs. Most objects yield a single URL; exercise objects
+return a length-2 named vector (\code{exercise}, \code{solution}); directory and batch
+objects return one URL per file.
 }
 \description{
 Extract URLs as character vector
+}
+\seealso{
+\code{\link[=repl_urls]{repl_urls()}} for the same extraction as a named generic you can call
+explicitly.
 }
