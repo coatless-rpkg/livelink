@@ -181,8 +181,8 @@ changes, and what that means for your reader.
 | `mode: app` | `shinylive.io/r/app/` | Shinylive only: the running app, not the code |
 | `filename: analysis.R` | `analysis.R` | the file's name inside the environment |
 | `link.text: "Try it"` | `[Try it](…)` | the words the reader clicks |
-| `link.only: true` | *(unchanged)* | engine only: emit the link without showing the source |
-| `echo: false` | *(unchanged)* | hides the code in the page; the link still works |
+| `link.only: true` | *(source hidden)* | engine only: emit the link without showing the source |
+| `echo: false` | *(no change)* | hides the code in the page; the link still works |
 
 Any of these can be set once for a whole document, as [Setting options
 once](#setting-options-once) shows.
