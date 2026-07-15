@@ -26,6 +26,7 @@ knitr:
 ```
 
 ```{r setup}
+#| include: false
 library(livelink)
 ```
 
@@ -42,7 +43,11 @@ from, by anyone, with no network access.
 ## Look before you leap
 
 Someone sends you a link. Before you let it write anything to your disk, you can
-inspect it.
+inspect it. There are two ways to open a link, and they differ in exactly one way:
+whether anything touches your filesystem.
+
+![One link, two operations. `preview_webr_link()` decodes it in memory and reports what is inside, writing nothing. `decode_webr_link()` extracts the files to a directory.](../man/figures/preview-decode-light.svg){.ll-fig .ll-light}
+![](../man/figures/preview-decode-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 `preview_webr_link()` decodes the URL in memory and tells you what is inside,
 without creating a single file.
@@ -174,6 +179,9 @@ Each URL gets its own subdirectory, so submissions cannot overwrite one another.
 webR's own share dialog encodes files with **msgpack**, not JSON, and livelink writes
 JSON. The flags at the end of a URL say which is which. `jz` is JSON + gzip,
 `mz` is msgpack + gzip, and `a` means autorun.
+
+![The flags record how a link was encoded. livelink decodes both its own JSON links and the msgpack links webR's share button writes, into the same files.](../man/figures/dialects-light.svg){.ll-fig .ll-light}
+![](../man/figures/dialects-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 livelink reads all of them. A link produced by webR itself decodes exactly like one
 produced here, and you do not have to know or care which tool made it.
