@@ -86,20 +86,15 @@ shinyApp(fluidPage(sliderInput("n", "n", 1, 100, 50)), function(input, output) {
 That is how the Shiny examples in these vignettes are built. livelink does not depend
 on shiny, and does not want to.
 
-For a Shiny chunk there is a shorthand. ```` ```{shinylive_r} ```` and
-```` ```{shinylive_py} ```` are the same engine with the target already set, so the
-chunk reads as what it is:
+::: {.callout-note}
+## There is no `{shinylive-r}` chunk
 
-````
-```{{shinylive_r}}
-#| mode: app
-library(shiny)
-shinyApp(fluidPage(sliderInput("n", "n", 1, 100, 50)), function(input, output) {})
-```
-````
-
-The names use underscores, not hyphens, because knitr does not dispatch a chunk whose
-engine name contains a hyphen.
+It is tempting to want a ```` ```{shinylive-r} ```` chunk to match Shinylive's own
+naming. knitr cannot provide one: its chunk syntax forbids a hyphen in an engine name,
+and in Quarto a `{shinylive-r}` cell is handed to the Shinylive extension, not to
+knitr. Name Shinylive through `engine.target` on a `{livelink}` chunk instead, as
+above.
+:::
 
 # Chunk options
 
@@ -189,7 +184,5 @@ changes, and what that means for your reader.
 | `link.only: true` | *(unchanged)* | engine only: emit the link without showing the source |
 | `echo: false` | *(unchanged)* | hides the code in the page; the link still works |
 
-The two Shinylive shorthands, ```` ```{shinylive_r} ```` and ```` ```{shinylive_py} ````,
-set `engine.target` for you, so a Shiny chunk needs neither `livelink` nor
-`engine.target`. Any of these can be set once for a whole document, as [Setting
-options once](#setting-options-once) shows.
+Any of these can be set once for a whole document, as [Setting options
+once](#setting-options-once) shows.

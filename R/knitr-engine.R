@@ -32,18 +32,10 @@
 #' ```
 #' ````
 #'
-#' For Shinylive there are two shorthands, ```` ```{shinylive_r} ```` and
-#' ```` ```{shinylive_py} ````, so a Shiny chunk reads as what it is without the
-#' `engine.target` option. They are the engine with the target fixed. The names use
-#' underscores because 'knitr' does not dispatch a chunk whose engine name contains
-#' a hyphen.
-#'
-#' ````
-#' ```{shinylive_r}
-#' library(shiny)
-#' shinyApp(fluidPage(), function(input, output) {})
-#' ```
-#' ````
+#' There is deliberately no `{shinylive-r}` or `{shinylive-py}` engine. 'knitr'
+#' cannot dispatch a chunk whose engine name contains a hyphen (its chunk syntax
+#' forbids it), and in Quarto such a cell is handed to the Shinylive extension
+#' rather than to 'knitr'. Name Shinylive through `engine.target` instead.
 #'
 #' @details
 #' Reach for either of these rather than expression input
@@ -64,8 +56,7 @@
 #'   \item{`livelink`}{Hook only. `true` for a webR link, or name the target
 #'     directly: `"webr"`, `"shinylive-r"`, `"shinylive-py"`.}
 #'   \item{`engine.target`}{Engine only. `"webr"` (default), `"shinylive-r"`, or
-#'     `"shinylive-py"`. The ```` ```{shinylive_r} ```` and
-#'     ```` ```{shinylive_py} ```` chunks set this for you.}
+#'     `"shinylive-py"`.}
 #'   \item{`autorun`}{Logical. Run the code as soon as the link opens. webR only.}
 #'   \item{`panels`}{Character vector of webR panels, e.g. `c("editor", "plot")`.}
 #'   \item{`mode`}{Shinylive display mode, `"editor"` or `"app"`.}
@@ -127,21 +118,12 @@ use_livelink_engine <- function() {
     return(invisible(FALSE))
   }
 
-  # `livelink` targets webR by default. `shinylive_r` and `shinylive_py` are the
-  # same engine with the target fixed, so ```{shinylive_r} reads as what it is.
-  # The names use underscores because 'knitr' does not dispatch a chunk whose
-  # engine name contains a hyphen.
-  knitr::knit_engines$set(
-    livelink = livelink_engine,
-    shinylive_r = function(options) {
-      options[["engine.target"]] <- "shinylive-r"
-      livelink_engine(options)
-    },
-    shinylive_py = function(options) {
-      options[["engine.target"]] <- "shinylive-py"
-      livelink_engine(options)
-    }
-  )
+  # A single engine, `livelink`, that targets webR by default. Shinylive is
+  # reached with the `engine.target` chunk option, not a separate engine name:
+  # 'knitr' cannot dispatch a `{shinylive-r}` chunk (its chunk syntax forbids a
+  # hyphen in the engine name), and an underscore near-miss like `{shinylive_r}`
+  # only misleads.
+  knitr::knit_engines$set(livelink = livelink_engine)
   invisible(TRUE)
 }
 

@@ -44,17 +44,10 @@ shinyApp(fluidPage(), function(input, output) \{\})
 ```
 }\if{html}{\out{</div>}}
 
-For Shinylive there are two shorthands, \verb{```\{shinylive_r\}} and
-\verb{```\{shinylive_py\}}, so a Shiny chunk reads as what it is without the
-\code{engine.target} option. They are the engine with the target fixed. The names use
-underscores because 'knitr' does not dispatch a chunk whose engine name contains
-a hyphen.
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{```\{shinylive_r\}
-library(shiny)
-shinyApp(fluidPage(), function(input, output) \{\})
-```
-}\if{html}{\out{</div>}}
+There is deliberately no \code{{shinylive-r}} or \code{{shinylive-py}} engine. 'knitr'
+cannot dispatch a chunk whose engine name contains a hyphen (its chunk syntax
+forbids it), and in Quarto such a cell is handed to the Shinylive extension
+rather than to 'knitr'. Name Shinylive through \code{engine.target} instead.
 }
 \details{
 Reach for either of these rather than expression input
@@ -74,8 +67,7 @@ installed. Call these yourself only if you have reset \code{knitr::knit_hooks} o
 \item{\code{livelink}}{Hook only. \code{true} for a webR link, or name the target
 directly: \code{"webr"}, \code{"shinylive-r"}, \code{"shinylive-py"}.}
 \item{\code{engine.target}}{Engine only. \code{"webr"} (default), \code{"shinylive-r"}, or
-\code{"shinylive-py"}. The \verb{```\{shinylive_r\}} and
-\verb{```\{shinylive_py\}} chunks set this for you.}
+\code{"shinylive-py"}.}
 \item{\code{autorun}}{Logical. Run the code as soon as the link opens. webR only.}
 \item{\code{panels}}{Character vector of webR panels, e.g. \code{c("editor", "plot")}.}
 \item{\code{mode}}{Shinylive display mode, \code{"editor"} or \code{"app"}.}
