@@ -117,7 +117,9 @@ new_webr_decoded <- function(files_info, output_dir, url, mode, version, flags) 
 #' @param urls Original URLs
 #' @return webr_decoded_batch object
 #' @noRd
-new_webr_decoded_batch <- function(results, base_dir, urls) {
+# webr_decoded_batch and shinylive_decoded_batch are field-for-field identical,
+# differing only in their class tag, so both are built here.
+new_decoded_batch <- function(results, base_dir, urls, subclass) {
   successful <- results[!vapply(results, is.null, logical(1))]
 
   structure(
@@ -125,14 +127,17 @@ new_webr_decoded_batch <- function(results, base_dir, urls) {
       results = results,
       base_dir = base_dir,
       urls = urls,
-      # Mirrors shinylive_decoded_batch field for field.
       total_urls = length(urls),
       successful_urls = length(successful),
       total_files = sum(vapply(successful, function(x) x$total_files, numeric(1))),
       total_size = sum(vapply(successful, function(x) x$total_size, numeric(1)))
     ),
-    class = "webr_decoded_batch"
+    class = subclass
   )
+}
+
+new_webr_decoded_batch <- function(results, base_dir, urls) {
+  new_decoded_batch(results, base_dir, urls, "webr_decoded_batch")
 }
 
 #' Create a webr_preview object
@@ -249,21 +254,7 @@ new_shinylive_decoded <- function(files_info, output_dir, url, engine, mode) {
 #' @return shinylive_decoded_batch object
 #' @noRd
 new_shinylive_decoded_batch <- function(results, base_dir, urls) {
-  total_files <- sum(sapply(results, function(x) if (!is.null(x)) x$total_files else 0))
-  total_size <- sum(sapply(results, function(x) if (!is.null(x)) x$total_size else 0))
-
-  structure(
-    list(
-      results = results,
-      base_dir = base_dir,
-      urls = urls,
-      total_urls = length(urls),
-      successful_urls = length(results[!sapply(results, is.null)]),
-      total_files = total_files,
-      total_size = total_size
-    ),
-    class = "shinylive_decoded_batch"
-  )
+  new_decoded_batch(results, base_dir, urls, "shinylive_decoded_batch")
 }
 
 #' Create a shinylive_preview object
@@ -304,13 +295,9 @@ print.webr_link <- function(x, ...) {
 
   cli::cli_text("File: {.file {x$filename}} \u2192 {.path {x$path}}")
 
-  if (!is.null(x$mode)) {
-    mode_str <- if (is.character(x$mode) && length(x$mode) == 1) {
-      x$mode
-    } else {
-      paste(x$mode, collapse = "-")
-    }
-    cli::cli_text("Interface: {.val {mode_str}}")
+  formatted_mode <- format_mode_for_display(x$mode)
+  if (!is.null(formatted_mode)) {
+    cli::cli_text("Interface: {.val {formatted_mode}}")
   }
 
   cli::cli_text("Version: {.val {x$version}}")
@@ -339,14 +326,10 @@ print.webr_project <- function(x, ...) {
     }
   }
 
-  if (!is.null(x$mode)) {
-    mode_str <- if (is.character(x$mode) && length(x$mode) == 1) {
-      x$mode
-    } else {
-      paste(x$mode, collapse = "-")
-    }
+  formatted_mode <- format_mode_for_display(x$mode)
+  if (!is.null(formatted_mode)) {
     cli::cli_text("")
-    cli::cli_text("Interface: {.val {mode_str}}")
+    cli::cli_text("Interface: {.val {formatted_mode}}")
   }
 
   cli::cli_text("Version: {.val {x$version}}")
@@ -373,13 +356,9 @@ print.webr_exercise <- function(x, ...) {
   cli::cli_text("File: {.file {x$solution$filename}} \u2192 {.path {x$solution$path}} {.emph (autorun)}")
   cli::cli_text("")
 
-  if (!is.null(x$exercise$mode)) {
-    mode_str <- if (is.character(x$exercise$mode) && length(x$exercise$mode) == 1) {
-      x$exercise$mode
-    } else {
-      paste(x$exercise$mode, collapse = "-")
-    }
-    cli::cli_text("Interface: {.val {mode_str}}")
+  formatted_mode <- format_mode_for_display(x$exercise$mode)
+  if (!is.null(formatted_mode)) {
+    cli::cli_text("Interface: {.val {formatted_mode}}")
   }
 
   cli::cli_text("Version: {.val {x$exercise$version}}")
@@ -406,14 +385,10 @@ print.webr_directory <- function(x, ...) {
     if (i < length(x$urls)) cli::cli_text("")
   }
 
-  if (!is.null(x$mode)) {
-    mode_str <- if (is.character(x$mode) && length(x$mode) == 1) {
-      x$mode
-    } else {
-      paste(x$mode, collapse = "-")
-    }
+  formatted_mode <- format_mode_for_display(x$mode)
+  if (!is.null(formatted_mode)) {
     cli::cli_text("")
-    cli::cli_text("Interface: {.val {mode_str}}")
+    cli::cli_text("Interface: {.val {formatted_mode}}")
   }
 
   cli::cli_text("Version: {.val {x$version}}")

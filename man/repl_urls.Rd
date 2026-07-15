@@ -2,49 +2,10 @@
 % Please edit documentation in R/extract-link.R
 \name{repl_urls}
 \alias{repl_urls}
-\alias{repl_urls.webr_link}
-\alias{repl_urls.webr_project}
-\alias{repl_urls.webr_exercise}
-\alias{repl_urls.webr_directory}
-\alias{repl_urls.webr_decoded}
-\alias{repl_urls.webr_decoded_batch}
-\alias{repl_urls.webr_preview}
-\alias{repl_urls.shinylive_link}
-\alias{repl_urls.shinylive_project}
-\alias{repl_urls.shinylive_directory}
-\alias{repl_urls.shinylive_decoded}
-\alias{repl_urls.shinylive_decoded_batch}
-\alias{repl_urls.shinylive_preview}
 \alias{repl_urls.default}
 \title{Get WebR URLs from objects}
 \usage{
 repl_urls(x, ...)
-
-\method{repl_urls}{webr_link}(x, ...)
-
-\method{repl_urls}{webr_project}(x, ...)
-
-\method{repl_urls}{webr_exercise}(x, ...)
-
-\method{repl_urls}{webr_directory}(x, ...)
-
-\method{repl_urls}{webr_decoded}(x, ...)
-
-\method{repl_urls}{webr_decoded_batch}(x, ...)
-
-\method{repl_urls}{webr_preview}(x, ...)
-
-\method{repl_urls}{shinylive_link}(x, ...)
-
-\method{repl_urls}{shinylive_project}(x, ...)
-
-\method{repl_urls}{shinylive_directory}(x, ...)
-
-\method{repl_urls}{shinylive_decoded}(x, ...)
-
-\method{repl_urls}{shinylive_decoded_batch}(x, ...)
-
-\method{repl_urls}{shinylive_preview}(x, ...)
 
 \method{repl_urls}{default}(x, ...)
 }

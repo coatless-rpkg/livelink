@@ -41,12 +41,15 @@ Config/Needs/website: pkgdown
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 Collate: 
+    'as-data-frame.R'
     'build-webr-repl-link.R'
     'classes.R'
     'decode-shinylive-link.R'
     'utils.R'
     'decode-webr-repl-link.R'
     'extract-link.R'
+    'format-methods.R'
+    'knit-print.R'
     'knitr-engine.R'
     'options.R'
     'process-input.R'

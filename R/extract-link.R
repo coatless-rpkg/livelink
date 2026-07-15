@@ -114,90 +114,24 @@ repl_urls <- function(x, ...) {
   UseMethod("repl_urls")
 }
 
-#' @rdname repl_urls
-#' @export
-repl_urls.webr_link <- function(x, ...) {
-  x$url
-}
-
-#' @rdname repl_urls
-#' @export
-repl_urls.webr_project <- function(x, ...) {
-  x$url
-}
-
-#' @rdname repl_urls
-#' @export
-repl_urls.webr_exercise <- function(x, ...) {
-  c(exercise = x$exercise$url, solution = x$solution$url)
-}
-
-#' @rdname repl_urls
-#' @export
-repl_urls.webr_directory <- function(x, ...) {
-  x$urls
-}
-
-#' @rdname repl_urls
-#' @export
-repl_urls.webr_decoded <- function(x, ...) {
-  x$url
-}
-
-#' @rdname repl_urls
-#' @export
-repl_urls.webr_decoded_batch <- function(x, ...) {
-  x$urls
-}
-
-#' @rdname repl_urls
-#' @export
-repl_urls.webr_preview <- function(x, ...) {
-  x$url
-}
-
-
-#' @rdname repl_urls
-#' @export
-repl_urls.shinylive_link <- function(x, ...) {
-  x$url
-}
-
-#' @rdname repl_urls
-#' @export
-repl_urls.shinylive_project <- function(x, ...) {
-  x$url
-}
-
-#' @rdname repl_urls
-#' @export
-repl_urls.shinylive_directory <- function(x, ...) {
-  x$urls
-}
-
-#' @rdname repl_urls
-#' @export
-repl_urls.shinylive_decoded <- function(x, ...) {
-  x$url
-}
-
-#' @rdname repl_urls
-#' @export
-repl_urls.shinylive_decoded_batch <- function(x, ...) {
-  x$urls
-}
-
-#' @rdname repl_urls
-#' @export
-repl_urls.shinylive_preview <- function(x, ...) {
-  x$url
-}
+# The classes repl_urls understands. Every one carries an as.character() method
+# returning its URL(s), and repl_urls is a named alias for exactly that, so the
+# default method delegates rather than repeating thirteen identical bodies.
+livelink_url_classes <- c(
+  "webr_link", "webr_project", "webr_exercise", "webr_directory",
+  "webr_decoded", "webr_decoded_batch", "webr_preview",
+  "shinylive_link", "shinylive_project", "shinylive_directory",
+  "shinylive_decoded", "shinylive_decoded_batch", "shinylive_preview"
+)
 
 #' @rdname repl_urls
 #' @export
 repl_urls.default <- function(x, ...) {
+  if (inherits(x, livelink_url_classes)) {
+    return(as.character(x, ...))
+  }
   cli::cli_abort(c(
     "Cannot extract URLs from object of class {.cls {class(x)}}",
-    "i" = "Supported classes: {.cls webr_link}, {.cls webr_project}, {.cls webr_exercise}, {.cls webr_directory}, {.cls webr_decoded}, {.cls webr_decoded_batch}, {.cls webr_preview}, {.cls shinylive_link}, {.cls shinylive_project}, {.cls shinylive_directory}, {.cls shinylive_decoded}, {.cls shinylive_decoded_batch}, {.cls shinylive_preview}"
+    "i" = "Supported classes: {.cls {livelink_url_classes}}"
   ))
 }
