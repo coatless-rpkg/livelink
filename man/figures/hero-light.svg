@@ -2,17 +2,16 @@
   <title id="t">Share R code as a link that opens a live R session</title>
   <desc id="d">R code goes into webr_repl_link, comes out as one URL whose fragment carries the code itself, and opening that URL gives the recipient a running webR session: the code in the editor, the file in the filesystem, the console showing the result, and the plot drawn.</desc>
   <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}</style>
-  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#0054AD"/></marker></defs>
   <circle cx="32" cy="18" r="9" fill="#0054AD"/>
   <text class="s" fill="#ffffff" x="32" y="22" font-size="10.5" font-weight="700" text-anchor="middle">1</text>
   <text class="s lbl ink" x="48" y="22" font-size="11">YOU WRITE R</text>
-  <circle cx="240" cy="18" r="9" fill="#0054AD"/>
-  <text class="s" fill="#ffffff" x="240" y="22" font-size="10.5" font-weight="700" text-anchor="middle">2</text>
-  <text class="s lbl ink" x="256" y="22" font-size="11">YOU GET A URL</text>
-  <circle cx="422" cy="18" r="9" fill="#0054AD"/>
-  <text class="s" fill="#ffffff" x="422" y="22" font-size="10.5" font-weight="700" text-anchor="middle">3</text>
-  <text class="s lbl ink" x="438" y="22" font-size="11">THEY GET A LIVE R SESSION</text>
-  <rect x="24" y="44" width="190" height="228" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <circle cx="234" cy="18" r="9" fill="#0054AD"/>
+  <text class="s" fill="#ffffff" x="234" y="22" font-size="10.5" font-weight="700" text-anchor="middle">2</text>
+  <text class="s lbl ink" x="250" y="22" font-size="11">YOU GET A URL</text>
+  <circle cx="410" cy="18" r="9" fill="#0054AD"/>
+  <text class="s" fill="#ffffff" x="410" y="22" font-size="10.5" font-weight="700" text-anchor="middle">3</text>
+  <text class="s lbl ink" x="426" y="22" font-size="11">THEY GET A LIVE R SESSION</text>
+  <rect x="24" y="44" width="176" height="176" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
   <text class="m" x="40" y="71" font-size="10" xml:space="preserve"><tspan class="fn">webr_repl_link</tspan><tspan class="ink">({</tspan></text>
   <text class="m" x="40" y="87" font-size="10" xml:space="preserve"><tspan class="com">  # mpg vs weight</tspan></text>
   <text class="m" x="40" y="103" font-size="10" xml:space="preserve"><tspan class="fn">  data</tspan><tspan class="ink">(mtcars)</tspan></text>
@@ -22,77 +21,81 @@
   <text class="m" x="40" y="167" font-size="10" xml:space="preserve"><tspan class="ink">       pch</tspan><tspan class="ink"> = </tspan><tspan class="num">16</tspan><tspan class="ink">,</tspan></text>
   <text class="m" x="40" y="183" font-size="10" xml:space="preserve"><tspan class="ink">       col</tspan><tspan class="ink"> = </tspan><tspan class="str">"steelblue"</tspan><tspan class="ink">)</tspan></text>
   <text class="m" x="40" y="199" font-size="10" xml:space="preserve"><tspan class="ink">})</tspan></text>
-  <path d="M218 158.0 H228" stroke="#0054AD" stroke-width="2" marker-end="url(#a)"/>
-  <rect x="232" y="44" width="164" height="228" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
-  <text class="m" x="248" y="70" font-size="9.5" xml:space="preserve"><tspan class="ink">https://</tspan></text>
-  <text class="m" x="248" y="84" font-size="9.5" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/</tspan></text>
-  <text class="m" x="248" y="98" font-size="9.5" xml:space="preserve"><tspan class="ink">latest/</tspan><tspan class="frag">#code=</tspan></text>
-  <text class="m" x="248" y="112" font-size="9.5" xml:space="preserve"><tspan class="frag">eJxNissKwjAQAH9lWT1Y</tspan></text>
-  <text class="m" x="248" y="126" font-size="9.5" xml:space="preserve"><tspan class="frag">KAYvHgR%2FwqsrksalKe</tspan></text>
-  <text class="m" x="248" y="140" font-size="9.5" xml:space="preserve"><tspan class="frag">RFsjWC%2BO9GaMG5zTDX</tspan></text>
-  <text class="m" x="248" y="154" font-size="9.5" xml:space="preserve"><tspan class="frag">NwbtGU9YTJ6S7C%2FYY9</tspan></text>
-  <text class="m" x="248" y="168" font-size="9.5" xml:space="preserve"><tspan class="frag">JiW1E2elaVh%2FtcOKu%</tspan></text>
-  <text class="m" x="248" y="182" font-size="9.5" xml:space="preserve"><tspan class="frag">2FQfglbdiATyM8C1SeRi</tspan></text>
-  <text class="m" x="248" y="196" font-size="9.5" xml:space="preserve"><tspan class="frag">sUHlr0zovRuXQUKCQXZf</tspan></text>
-  <text class="m" x="248" y="210" font-size="9.5" xml:space="preserve"><tspan class="frag">FtW3sK8GMpVdaQjIUzHI</tspan></text>
-  <text class="m" x="248" y="224" font-size="9.5" xml:space="preserve"><tspan class="frag">6rm%2BiaExZhdoObmbDD</tspan></text>
-  <text class="m" x="248" y="238" font-size="9.5" xml:space="preserve"><tspan class="frag">z%2B0Lnos4IQ%3D%3D</tspan></text>
-  <text class="m" x="248" y="252" font-size="9.5" xml:space="preserve"><tspan class="flag">&amp;jz</tspan></text>
-  <path d="M400 158.0 H410" stroke="#0054AD" stroke-width="2" marker-end="url(#a)"/>
-  <rect x="414" y="44" width="412" height="228" rx="8" fill="#e2e8f0" stroke="#e2e8f0"/>
-  <path d="M414 72 h412" stroke="#e2e8f0"/>
+  <text class="s faint" x="26" y="242" font-size="11">A string, a file path, or the</text>
+  <text class="s faint" x="26" y="258" font-size="11">clipboard work too.</text>
+  <path d="M205 158.0 H215" stroke="#0054AD" stroke-width="2"/>
+  <path d="M215 153.5 L223 158.0 L215 162.5 z" fill="#0054AD"/>
+  <rect x="226" y="44" width="150" height="228" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <text class="m" x="242" y="70" font-size="9.5" xml:space="preserve"><tspan class="ink">https://</tspan></text>
+  <text class="m" x="242" y="84" font-size="9.5" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/</tspan></text>
+  <text class="m" x="242" y="98" font-size="9.5" xml:space="preserve"><tspan class="ink">latest/</tspan><tspan class="frag">#code=</tspan></text>
+  <text class="m" x="242" y="112" font-size="9.5" xml:space="preserve"><tspan class="frag">eJxNissKwjAQAH9lWT1Y</tspan></text>
+  <text class="m" x="242" y="126" font-size="9.5" xml:space="preserve"><tspan class="frag">KAYvHgR%2FwqsrksalKe</tspan></text>
+  <text class="m" x="242" y="140" font-size="9.5" xml:space="preserve"><tspan class="frag">RFsjWC%2BO9GaMG5zTDX</tspan></text>
+  <text class="m" x="242" y="154" font-size="9.5" xml:space="preserve"><tspan class="frag">NwbtGU9YTJ6S7C%2FYY9</tspan></text>
+  <text class="m" x="242" y="168" font-size="9.5" xml:space="preserve"><tspan class="frag">JiW1E2elaVh%2FtcOKu%</tspan></text>
+  <text class="m" x="242" y="182" font-size="9.5" xml:space="preserve"><tspan class="frag">2FQfglbdiATyM8C1SeRi</tspan></text>
+  <text class="m" x="242" y="196" font-size="9.5" xml:space="preserve"><tspan class="frag">sUHlr0zovRuXQUKCQXZf</tspan></text>
+  <text class="m" x="242" y="210" font-size="9.5" xml:space="preserve"><tspan class="frag">FtW3sK8GMpVdaQjIUzHI</tspan></text>
+  <text class="m" x="242" y="224" font-size="9.5" xml:space="preserve"><tspan class="frag">6rm%2BiaExZhdoObmbDD</tspan></text>
+  <text class="m" x="242" y="238" font-size="9.5" xml:space="preserve"><tspan class="frag">z%2B0Lnos4IQ%3D%3D</tspan></text>
+  <text class="m" x="242" y="252" font-size="9.5" xml:space="preserve"><tspan class="flag">&amp;jz</tspan></text>
+  <path d="M381 158.0 H391" stroke="#0054AD" stroke-width="2"/>
+  <path d="M391 153.5 L399 158.0 L391 162.5 z" fill="#0054AD"/>
+  <rect x="402" y="44" width="424" height="228" rx="8" fill="#e2e8f0" stroke="#e2e8f0"/>
+  <path d="M402 72 h424" stroke="#e2e8f0"/>
+  <circle cx="416" cy="58" r="3.6" fill="#cbd5e1"/>
   <circle cx="428" cy="58" r="3.6" fill="#cbd5e1"/>
   <circle cx="440" cy="58" r="3.6" fill="#cbd5e1"/>
-  <circle cx="452" cy="58" r="3.6" fill="#cbd5e1"/>
-  <rect x="470" y="49" width="344" height="18" rx="9" fill="#ffffff" stroke="#e2e8f0"/>
-  <text class="m faint" x="479" y="61" font-size="8.5">webr.r-wasm.org/latest/#code=eJxNissKwjAQAH…</text>
-  <rect x="423" y="81" width="192.5" height="86.5" rx="5" fill="#ffffff" stroke="#e2e8f0"/>
-  <path d="M423 81 h192.5 v20 h-192.5 z" fill="#f8fafc"/>
-  <path d="M423 101 h192.5" stroke="#e2e8f0"/>
-  <rect x="428" y="84" width="50" height="14" rx="3" fill="#e0edff"/>
-  <text class="m accent" x="453.0" y="95" font-size="8" font-weight="700" text-anchor="middle">script.R</text>
-  <rect x="485" y="84" width="14" height="14" rx="3" fill="none" stroke="#e2e8f0"/>
-  <text class="m faint" x="492" y="95" font-size="9" text-anchor="middle">+</text>
-  <text class="m faint" x="432" y="117" font-size="7.5">1</text>
-  <text class="m" x="444" y="117" font-size="8" xml:space="preserve"><tspan class="com"># mpg vs weight</tspan></text>
-  <text class="m faint" x="432" y="130" font-size="7.5">2</text>
-  <text class="m" x="444" y="130" font-size="8" xml:space="preserve"><tspan class="fn">data</tspan><tspan class="ink">(mtcars)</tspan></text>
-  <text class="m faint" x="432" y="143" font-size="7.5">3</text>
-  <text class="m" x="444" y="143" font-size="8" xml:space="preserve"><tspan class="fn">plot</tspan><tspan class="ink">(mtcars$mpg, mtcars$wt,</tspan></text>
-  <text class="m faint" x="432" y="156" font-size="7.5">4</text>
-  <text class="m" x="444" y="156" font-size="8" xml:space="preserve"><tspan class="ink">     pch = </tspan><tspan class="num">16</tspan><tspan class="ink">, col = </tspan><tspan class="str">"steelblue"</tspan><tspan class="ink">)</tspan></text>
-  <rect x="624.5" y="81" width="192.5" height="86.5" rx="5" fill="#ffffff" stroke="#e2e8f0"/>
-  <path d="M624.5 81 h192.5 v20 h-192.5 z" fill="#f8fafc"/>
-  <path d="M624.5 101 h192.5" stroke="#e2e8f0"/>
-  <text class="m accent" x="633.5" y="95" font-size="8.5" font-weight="700">files</text>
-  <path d="M634.5 113 l3 3 l-3 3z" fill="#94a3b8"/>
-  <text class="m" x="642.5" y="118" font-size="8.5" xml:space="preserve"><tspan class="str">home/</tspan></text>
-  <path d="M644.5 127 l3 3 l-3 3z" fill="#94a3b8"/>
-  <text class="m" x="652.5" y="132" font-size="8.5" xml:space="preserve"><tspan class="str">web_user/</tspan></text>
-  <rect x="654.5" y="140" width="5" height="7" rx="1" fill="none" stroke="#94a3b8"/>
-  <text class="m" x="664.5" y="146" font-size="8.5" xml:space="preserve"><tspan class="ink">script.R</tspan></text>
-  <rect x="423" y="176.5" width="192.5" height="86.5" rx="5" fill="#ffffff" stroke="#e2e8f0"/>
-  <path d="M423 176.5 h192.5 v20 h-192.5 z" fill="#f8fafc"/>
-  <path d="M423 196.5 h192.5" stroke="#e2e8f0"/>
-  <text class="m accent" x="432" y="190.5" font-size="8.5" font-weight="700">terminal</text>
-  <text class="m" x="433" y="212.5" font-size="8.5" xml:space="preserve"><tspan class="com">&gt; </tspan><tspan class="fn">source</tspan><tspan class="str">('script.R')</tspan></text>
-  <text class="m" x="433" y="225.5" font-size="8.5" xml:space="preserve"><tspan class="com">&gt; </tspan><tspan class="fn">mean</tspan><tspan class="ink">(mtcars$mpg)</tspan></text>
-  <text class="m" x="433" y="238.5" font-size="8.5" xml:space="preserve"><tspan class="ink">[1] 20.09062</tspan></text>
-  <text class="m" x="433" y="251.5" font-size="8.5" xml:space="preserve"><tspan class="com">&gt; </tspan></text>
-  <rect x="624.5" y="176.5" width="192.5" height="86.5" rx="5" fill="#ffffff" stroke="#e2e8f0"/>
-  <path d="M624.5 176.5 h192.5 v20 h-192.5 z" fill="#f8fafc"/>
-  <path d="M624.5 196.5 h192.5" stroke="#e2e8f0"/>
-  <text class="m accent" x="633.5" y="190.5" font-size="8.5" font-weight="700">plot</text>
-  <path d="M641.5 204.5 V253.0 H802.0" fill="none" stroke="#94a3b8" stroke-width="0.9"/>
-  <circle cx="654.6" cy="238.9" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
-  <circle cx="668.4" cy="232.2" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
-  <circle cx="682.1" cy="234.7" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
-  <circle cx="695.8" cy="225.3" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
-  <circle cx="709.5" cy="228.8" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
-  <circle cx="723.3" cy="220.7" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
-  <circle cx="737.0" cy="223.2" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
-  <circle cx="750.7" cy="215.6" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
-  <circle cx="764.5" cy="218.6" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
-  <circle cx="778.2" cy="213.0" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
-  <circle cx="790.4" cy="216.8" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
+  <rect x="458" y="49" width="356" height="18" rx="9" fill="#ffffff" stroke="#e2e8f0"/>
+  <text class="m faint" x="467" y="61" font-size="8.5">webr.r-wasm.org/latest/#code=eJxNissKwjAQAH…</text>
+  <rect x="411" y="81" width="198.5" height="86.5" rx="5" fill="#ffffff" stroke="#e2e8f0"/>
+  <path d="M411 81 h198.5 v20 h-198.5 z" fill="#f8fafc"/>
+  <path d="M411 101 h198.5" stroke="#e2e8f0"/>
+  <rect x="416" y="84" width="50" height="14" rx="3" fill="#e0edff"/>
+  <text class="m accent" x="441.0" y="95" font-size="8" font-weight="700" text-anchor="middle">script.R</text>
+  <rect x="473" y="84" width="14" height="14" rx="3" fill="none" stroke="#e2e8f0"/>
+  <text class="m faint" x="480" y="95" font-size="9" text-anchor="middle">+</text>
+  <text class="m faint" x="420" y="117" font-size="7.5">1</text>
+  <text class="m" x="432" y="117" font-size="8" xml:space="preserve"><tspan class="com"># mpg vs weight</tspan></text>
+  <text class="m faint" x="420" y="130" font-size="7.5">2</text>
+  <text class="m" x="432" y="130" font-size="8" xml:space="preserve"><tspan class="fn">data</tspan><tspan class="ink">(mtcars)</tspan></text>
+  <text class="m faint" x="420" y="143" font-size="7.5">3</text>
+  <text class="m" x="432" y="143" font-size="8" xml:space="preserve"><tspan class="fn">plot</tspan><tspan class="ink">(mtcars$mpg, mtcars$wt,</tspan></text>
+  <text class="m faint" x="420" y="156" font-size="7.5">4</text>
+  <text class="m" x="432" y="156" font-size="8" xml:space="preserve"><tspan class="ink">     pch = </tspan><tspan class="num">16</tspan><tspan class="ink">, col = </tspan><tspan class="str">"steelblue"</tspan><tspan class="ink">)</tspan></text>
+  <rect x="618.5" y="81" width="198.5" height="86.5" rx="5" fill="#ffffff" stroke="#e2e8f0"/>
+  <path d="M618.5 81 h198.5 v20 h-198.5 z" fill="#f8fafc"/>
+  <path d="M618.5 101 h198.5" stroke="#e2e8f0"/>
+  <text class="m accent" x="627.5" y="95" font-size="8.5" font-weight="700">files</text>
+  <path d="M628.5 113 l3 3 l-3 3z" fill="#94a3b8"/>
+  <text class="m" x="636.5" y="118" font-size="8.5" xml:space="preserve"><tspan class="str">home/</tspan></text>
+  <path d="M638.5 127 l3 3 l-3 3z" fill="#94a3b8"/>
+  <text class="m" x="646.5" y="132" font-size="8.5" xml:space="preserve"><tspan class="str">web_user/</tspan></text>
+  <rect x="648.5" y="140" width="5" height="7" rx="1" fill="none" stroke="#94a3b8"/>
+  <text class="m" x="658.5" y="146" font-size="8.5" xml:space="preserve"><tspan class="ink">script.R</tspan></text>
+  <rect x="411" y="176.5" width="198.5" height="86.5" rx="5" fill="#ffffff" stroke="#e2e8f0"/>
+  <path d="M411 176.5 h198.5 v20 h-198.5 z" fill="#f8fafc"/>
+  <path d="M411 196.5 h198.5" stroke="#e2e8f0"/>
+  <text class="m accent" x="420" y="190.5" font-size="8.5" font-weight="700">terminal</text>
+  <text class="m" x="421" y="212.5" font-size="8.5" xml:space="preserve"><tspan class="com">&gt; </tspan><tspan class="fn">source</tspan><tspan class="str">('script.R')</tspan></text>
+  <text class="m" x="421" y="225.5" font-size="8.5" xml:space="preserve"><tspan class="com">&gt; </tspan><tspan class="fn">mean</tspan><tspan class="ink">(mtcars$mpg)</tspan></text>
+  <text class="m" x="421" y="238.5" font-size="8.5" xml:space="preserve"><tspan class="ink">[1] 20.09062</tspan></text>
+  <text class="m" x="421" y="251.5" font-size="8.5" xml:space="preserve"><tspan class="com">&gt; </tspan></text>
+  <rect x="618.5" y="176.5" width="198.5" height="86.5" rx="5" fill="#ffffff" stroke="#e2e8f0"/>
+  <path d="M618.5 176.5 h198.5 v20 h-198.5 z" fill="#f8fafc"/>
+  <path d="M618.5 196.5 h198.5" stroke="#e2e8f0"/>
+  <text class="m accent" x="627.5" y="190.5" font-size="8.5" font-weight="700">plot</text>
+  <path d="M635.5 204.5 V253.0 H802.0" fill="none" stroke="#94a3b8" stroke-width="0.9"/>
+  <circle cx="649.0" cy="238.9" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
+  <circle cx="663.3" cy="232.2" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
+  <circle cx="677.5" cy="234.7" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
+  <circle cx="691.8" cy="225.3" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
+  <circle cx="706.1" cy="228.8" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
+  <circle cx="720.3" cy="220.7" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
+  <circle cx="734.6" cy="223.2" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
+  <circle cx="748.9" cy="215.6" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
+  <circle cx="763.1" cy="218.6" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
+  <circle cx="777.4" cy="213.0" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
+  <circle cx="790.1" cy="216.8" r="2.1" fill="#0054AD" fill-opacity="0.85"/>
 </svg>
