@@ -55,7 +55,9 @@ Pass some code. Get a link.
 webr_repl_link("plot(1:10)")
 ```
 
-Print the object to see the URL, or use `as.character()` to get the bare string.
+In a rendered document like this one the object becomes a clickable link, so you can
+open it right from the page. At an interactive console it prints its details instead,
+and `as.character()` gives you the bare URL string either way.
 
 You can skip the quotes entirely and hand it a braced expression, which is easier to
 write and lets your editor highlight the code:
