@@ -1,33 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 246" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 706 290" role="img" aria-labelledby="t d">
   <title id="t">A course folder becomes a link per script</title>
   <desc id="d">Each R script in a directory becomes its own webR link, named after the file, ready to paste into a table of contents.</desc>
   <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}</style>
-  <defs><marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#0054AD"/></marker></defs>
   <text class="s lbl muted" x="24" y="22" font-size="11">A FOLDER OF SCRIPTS</text>
-  <text class="s lbl muted" x="470" y="22" font-size="11">A LINK FOR EACH ONE</text>
-  <rect x="24" y="34" width="330" height="118" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
-  <path d="M24 34 h330 v22 h-330 z" fill="#f8fafc"/>
-  <path d="M24 56 h330" stroke="#e2e8f0"/>
+  <text class="s lbl muted" x="344" y="22" font-size="11">A LINK FOR EACH ONE</text>
+  <rect x="24" y="34" width="250" height="134" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
+  <path d="M24 34 h250 v22 h-250 z" fill="#f8fafc"/>
+  <path d="M24 56 h250" stroke="#e2e8f0"/>
   <text class="m accent" x="32" y="49" font-size="9.5" font-weight="700">course/</text>
-  <rect x="42" y="70" width="7" height="9" rx="1.5" fill="none" stroke="#94a3b8"/>
-  <text class="m" x="56" y="78" font-size="11" xml:space="preserve"><tspan class="ink">01-plotting.R</tspan></text>
-  <rect x="42" y="92" width="7" height="9" rx="1.5" fill="none" stroke="#94a3b8"/>
-  <text class="m" x="56" y="100" font-size="11" xml:space="preserve"><tspan class="ink">02-summaries.R</tspan></text>
-  <rect x="42" y="114" width="7" height="9" rx="1.5" fill="none" stroke="#94a3b8"/>
-  <text class="m" x="56" y="122" font-size="11" xml:space="preserve"><tspan class="ink">03-models.R</tspan></text>
-  <path d="M368 70 L404 70" stroke="#0054AD" stroke-width="1.6" marker-end="url(#a)" opacity="0.7"/>
-  <path d="M368 92 L404 92" stroke="#0054AD" stroke-width="1.6" marker-end="url(#a)" opacity="0.7"/>
-  <path d="M368 114 L404 114" stroke="#0054AD" stroke-width="1.6" marker-end="url(#a)" opacity="0.7"/>
-  <rect x="418" y="57" width="408" height="26" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
-  <text class="m" x="430" y="74" font-size="10.5" xml:space="preserve"><tspan class="ink">01-plotting.R</tspan></text>
-  <text class="m" x="560" y="74" font-size="10" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/…</tspan><tspan class="frag">#code=…</tspan></text>
-  <rect x="418" y="79" width="408" height="26" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
-  <text class="m" x="430" y="96" font-size="10.5" xml:space="preserve"><tspan class="ink">02-summaries.R</tspan></text>
-  <text class="m" x="560" y="96" font-size="10" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/…</tspan><tspan class="frag">#code=…</tspan></text>
-  <rect x="418" y="101" width="408" height="26" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
-  <text class="m" x="430" y="118" font-size="10.5" xml:space="preserve"><tspan class="ink">03-models.R</tspan></text>
-  <text class="m" x="560" y="118" font-size="10" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/…</tspan><tspan class="frag">#code=…</tspan></text>
-  <line x1="24" y1="178" x2="826" y2="178" stroke="#e2e8f0"/>
-  <text class="m" x="24" y="206" font-size="12" xml:space="preserve"><tspan class="fn">webr_repl_directory</tspan><tspan class="ink">(course, </tspan><tspan class="ink">panels</tspan><tspan class="ink"> = </tspan><tspan class="fn">c</tspan><tspan class="ink">(</tspan><tspan class="str">"editor"</tspan><tspan class="ink">, </tspan><tspan class="str">"plot"</tspan><tspan class="ink">))</tspan></text>
-  <text class="s faint" x="24" y="232" font-size="12">One link per script, not one link for the folder -- that is webr_repl_project(). Use pattern to take a subset.</text>
+  <rect x="42" y="71" width="7" height="9" rx="1.5" fill="none" stroke="#94a3b8"/>
+  <text class="m" x="56" y="84" font-size="11" xml:space="preserve"><tspan class="ink">01-plotting.R</tspan></text>
+  <rect x="42" y="107" width="7" height="9" rx="1.5" fill="none" stroke="#94a3b8"/>
+  <text class="m" x="56" y="120" font-size="11" xml:space="preserve"><tspan class="ink">02-summaries.R</tspan></text>
+  <rect x="42" y="143" width="7" height="9" rx="1.5" fill="none" stroke="#94a3b8"/>
+  <text class="m" x="56" y="156" font-size="11" xml:space="preserve"><tspan class="ink">03-models.R</tspan></text>
+  <path d="M286 80 H323" stroke="#0054AD" stroke-width="1.6" opacity="0.85"/>
+  <path d="M323 76.5 L330 80 L323 83.5 z" fill="#0054AD" opacity="0.85"/>
+  <rect x="344" y="66.0" width="326" height="28" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
+  <circle cx="361" cy="80" r="8" fill="#e0edff"/>
+  <path d="M358 83 L364 77 M361 77 h3 v3" stroke="#0054AD" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="m" x="378" y="83.5" font-size="10.5" xml:space="preserve"><tspan class="ink">01-plotting.R</tspan></text>
+  <text class="m" x="502" y="83.5" font-size="10" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/…</tspan><tspan class="frag">#code=…</tspan></text>
+  <path d="M286 116 H323" stroke="#0054AD" stroke-width="1.6" opacity="0.85"/>
+  <path d="M323 112.5 L330 116 L323 119.5 z" fill="#0054AD" opacity="0.85"/>
+  <rect x="344" y="102.0" width="326" height="28" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
+  <circle cx="361" cy="116" r="8" fill="#e0edff"/>
+  <path d="M358 119 L364 113 M361 113 h3 v3" stroke="#0054AD" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="m" x="378" y="119.5" font-size="10.5" xml:space="preserve"><tspan class="ink">02-summaries.R</tspan></text>
+  <text class="m" x="502" y="119.5" font-size="10" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/…</tspan><tspan class="frag">#code=…</tspan></text>
+  <path d="M286 152 H323" stroke="#0054AD" stroke-width="1.6" opacity="0.85"/>
+  <path d="M323 148.5 L330 152 L323 155.5 z" fill="#0054AD" opacity="0.85"/>
+  <rect x="344" y="138.0" width="326" height="28" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
+  <circle cx="361" cy="152" r="8" fill="#e0edff"/>
+  <path d="M358 155 L364 149 M361 149 h3 v3" stroke="#0054AD" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="m" x="378" y="155.5" font-size="10.5" xml:space="preserve"><tspan class="ink">03-models.R</tspan></text>
+  <text class="m" x="502" y="155.5" font-size="10" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/…</tspan><tspan class="frag">#code=…</tspan></text>
+  <line x1="24" y1="194" x2="682" y2="194" stroke="#e2e8f0"/>
+  <rect x="24" y="212" width="460" height="40" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <text class="m" x="40" y="237" font-size="12" xml:space="preserve"><tspan class="fn">webr_repl_directory</tspan><tspan class="ink">(course, </tspan><tspan class="ink">panels</tspan><tspan class="ink"> = </tspan><tspan class="fn">c</tspan><tspan class="ink">(</tspan><tspan class="str">"editor"</tspan><tspan class="ink">, </tspan><tspan class="str">"plot"</tspan><tspan class="ink">))</tspan></text>
+  <text class="s faint" x="24" y="276" font-size="12">One link per script, not one link for the folder. Bundling a folder is webr_repl_project(). Use pattern to take a subset.</text>
 </svg>

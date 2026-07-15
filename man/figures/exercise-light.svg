@@ -1,38 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 278" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 708 278" role="img" aria-labelledby="t d">
   <title id="t">An exercise and its solution</title>
   <desc id="d">One call to webr_repl_exercise returns two links. The exercise link carries the jz flags and waits; the solution link carries jza and runs itself on arrival.</desc>
   <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}</style>
   <text class="s lbl muted" x="24" y="22" font-size="11">ONE CALL</text>
-  <rect x="24" y="34" width="802" height="40" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <rect x="24" y="34" width="660" height="40" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
   <text class="m" x="40" y="59" font-size="12.5" xml:space="preserve"><tspan class="fn">webr_repl_exercise</tspan><tspan class="ink">(exercise, solution, </tspan><tspan class="str">"mean_mpg"</tspan><tspan class="ink">)</tspan></text>
   <text class="s lbl muted" x="24" y="108" font-size="11">TWO LINKS</text>
-  <rect x="24" y="120" width="392" height="68" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
-  <path d="M24 120 h392 v22 h-392 z" fill="#f8fafc"/>
-  <path d="M24 142 h392" stroke="#e2e8f0"/>
+  <rect x="24" y="120" width="320" height="68" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
+  <path d="M24 120 h320 v22 h-320 z" fill="#f8fafc"/>
+  <path d="M24 142 h320" stroke="#e2e8f0"/>
   <text class="m accent" x="32" y="135" font-size="9.5" font-weight="700">mean_mpg_exercise.R</text>
-  <rect x="364.0" y="124" width="42.0" height="15" rx="7.5" fill="#e9edf2"/>
-  <text class="m base" x="385.0" y="135" font-size="9" text-anchor="middle">waits</text>
-  <text class="m" x="36" y="162" font-size="10.5" xml:space="preserve"><tspan class="ink">mean_mpg </tspan><tspan class="ink">&lt;- </tspan><tspan class="num">0</tspan></text>
-  <text class="m" x="36" y="177" font-size="10.5" xml:space="preserve"><tspan class="fn">print</tspan><tspan class="ink">(mean_mpg)</tspan></text>
-  <path d="M220.0 188 V201" stroke="#0054AD" stroke-width="1.5"/>
-  <path d="M216.0 201 L220.0 208 L224.0 201 z" fill="#0054AD"/>
-  <rect x="24" y="208" width="392" height="28" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
+  <rect x="292.0" y="124" width="42.0" height="15" rx="7.5" fill="#e9edf2"/>
+  <text class="m base" x="313.0" y="135" font-size="9" text-anchor="middle">waits</text>
+  <text class="m" x="36" y="162" font-size="11.5" xml:space="preserve"><tspan class="ink">mean_mpg </tspan><tspan class="ink">&lt;- </tspan><tspan class="num">0</tspan></text>
+  <text class="m" x="36" y="177" font-size="11.5" xml:space="preserve"><tspan class="fn">print</tspan><tspan class="ink">(mean_mpg)</tspan></text>
+  <path d="M184.0 188 V201" stroke="#0054AD" stroke-width="1.5"/>
+  <path d="M180.0 201 L184.0 208 L188.0 201 z" fill="#0054AD"/>
+  <rect x="24" y="208" width="320" height="28" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
   <circle cx="41" cy="222.0" r="8" fill="#e0edff"/>
   <path d="M38 225.0 L44 219.0 M41 219.0 h3 v3" stroke="#0054AD" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <text class="m" x="57" y="225.5" font-size="10" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/…#code=</tspan><tspan class="frag">eJyLrlbKS8…</tspan><tspan class="flag">&amp;jz</tspan></text>
-  <rect x="434" y="120" width="392" height="68" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
-  <path d="M434 120 h392 v22 h-392 z" fill="#f8fafc"/>
-  <path d="M434 142 h392" stroke="#e2e8f0"/>
-  <text class="m accent" x="442" y="135" font-size="9.5" font-weight="700">mean_mpg_solution.R</text>
-  <rect x="754.8" y="124" width="61.2" height="15" rx="7.5" fill="#fdeccd"/>
-  <text class="m flag" x="785.4" y="135" font-size="9" text-anchor="middle">autoruns</text>
-  <text class="m" x="446" y="162" font-size="10.5" xml:space="preserve"><tspan class="ink">mean_mpg </tspan><tspan class="ink">&lt;- </tspan><tspan class="fn">mean</tspan><tspan class="ink">(mtcars$mpg)</tspan></text>
-  <text class="m" x="446" y="177" font-size="10.5" xml:space="preserve"><tspan class="fn">print</tspan><tspan class="ink">(mean_mpg)</tspan></text>
-  <path d="M630.0 188 V201" stroke="#0054AD" stroke-width="1.5"/>
-  <path d="M626.0 201 L630.0 208 L634.0 201 z" fill="#0054AD"/>
-  <rect x="434" y="208" width="392" height="28" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
-  <circle cx="451" cy="222.0" r="8" fill="#e0edff"/>
-  <path d="M448 225.0 L454 219.0 M451 219.0 h3 v3" stroke="#0054AD" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <text class="m" x="467" y="225.5" font-size="10" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/…#code=</tspan><tspan class="frag">eJyLrlbKS8…</tspan><tspan class="flag">&amp;jza</tspan></text>
+  <text class="m" x="57" y="225.5" font-size="10.5" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/…#code=</tspan><tspan class="frag">eJyLrlbKS8…</tspan><tspan class="flag">&amp;jz</tspan></text>
+  <rect x="364" y="120" width="320" height="68" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
+  <path d="M364 120 h320 v22 h-320 z" fill="#f8fafc"/>
+  <path d="M364 142 h320" stroke="#e2e8f0"/>
+  <text class="m accent" x="372" y="135" font-size="9.5" font-weight="700">mean_mpg_solution.R</text>
+  <rect x="612.8" y="124" width="61.2" height="15" rx="7.5" fill="#fdeccd"/>
+  <text class="m flag" x="643.4" y="135" font-size="9" text-anchor="middle">autoruns</text>
+  <text class="m" x="376" y="162" font-size="11.5" xml:space="preserve"><tspan class="ink">mean_mpg </tspan><tspan class="ink">&lt;- </tspan><tspan class="fn">mean</tspan><tspan class="ink">(mtcars$mpg)</tspan></text>
+  <text class="m" x="376" y="177" font-size="11.5" xml:space="preserve"><tspan class="fn">print</tspan><tspan class="ink">(mean_mpg)</tspan></text>
+  <path d="M524.0 188 V201" stroke="#0054AD" stroke-width="1.5"/>
+  <path d="M520.0 201 L524.0 208 L528.0 201 z" fill="#0054AD"/>
+  <rect x="364" y="208" width="320" height="28" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
+  <circle cx="381" cy="222.0" r="8" fill="#e0edff"/>
+  <path d="M378 225.0 L384 219.0 M381 219.0 h3 v3" stroke="#0054AD" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="m" x="397" y="225.5" font-size="10.5" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/…#code=</tspan><tspan class="frag">eJyLrlbKS8…</tspan><tspan class="flag">&amp;jza</tspan></text>
   <text class="s faint" x="24" y="264" font-size="12">The links differ by one flag. The a in jza is autorun: the solution runs itself, the exercise waits.</text>
 </svg>

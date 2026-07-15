@@ -1,31 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 312" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 656 312" role="img" aria-labelledby="t d">
   <title id="t">Two ways to open a link</title>
   <desc id="d">One link, two operations: preview_webr_link inspects the files in memory without writing anything, while decode_webr_link extracts them to a directory on disk.</desc>
   <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}</style>
   <text class="s lbl muted" x="24" y="54" font-size="11">ONE LINK</text>
-  <rect x="24" y="66" width="236" height="108" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <rect x="24" y="66" width="232" height="108" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
   <text class="m muted" x="40" y="96" font-size="12">webr.r-wasm.org/…</text>
   <text class="m" x="40" y="120" font-size="12" xml:space="preserve"><tspan class="frag">#code=eJyLrlbKS8xN…</tspan></text>
   <text class="m" x="40" y="140" font-size="12" xml:space="preserve"><tspan class="frag">Kk4uyiw…</tspan><tspan class="flag">&amp;jz</tspan></text>
   <text class="s faint" x="40" y="162" font-size="11">the files live in here</text>
-  <path d="M260 120.0 H302.0 V88.0 H336" fill="none" stroke="#0054AD" stroke-width="2"/>
-  <path d="M336 83.5 L344 88.0 L336 92.5 z" fill="#0054AD"/>
-  <text class="s lbl muted" x="344" y="28" font-size="11">PREVIEW — LOOK, DON'T TOUCH</text>
-  <rect x="344" y="40" width="482" height="96" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
-  <text class="m" x="360" y="70" font-size="13" xml:space="preserve"><tspan class="fn">preview_webr_link</tspan><tspan class="ink">(url)</tspan></text>
-  <text class="s body" x="360" y="95" font-size="12">2 files</text>
-  <text class="m muted" x="418" y="95" font-size="11">plot.R · notes.md · 312 B</text>
-  <rect x="360" y="106" width="217" height="19" rx="9.5" fill="#e0edff"/>
-  <text class="s accent" x="468.3" y="119.5" font-size="10" font-weight="600" text-anchor="middle">in memory: nothing written to disk</text>
-  <path d="M260 120.0 H302.0 V218.0 H336" fill="none" stroke="#0054AD" stroke-width="2"/>
-  <path d="M336 213.5 L344 218.0 L336 222.5 z" fill="#0054AD"/>
-  <text class="s lbl muted" x="344" y="158" font-size="11">DECODE — WRITE THE FILES OUT</text>
-  <rect x="344" y="170" width="482" height="96" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
-  <text class="m" x="360" y="200" font-size="13" xml:space="preserve"><tspan class="fn">decode_webr_link</tspan><tspan class="ink">(url, output_dir)</tspan></text>
-  <path d="M362 250 V214 H392 L398 222 H512 V250 Z" fill="#f1f5f9" stroke="#0054AD" stroke-width="1.3" stroke-linejoin="round"/>
-  <text class="m body" x="402" y="229" font-size="10.5">recovered/</text>
-  <text class="m muted" x="402" y="244" font-size="10">plot.R  notes.R</text>
-  <rect x="544" y="228" width="104" height="19" rx="9.5" fill="#d8f1ee"/>
-  <text class="s ver" x="596.25" y="241.5" font-size="10" font-weight="600" text-anchor="middle">written to disk</text>
-  <text class="s faint" x="24" y="298" font-size="12">Preview decodes in memory and writes nothing; decode extracts the files to a folder. Preview a stranger's link first.</text>
+  <path d="M256 120.0 H294.0 V88.0 H324" fill="none" stroke="#0054AD" stroke-width="2"/>
+  <path d="M324 83.5 L332 88.0 L324 92.5 z" fill="#0054AD"/>
+  <text class="s lbl muted" x="332" y="28" font-size="11">PREVIEW: LOOK, DON'T TOUCH</text>
+  <rect x="332" y="40" width="300" height="96" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <text class="m" x="348" y="70" font-size="13" xml:space="preserve"><tspan class="fn">preview_webr_link</tspan><tspan class="ink">(url)</tspan></text>
+  <text class="s body" x="348" y="95" font-size="12">2 files</text>
+  <text class="m muted" x="406" y="95" font-size="11">plot.R · notes.md · 312 B</text>
+  <rect x="348" y="106" width="217" height="19" rx="9.5" fill="#e0edff"/>
+  <text class="s accent" x="456.3" y="119.5" font-size="10" font-weight="600" text-anchor="middle">in memory: nothing written to disk</text>
+  <path d="M256 120.0 H294.0 V218.0 H324" fill="none" stroke="#0054AD" stroke-width="2"/>
+  <path d="M324 213.5 L332 218.0 L324 222.5 z" fill="#0054AD"/>
+  <text class="s lbl muted" x="332" y="158" font-size="11">DECODE: WRITE THE FILES OUT</text>
+  <rect x="332" y="170" width="300" height="96" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <text class="m" x="348" y="200" font-size="13" xml:space="preserve"><tspan class="fn">decode_webr_link</tspan><tspan class="ink">(url, output_dir)</tspan></text>
+  <path d="M350 235 V216 H362 L367 224 H376 V235 Z" fill="#f1f5f9" stroke="#0054AD" stroke-width="1.3" stroke-linejoin="round"/>
+  <text class="m body" x="386" y="230" font-size="11">recovered/</text>
+  <text class="m muted" x="386" y="247" font-size="10.5">plot.R  notes.R</text>
+  <rect x="511" y="228" width="104" height="19" rx="9.5" fill="#d8f1ee"/>
+  <text class="s ver" x="563.25" y="241.5" font-size="10" font-weight="600" text-anchor="middle">written to disk</text>
+  <text class="s faint" x="24" y="298" font-size="12">Preview inspects a link in memory and writes nothing; decode extracts its files to disk.</text>
 </svg>
