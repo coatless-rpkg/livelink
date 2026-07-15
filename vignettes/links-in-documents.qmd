@@ -155,22 +155,25 @@ student can open and edit.
 `webr_repl_link({ ... })` looks like it ought to work in a document. It does, but it
 loses your comments.
 
-knitr runs chunks through `evaluate::evaluate()`, which discards **source
-references**, and comments live in those. So a `{ }` expression inside a knitted
-document arrives at livelink with the comments already gone, and no `keep.source`
-setting brings them back.
+knitr runs every chunk through `evaluate::evaluate()`, which strips **source
+references** as it goes, `keep.source` or not. Comments live only in those references,
+so a `{ }` expression inside a knitted document reaches livelink with its comments
+already gone. There is no option that changes this: the source is discarded before
+livelink ever sees the expression, so nothing livelink could do would bring the
+comments back.
 
-Both the hook and the engine are handed the chunk's **raw source**, which is the only
-route by which a comment reaches a link from a rendered document. That is the whole
-reason they exist.
+Both the hook and the engine sidestep the problem entirely. They are handed the
+chunk's **raw source text**, comments and all, which is the one route by which a
+comment reaches a link from a rendered document. That is the whole reason they exist.
 
 Use braces in an interactive session, where source references are present. Inside a
 document, use a chunk.
 
 # Every chunk option {#every-chunk-option}
 
-The same shape as the figure above, in full. Each option, the part of the link it
-changes, and what that means for your reader.
+Keep this section as a reference to return to. It is the figure above in full, one row
+per option: the option you set, the part of the link it changes, and what that means
+for your reader.
 
 | Option | In the link | What it means |
 |---|---|---|

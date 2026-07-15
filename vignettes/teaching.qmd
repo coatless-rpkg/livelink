@@ -124,10 +124,14 @@ webr_repl_link("some data", filename = "data.csv", autorun = TRUE)
 
 ## A whole folder of scripts
 
-Course material tends to live as a directory of scripts. `webr_repl_directory()`
-turns each one into its own link in a single call.
+Course material tends to live as a directory of scripts, and livelink gives you two
+ways to turn that folder into links. Which you want comes down to a single question:
+are the scripts **independent**, or **parts of one thing**?
 
-![Each script becomes its own link, named after the file. That is the opposite of `webr_repl_project()`, which bundles a folder into one link.](../man/figures/course-light.svg){.ll-fig .ll-light}
+`webr_repl_directory()` gives each script *its own* link. That is the right call for a
+folder of standalone exercises: one link per file, each opening just that script.
+
+![Each script becomes its own link, named after the file. That is the mirror image of `webr_repl_project()`, which bundles a whole folder into one link.](../man/figures/course-light.svg){.ll-fig .ll-light}
 ![](../man/figures/course-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 ```{r}
@@ -142,17 +146,41 @@ links <- webr_repl_directory(course, panels = c("editor", "plot"))
 links
 ```
 
-The result is named by file, so you can drop it straight into a table of contents:
+The result is named by file, so it drops straight into a table of contents:
 
 ```{r}
 urls <- repl_urls(links)
 cat(sprintf("- [%s](%s)", names(urls), urls), sep = "\n")
 ```
 
-Use `pattern` to pick out a subset, say exercises but not solutions:
+Use `pattern` to pick out a subset, say the exercises but not the solutions:
 
 ```{r}
 webr_repl_directory(course, pattern = "^0[12]")
+```
+
+### One link per file, or one link for the folder?
+
+`webr_repl_project()` is the other half of the pair. It packs several files into a
+*single* link, so a script that `source()`s its neighbour still finds it once webR
+unpacks them side by side. Reach for it when the files belong together rather than
+standing alone.
+
+The two are mirror images, and the table says which to reach for:
+
+| You want | Call |
+|---|---|
+| each script openable on its own | `webr_repl_directory(dir)` |
+| the whole folder bundled into one link | `webr_repl_directory(dir, single_link = TRUE)` |
+| a hand-picked set of files bundled into one link | `webr_repl_project(files)` |
+
+`single_link = TRUE` is the bridge between them: point it at a folder and it bundles
+the lot into one link, exactly as `webr_repl_project()` would, without your having to
+list the files by hand.
+
+```{r}
+# the same course folder, as one bundled link instead of three
+webr_repl_directory(course, single_link = TRUE, panels = c("editor", "plot"))
 ```
 
 ## Embedding links in your notes
