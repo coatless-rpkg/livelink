@@ -56,8 +56,9 @@ Python Shiny apps.
 
 ### webR links
 
-Share R code that runs in the browser. Pass the code straight in, with
-no quotes and no escaping, just braces:
+Share R code that runs in the browser.
+
+Pass the code straight in, with no quotes and no escaping, just braces:
 
 ``` r
 library(livelink)
