@@ -65,6 +65,11 @@ links <- webr_repl_exercise(exercise, solution, "mean_mpg")
 links
 ```
 
+These are written as plain strings on purpose. An exercise is mostly its instructions,
+and those live in comments, so a braced `{ }` expression would drop them the moment
+these notes are knitted. [Links inside
+documents](links-in-documents.html#why-not-a-braced-expression) explains why.
+
 The two links differ in one deliberate way: the solution **autoruns** and the exercise
 does not. Students landing on the exercise see the code sitting there waiting for
 them. Students landing on the solution see the answer already computed.
