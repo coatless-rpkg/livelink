@@ -238,6 +238,30 @@ webr_repl_project <- function(input,
     base_path <- paste0(base_path, "/")
   }
 
+  build_webr_project(processed_files, autorun_files, base_path, panels,
+                     version, base_url)
+}
+
+
+#' Bundle a set of named file contents into one webR project link
+#'
+#' The encoding core shared by [webr_repl_project()] and
+#' [webr_repl_directory()]'s `single_link` mode. Inputs are already validated and
+#' normalized: `processed_files` is a named list of file contents, `base_path`
+#' ends in `/`, and `base_url` is resolved.
+#'
+#' @param processed_files Named list mapping filename to its content string
+#' @param autorun_files Character vector of files to autorun, or `"all"`
+#' @param base_path Normalized base directory path
+#' @param panels Panels to show, or NULL
+#' @param version WebR version
+#' @param base_url Resolved WebR base URL
+#' @return A `webr_project` object
+#' @noRd
+build_webr_project <- function(processed_files, autorun_files, base_path,
+                               panels, version, base_url) {
+  autorun_all <- length(autorun_files) == 1 && autorun_files == "all"
+
   share_items <- mapply(function(content, filename) {
     item <- list(
       name = filename,

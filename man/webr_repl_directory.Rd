@@ -7,6 +7,7 @@
 webr_repl_directory(
   directory_path,
   autorun = FALSE,
+  single_link = FALSE,
   pattern = "\\\\.R$",
   base_path = "/home/web_user/",
   panels = NULL,
@@ -17,7 +18,12 @@ webr_repl_directory(
 \arguments{
 \item{directory_path}{Character string specifying the path to the directory containing R files}
 
-\item{autorun}{Logical. Whether to enable autorun for all generated links (default: FALSE)}
+\item{autorun}{Logical. Whether to enable autorun for all generated links (default: FALSE).
+With \code{single_link = TRUE}, this runs every R file in the bundle on arrival.}
+
+\item{single_link}{Logical. If \code{FALSE} (default), each matched file becomes its
+own link and the result is a \code{webr_directory}. If \code{TRUE}, all matched files
+are packed into one link and the result is a single \code{webr_project}.}
 
 \item{pattern}{Regular expression pattern to match files (default: "\\\\.R$" for R files)}
 
@@ -32,12 +38,15 @@ If NULL (default), shows all panels.}
 \item{base_url}{WebR application URL. If NULL, uses global option or builds from version}
 }
 \value{
-A \code{webr_directory} object. Its \code{urls} element is a named character vector
-mapping each filename to its WebR sharelink.
+By default a \code{webr_directory} object, whose \code{urls} element is a named character
+vector mapping each filename to its WebR sharelink. With \code{single_link = TRUE}, a
+single \code{webr_project} object bundling every matched file into one link.
 }
 \description{
-Batch processes all R files in a directory to create individual WebR sharelinks.
-Useful for converting collections of scripts, examples, or course materials.
+Batch processes all R files in a directory. By default each file becomes its
+own WebR sharelink; with \code{single_link = TRUE} the whole directory is bundled
+into one link instead, exactly as \code{\link[=webr_repl_project]{webr_repl_project()}} would. Useful for
+converting collections of scripts, examples, or course materials.
 }
 \examples{
 # A directory of R scripts
@@ -49,6 +58,9 @@ writeLines("hist(rnorm(100))", file.path(examples, "hist.R"))
 links <- webr_repl_directory(examples, autorun = TRUE)
 print(links)
 
+# Bundle the whole directory into one link instead
+webr_repl_directory(examples, single_link = TRUE, panels = c("editor", "plot"))
+
 # Show only the editor and terminal panels
 webr_repl_directory(examples, panels = c("editor", "terminal"))
 
@@ -58,4 +70,8 @@ webr_repl_directory(examples, pattern = "^plot")
 # The URLs, named by file
 repl_urls(links)
 
+}
+\seealso{
+\code{\link[=webr_repl_project]{webr_repl_project()}}, which bundles a named list or a vector of file
+paths into one link.
 }

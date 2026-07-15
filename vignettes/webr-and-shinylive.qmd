@@ -323,10 +323,25 @@ dir.create(empty, showWarnings = FALSE)
 shinylive_directory(empty, engine = "r")
 ```
 
-`webr_repl_directory()` is the webR counterpart, but it works the other way round: it
-gives each R script in a directory *its own* link, rather than bundling a folder into
-one. That suits a folder of course scripts, and
+`webr_repl_directory()` is the webR counterpart, and by default it works the other way
+round: it gives each R script in a directory *its own* link, rather than bundling a
+folder into one. That suits a folder of course scripts, and
 [Teaching with livelink](teaching.html) puts it to work.
+
+When you do want the whole directory in a single link, pass `single_link = TRUE`. The
+files are bundled exactly as `webr_repl_project()` would bundle them, and you get one
+`webr_project` back instead of a directory of links:
+
+```{r}
+scripts <- file.path(tempdir(), "scripts")
+dir.create(scripts, showWarnings = FALSE)
+writeLines("source('utils.R')", file.path(scripts, "main.R"))
+writeLines("f <- function() 42", file.path(scripts, "utils.R"))
+
+webr_repl_directory(scripts, single_link = TRUE, panels = c("editor", "plot"))
+```
+
+With `autorun = TRUE` alongside it, every R file in the bundle runs on arrival.
 
 # How big can a link get?
 

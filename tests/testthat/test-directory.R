@@ -77,3 +77,47 @@ test_that("webr_repl_directory honors the pattern argument", {
 
   expect_named(result$urls, "keep.R")
 })
+
+test_that("webr_repl_directory(single_link = TRUE) bundles the whole directory", {
+  dir <- withr::local_tempdir()
+  writeLines("source('utils.R')", file.path(dir, "main.R"))
+  writeLines("f <- function() 42", file.path(dir, "utils.R"))
+
+  result <- suppressMessages(webr_repl_directory(dir, single_link = TRUE))
+
+  # One link, not a directory of links.
+  expect_s3_class(result, "webr_project")
+
+  # The one link carries every matched file, named by basename.
+  preview <- preview_webr_link(as.character(result))
+  names <- vapply(preview$files_data, function(f) f$name, character(1))
+  expect_setequal(names, c("main.R", "utils.R"))
+})
+
+test_that("single_link honors panels and autorun", {
+  dir <- withr::local_tempdir()
+  writeLines("plot(1:10)", file.path(dir, "one.R"))
+  writeLines("hist(rnorm(10))", file.path(dir, "two.R"))
+
+  result <- suppressMessages(webr_repl_directory(
+    dir, single_link = TRUE, autorun = TRUE, panels = c("editor", "plot")
+  ))
+  url <- as.character(result)
+
+  expect_match(url, "mode='editor-plot'", fixed = TRUE)
+  # autorun bundles the a flag and marks every R file to run.
+  expect_match(url, "&jza", fixed = TRUE)
+  expect_setequal(preview_webr_link(url)$autorun_files, c("one.R", "two.R"))
+})
+
+test_that("single_link produces the same link as webr_repl_project on the same files", {
+  dir <- withr::local_tempdir()
+  writeLines("source('utils.R')", file.path(dir, "main.R"))
+  writeLines("f <- function() 42", file.path(dir, "utils.R"))
+
+  from_dir <- suppressMessages(webr_repl_directory(dir, single_link = TRUE))
+  files <- list.files(dir, pattern = "\\.R$", full.names = TRUE)
+  from_project <- webr_repl_project(files)
+
+  expect_identical(as.character(from_dir), as.character(from_project))
+})

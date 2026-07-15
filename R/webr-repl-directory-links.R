@@ -1,10 +1,16 @@
 #' Create WebR REPL sharelinks from a directory of R files
 #'
-#' Batch processes all R files in a directory to create individual WebR sharelinks.
-#' Useful for converting collections of scripts, examples, or course materials.
+#' Batch processes all R files in a directory. By default each file becomes its
+#' own WebR sharelink; with `single_link = TRUE` the whole directory is bundled
+#' into one link instead, exactly as [webr_repl_project()] would. Useful for
+#' converting collections of scripts, examples, or course materials.
 #'
 #' @param directory_path Character string specifying the path to the directory containing R files
-#' @param autorun Logical. Whether to enable autorun for all generated links (default: FALSE)
+#' @param autorun Logical. Whether to enable autorun for all generated links (default: FALSE).
+#'   With `single_link = TRUE`, this runs every R file in the bundle on arrival.
+#' @param single_link Logical. If `FALSE` (default), each matched file becomes its
+#'   own link and the result is a `webr_directory`. If `TRUE`, all matched files
+#'   are packed into one link and the result is a single `webr_project`.
 #' @param pattern Regular expression pattern to match files (default: "\\\\.R$" for R files)
 #' @param base_path Base directory path for files in WebR (default: "/home/web_user/")
 #' @param panels Character vector or string specifying which WebR interface panels to show.
@@ -14,8 +20,12 @@
 #' @param base_url WebR application URL. If NULL, uses global option or builds from version
 #'
 #' @return
-#' A `webr_directory` object. Its `urls` element is a named character vector
-#' mapping each filename to its WebR sharelink.
+#' By default a `webr_directory` object, whose `urls` element is a named character
+#' vector mapping each filename to its WebR sharelink. With `single_link = TRUE`, a
+#' single `webr_project` object bundling every matched file into one link.
+#'
+#' @seealso [webr_repl_project()], which bundles a named list or a vector of file
+#'   paths into one link.
 #'
 #' @examples
 #' # A directory of R scripts
@@ -26,6 +36,9 @@
 #'
 #' links <- webr_repl_directory(examples, autorun = TRUE)
 #' print(links)
+#'
+#' # Bundle the whole directory into one link instead
+#' webr_repl_directory(examples, single_link = TRUE, panels = c("editor", "plot"))
 #'
 #' # Show only the editor and terminal panels
 #' webr_repl_directory(examples, panels = c("editor", "terminal"))
@@ -39,6 +52,7 @@
 #' @export
 webr_repl_directory <- function(directory_path,
                                 autorun = FALSE,
+                                single_link = FALSE,
                                 pattern = "\\.R$",
                                 base_path = "/home/web_user/",
                                 panels = NULL,
@@ -48,6 +62,7 @@ webr_repl_directory <- function(directory_path,
   check_single_string(directory_path, "directory_path")
   ensure_directory_exists(directory_path, "directory_path")
   check_single_logical(autorun, "autorun")
+  check_single_logical(single_link, "single_link")
   check_valid_path(base_path, "base_path")
   check_valid_mode(panels, "panels")
   check_valid_version(version, "version")
@@ -73,6 +88,12 @@ webr_repl_directory <- function(directory_path,
     # Stay type-stable: callers should get a webr_directory whether or not the
     # directory turned up any files.
     return(new_webr_directory(character(0), base_path, panels, version, directory_path))
+  }
+
+  if (single_link) {
+    return(directory_single_link(
+      r_files, autorun, base_path, panels, version, base_url, directory_path
+    ))
   }
 
   cli::cli_inform(c(
@@ -119,4 +140,53 @@ webr_repl_directory <- function(directory_path,
   ))
 
   new_webr_directory(valid_links, base_path, panels, version, directory_path)
+}
+
+
+#' Bundle every file in a directory into one webR project link
+#'
+#' The `single_link = TRUE` branch of [webr_repl_directory()]. Reads each matched
+#' file, names it by its basename, and hands the lot to [build_webr_project()].
+#'
+#' @param r_files Character vector of matched file paths
+#' @param autorun Logical; `TRUE` runs every R file on arrival
+#' @param base_path Normalized base directory path
+#' @param panels Panels to show, or NULL
+#' @param version WebR version
+#' @param base_url Resolved WebR base URL
+#' @param directory_path The source directory, for messages
+#' @return A `webr_project` object
+#' @noRd
+directory_single_link <- function(r_files, autorun, base_path, panels, version,
+                                  base_url, directory_path) {
+  contents <- lapply(r_files, function(file) {
+    tryCatch(
+      paste(readLines(file, warn = FALSE), collapse = "\n"),
+      error = function(e) {
+        cli::cli_warn(c(
+          "Failed to read file {.file {basename(file)}}",
+          "x" = "{conditionMessage(e)}"
+        ))
+        NA_character_
+      }
+    )
+  })
+
+  ok <- !vapply(contents, function(x) length(x) == 1 && is.na(x), logical(1))
+  processed_files <- stats::setNames(contents[ok], basename(r_files[ok]))
+
+  if (length(processed_files) == 0) {
+    cli::cli_abort(c(
+      "No files could be read",
+      "x" = "Every file matched in {.path {directory_path}} failed to read"
+    ))
+  }
+
+  cli::cli_inform(c(
+    "v" = "Bundling {length(processed_files)} file{?s} into one link"
+  ))
+
+  autorun_files <- if (autorun) "all" else character(0)
+  build_webr_project(processed_files, autorun_files, base_path, panels,
+                     version, base_url)
 }
