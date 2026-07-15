@@ -73,7 +73,7 @@ links$exercise$autorun
 links$solution$autorun
 ```
 
-Hand out the exercise link in class; hold the solution link back until afterwards, or
+Hand out the exercise link in class, and hold the solution link back until afterwards, or
 put it behind a collapsed callout in your notes.
 
 ```{r}
@@ -88,7 +88,7 @@ invites students to wander off.
 
 `panels` controls which of them appear.
 
-![webR has four panels. `panels` names the ones you want; the rest never appear.](../man/figures/panels-light.svg){.ll-fig .ll-light}
+![webR has four panels. `panels` names the ones you want, and the rest never appear.](../man/figures/panels-light.svg){.ll-fig .ll-light}
 ![](../man/figures/panels-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 ```{r}
@@ -148,7 +148,7 @@ urls <- repl_urls(links)
 cat(sprintf("- [%s](%s)", names(urls), urls), sep = "\n")
 ```
 
-Use `pattern` to pick out a subset -- exercises but not solutions, say:
+Use `pattern` to pick out a subset, say exercises but not solutions:
 
 ```{r}
 webr_repl_directory(course, pattern = "^0[12]")
@@ -160,11 +160,11 @@ If you write course notes in Quarto or R Markdown, you do not have to build the 
 in one chunk and paste the URL into another. livelink plugs into knitr, so a chunk can
 carry its own link.
 
-![A `livelink` chunk renders as the code plus a link that runs it — comments and all. A braced expression cannot manage that in a knitted document.](../man/figures/engine-light.svg){.ll-fig .ll-light}
+![A `livelink` chunk renders as the code plus a link that runs it, comments and all. A braced expression cannot manage that in a knitted document.](../man/figures/engine-light.svg){.ll-fig .ll-light}
 ![](../man/figures/engine-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
-Add `livelink: true` to an ordinary `r` chunk. It runs as it always did — the plot
-appears in your notes — and a link is added underneath. Here it is, running in this
+Add `livelink: true` to an ordinary `r` chunk. It runs as it always did, the plot
+appears in your notes, and a link is added underneath. Here it is, running in this
 very vignette:
 
 ```{r}
@@ -187,7 +187,7 @@ knitr::opts_chunk$set(livelink = TRUE, autorun = TRUE)
 ```
 
 [Links inside documents](links-in-documents.html) covers the rest: the engine, for code
-your notes should not run; every chunk option; and why `echo` is not what stands between
+your notes should not run, every chunk option, and why `echo` is not what stands between
 you and a link.
 
 ## Collecting work back in
@@ -205,5 +205,5 @@ decode_webr_link(submissions, output_dir = file.path(tempdir(), "submissions"))
 ```
 
 If you would rather read the code than write it to disk, `preview_webr_link()` shows
-you a submission without touching your filesystem at all -- which is the safer default
+you a submission without touching your filesystem at all, which is the safer default
 when the code came from someone else.

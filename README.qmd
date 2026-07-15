@@ -27,7 +27,7 @@ Create shareable links for R code in WebAssembly (WASM) REPL environments like
 webR and for R and Python Shiny applications using Shinylive.
 
 There is no server and nothing to upload. Your code is compressed and encoded
-*into the URL itself* — everything after the `#` is a URL fragment, which browsers
+*into the URL itself*. Everything after the `#` is a URL fragment, which browsers
 never send anywhere. The recipient clicks the link and is looking at a running R
 session in their browser.
 
@@ -66,7 +66,7 @@ We'll cover how to create links and decode them for R code, R Shiny applications
 
 Share R code that runs in the browser:
 
-Pass the code straight in. No quotes, no escaping — just braces:
+Pass the code straight in. No quotes, no escaping, just braces.
 
 ```{r}
 #| label: webr-example
@@ -129,36 +129,31 @@ print(app_link)
 
 ## Multi-file Projects
 
-Share complex projects with multiple files:
+A project can hold several files. Write each one as R, in braces, and mix in a
+string for anything that is not code.
 
 ```{r}
 #| label: multifile-example
-# Create a project with multiple files
-files <- list(
-"analysis.R" = "
-source('utils.R')
-data <- load_mtcars()
-summary(data)
-create_plot(data)
-",
-"utils.R" = "
-load_mtcars <- function() {
-  mtcars
-}
+library(livelink)
 
-create_plot <- function(data) {
-  plot(data$mpg, data$wt, 
-       main = 'MPG vs Weight',
-       xlab = 'MPG', ylab = 'Weight')
-}
-",
-"README.md" = "# Car Analysis\nAnalysis of the mtcars dataset."
-)
+project <- webr_repl_project(list(
+  "analysis.R" = {
+    source("utils.R")
+    create_plot(mtcars)
+  },
+  "utils.R" = {
+    create_plot <- function(data) {
+      plot(data$mpg, data$wt, main = "MPG vs Weight")
+    }
+  },
+  "README.md" = "# Car Analysis\nAnalysis of the mtcars dataset."
+), autorun_files = "analysis.R")
 
-# Create project with autorun
-project <- webr_repl_project(files, autorun_files = "analysis.R")
 print(project)
 ```
+
+Write the `list()` inside the call. Assign it to a variable first and R runs the
+braces before livelink ever sees them.
 
 ## Educational Content
 

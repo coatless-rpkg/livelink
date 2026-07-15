@@ -40,7 +40,7 @@ directory into links.
 `webr_repl_project()` packs several files into a single link. webR unpacks them into
 its filesystem, so `source("utils.R")` finds `utils.R` exactly where it expects it.
 
-![A named list or a vector of file paths goes in; one URL carrying every file comes out, and webR unpacks them into its filesystem.](../man/figures/projects-light.svg){.ll-fig .ll-light}
+![A named list or a vector of file paths goes in, and one URL carrying every file comes out, which webR unpacks into its filesystem.](../man/figures/projects-light.svg){.ll-fig .ll-light}
 ![](../man/figures/projects-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 ## Describing the files
@@ -48,7 +48,7 @@ its filesystem, so `source("utils.R")` finds `utils.R` exactly where it expects 
 Two input shapes, and you can use whichever is closer to hand.
 
 A **named list**, where the names become the filenames. Write each file as R, in
-braces — no escaped newlines, no fighting with quotes, and your editor keeps
+braces. No escaped newlines, no fighting with quotes, and your editor keeps
 highlighting it:
 
 ```{r}
@@ -59,14 +59,14 @@ webr_repl_project(list(
 ))
 ```
 
-Non-R files stay strings, and the two forms mix freely — a project is usually code
+Non-R files stay strings, and the two forms mix freely, since a project is usually code
 *and* something else.
 
 ::: {.callout-important}
 ## Write the list inside the call
 
 The braces only work when the list is written *in* the call. `list()` is an ordinary
-function, so if you assign it to a variable first, R evaluates its arguments — the
+function, so if you assign it to a variable first, R evaluates its arguments. The
 block runs, right there, and livelink never sees the source:
 
 ```r
@@ -79,21 +79,21 @@ webr_repl_project(list("main.R" = { source("utils.R"); summarise(mtcars) }))
 ```
 
 livelink notices the first case and stops with an error rather than encoding whatever
-the block happened to return. A list of *strings* in a variable is fine, of course —
-that is the older form, and it still works.
+the block happened to return. A list of *strings* in a variable is fine, of course.
+That is the older form, and it still works.
 :::
 
 Because the blocks are captured rather than evaluated, an assignment inside one leaves
 nothing behind in your session. `{ summarise <- function(d) summary(d) }` defines
-nothing here; it is source to ship, not code to run.
+nothing here. It is source to ship, not code to run.
 
 Two caveats carry over from single-file expressions. Comments inside `{ }` survive
 interactively but not in a knitted document, and a `library()` call inside a block is
 visible to `R CMD check`, which will report that package as an undeclared dependency
 of *yours*. Use a string for code that loads packages.
 
-When a project has to be reused across several calls — as it is through the rest of
-this section — keep it as a list of **strings** in a variable. A list of strings is a
+When a project has to be reused across several calls, as it is through the rest of
+this section, keep it as a list of **strings** in a variable. A list of strings is a
 plain value, so it assigns without surprises:
 
 ```{r}
@@ -145,7 +145,7 @@ does nothing:
 webr_repl_project(project, autorun_files = "nonexistent.R")
 ```
 
-Only `.R` files can autorun. Listing a `.csv` is harmless — it simply is not run.
+Only `.R` files can autorun. Listing a `.csv` is harmless, and simply is not run.
 
 ## Where the files land
 
@@ -161,7 +161,7 @@ unless you have a reason.
 
 # Shiny apps
 
-![`shinylive_r_link()` and `shinylive_py_link()` pick the R or Python path; `mode` picks whether a visitor lands on the code beside the app, or the running app alone.](../man/figures/shinylive-light.svg){.ll-fig .ll-light}
+![`shinylive_r_link()` and `shinylive_py_link()` pick the R or Python path, and `mode` picks whether a visitor lands on the code beside the app, or the running app alone.](../man/figures/shinylive-light.svg){.ll-fig .ll-light}
 ![](../man/figures/shinylive-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 A single-file app is the common case, and a bare string becomes `app.R`:
@@ -198,11 +198,11 @@ nicely. But a Shiny app is source text destined for *another* runtime. Putting
 undeclared dependency of livelink, which it is not.
 
 Reach for braces when the code is R you want executed in webR. For a Shiny app, a
-string or a file path says what you actually mean — and leaves the app's own quoting
+string or a file path says what you actually mean, and leaves the app's own quoting
 alone.
 :::
 
-For an app split across files, pass a named list. `app.R` is the entry point; the rest
+For an app split across files, pass a named list. `app.R` is the entry point, and the rest
 come along:
 
 ```{r}
@@ -234,7 +234,7 @@ app is going into an `<iframe>` on someone else's page:
 shinylive_r_link(app, mode = "app", header = FALSE)
 ```
 
-`header` does nothing in `editor` mode — there is no header to hide.
+`header` does nothing in `editor` mode, where there is no header to hide.
 
 ::: {.callout-note}
 ## `mode` is not `panels`
@@ -268,7 +268,7 @@ app = App(app_ui, server)
 shinylive_py_link(py_app, mode = "app")
 ```
 
-The engine is in the URL — `shinylive.io/r/` versus `shinylive.io/py/` — so a link
+The engine is in the URL, `shinylive.io/r/` versus `shinylive.io/py/`, so a link
 carries its own language with it.
 
 `shinylive_project()` is the same thing with the engine named explicitly, which is
@@ -298,7 +298,7 @@ links <- shinylive_directory(apps, engine = "r", mode = "app")
 repl_urls(links)
 ```
 
-Every subdirectory holding an `app.R` — or `app.py`, for Python — becomes one link,
+Every subdirectory holding an `app.R` (or `app.py`, for Python) becomes one link,
 named after the folder. Helpers, data and CSS in that folder are bundled in with it.
 Binary files are skipped with a warning, because a link is the wrong place for them.
 
@@ -342,4 +342,4 @@ The link comes out *smaller than the code it carries*, because gzip more than pa
 what base64 costs.
 
 Binary data is the case that does not work: it does not compress, and base64 inflates
-it by a third. Do not put a PNG in a link — have the code fetch it, or point at it.
+it by a third. Do not put a PNG in a link. Have the code fetch it, or point at it.

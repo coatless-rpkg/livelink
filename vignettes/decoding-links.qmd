@@ -104,7 +104,7 @@ Pass `overwrite = TRUE` when replacing them is what you actually want.
 
 ## The round trip is lossless
 
-What goes in comes back out, byte for byte -- including multi-file projects and
+What goes in comes back out, byte for byte, including multi-file projects and
 non-ASCII text.
 
 ```{r}
@@ -142,7 +142,7 @@ preview_shinylive_link(app_url)
 decode_shinylive_link(app_url, output_dir = file.path(tempdir(), "app"))
 ```
 
-Python apps are no different -- `preview_shinylive_link()` reports the engine, so you
+Python apps are no different. `preview_shinylive_link()` reports the engine, so you
 can tell what you are looking at before you extract it:
 
 ```{r}
@@ -172,15 +172,15 @@ Each URL gets its own subdirectory, so submissions cannot overwrite one another.
 ## Reading links livelink did not create
 
 webR's own share dialog encodes files with **msgpack**, not JSON, and livelink writes
-JSON. The flags at the end of a URL say which is which -- `jz` is JSON + gzip,
+JSON. The flags at the end of a URL say which is which. `jz` is JSON + gzip,
 `mz` is msgpack + gzip, and `a` means autorun.
 
 livelink reads all of them. A link produced by webR itself decodes exactly like one
-produced here; you do not have to know or care which tool made it.
+produced here, and you do not have to know or care which tool made it.
 
 ## Getting just the URL
 
-Every object livelink returns -- links, projects, previews, decoded results -- answers
+Every object livelink returns (links, projects, previews, decoded results) answers
 to `repl_urls()`:
 
 ```{r}

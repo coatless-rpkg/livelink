@@ -43,8 +43,8 @@ the URL after the `#`, which browsers never send anywhere. The link is the paylo
 
 Two destinations are supported:
 
-- **[webR](https://docs.r-wasm.org/webr/latest/)** -- a full R console and editor in the browser.
-- **[Shinylive](https://shiny.posit.co/py/get-started/shinylive.html)** -- Shiny apps, R or Python, with no server.
+- **[webR](https://docs.r-wasm.org/webr/latest/)**: a full R console and editor in the browser.
+- **[Shinylive](https://shiny.posit.co/py/get-started/shinylive.html)**: Shiny apps, R or Python, with no server.
 
 ## Your first link
 
@@ -70,11 +70,11 @@ webr_repl_link({
 ## Comments and expression input
 
 Expression input reconstructs your code from R's *source references*. Those exist in
-an interactive session, but not when a document is knitted -- so comments inside
+an interactive session, but not when a document is knitted, so comments inside
 `{ }` are dropped from the link when this vignette is rendered.
 
 If your code has comments worth keeping, pass it as a string or a file path, or write
-it as a chunk — see [Links inside documents](links-in-documents.html).
+it as a chunk. See [Links inside documents](links-in-documents.html).
 :::
 
 You can also point at a file:
@@ -92,7 +92,7 @@ webr_repl_link(script)
 ## Making it run on arrival
 
 By default the recipient sees your code, ready to run. Set `autorun = TRUE` and it
-runs the moment the page opens -- right for a demo, wrong for an exercise.
+runs the moment the page opens, which is right for a demo and wrong for an exercise.
 
 ```{r}
 webr_repl_link("hist(rnorm(1000))", autorun = TRUE)
@@ -104,14 +104,14 @@ webR opens with four panels: an **editor** for your code, a **terminal** for the
 console, a **files** browser, and a **plot** pane. `panels` names the ones you want,
 and the rest never appear.
 
-![webR has four panels. `panels` names the ones you want; the rest never appear. Omit it and all four are shown.](../man/figures/panels-light.svg){.ll-fig .ll-light}
+![webR has four panels. `panels` names the ones you want, and the rest never appear. Omit it and all four are shown.](../man/figures/panels-light.svg){.ll-fig .ll-light}
 ![](../man/figures/panels-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 ```{r}
 webr_repl_link("plot(1:10)", panels = c("editor", "plot"))
 ```
 
-The names are joined into the URL's query string — `?mode='editor-plot'` — so you can
+The names are joined into the URL's query string, `?mode='editor-plot'`, so you can
 read a link and tell what the recipient will land on. Omit `panels` and webR shows
 everything:
 
@@ -166,12 +166,12 @@ Nothing here is magic, and the URL is readable if you know where to look.
 ![](../man/figures/url-anatomy-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 The flags at the end say how the payload was encoded: `j` for JSON, `z` for gzip,
-`m` for msgpack, `u` for uncompressed, `a` for autorun. livelink writes `jz`; webR's
+`m` for msgpack, `u` for uncompressed, `a` for autorun. livelink writes `jz`, and webR's
 own share button writes `mz`. livelink reads both.
 
 ## Going the other way
 
-Because the files live in the URL, any link can be turned back into files -- with no
+Because the files live in the URL, any link can be turned back into files, with no
 network access and no cooperation from a server.
 
 ```{r}
@@ -187,8 +187,8 @@ once you have decided you trust them.
 ## Links inside a document
 
 If you write in Quarto or R Markdown, a chunk can carry its own link. Add
-`livelink: true` to an ordinary chunk and it keeps running exactly as before — output,
-plots and all — with a link added underneath:
+`livelink: true` to an ordinary chunk and it keeps running exactly as before, output
+and plots and all, with a link added underneath:
 
 ````
 ```{{r}}
@@ -205,7 +205,7 @@ engine, every chunk option, and how to set them once for a whole document.
 
 ## Where to next
 
-- **[Multi-file projects and Shiny apps](webr-and-shinylive.html)** -- projects, apps in R and Python, and whole directories.
-- **[Decoding and previewing links](decoding-links.html)** -- turning a link back into files, and inspecting one before you trust it.
-- **[Links inside documents](links-in-documents.html)** -- the chunk hook and the chunk engine, and every option they take.
-- **[Teaching with livelink](teaching.html)** -- exercise and solution pairs, whole course directories, and embedding links in notes.
+- **[Multi-file projects and Shiny apps](webr-and-shinylive.html)**: projects, apps in R and Python, and whole directories.
+- **[Decoding and previewing links](decoding-links.html)**: turning a link back into files, and inspecting one before you trust it.
+- **[Links inside documents](links-in-documents.html)**: the chunk hook and the chunk engine, and every option they take.
+- **[Teaching with livelink](teaching.html)**: exercise and solution pairs, whole course directories, and embedding links in notes.

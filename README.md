@@ -20,7 +20,7 @@ environments like webR and for R and Python Shiny applications using
 Shinylive.
 
 There is no server and nothing to upload. Your code is compressed and
-encoded *into the URL itself* — everything after the `#` is a URL
+encoded *into the URL itself*. Everything after the `#` is a URL
 fragment, which browsers never send anywhere. The recipient clicks the
 link and is looking at a running R session in their browser.
 
@@ -59,7 +59,7 @@ applications, and Python Shiny applications using `livelink`.
 
 Share R code that runs in the browser:
 
-Pass the code straight in. No quotes, no escaping — just braces:
+Pass the code straight in. No quotes, no escaping, just braces.
 
 ``` r
 library(livelink)
@@ -136,38 +136,30 @@ print(app_link)
 
 ## Multi-file Projects
 
-Share complex projects with multiple files:
+A project can hold several files. Write each one as R, in braces, and
+mix in a string for anything that is not code.
 
 ``` r
-# Create a project with multiple files
-files <- list(
-"analysis.R" = "
-source('utils.R')
-data <- load_mtcars()
-summary(data)
-create_plot(data)
-",
-"utils.R" = "
-load_mtcars <- function() {
-  mtcars
-}
+library(livelink)
 
-create_plot <- function(data) {
-  plot(data$mpg, data$wt, 
-       main = 'MPG vs Weight',
-       xlab = 'MPG', ylab = 'Weight')
-}
-",
-"README.md" = "# Car Analysis\nAnalysis of the mtcars dataset."
-)
+project <- webr_repl_project(list(
+  "analysis.R" = {
+    source("utils.R")
+    create_plot(mtcars)
+  },
+  "utils.R" = {
+    create_plot <- function(data) {
+      plot(data$mpg, data$wt, main = "MPG vs Weight")
+    }
+  },
+  "README.md" = "# Car Analysis\nAnalysis of the mtcars dataset."
+), autorun_files = "analysis.R")
 
-# Create project with autorun
-project <- webr_repl_project(files, autorun_files = "analysis.R")
 print(project)
 #> 
 #> ── WebR Project ──
 #> 
-#> <https://webr.r-wasm.org/latest/#code=eJx1kcFqAjEQhl9lmBZ2F9L1vrQHaaUnoXjpoSkyrtFd2EwkmVRFfPfiGlc9mNMk30%2Fy%2FeTngEzWYIXE1O1DG8oZKtyQNFjhqHHWjLZmMY%2FB%2BNFdRMxOsELNwUVfmzyL0nahnGWF5iUJwesLdI6Wcys1%2BZAXmkO0lvw%2BP%2BFCc%2B0NiZlvOieXI1RIUZyPjJX4aI5q8EvXP5S78sHs5vmTzSpyLa3jvICDZoAz0XzUfCdzl%2B3FzvlB9Nlu1gr6aSsKTqxfllqGN8imX5%2FwF%2BDbtOtGMjXwXUeLxDMF%2B7RLsaIXwZvGs8n4Yzop7fJh59tEav0E7%2BRhnH5K82UCtwJpTCrdywcjJR5%2F%2FwHli6tX&jza>
+#> <https://webr.r-wasm.org/latest/#code=eJx1kEFPwzAMhf%2BKZTi0UmnvExwmmDhNQrtwIGgynbdGapIqcRho6n8ndN3WHeaTZT%2F7fXofB7RkGGdIltrfoEO5wgI7kibNqsYZrvb8tY6BfXUlEf6RJAku%2BpozhVF0mzYKc2VrzyS87lonmZGafMjTBUVxPlqciY%2FcF2fn8fKm7WU%2Fek7ew%2BMDbKOtRTubbUgoh4OykGow%2F5%2Fcm25XwNDtpQBD2sITKFy%2BvcJ3gHfWu0YG7B4nVKvF%2FGW5KM3mJtdUMZLdwTN5mI85KXvqwG1BGoZjGANMYCmx%2F%2FwDH8yBIQ%3D%3D&jza>
 #> 
 #> Files (3):
 #> 'analysis.R' → '/home/web_user/analysis.R' (autorun)
@@ -175,6 +167,9 @@ print(project)
 #> 'README.md' → '/home/web_user/README.md'
 #> Version: "latest"
 ```
+
+Write the `list()` inside the call. Assign it to a variable first and R
+runs the braces before livelink ever sees them.
 
 ## Educational Content
 

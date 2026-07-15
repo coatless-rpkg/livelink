@@ -41,7 +41,7 @@ also run in your document?**
 
 # The hook: output *and* a link
 
-Add `livelink: true` to an ordinary `r` chunk. Nothing else changes — the chunk runs,
+Add `livelink: true` to an ordinary `r` chunk. Nothing else changes. The chunk runs,
 its output appears, and a link is added underneath.
 
 ````
@@ -54,7 +54,7 @@ plot(mtcars$mpg, mtcars$wt)   # a comment your reader will actually see
 ```
 ````
 
-That is a real chunk. Here it is, running in this very vignette — the plot below is
+That is a real chunk. Here it is, running in this very vignette. The plot below is
 drawn by R, here, and the link under it opens the same code in the browser:
 
 ```{r}
@@ -147,7 +147,7 @@ student can open and edit.
 
 # Why not a braced expression?
 
-`webr_repl_link({ ... })` looks like it ought to work in a document. It does — but it
+`webr_repl_link({ ... })` looks like it ought to work in a document. It does, but it
 loses your comments.
 
 knitr runs chunks through `evaluate::evaluate()`, which discards **source
