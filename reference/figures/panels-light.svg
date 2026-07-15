@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 184" role="img" aria-labelledby="t d">
+  <title id="t">Which webR panels each call shows</title>
+  <desc id="d">Three webR windows side by side. panels = c("editor", "plot") lights the editor and plot quadrants; panels = "editor" lights only the editor; panels = NULL lights all four.</desc>
+  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}</style>
+  <text class="m muted" x="24" y="22" font-size="11.5">panels =</text>
+  <text class="m" x="86" y="22" font-size="11.5" xml:space="preserve"><tspan class="fn">c</tspan><tspan class="ink">(</tspan><tspan class="str">"editor"</tspan><tspan class="ink">, </tspan><tspan class="str">"plot"</tspan><tspan class="ink">)</tspan></text>
+  <rect x="24" y="36" width="254" height="86" rx="8" fill="#e2e8f0" stroke="#e2e8f0"/>
+  <path d="M24 52 h254" stroke="#e2e8f0"/>
+  <circle cx="34" cy="44" r="2.2" fill="#cbd5e1"/>
+  <circle cx="42" cy="44" r="2.2" fill="#cbd5e1"/>
+  <circle cx="50" cy="44" r="2.2" fill="#cbd5e1"/>
+  <rect x="30.0" y="58.0" width="118.0" height="29.0" rx="4" fill="#e0edff" stroke="#0054AD" stroke-dasharray=""/>
+  <text class="m accent" x="89.0" y="75.5" font-size="9" font-weight="700" text-anchor="middle">editor</text>
+  <rect x="154.0" y="58.0" width="118.0" height="29.0" rx="4" fill="#ffffff" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+  <text class="m faint" x="213.0" y="75.5" font-size="9" text-anchor="middle">files</text>
+  <rect x="30.0" y="89.0" width="118.0" height="29.0" rx="4" fill="#ffffff" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+  <text class="m faint" x="89.0" y="106.5" font-size="9" text-anchor="middle">terminal</text>
+  <rect x="154.0" y="89.0" width="118.0" height="29.0" rx="4" fill="#e0edff" stroke="#0054AD" stroke-dasharray=""/>
+  <text class="m accent" x="213.0" y="106.5" font-size="9" font-weight="700" text-anchor="middle">plot</text>
+  <text class="m muted" x="24" y="144" font-size="11.5">?mode='editor-plot'</text>
+  <text class="m muted" x="308" y="22" font-size="11.5">panels =</text>
+  <text class="m" x="370" y="22" font-size="11.5" xml:space="preserve"><tspan class="str">"editor"</tspan></text>
+  <rect x="308" y="36" width="254" height="86" rx="8" fill="#e2e8f0" stroke="#e2e8f0"/>
+  <path d="M308 52 h254" stroke="#e2e8f0"/>
+  <circle cx="318" cy="44" r="2.2" fill="#cbd5e1"/>
+  <circle cx="326" cy="44" r="2.2" fill="#cbd5e1"/>
+  <circle cx="334" cy="44" r="2.2" fill="#cbd5e1"/>
+  <rect x="314.0" y="58.0" width="118.0" height="29.0" rx="4" fill="#e0edff" stroke="#0054AD" stroke-dasharray=""/>
+  <text class="m accent" x="373.0" y="75.5" font-size="9" font-weight="700" text-anchor="middle">editor</text>
+  <rect x="438.0" y="58.0" width="118.0" height="29.0" rx="4" fill="#ffffff" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+  <text class="m faint" x="497.0" y="75.5" font-size="9" text-anchor="middle">files</text>
+  <rect x="314.0" y="89.0" width="118.0" height="29.0" rx="4" fill="#ffffff" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+  <text class="m faint" x="373.0" y="106.5" font-size="9" text-anchor="middle">terminal</text>
+  <rect x="438.0" y="89.0" width="118.0" height="29.0" rx="4" fill="#ffffff" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+  <text class="m faint" x="497.0" y="106.5" font-size="9" text-anchor="middle">plot</text>
+  <text class="m muted" x="308" y="144" font-size="11.5">?mode='editor'</text>
+  <text class="m muted" x="592" y="22" font-size="11.5">panels =</text>
+  <text class="m" x="654" y="22" font-size="11.5" xml:space="preserve"><tspan class="num">NULL</tspan><tspan class="com">  (the default)</tspan></text>
+  <rect x="592" y="36" width="254" height="86" rx="8" fill="#e2e8f0" stroke="#e2e8f0"/>
+  <path d="M592 52 h254" stroke="#e2e8f0"/>
+  <circle cx="602" cy="44" r="2.2" fill="#cbd5e1"/>
+  <circle cx="610" cy="44" r="2.2" fill="#cbd5e1"/>
+  <circle cx="618" cy="44" r="2.2" fill="#cbd5e1"/>
+  <rect x="598.0" y="58.0" width="118.0" height="29.0" rx="4" fill="#e0edff" stroke="#0054AD" stroke-dasharray=""/>
+  <text class="m accent" x="657.0" y="75.5" font-size="9" font-weight="700" text-anchor="middle">editor</text>
+  <rect x="722.0" y="58.0" width="118.0" height="29.0" rx="4" fill="#e0edff" stroke="#0054AD" stroke-dasharray=""/>
+  <text class="m accent" x="781.0" y="75.5" font-size="9" font-weight="700" text-anchor="middle">files</text>
+  <rect x="598.0" y="89.0" width="118.0" height="29.0" rx="4" fill="#e0edff" stroke="#0054AD" stroke-dasharray=""/>
+  <text class="m accent" x="657.0" y="106.5" font-size="9" font-weight="700" text-anchor="middle">terminal</text>
+  <rect x="722.0" y="89.0" width="118.0" height="29.0" rx="4" fill="#e0edff" stroke="#0054AD" stroke-dasharray=""/>
+  <text class="m accent" x="781.0" y="106.5" font-size="9" font-weight="700" text-anchor="middle">plot</text>
+  <text class="m muted" x="592" y="144" font-size="11.5">no ?mode= at all</text>
+  <text class="s faint" x="24" y="170" font-size="12">Panel names are hyphen-joined into the query string. Omit panels and webR shows all four.</text>
+</svg>

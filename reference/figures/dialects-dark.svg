@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 276" role="img" aria-labelledby="t d">
+  <title id="t">livelink reads both link dialects</title>
+  <desc id="d">Links encoded as JSON (the jz flag, written by livelink) and as msgpack (the mz flag, written by webR's own share button) both decode through livelink into the same files.</desc>
+  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#60a5fa}.str{fill:#34d399}.num{fill:#fbbf24}.com{fill:#64748b}.key{fill:#c4b5fd}.ink{fill:#e2e8f0}.body{fill:#cbd5e1}.muted{fill:#94a3b8}.faint{fill:#64748b}.card{fill:#1e293b}.cardline{fill:#334155}.rail{fill:#475569}.accent{fill:#4C9AFF}.accent_soft{fill:#12315c}.hollow{fill:#475569}.chrome{fill:#172033}.pane{fill:#0b1220}.panehdr{fill:#131c2e}.base{fill:#94a3b8}.base_bg{fill:#273244}.ver{fill:#5eead4}.ver_bg{fill:#12332e}.pan{fill:#c4b5fd}.pan_bg{fill:#2e2450}.frag{fill:#4C9AFF}.frag_bg{fill:#12315c}.flag{fill:#fbbf24}.flag_bg{fill:#3d2f10}</style>
+  <text class="s lbl muted" x="24" y="32" font-size="11">LIVELINK WRITES</text>
+  <rect x="24" y="44" width="300" height="84" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m muted" x="40" y="74" font-size="11.5">webr.r-wasm.org/…</text>
+  <text class="m" x="40" y="96" font-size="11.5" xml:space="preserve"><tspan class="frag">#code=eJyLrlbK…</tspan></text>
+  <rect x="40" y="106" width="81" height="19" rx="9.5" fill="#12315c"/>
+  <text class="s muted" x="80.45" y="119.5" font-size="9.5" font-weight="600" text-anchor="middle">JSON + gzip</text>
+  <text class="m" x="130.9" y="120" font-size="12" xml:space="preserve"><tspan class="flag">&amp;jz</tspan></text>
+  <text class="s lbl muted" x="24" y="146" font-size="11">webR'S SHARE BUTTON WRITES</text>
+  <rect x="24" y="158" width="300" height="84" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m muted" x="40" y="188" font-size="11.5">webr.r-wasm.org/…</text>
+  <text class="m" x="40" y="210" font-size="11.5" xml:space="preserve"><tspan class="frag">#code=eJyLrlbK…</tspan></text>
+  <rect x="40" y="220" width="99" height="19" rx="9.5" fill="#12315c"/>
+  <text class="s muted" x="89.30000000000001" y="233.5" font-size="9.5" font-weight="600" text-anchor="middle">msgpack + gzip</text>
+  <text class="m" x="148.60000000000002" y="234" font-size="12" xml:space="preserve"><tspan class="flag">&amp;mz</tspan></text>
+  <rect x="392" y="118" width="150" height="84" rx="10" fill="#12315c" stroke="#334155"/>
+  <text class="s accent" x="467.0" y="152" font-size="15" font-weight="700" text-anchor="middle">livelink</text>
+  <text class="s body" x="467.0" y="173" font-size="11" text-anchor="middle">decode / preview</text>
+  <text class="s muted" x="467.0" y="190" font-size="10.5" text-anchor="middle">reads either</text>
+  <path d="M324 86 H358.0 V160.0 H384" fill="none" stroke="#4C9AFF" stroke-width="2"/>
+  <path d="M384 155.5 L392 160.0 L384 164.5 z" fill="#4C9AFF"/>
+  <path d="M324 200 H358.0 V160.0 H384" fill="none" stroke="#4C9AFF" stroke-width="2"/>
+  <path d="M384 155.5 L392 160.0 L384 164.5 z" fill="#4C9AFF"/>
+  <text class="s lbl muted" x="610" y="106" font-size="11">THE SAME FILES</text>
+  <rect x="610" y="118" width="216" height="84" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text class="m ink" x="628" y="152" font-size="12.5">plot.R</text>
+  <text class="s accent" x="808" y="152" font-size="13" text-anchor="end">✓</text>
+  <text class="m ink" x="628" y="178" font-size="12.5">data.R</text>
+  <text class="s accent" x="808" y="178" font-size="13" text-anchor="end">✓</text>
+  <path d="M542 160.0 H576.0 V160 H602" fill="none" stroke="#4C9AFF" stroke-width="2"/>
+  <path d="M602 155.5 L610 160 L602 164.5 z" fill="#4C9AFF"/>
+  <text class="s faint" x="24" y="262" font-size="12">The flags say how a link was encoded: jz is JSON, mz is msgpack. livelink decodes both, so a webR-made link opens like any other.</text>
+</svg>

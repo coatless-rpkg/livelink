@@ -6,11 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>livelink: Create Shareable Links for WebR and Shinylive • livelink</title>
-<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<script src="lightswitch.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="livelink: Create Shareable Links for WebR and Shinylive">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
+<meta property="og:title" content="livelink: Create Shareable Links for WebR and Shinylive">
 <meta name="description" content="Generate shareable URLs for R code that can be executed in WebR environments and create Shinylive links for R and Python Shiny applications.
 ">
 <meta property="og:description" content="Generate shareable URLs for R code that can be executed in WebR environments and create Shinylive links for R and Python Shiny applications.
@@ -20,7 +21,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="index.html">livelink</a>
 
@@ -38,6 +39,10 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/getting-started.html">Getting Started</a></li>
+    <li><a class="dropdown-item" href="articles/webr-and-shinylive.html">Multi-file projects and Shiny apps</a></li>
+    <li><a class="dropdown-item" href="articles/decoding-links.html">Decoding and previewing links</a></li>
+    <li><a class="dropdown-item" href="articles/links-in-documents.html">Links inside documents</a></li>
+    <li><a class="dropdown-item" href="articles/teaching.html">Teaching with livelink</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -46,6 +51,15 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/coatless-rpkg/livelink/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -54,60 +68,71 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="livelink-">livelink <img src="reference/figures/livelink-animated-logo.svg" align="right" width="139"><a class="anchor" aria-label="anchor" href="#livelink-"></a>
+<div class="page-header"><h1 id="livelink-">livelink <picture><source media="(prefers-color-scheme: dark)" srcset="reference/figures/livelink-logo-dark-animated.svg"><img class="ll-logo" src="reference/figures/livelink-logo-light-animated.svg" align="right" alt="Logo: a hexagon holding a stack of code lines that recede into the distance, with the livelink wordmark and an outbound arrow." width="150"></source></picture><a class="anchor" aria-label="anchor" href="#livelink-"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p>Create shareable links for R code in WebAssembly (WASM) REPL environments like webR and for R and Python Shiny applications using Shinylive.</p>
+<p>Create shareable links for R code in WebAssembly (WASM) environments: webR for a full R REPL, and Shinylive for R and Python Shiny apps.</p>
+<p>There is no server and nothing to upload. Your code is compressed and encoded <em>into the URL itself</em>. Everything after the <code>#</code> is a URL fragment, which browsers never send anywhere, so the recipient clicks the link and lands in a running R session in their browser.</p>
+<p><picture><source media="(prefers-color-scheme: dark)" srcset="reference/figures/hero-dark.svg"><img class="ll-hero" src="reference/figures/hero-light.svg" alt="Three steps. One: you write R inside webr_repl_link, with no quotes and no escaping. Two: you get a URL whose fragment carries the code itself. Three: the recipient opens it and lands in a live webR session, with the code in the editor and the plot already drawn." width="100%"></source></picture></p>
+<p>Full documentation is at <a href="https://r-pkg.thecoatlessprofessor.com/livelink/" class="uri">https://r-pkg.thecoatlessprofessor.com/livelink/</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of <code>livelink</code> from GitHub with:</p>
+<p>You can install <code>livelink</code> from CRAN with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Install development version from GitHub</span></span>
-<span><span class="co"># install.packages("remotes")</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"livelink"</span><span class="op">)</span></span></code></pre></div>
+<p>Or install the development version from GitHub with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"coatless-rpkg/livelink"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
 </h3>
 <ul>
-<li>R ≥ 4.0.0</li>
-<li>Internet connection (links run in browser)</li>
-<li>Modern web browser with WebAssembly support</li>
+<li>R ≥ 4.1.0</li>
+<li>An internet connection (the links run in a browser)</li>
+<li>A modern web browser with WebAssembly support</li>
 </ul>
 </div>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
-<p>We’ll cover how to create links and decode them for R code, R Shiny applications, and Python Shiny applications using <code>livelink</code>.</p>
+<p>The examples below create and decode links for R code, R Shiny apps, and Python Shiny apps.</p>
 <div class="section level3">
-<h3 id="webr-links">WebR Links<a class="anchor" aria-label="anchor" href="#webr-links"></a>
+<h3 id="webr-links">webR links<a class="anchor" aria-label="anchor" href="#webr-links"></a>
 </h3>
-<p>Share R code that runs in the browser:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>Share R code that runs in the browser.</p>
+<p>Pass the code straight in, with no quotes and no escaping, just braces:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-pkg.thecoatlessprofessor.com/livelink/">livelink</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Some R code to share</span></span>
-<span><span class="va">code</span> <span class="op">&lt;-</span> <span class="st">"1 + 1"</span></span>
+<span><span class="va">link</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/webr_repl_link.html">webr_repl_link</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span>, <span class="va">mtcars</span><span class="op">$</span><span class="va">wt</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Create shareable link that runs in webR</span></span>
-<span><span class="va">link</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/webr_repl_link.html">webr_repl_link</a></span><span class="op">(</span><span class="va">code</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">link</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── WebR Link ──</span></span>
+<span><span class="co">#&gt; ── webR Link ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; &lt;https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKjBU0FYwVKqNBQAccxXr&amp;jz&gt;</span></span>
+<span><span class="co">#&gt; &lt;https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKkhJLEnUyC1JTiwq1ozJK8jJL4HyVHIL0nUUoOzyEk2l2lgAXmokRA%3D%3D&amp;jz&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; File: 'script.R' → '/home/web_user/script.R'</span></span>
 <span><span class="co">#&gt; Version: "latest"</span></span>
 <span><span class="co">#&gt; Autorun: FALSE</span></span></code></pre></div>
+<p>Strings, file paths, and the clipboard work too, if the code is already somewhere else:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/webr_repl_link.html">webr_repl_link</a></span><span class="op">(</span><span class="st">"plot(1:10)"</span><span class="op">)</span>     <span class="co"># a string</span></span>
+<span><span class="fu"><a href="reference/webr_repl_link.html">webr_repl_link</a></span><span class="op">(</span><span class="st">"analysis.R"</span><span class="op">)</span>     <span class="co"># a file on disk</span></span>
+<span><span class="fu"><a href="reference/webr_repl_link.html">webr_repl_link</a></span><span class="op">(</span><span class="op">)</span>                 <span class="co"># whatever is on your clipboard</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="shinylive-apps">Shinylive Apps<a class="anchor" aria-label="anchor" href="#shinylive-apps"></a>
+<h3 id="shinylive-apps">Shinylive apps<a class="anchor" aria-label="anchor" href="#shinylive-apps"></a>
 </h3>
-<p>Create shareable Shiny applications:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<p>Share a Shiny application the same way:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Simple Shiny app</span></span>
 <span><span class="va">app_code</span> <span class="op">&lt;-</span> <span class="st">'</span></span>
 <span><span class="st">library(shiny)</span></span>
@@ -151,49 +176,41 @@
 <div class="section level2">
 <h2 id="multi-file-projects">Multi-file Projects<a class="anchor" aria-label="anchor" href="#multi-file-projects"></a>
 </h2>
-<p>Share complex projects with multiple files:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Create a project with multiple files</span></span>
-<span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span><span class="st">"analysis.R"</span> <span class="op">=</span> <span class="st">"</span></span>
-<span><span class="st">source('utils.R')</span></span>
-<span><span class="st">data &lt;- load_mtcars()</span></span>
-<span><span class="st">summary(data)</span></span>
-<span><span class="st">create_plot(data)</span></span>
-<span><span class="st">"</span>,</span>
-<span><span class="st">"utils.R"</span> <span class="op">=</span> <span class="st">"</span></span>
-<span><span class="st">load_mtcars &lt;- function() {</span></span>
-<span><span class="st">  mtcars</span></span>
-<span><span class="st">}</span></span>
-<span><span class="st"></span></span>
-<span><span class="st">create_plot &lt;- function(data) {</span></span>
-<span><span class="st">  plot(data$mpg, data$wt, </span></span>
-<span><span class="st">       main = 'MPG vs Weight',</span></span>
-<span><span class="st">       xlab = 'MPG', ylab = 'Weight')</span></span>
-<span><span class="st">}</span></span>
-<span><span class="st">"</span>,</span>
-<span><span class="st">"README.md"</span> <span class="op">=</span> <span class="st">"# Car Analysis\nAnalysis of the mtcars dataset."</span></span>
-<span><span class="op">)</span></span>
+<p>A project can hold several files. Write each one as R, in braces, and mix in a string for anything that is not code.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-pkg.thecoatlessprofessor.com/livelink/">livelink</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Create project with autorun</span></span>
-<span><span class="va">project</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/webr_repl_project.html">webr_repl_project</a></span><span class="op">(</span><span class="va">files</span>, autorun_files <span class="op">=</span> <span class="st">"analysis.R"</span><span class="op">)</span></span>
+<span><span class="va">project</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/webr_repl_project.html">webr_repl_project</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"analysis.R"</span> <span class="op">=</span> <span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"utils.R"</span><span class="op">)</span></span>
+<span>    <span class="fu">create_plot</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
+<span>  <span class="op">}</span>,</span>
+<span>  <span class="st">"utils.R"</span> <span class="op">=</span> <span class="op">{</span></span>
+<span>    <span class="va">create_plot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">mpg</span>, <span class="va">data</span><span class="op">$</span><span class="va">wt</span>, main <span class="op">=</span> <span class="st">"MPG vs Weight"</span><span class="op">)</span></span>
+<span>    <span class="op">}</span></span>
+<span>  <span class="op">}</span>,</span>
+<span>  <span class="st">"README.md"</span> <span class="op">=</span> <span class="st">"# Car Analysis\nAnalysis of the mtcars dataset."</span></span>
+<span><span class="op">)</span>, autorun_files <span class="op">=</span> <span class="st">"analysis.R"</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">project</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── WebR Project ──</span></span>
+<span><span class="co">#&gt; ── webR Project ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; &lt;https://webr.r-wasm.org/latest/#code=eJx1kcFqAjEQhl9lmBZ2F9L1vrQHaaUnoXjpoSkyrtFd2EwkmVRFfPfiGlc9mNMk30%2Fy%2FeTngEzWYIXE1O1DG8oZKtyQNFjhqHHWjLZmMY%2FB%2BNFdRMxOsELNwUVfmzyL0nahnGWF5iUJwesLdI6Wcys1%2BZAXmkO0lvw%2BP%2BFCc%2B0NiZlvOieXI1RIUZyPjJX4aI5q8EvXP5S78sHs5vmTzSpyLa3jvICDZoAz0XzUfCdzl%2B3FzvlB9Nlu1gr6aSsKTqxfllqGN8imX5%2FwF%2BDbtOtGMjXwXUeLxDMF%2B7RLsaIXwZvGs8n4Yzop7fJh59tEav0E7%2BRhnH5K82UCtwJpTCrdywcjJR5%2F%2FwHli6tX&amp;jz&gt;</span></span>
+<span><span class="co">#&gt; &lt;https://webr.r-wasm.org/latest/#code=eJx1kEFPwzAMhf%2BKZTi0UmnvExwmmDhNQrtwIGgynbdGapIqcRho6n8ndN3WHeaTZT%2F7fXofB7RkGGdIltrfoEO5wgI7kibNqsYZrvb8tY6BfXUlEf6RJAku%2BpozhVF0mzYKc2VrzyS87lonmZGafMjTBUVxPlqciY%2FcF2fn8fKm7WU%2Fek7ew%2BMDbKOtRTubbUgoh4OykGow%2F5%2Fcm25XwNDtpQBD2sITKFy%2BvcJ3gHfWu0YG7B4nVKvF%2FGW5KM3mJtdUMZLdwTN5mI85KXvqwG1BGoZjGANMYCmx%2F%2FwDH8yBIQ%3D%3D&amp;jza&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Files (3):</span></span>
 <span><span class="co">#&gt; 'analysis.R' → '/home/web_user/analysis.R' (autorun)</span></span>
 <span><span class="co">#&gt; 'utils.R' → '/home/web_user/utils.R'</span></span>
 <span><span class="co">#&gt; 'README.md' → '/home/web_user/README.md'</span></span>
 <span><span class="co">#&gt; Version: "latest"</span></span></code></pre></div>
+<p>Write the <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> inside the call. If you assign it to a variable first, R runs the braces before livelink ever sees them.</p>
 </div>
 <div class="section level2">
-<h2 id="educational-content">Educational Content<a class="anchor" aria-label="anchor" href="#educational-content"></a>
+<h2 id="educational-content">Educational content<a class="anchor" aria-label="anchor" href="#educational-content"></a>
 </h2>
-<p>Create exercise and solution pairs:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p>Create paired exercise and solution links:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exercise</span> <span class="op">&lt;-</span> <span class="st">"</span></span>
 <span><span class="st"># Exercise: Calculate summary statistics</span></span>
 <span><span class="st"># TODO: Calculate the mean and median of mtcars$mpg</span></span>
@@ -222,14 +239,14 @@
 <span><span class="va">solution_link</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/repl_urls.html">repl_urls</a></span><span class="op">(</span><span class="va">exercise_links</span><span class="op">$</span><span class="va">solution</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="batch-processing">Batch Processing<a class="anchor" aria-label="anchor" href="#batch-processing"></a>
+<h2 id="batch-processing">Batch processing<a class="anchor" aria-label="anchor" href="#batch-processing"></a>
 </h2>
-<p>Process entire directories:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<p>Turn a whole directory into links in one call:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Process all R files in a directory</span></span>
-<span><span class="va">links</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/webr_repl_directory.html">webr_repl_directory</a></span><span class="op">(</span><span class="st">"./examples/"</span>, </span>
+<span><span class="va">links</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/webr_repl_directory.html">webr_repl_directory</a></span><span class="op">(</span><span class="st">"./examples/"</span>,</span>
 <span>                            autorun <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                            mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"editor"</span>, <span class="st">"plot"</span><span class="op">)</span><span class="op">)</span></span>
+<span>                            panels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"editor"</span>, <span class="st">"plot"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Process Shiny app directories</span></span>
 <span><span class="va">shiny_links</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/shinylive_directory.html">shinylive_directory</a></span><span class="op">(</span><span class="st">"./shiny_apps/"</span>, </span>
@@ -237,16 +254,16 @@
 <span>                                  mode <span class="op">=</span> <span class="st">"app"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="link-preview-and-decoding">Link Preview and Decoding<a class="anchor" aria-label="anchor" href="#link-preview-and-decoding"></a>
+<h2 id="link-preview-and-decoding">Link preview and decoding<a class="anchor" aria-label="anchor" href="#link-preview-and-decoding"></a>
 </h2>
-<p>Preview WebR links without decoding and saving files locally with:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>Inspect a webR link in memory, without writing any files:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Preview a link without downloading</span></span>
 <span><span class="va">existing_url</span> <span class="op">&lt;-</span> <span class="st">"https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJlMSSxCNcBTn5JRqGVoYGmgBEFxiu"</span></span>
 <span><span class="va">preview</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/preview_webr_link.html">preview_webr_link</a></span><span class="op">(</span><span class="va">existing_url</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">preview</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── WebR Link Preview ──</span></span>
+<span><span class="co">#&gt; ── webR Link Preview ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; URL:</span></span>
 <span><span class="co">#&gt; &lt;https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJlMSSxCNcBTn5JRqGVoYGmgBEFxiu&gt;</span></span>
@@ -259,8 +276,8 @@
 <span><span class="co">#&gt; 'script.R' (10 bytes)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Use print(preview, show_content = TRUE) to see file contents</span></span></code></pre></div>
-<p>Decode existing links to extract files and save them locally:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p>Once you trust a link, decode it to write the files to disk:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Extract files to local directory</span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/decode_webr_link.html">decode_webr_link</a></span><span class="op">(</span><span class="va">existing_url</span>, output_dir <span class="op">=</span> <span class="st">"./extracted"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
@@ -270,10 +287,10 @@
 <span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/decode_webr_link.html">decode_webr_link</a></span><span class="op">(</span><span class="va">urls</span>, output_dir <span class="op">=</span> <span class="st">"./all_extracted"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="python-shiny-support">Python Shiny Support<a class="anchor" aria-label="anchor" href="#python-shiny-support"></a>
+<h2 id="python-shiny-support">Python Shiny support<a class="anchor" aria-label="anchor" href="#python-shiny-support"></a>
 </h2>
-<p>Create Python Shiny applications:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>Python Shiny apps work exactly like the R ones:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">py_app</span> <span class="op">&lt;-</span> <span class="st">'</span></span>
 <span><span class="st">from shiny import App, render, ui</span></span>
 <span><span class="st"></span></span>
@@ -311,7 +328,15 @@
 <p>AGPL (&gt;= 3)</p>
 </div>
 </div>
-  </main><aside class="col-md-3"><div class="license">
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/coatless-rpkg/livelink/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/coatless-rpkg/livelink/issues" class="external-link">Report a bug</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
@@ -330,7 +355,7 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>James Joseph Balamuta <br><small class="roles"> Author, maintainer </small>   </li>
+<li>James Joseph Balamuta <br><small class="roles"> Author, maintainer, copyright holder </small>   </li>
 </ul>
 </div>
 
@@ -345,7 +370,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

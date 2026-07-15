@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 358" role="img" aria-labelledby="t d">
+  <title id="t">A multi-file project in one link</title>
+  <desc id="d">A braced list of files goes into webr_repl_project and comes out as one URL, which webR unpacks into its filesystem with main.R marked to autorun.</desc>
+  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}</style>
+  <line x1="26" y1="42" x2="26" y2="226" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="26" cy="42" r="5" fill="#cbd5e1"/>
+  <text class="s lbl ink" x="46" y="40" font-size="11">YOU WRITE</text>
+  <text class="m muted" x="46" y="60" font-size="12">a braced list</text>
+  <rect x="212" y="22" width="618" height="100" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <text class="m" x="226" y="42" font-size="10.5" xml:space="preserve"><tspan class="fn">webr_repl_project</tspan><tspan class="ink">(</tspan><tspan class="fn">list</tspan><tspan class="ink">(</tspan></text>
+  <text class="m" x="226" y="58" font-size="10.5" xml:space="preserve"><tspan class="str">  "main.R"    </tspan><tspan class="ink">= { </tspan><tspan class="fn">source</tspan><tspan class="ink">(</tspan><tspan class="str">"utils.R"</tspan><tspan class="ink">); </tspan><tspan class="fn">summarise</tspan><tspan class="ink">(</tspan><tspan class="ink">mtcars</tspan><tspan class="ink">) },</tspan></text>
+  <text class="m" x="226" y="74" font-size="10.5" xml:space="preserve"><tspan class="str">  "utils.R"   </tspan><tspan class="ink">= { </tspan><tspan class="fn">summarise</tspan><tspan class="ink"> &lt;- </tspan><tspan class="fn">function</tspan><tspan class="ink">(d) </tspan><tspan class="fn">summary</tspan><tspan class="ink">(d) },</tspan></text>
+  <text class="m" x="226" y="90" font-size="10.5" xml:space="preserve"><tspan class="str">  "README.md" </tspan><tspan class="ink">= </tspan><tspan class="str">"# Analysis"</tspan></text>
+  <text class="m" x="226" y="106" font-size="10.5" xml:space="preserve"><tspan class="ink">), </tspan><tspan class="ink">autorun_files</tspan><tspan class="ink"> = </tspan><tspan class="str">"main.R"</tspan><tspan class="ink">)</tspan></text>
+  <circle cx="26" cy="164" r="5" fill="#cbd5e1"/>
+  <text class="s lbl ink" x="46" y="162" font-size="11">YOU GET</text>
+  <text class="m muted" x="46" y="182" font-size="12">one link</text>
+  <rect x="212" y="144" width="618" height="40" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <text class="m" x="226" y="168" font-size="11.5" xml:space="preserve"><tspan class="ink">https://webr.r-wasm.org/latest/</tspan><tspan class="frag">#code=eJx1jUELgkAQhf…</tspan><tspan class="flag">&amp;jza</tspan></text>
+  <circle cx="26" cy="226" r="5" fill="#0054AD"/>
+  <text class="s lbl ink" x="46" y="224" font-size="11">WEBR UNPACKS IT</text>
+  <text class="m muted" x="46" y="244" font-size="12">into its filesystem</text>
+  <rect x="212" y="206" width="618" height="112" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
+  <path d="M212 206 h618 v22 h-618 z" fill="#f8fafc"/>
+  <path d="M212 228 h618" stroke="#e2e8f0"/>
+  <text class="m accent" x="220" y="221" font-size="9.5" font-weight="700">files</text>
+  <path d="M226 239 l4 4 l-4 4z" fill="#94a3b8"/>
+  <text class="m" x="236" y="246" font-size="10.5" xml:space="preserve"><tspan class="str">home/</tspan></text>
+  <path d="M240 255 l4 4 l-4 4z" fill="#94a3b8"/>
+  <text class="m" x="250" y="262" font-size="10.5" xml:space="preserve"><tspan class="str">web_user/</tspan></text>
+  <rect x="254" y="270" width="7" height="9" rx="1.5" fill="none" stroke="#94a3b8"/>
+  <text class="m" x="267" y="278" font-size="10.5" xml:space="preserve"><tspan class="ink">main.R</tspan></text>
+  <rect x="770" y="268" width="46" height="14" rx="7" fill="#fdeccd"/>
+  <text class="m flag" x="793.0" y="278" font-size="9" text-anchor="middle">autorun</text>
+  <rect x="254" y="286" width="7" height="9" rx="1.5" fill="none" stroke="#94a3b8"/>
+  <text class="m" x="267" y="294" font-size="10.5" xml:space="preserve"><tspan class="ink">utils.R</tspan></text>
+  <rect x="254" y="302" width="7" height="9" rx="1.5" fill="none" stroke="#94a3b8"/>
+  <text class="m" x="267" y="310" font-size="10.5" xml:space="preserve"><tspan class="ink">README.md</tspan></text>
+  <text class="s faint" x="46" y="346" font-size="12">Strings and expressions mix. Data, a README, anything the code needs travels with it.</text>
+</svg>
