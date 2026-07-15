@@ -74,6 +74,7 @@ reference:
   desc: "Turn a knitr or Quarto chunk into a shareable link"
   contents:
   - livelink-knitr
+  - knit_print.livelink
 
 - title: "Configuration"
   desc: "Package configuration and options"
@@ -84,3 +85,5 @@ reference:
   desc: "S3 classes and their methods"
   contents:
   - starts_with("print.")
+  - format.livelink
+  - as.data.frame.livelink
