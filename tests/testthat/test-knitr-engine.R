@@ -103,6 +103,32 @@ test_that("use_livelink_engine registers the engine", {
   expect_true("livelink" %in% names(knitr::knit_engines$get()))
 })
 
+test_that("the shinylive engines are registered under underscore names", {
+  # knitr does not dispatch a chunk whose engine name contains a hyphen, so the
+  # names must be shinylive_r / shinylive_py, not shinylive-r.
+  engines <- names(knitr::knit_engines$get())
+  expect_true(all(c("shinylive_r", "shinylive_py") %in% engines))
+})
+
+test_that("a shinylive_r chunk produces an R Shinylive link", {
+  rendered <- knit_livelink("```{shinylive_r}", "library(shiny)")
+  url <- extract_url(rendered)
+
+  expect_match(url, "^https://shinylive\\.io/r/")
+  expect_match(paste(rendered, collapse = "\n"), "Open in Shinylive", fixed = TRUE)
+})
+
+test_that("a shinylive_py chunk produces a Python Shinylive link", {
+  rendered <- knit_livelink("```{shinylive_py}", "from shiny import App")
+
+  expect_match(extract_url(rendered), "^https://shinylive\\.io/py/")
+})
+
+test_that("a shinylive_r chunk's source is fenced as r", {
+  rendered <- knit_livelink("```{shinylive_r}", "library(shiny)")
+  expect_true(any(grepl("^```+\\s*r\\s*$", rendered)))
+})
+
 # The reason this feature exists. knitr runs chunks through evaluate::evaluate(),
 # which discards source references, so comments inside a `{ }` expression are lost
 # when a document is rendered. The engine receives the chunk's verbatim source, so

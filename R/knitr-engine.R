@@ -32,6 +32,19 @@
 #' ```
 #' ````
 #'
+#' For Shinylive there are two shorthands, ```` ```{shinylive_r} ```` and
+#' ```` ```{shinylive_py} ````, so a Shiny chunk reads as what it is without the
+#' `engine.target` option. They are the engine with the target fixed. The names use
+#' underscores because 'knitr' does not dispatch a chunk whose engine name contains
+#' a hyphen.
+#'
+#' ````
+#' ```{shinylive_r}
+#' library(shiny)
+#' shinyApp(fluidPage(), function(input, output) {})
+#' ```
+#' ````
+#'
 #' @details
 #' Reach for either of these rather than expression input
 #' (`webr_repl_link({ ... })`) inside a knitted document. 'knitr' evaluates
@@ -51,7 +64,8 @@
 #'   \item{`livelink`}{Hook only. `true` for a webR link, or name the target
 #'     directly: `"webr"`, `"shinylive-r"`, `"shinylive-py"`.}
 #'   \item{`engine.target`}{Engine only. `"webr"` (default), `"shinylive-r"`, or
-#'     `"shinylive-py"`.}
+#'     `"shinylive-py"`. The ```` ```{shinylive_r} ```` and
+#'     ```` ```{shinylive_py} ```` chunks set this for you.}
 #'   \item{`autorun`}{Logical. Run the code as soon as the link opens. webR only.}
 #'   \item{`panels`}{Character vector of webR panels, e.g. `c("editor", "plot")`.}
 #'   \item{`mode`}{Shinylive display mode, `"editor"` or `"app"`.}
@@ -113,7 +127,21 @@ use_livelink_engine <- function() {
     return(invisible(FALSE))
   }
 
-  knitr::knit_engines$set(livelink = livelink_engine)
+  # `livelink` targets webR by default. `shinylive_r` and `shinylive_py` are the
+  # same engine with the target fixed, so ```{shinylive_r} reads as what it is.
+  # The names use underscores because 'knitr' does not dispatch a chunk whose
+  # engine name contains a hyphen.
+  knitr::knit_engines$set(
+    livelink = livelink_engine,
+    shinylive_r = function(options) {
+      options[["engine.target"]] <- "shinylive-r"
+      livelink_engine(options)
+    },
+    shinylive_py = function(options) {
+      options[["engine.target"]] <- "shinylive-py"
+      livelink_engine(options)
+    }
+  )
   invisible(TRUE)
 }
 
