@@ -36,7 +36,7 @@ link.
 There are two ways in, and the choice comes down to one question: **should the code
 also run in your document?**
 
-![A comparison of the hook and the engine. The hook runs the code, so its output appears in the page, and gives a link. The engine does not run the code, and gives only a link. Both hand the chunk's raw source to livelink.](../man/figures/chunk-modes-light.svg){.ll-fig .ll-light}
+![The hook leaves the chunk running, so the reader sees the output and gets a link. The engine replaces execution: the code is shown, nothing runs, and only a link is produced.](../man/figures/chunk-modes-light.svg){.ll-fig .ll-light}
 ![](../man/figures/chunk-modes-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 # The hook: output *and* a link
