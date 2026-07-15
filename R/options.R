@@ -37,11 +37,11 @@ set_webr_base_url <- function(base_url = NULL) {
   if (is.null(base_url)) {
     # Remove custom setting
     options(livelink.base_url = NULL)
-    cli::cli_inform("WebR base URL reset to default")
+    cli::cli_inform("webR base URL reset to default")
   } else {
     check_single_string(base_url, "base_url")
     options(livelink.base_url = base_url)
-    cli::cli_inform("WebR base URL set to: {.url {base_url}}")
+    cli::cli_inform("webR base URL set to: {.url {base_url}}")
   }
   invisible(base_url)
 }

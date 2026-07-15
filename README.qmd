@@ -23,12 +23,12 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-Create shareable links for R code in WebAssembly (WASM) REPL environments like
-webR and for R and Python Shiny applications using Shinylive.
+Create shareable links for R code in WebAssembly (WASM) environments: webR for a
+full R REPL, and Shinylive for R and Python Shiny apps.
 
 There is no server and nothing to upload. Your code is compressed and encoded
 *into the URL itself*. Everything after the `#` is a URL fragment, which browsers
-never send anywhere. The recipient clicks the link and is looking at a running R
+never send anywhere, so the recipient clicks the link and lands in a running R
 session in their browser.
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="man/figures/hero-dark.svg"><img class="ll-hero" src="man/figures/hero-light.svg" alt="Three steps. One: you write R inside webr_repl_link, with no quotes and no escaping. Two: you get a URL whose fragment carries the code itself. Three: the recipient opens it and lands in a live webR session, with the code in the editor and the plot already drawn." width="100%"/></picture>
@@ -54,19 +54,19 @@ remotes::install_github("coatless-rpkg/livelink")
 
 ### Requirements
 
--   R ≥ 4.0.0
--   Internet connection (links run in browser)
--   Modern web browser with WebAssembly support
+-   R ≥ 4.1.0
+-   An internet connection (the links run in a browser)
+-   A modern web browser with WebAssembly support
 
 ## Quick Start
 
-We'll cover how to create links and decode them for R code, R Shiny applications, and Python Shiny applications using `livelink`.
+The examples below create and decode links for R code, R Shiny apps, and Python
+Shiny apps.
 
-### WebR Links
+### webR links
 
-Share R code that runs in the browser:
-
-Pass the code straight in. No quotes, no escaping, just braces.
+Share R code that runs in the browser. Pass the code straight in, with no quotes
+and no escaping, just braces:
 
 ```{r}
 #| label: webr-example
@@ -91,9 +91,9 @@ webr_repl_link("analysis.R")     # a file on disk
 webr_repl_link()                 # whatever is on your clipboard
 ```
 
-### Shinylive Apps
+### Shinylive apps
 
-Create shareable Shiny applications:
+Share a Shiny application the same way:
 
 ```{r}
 #| label: r-shinylive-example
@@ -152,12 +152,12 @@ project <- webr_repl_project(list(
 print(project)
 ```
 
-Write the `list()` inside the call. Assign it to a variable first and R runs the
-braces before livelink ever sees them.
+Write the `list()` inside the call. If you assign it to a variable first, R runs
+the braces before livelink ever sees them.
 
-## Educational Content
+## Educational content
 
-Create exercise and solution pairs:
+Create paired exercise and solution links:
 
 ```{r}
 #| label: exercise-example
@@ -189,9 +189,9 @@ student_link <- repl_urls(exercise_links$exercise)
 solution_link <- repl_urls(exercise_links$solution)
 ```
 
-## Batch Processing
+## Batch processing
 
-Process entire directories:
+Turn a whole directory into links in one call:
 
 ```{r}
 #| eval: false
@@ -207,9 +207,9 @@ shiny_links <- shinylive_directory("./shiny_apps/",
                                   mode = "app")
 ```
 
-## Link Preview and Decoding
+## Link preview and decoding
 
-Preview WebR links without decoding and saving files locally with:
+Inspect a webR link in memory, without writing any files:
 
 ```{r}
 #| label: preview-example
@@ -219,7 +219,7 @@ preview <- preview_webr_link(existing_url)
 print(preview)
 ```
 
-Decode existing links to extract files and save them locally:
+Once you trust a link, decode it to write the files to disk:
 
 ```{r}
 #| eval: false
@@ -233,9 +233,9 @@ urls <- c(url1, url2, url3)
 results <- decode_webr_link(urls, output_dir = "./all_extracted")
 ```
 
-## Python Shiny Support
+## Python Shiny support
 
-Create Python Shiny applications:
+Python Shiny apps work exactly like the R ones:
 
 ```{r}
 #| label:  python-example

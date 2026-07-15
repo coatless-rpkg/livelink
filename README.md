@@ -15,14 +15,13 @@ coverage](https://codecov.io/gh/coatless-rpkg/livelink/graph/badge.svg)](https:/
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-Create shareable links for R code in WebAssembly (WASM) REPL
-environments like webR and for R and Python Shiny applications using
-Shinylive.
+Create shareable links for R code in WebAssembly (WASM) environments:
+webR for a full R REPL, and Shinylive for R and Python Shiny apps.
 
 There is no server and nothing to upload. Your code is compressed and
 encoded *into the URL itself*. Everything after the `#` is a URL
-fragment, which browsers never send anywhere. The recipient clicks the
-link and is looking at a running R session in their browser.
+fragment, which browsers never send anywhere, so the recipient clicks
+the link and lands in a running R session in their browser.
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="man/figures/hero-dark.svg"><img class="ll-hero" src="man/figures/hero-light.svg" alt="Three steps. One: you write R inside webr_repl_link, with no quotes and no escaping. Two: you get a URL whose fragment carries the code itself. Three: the recipient opens it and lands in a live webR session, with the code in the editor and the plot already drawn." width="100%"/></picture>
 
@@ -46,20 +45,19 @@ remotes::install_github("coatless-rpkg/livelink")
 
 ### Requirements
 
-- R ≥ 4.0.0
-- Internet connection (links run in browser)
-- Modern web browser with WebAssembly support
+- R ≥ 4.1.0
+- An internet connection (the links run in a browser)
+- A modern web browser with WebAssembly support
 
 ## Quick Start
 
-We’ll cover how to create links and decode them for R code, R Shiny
-applications, and Python Shiny applications using `livelink`.
+The examples below create and decode links for R code, R Shiny apps, and
+Python Shiny apps.
 
-### WebR Links
+### webR links
 
-Share R code that runs in the browser:
-
-Pass the code straight in. No quotes, no escaping, just braces.
+Share R code that runs in the browser. Pass the code straight in, with
+no quotes and no escaping, just braces:
 
 ``` r
 library(livelink)
@@ -71,7 +69,7 @@ link <- webr_repl_link({
 
 print(link)
 #> 
-#> ── WebR Link ──
+#> ── webR Link ──
 #> 
 #> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKkhJLEnUyC1JTiwq1ozJK8jJL4HyVHIL0nUUoOzyEk2l2lgAXmokRA%3D%3D&jz>
 #> 
@@ -89,9 +87,9 @@ webr_repl_link("analysis.R")     # a file on disk
 webr_repl_link()                 # whatever is on your clipboard
 ```
 
-### Shinylive Apps
+### Shinylive apps
 
-Create shareable Shiny applications:
+Share a Shiny application the same way:
 
 ``` r
 # Simple Shiny app
@@ -157,7 +155,7 @@ project <- webr_repl_project(list(
 
 print(project)
 #> 
-#> ── WebR Project ──
+#> ── webR Project ──
 #> 
 #> <https://webr.r-wasm.org/latest/#code=eJx1kEFPwzAMhf%2BKZTi0UmnvExwmmDhNQrtwIGgynbdGapIqcRho6n8ndN3WHeaTZT%2F7fXofB7RkGGdIltrfoEO5wgI7kibNqsYZrvb8tY6BfXUlEf6RJAku%2BpozhVF0mzYKc2VrzyS87lonmZGafMjTBUVxPlqciY%2FcF2fn8fKm7WU%2Fek7ew%2BMDbKOtRTubbUgoh4OykGow%2F5%2Fcm25XwNDtpQBD2sITKFy%2BvcJ3gHfWu0YG7B4nVKvF%2FGW5KM3mJtdUMZLdwTN5mI85KXvqwG1BGoZjGANMYCmx%2F%2FwDH8yBIQ%3D%3D&jza>
 #> 
@@ -168,12 +166,12 @@ print(project)
 #> Version: "latest"
 ```
 
-Write the `list()` inside the call. Assign it to a variable first and R
-runs the braces before livelink ever sees them.
+Write the `list()` inside the call. If you assign it to a variable
+first, R runs the braces before livelink ever sees them.
 
-## Educational Content
+## Educational content
 
-Create exercise and solution pairs:
+Create paired exercise and solution links:
 
 ``` r
 exercise <- "
@@ -204,9 +202,9 @@ student_link <- repl_urls(exercise_links$exercise)
 solution_link <- repl_urls(exercise_links$solution)
 ```
 
-## Batch Processing
+## Batch processing
 
-Process entire directories:
+Turn a whole directory into links in one call:
 
 ``` r
 # Process all R files in a directory
@@ -220,9 +218,9 @@ shiny_links <- shinylive_directory("./shiny_apps/",
                                   mode = "app")
 ```
 
-## Link Preview and Decoding
+## Link preview and decoding
 
-Preview WebR links without decoding and saving files locally with:
+Inspect a webR link in memory, without writing any files:
 
 ``` r
 # Preview a link without downloading
@@ -230,7 +228,7 @@ existing_url <- "https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0J
 preview <- preview_webr_link(existing_url)
 print(preview)
 #> 
-#> ── WebR Link Preview ──
+#> ── webR Link Preview ──
 #> 
 #> URL:
 #> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJlMSSxCNcBTn5JRqGVoYGmgBEFxiu>
@@ -245,7 +243,7 @@ print(preview)
 #> Use print(preview, show_content = TRUE) to see file contents
 ```
 
-Decode existing links to extract files and save them locally:
+Once you trust a link, decode it to write the files to disk:
 
 ``` r
 # Extract files to local directory
@@ -257,9 +255,9 @@ urls <- c(url1, url2, url3)
 results <- decode_webr_link(urls, output_dir = "./all_extracted")
 ```
 
-## Python Shiny Support
+## Python Shiny support
 
-Create Python Shiny applications:
+Python Shiny apps work exactly like the R ones:
 
 ``` r
 py_app <- '

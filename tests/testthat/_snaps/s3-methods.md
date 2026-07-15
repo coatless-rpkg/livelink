@@ -4,7 +4,7 @@
       print(preview)
     Message
       
-      -- WebR Link Preview --
+      -- webR Link Preview --
       
       URL:
       <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBaUlNLkotic9NLMpOLVKw0VUwMVKqjQUAjrwblA%3D%3D&jz>
@@ -24,7 +24,7 @@
       print(preview, show_content = TRUE)
     Message
       
-      -- WebR Link Preview --
+      -- webR Link Preview --
       
       URL:
       <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBaUlNLkotic9NLMpOLVKw0VUwMVKqjQUAjrwblA%3D%3D&jz>

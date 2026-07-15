@@ -297,7 +297,7 @@ new_shinylive_preview <- function(url, engine, mode, files_data, total_size, fil
 #' @return Invisibly returns the object
 #' @export
 print.webr_link <- function(x, ...) {
-  cli::cli_h2("WebR Link")
+  cli::cli_h2("webR Link")
   cli::cli_text("{.url {x$url}}")
   cli::cli_text("")
 
@@ -320,7 +320,7 @@ print.webr_link <- function(x, ...) {
 #' @return Invisibly returns the object
 #' @export
 print.webr_project <- function(x, ...) {
-  cli::cli_h2("WebR Project")
+  cli::cli_h2("webR Project")
   cli::cli_text("{.url {x$url}}")
   cli::cli_text("")
 
@@ -351,7 +351,7 @@ print.webr_project <- function(x, ...) {
 #' @return Invisibly returns the object
 #' @export
 print.webr_exercise <- function(x, ...) {
-  cli::cli_h2("WebR Exercise")
+  cli::cli_h2("webR Exercise")
   cli::cli_text("")
 
   cli::cli_h3("Exercise")
@@ -380,7 +380,7 @@ print.webr_exercise <- function(x, ...) {
 #' @return Invisibly returns the object
 #' @export
 print.webr_directory <- function(x, ...) {
-  cli::cli_h2("WebR Directory Links")
+  cli::cli_h2("webR Directory Links")
   cli::cli_text("Source: {.path {x$source_directory}}")
   cli::cli_text("")
 
@@ -412,7 +412,7 @@ print.webr_directory <- function(x, ...) {
 #' @return Invisibly returns the object
 #' @export
 print.webr_decoded <- function(x, ...) {
-  cli::cli_h2("WebR Decoded Files")
+  cli::cli_h2("webR Decoded Files")
   cli::cli_text("Source: {.url {x$url}}")
   cli::cli_text("Output: {.path {x$output_dir}}")
   cli::cli_text("")
@@ -484,7 +484,7 @@ print.webr_decoded <- function(x, ...) {
 #' @return Invisibly returns the object
 #' @export
 print.webr_decoded_batch <- function(x, ...) {
-  cli::cli_h2("WebR Decoded Batch")
+  cli::cli_h2("webR Decoded Batch")
   cli::cli_text("Base directory: {.path {x$base_dir}}")
   cli::cli_text("Total URLs: {length(x$urls)}")
   cli::cli_text("")
@@ -542,7 +542,7 @@ print.webr_decoded_batch <- function(x, ...) {
 #' @return Invisibly returns the object
 #' @export
 print.webr_preview <- function(x, show_content = FALSE, max_content_length = 500, ...) {
-  cli::cli_h2("WebR Link Preview")
+  cli::cli_h2("webR Link Preview")
   cli::cli_text("URL: {.url {x$url}}")
   cli::cli_text("")
 
