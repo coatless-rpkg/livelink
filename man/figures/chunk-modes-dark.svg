@@ -1,65 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 467" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 326" role="img" aria-labelledby="t d">
   <title id="t">The chunk hook and the chunk engine</title>
-  <desc id="d">With the hook on an ordinary r chunk, the chunk still runs and its plot appears in the page, with a link beneath. With the engine, the code is shown but never executed, and only a link is produced.</desc>
+  <desc id="d">A comparison. With the hook, the code runs and its output appears in the page alongside a link. With the engine, the code is shown but not run, and only a link is produced. Both give a link, and both receive the chunk's raw source.</desc>
   <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#60a5fa}.str{fill:#34d399}.num{fill:#fbbf24}.com{fill:#64748b}.key{fill:#c4b5fd}.ink{fill:#e2e8f0}.body{fill:#cbd5e1}.muted{fill:#94a3b8}.faint{fill:#64748b}.card{fill:#1e293b}.cardline{fill:#334155}.rail{fill:#475569}.accent{fill:#4C9AFF}.accent_soft{fill:#12315c}.hollow{fill:#475569}.chrome{fill:#172033}.pane{fill:#0b1220}.panehdr{fill:#131c2e}.base{fill:#94a3b8}.base_bg{fill:#273244}.ver{fill:#5eead4}.ver_bg{fill:#12332e}.pan{fill:#c4b5fd}.pan_bg{fill:#2e2450}.frag{fill:#4C9AFF}.frag_bg{fill:#12315c}.flag{fill:#fbbf24}.flag_bg{fill:#3d2f10}</style>
-  <text class="s lbl ink" x="27.0" y="24" font-size="12">THE HOOK</text>
-  <text class="m muted" x="27.0" y="43" font-size="12.5">on an ordinary r chunk</text>
-  <rect x="27.0" y="56" width="378" height="116" rx="6" fill="#0b1220" stroke="#334155"/>
-  <path d="M27.0 56 h378 v22 h-378 z" fill="#131c2e"/>
-  <path d="M27.0 78 h378" stroke="#334155"/>
-  <text class="m accent" x="35.0" y="71" font-size="9.5" font-weight="700">notes.qmd</text>
-  <text class="m" x="41.0" y="96" font-size="10.5" xml:space="preserve"><tspan class="fn">```{r}</tspan></text>
-  <text class="m" x="41.0" y="112" font-size="10.5" xml:space="preserve"><tspan class="com">#| livelink: true</tspan></text>
-  <text class="m" x="41.0" y="128" font-size="10.5" xml:space="preserve"><tspan class="fn">data</tspan><tspan class="ink">(mtcars)</tspan></text>
-  <text class="m" x="41.0" y="144" font-size="10.5" xml:space="preserve"><tspan class="fn">plot</tspan><tspan class="ink">(mtcars$mpg, mtcars$wt)</tspan></text>
-  <text class="m" x="41.0" y="160" font-size="10.5" xml:space="preserve"><tspan class="fn">```</tspan></text>
-  <text class="s lbl muted" x="27.0" y="206" font-size="10.5">IN THE PAGE</text>
-  <text class="m muted" x="27.0" y="222" font-size="12">the chunk runs, so you get the plot and a link</text>
-  <rect x="27.0" y="228" width="378" height="185" rx="6" fill="#0b1220" stroke="#334155"/>
-  <path d="M27.0 228 h378 v22 h-378 z" fill="#131c2e"/>
-  <path d="M27.0 250 h378" stroke="#334155"/>
-  <text class="m accent" x="35.0" y="243" font-size="9.5" font-weight="700">rendered</text>
-  <rect x="41.0" y="260" width="350" height="46" rx="4" fill="#131c2e" stroke="#334155"/>
-  <rect x="41.0" y="260" width="3" height="46" rx="1.5" fill="#4C9AFF"/>
-  <text class="m" x="55.0" y="277" font-size="10.5" xml:space="preserve"><tspan class="fn">data</tspan><tspan class="ink">(mtcars)</tspan></text>
-  <text class="m" x="55.0" y="293" font-size="10.5" xml:space="preserve"><tspan class="fn">plot</tspan><tspan class="ink">(mtcars$mpg, mtcars$wt)</tspan></text>
-  <rect x="41.0" y="318" width="350" height="46" rx="4" fill="#0b1220" stroke="#334155"/>
-  <path d="M55.0 325 V357 H377.0" fill="none" stroke="#64748b"/>
-  <circle cx="64.0" cy="353.0" r="2.2" fill="none" stroke="#4C9AFF" stroke-width="1.3"/>
-  <circle cx="97.8" cy="350.6" r="2.2" fill="none" stroke="#4C9AFF" stroke-width="1.3"/>
-  <circle cx="131.6" cy="348.1" r="2.2" fill="none" stroke="#4C9AFF" stroke-width="1.3"/>
-  <circle cx="165.3" cy="345.7" r="2.2" fill="none" stroke="#4C9AFF" stroke-width="1.3"/>
-  <circle cx="199.1" cy="343.2" r="2.2" fill="none" stroke="#4C9AFF" stroke-width="1.3"/>
-  <circle cx="232.9" cy="340.8" r="2.2" fill="none" stroke="#4C9AFF" stroke-width="1.3"/>
-  <circle cx="266.7" cy="338.3" r="2.2" fill="none" stroke="#4C9AFF" stroke-width="1.3"/>
-  <circle cx="300.4" cy="335.9" r="2.2" fill="none" stroke="#4C9AFF" stroke-width="1.3"/>
-  <circle cx="334.2" cy="333.4" r="2.2" fill="none" stroke="#4C9AFF" stroke-width="1.3"/>
-  <circle cx="368.0" cy="331.0" r="2.2" fill="none" stroke="#4C9AFF" stroke-width="1.3"/>
-  <rect x="41.0" y="378" width="105.19999999999999" height="21" rx="10.5" fill="#12315c"/>
-  <text class="s accent" x="93.6" y="392" font-size="10.5" font-weight="700" text-anchor="middle">Open in webR</text>
-  <text class="s lbl ink" x="445.0" y="24" font-size="12">THE ENGINE</text>
-  <text class="m muted" x="445.0" y="43" font-size="12.5">as its own chunk type</text>
-  <rect x="445.0" y="56" width="378" height="116" rx="6" fill="#0b1220" stroke="#334155"/>
-  <path d="M445.0 56 h378 v22 h-378 z" fill="#131c2e"/>
-  <path d="M445.0 78 h378" stroke="#334155"/>
-  <text class="m accent" x="453.0" y="71" font-size="9.5" font-weight="700">notes.qmd</text>
-  <text class="m" x="459.0" y="96" font-size="10.5" xml:space="preserve"><tspan class="fn">```{livelink}</tspan></text>
-  <text class="m" x="459.0" y="112" font-size="10.5" xml:space="preserve"><tspan class="com">#| engine.target: shinylive-r</tspan></text>
-  <text class="m" x="459.0" y="128" font-size="10.5" xml:space="preserve"><tspan class="fn">library</tspan><tspan class="ink">(shiny)</tspan></text>
-  <text class="m" x="459.0" y="144" font-size="10.5" xml:space="preserve"><tspan class="fn">shinyApp</tspan><tspan class="ink">(ui, server)</tspan></text>
-  <text class="m" x="459.0" y="160" font-size="10.5" xml:space="preserve"><tspan class="fn">```</tspan></text>
-  <text class="s lbl muted" x="445.0" y="206" font-size="10.5">IN THE PAGE</text>
-  <text class="m muted" x="445.0" y="222" font-size="12">nothing runs, so you get the code and a link</text>
-  <rect x="445.0" y="228" width="378" height="185" rx="6" fill="#0b1220" stroke="#334155"/>
-  <path d="M445.0 228 h378 v22 h-378 z" fill="#131c2e"/>
-  <path d="M445.0 250 h378" stroke="#334155"/>
-  <text class="m accent" x="453.0" y="243" font-size="9.5" font-weight="700">rendered</text>
-  <rect x="459.0" y="260" width="350" height="46" rx="4" fill="#131c2e" stroke="#334155"/>
-  <rect x="459.0" y="260" width="3" height="46" rx="1.5" fill="#4C9AFF"/>
-  <text class="m" x="473.0" y="277" font-size="10.5" xml:space="preserve"><tspan class="fn">library</tspan><tspan class="ink">(shiny)</tspan></text>
-  <text class="m" x="473.0" y="293" font-size="10.5" xml:space="preserve"><tspan class="fn">shinyApp</tspan><tspan class="ink">(ui, server)</tspan></text>
-  <text class="m faint" x="459.0" y="331" font-size="10.5">(not executed)</text>
-  <rect x="459.0" y="344" width="138.2" height="21" rx="10.5" fill="#12315c"/>
-  <text class="s accent" x="528.1" y="358" font-size="10.5" font-weight="700" text-anchor="middle">Open in Shinylive</text>
-  <text class="s faint" x="27.0" y="453" font-size="12.5">Both are handed the chunk's raw source, so comments reach the link either way.</text>
+  <text class="s lbl ink" x="470" y="24" font-size="12" text-anchor="middle">THE HOOK</text>
+  <text class="m muted" x="470" y="42" font-size="10.5" text-anchor="middle">livelink: true, on an r chunk</text>
+  <text class="s lbl ink" x="660" y="24" font-size="12" text-anchor="middle">THE ENGINE</text>
+  <text class="m muted" x="660" y="42" font-size="10.5" text-anchor="middle">a livelink chunk</text>
+  <rect x="24" y="57" width="802" height="34" rx="6" fill="#1e293b"/>
+  <text class="s body" x="44" y="80" font-size="13.5">the code runs</text>
+  <circle cx="470" cy="76" r="7" fill="#4C9AFF"/>
+  <circle cx="660" cy="76" r="6.5" fill="none" stroke="#475569" stroke-width="1.5"/>
+  <text class="s body" x="44" y="118" font-size="13.5">its output appears in the page</text>
+  <circle cx="470" cy="114" r="7" fill="#4C9AFF"/>
+  <circle cx="660" cy="114" r="6.5" fill="none" stroke="#475569" stroke-width="1.5"/>
+  <rect x="24" y="133" width="802" height="34" rx="6" fill="#1e293b"/>
+  <text class="s body" x="44" y="156" font-size="13.5">you get a shareable link</text>
+  <circle cx="470" cy="152" r="7" fill="#4C9AFF"/>
+  <circle cx="660" cy="152" r="7" fill="#4C9AFF"/>
+  <line x1="24" y1="196" x2="826" y2="196" stroke="#334155"/>
+  <text class="s lbl muted" x="44" y="222" font-size="11">reach for it when</text>
+  <text class="m muted" x="470" y="244" font-size="11.5" text-anchor="middle">your readers should see</text>
+  <text class="m muted" x="470" y="260" font-size="11.5" text-anchor="middle">the result, and open it</text>
+  <text class="m muted" x="660" y="244" font-size="11.5" text-anchor="middle">the code cannot run here:</text>
+  <text class="m muted" x="660" y="260" font-size="11.5" text-anchor="middle">a Shiny app, a slow step,</text>
+  <text class="m muted" x="660" y="276" font-size="11.5" text-anchor="middle">a package you lack</text>
+  <text class="s faint" x="44" y="314" font-size="12.5">Both are handed the chunk's raw source, so comments reach the link either way.</text>
 </svg>
