@@ -114,10 +114,7 @@ webr_repl_link <- function(input = NULL,
     share_item$autorun <- TRUE
   }
 
-  json_data <- jsonlite::toJSON(list(share_item), auto_unbox = TRUE)
-  compressed <- memCompress(charToRaw(json_data), type = "gzip")
-  base64_data <- base64enc::base64encode(compressed)
-  encoded_data <- utils::URLencode(base64_data, reserved = TRUE)
+  encoded_data <- encode_webr_payload(list(share_item))
 
   # The `a` flag must agree with the per-item autorun set above, or the link
   # claims to autorun a file that carries no autorun instruction.
@@ -279,10 +276,7 @@ build_webr_project <- function(processed_files, autorun_files, base_path,
     item
   }, processed_files, names(processed_files), SIMPLIFY = FALSE, USE.NAMES = FALSE)
 
-  json_data <- jsonlite::toJSON(share_items, auto_unbox = TRUE)
-  compressed <- memCompress(charToRaw(json_data), type = "gzip")
-  base64_data <- base64enc::base64encode(compressed)
-  encoded_data <- utils::URLencode(base64_data, reserved = TRUE)
+  encoded_data <- encode_webr_payload(share_items)
 
   # Set the `a` flag whenever any file carries autorun, not only for
   # `autorun_files = "all"` -- a named autorun list used to encode the per-item

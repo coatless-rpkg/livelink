@@ -3,14 +3,17 @@
 \name{repl_urls}
 \alias{repl_urls}
 \alias{repl_urls.default}
-\title{Get WebR URLs from objects}
+\title{Extract shareable URLs from livelink objects}
 \usage{
 repl_urls(x, ...)
 
 \method{repl_urls}{default}(x, ...)
 }
 \arguments{
-\item{x}{WebR object (webr_link, webr_project, webr_exercise, or webr_directory)}
+\item{x}{A livelink object. Supported classes are \code{webr_link}, \code{webr_project},
+\code{webr_exercise}, \code{webr_directory}, \code{webr_decoded}, \code{webr_decoded_batch},
+\code{webr_preview}, \code{shinylive_link}, \code{shinylive_project}, \code{shinylive_directory},
+\code{shinylive_decoded}, \code{shinylive_decoded_batch}, and \code{shinylive_preview}.}
 
 \item{...}{Additional arguments passed to methods}
 }
@@ -18,8 +21,9 @@ repl_urls(x, ...)
 Character vector of URLs
 }
 \description{
-Generic function to extract WebR URLs from different object types.
-Provides a clear way to get just the URLs for sharing or further processing.
+Generic function to extract the shareable URL(s) from any livelink object,
+covering both webR REPL and Shinylive results. Provides a clear way to get
+just the URLs for sharing or further processing.
 }
 \examples{
 # Single link

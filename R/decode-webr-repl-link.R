@@ -172,11 +172,11 @@ decode_multiple_webr_links <- function(urls, output_dir, overwrite, create_subdi
         "Failed to process URL {i}",
         "x" = "{e$message}"
       ))
-      results[[paste0("failed_", i)]] <- NULL
     })
   }
 
-  successful_results <- results[!sapply(results, is.null)]
+  # A failed URL is warned about above and simply leaves no entry in `results`.
+  successful_results <- results
   cli::cli_inform(c(
     "",
     "v" = "Successfully processed {length(successful_results)}/{length(urls)} URL{?s}"
@@ -224,7 +224,9 @@ decode_and_save_webr_files <- function(files_data, output_dir, overwrite) {
     # Check for content in either "text" or "data" field
     has_content <- ("text" %in% names(file_info)) || ("data" %in% names(file_info))
     if (!has_content) {
-      filename <- if ("name" %in% names(file_info)) file_info$name else paste0("entry_", i)
+      # "name" is guaranteed present: the structure check above already skipped
+      # any entry missing it.
+      filename <- file_info$name
       cli::cli_warn("Skipping file entry {i}: no content found")
       skip_reasons$no_content <- c(skip_reasons$no_content, filename)
       next

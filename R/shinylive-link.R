@@ -73,12 +73,28 @@ build_shinylive_link <- function(processed_input, engine, mode, header, base_url
     files_list <- processed_input
   }
 
+  url <- encode_shinylive_url(files_list, engine, mode, header, base_url)
+
+  new_shinylive_link(url, files_list, engine, mode)
+}
+
+#' Encode Shinylive files into a share URL
+#'
+#' The shared encoding tail for Shinylive links: reshape to the Shinylive JSON
+#' form, serialize, LZ-string-compress, then build the URL. Shared by
+#' [build_shinylive_link()] and [shinylive_project()].
+#' @param files_list Named list of file contents
+#' @param engine "r" or "python"
+#' @param mode "editor" or "app"
+#' @param header Logical; whether to keep the Shinylive header
+#' @param base_url Base URL, or NULL for the default
+#' @return A Shinylive share URL
+#' @noRd
+encode_shinylive_url <- function(files_list, engine, mode, header, base_url) {
   shinylive_files <- files_to_shinylive_json(files_list)
   json_data <- jsonlite::toJSON(shinylive_files, auto_unbox = TRUE)
   encoded_data <- compress_for_shinylive(json_data)
-  url <- build_shinylive_url(engine, mode, encoded_data, header = header, base_url)
-
-  new_shinylive_link(url, files_list, engine, mode)
+  build_shinylive_url(engine, mode, encoded_data, header = header, base_url)
 }
 
 #' Create a Shinylive sharelink for Python Shiny apps
@@ -249,7 +265,6 @@ shinylive_project <- function(input, engine, mode = "editor", header = TRUE, bas
     input = input, x_expr = x_expr, env = parent.frame()
   )
 
-  # Validate inputs
   check_valid_shinylive_engine(engine, "engine")
   check_valid_shinylive_mode(mode, "mode")
   check_single_logical(header, "header")
@@ -258,19 +273,8 @@ shinylive_project <- function(input, engine, mode = "editor", header = TRUE, bas
     check_single_string(base_url, "base_url")
   }
 
-  # Convert files to Shinylive JSON format
-  shinylive_files <- files_to_shinylive_json(processed_files)
+  url <- encode_shinylive_url(processed_files, engine, mode, header, base_url)
 
-  # Convert to JSON string
-  json_data <- jsonlite::toJSON(shinylive_files, auto_unbox = TRUE)
-
-  # Compress using proper LZ-string compression
-  encoded_data <- compress_for_shinylive(json_data)
-
-  # Build URL
-  url <- build_shinylive_url(engine, mode, encoded_data, header, base_url)
-
-  # Return shinylive_project object
   new_shinylive_project(url, processed_files, engine, mode)
 }
 

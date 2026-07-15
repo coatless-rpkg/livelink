@@ -83,13 +83,17 @@ as.character.shinylive_preview <- function(x, ...) {
   x$url
 }
 
-#' Get WebR URLs from objects
+#' Extract shareable URLs from livelink objects
 #'
 #' @description
-#' Generic function to extract WebR URLs from different object types.
-#' Provides a clear way to get just the URLs for sharing or further processing.
+#' Generic function to extract the shareable URL(s) from any livelink object,
+#' covering both webR REPL and Shinylive results. Provides a clear way to get
+#' just the URLs for sharing or further processing.
 #'
-#' @param x WebR object (webr_link, webr_project, webr_exercise, or webr_directory)
+#' @param x A livelink object. Supported classes are `webr_link`, `webr_project`,
+#'   `webr_exercise`, `webr_directory`, `webr_decoded`, `webr_decoded_batch`,
+#'   `webr_preview`, `shinylive_link`, `shinylive_project`, `shinylive_directory`,
+#'   `shinylive_decoded`, `shinylive_decoded_batch`, and `shinylive_preview`.
 #' @param ... Additional arguments passed to methods
 #' @return Character vector of URLs
 #'

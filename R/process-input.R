@@ -32,8 +32,8 @@ stringify_expression <- function(x) {
     return(enc2utf8(deparse(x)))
   }
 
-  ## Construct a new srcref with the first_line, first_byte, etc. from the
-  ## first expression and the last_line, last_byte, etc. from the last one.
+  # Construct a new srcref with the first_line, first_byte, etc. from the
+  # first expression and the last_line, last_byte, etc. from the last one.
   first_src <- .srcref[[1]]
   last_src <- .srcref[[length(.srcref)]]
 
@@ -51,29 +51,29 @@ stringify_expression <- function(x) {
 
   lines <- enc2utf8(as.character(src, useSource = TRUE))
 
-  ## remove the first brace and line if the brace is the only thing on the line
+  # remove the first brace and line if the brace is the only thing on the line
   lines[[1L]] <- sub("^[{]", "", lines[[1L]])
   if (!nzchar(lines[[1L]])) {
     lines <- lines[-1L]
   }
 
-  ## identify the last source line affiliated with an expression
+  # identify the last source line affiliated with an expression
   n <- utils::getSrcLocation(last_src, which = "line", first = FALSE)
 
-  ## rescue trailing comment on (current) last surviving line
-  last_source_line <- getSrcLines(.srcfile, n, n) ## "raw"
-  last_line <- lines[length(lines)] ## srcref'd
+  # rescue trailing comment on (current) last surviving line
+  last_source_line <- getSrcLines(.srcfile, n, n) # "raw"
+  last_line <- lines[length(lines)] # srcref'd
   m <- regexpr(last_line, last_source_line, fixed = TRUE)
   rescue_me <- substring(last_source_line, m + attr(m, "match.length"))
   if (grepl("^\\s*#", rescue_me)) {
     lines[length(lines)] <- paste0(last_line, rescue_me)
   }
 
-  ## rescue trailing comment lines, but only those still INSIDE the block.
-  ## Scanning to Inf for a closing brace swallows unrelated source whenever the
-  ## block's own `}` is not on a line of its own -- a one-line `{ plot(1:10) }`
-  ## nested in a call would take everything down to the next line starting with
-  ## `}`. The `{` call carries a wholeSrcref spanning itself; that is the bound.
+  # rescue trailing comment lines, but only those still INSIDE the block.
+  # Scanning to Inf for a closing brace swallows unrelated source whenever the
+  # block's own `}` is not on a line of its own: a one-line `{ plot(1:10) }`
+  # nested in a call would take everything down to the next line starting with
+  # `}`. The `{` call carries a wholeSrcref spanning itself; that is the bound.
   whole <- attr(x, "wholeSrcref")
   block_end <- if (!is.null(whole)) whole[[3L]] else n
 
@@ -123,11 +123,6 @@ trim_common_leading_ws <- function(lines) {
 #' @return Character vector of source lines
 #' @noRd
 getSrcLines <- function(srcfile, start, end = start) {
-  if (is.infinite(end)) {
-    all_lines <- srcfile$lines
-    end <- length(all_lines)
-  }
-
   if (start > end || start < 1) {
     return(character(0))
   }

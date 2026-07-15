@@ -162,11 +162,14 @@ is_named_list <- function(x) {
 }
 
 #' Check if input is a valid file path
+#'
+#' A file path is, structurally, a single non-empty string; the distinct name
+#' and [check_valid_path()] wrapper exist only for the path-specific error text.
 #' @param x Object to check
 #' @return Logical value
 #' @noRd
 is_valid_path <- function(x) {
-  is.character(x) && length(x) == 1 && !is.na(x) && nzchar(x)
+  is_single_string(x)
 }
 
 #' Ensure input is a valid file path
@@ -347,7 +350,7 @@ check_valid_shinylive_url <- function(url, arg_name = "url") {
 #' @return Logical value
 #' @noRd
 is_valid_webr_url <- function(url) {
-  if (!is.character(url) || length(url) != 1 || is.na(url) || !nzchar(url)) {
+  if (!is_single_string(url)) {
     return(FALSE)
   }
 

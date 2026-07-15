@@ -171,11 +171,11 @@ decode_multiple_shinylive_links <- function(urls, output_dir, overwrite, create_
         "Failed to process URL {i}",
         "x" = "{e$message}"
       ))
-      results[[paste0("failed_", i)]] <- NULL
     })
   }
 
-  successful_results <- results[!sapply(results, is.null)]
+  # A failed URL is warned about above and simply leaves no entry in `results`.
+  successful_results <- results
   cli::cli_inform(c(
     "",
     "v" = "Successfully processed {length(successful_results)}/{length(urls)} URL{?s}"
@@ -401,7 +401,8 @@ preview_shinylive_link <- function(url) {
       content <- file_info$content
       file_type <- if (!is.null(file_info$type)) file_info$type else "text"
 
-      # Calculate size efficiently
+      # Byte size: for binary, derive it from the base64 length rather than
+      # decoding the content; for text, count the bytes directly.
       if (file_type == "binary") {
         size_bytes <- calculate_base64_size(content)
       } else {

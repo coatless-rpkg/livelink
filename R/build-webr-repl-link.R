@@ -25,11 +25,28 @@ format_mode_string <- function(mode) {
 #' @noRd
 build_webr_url <- function(base_url, encoded_data, flags, mode = NULL) {
   if (is.null(mode)) {
-    # Original format without mode
+    # No mode: a bare "#code=..." fragment
     paste0(base_url, "#code=", encoded_data, "&", flags)
   } else {
-    # New format with mode
+    # With mode: a "?mode='...'" query ahead of the "#code=" fragment
     mode_string <- format_mode_string(mode)
     paste0(base_url, "?mode='", mode_string, "'#code=", encoded_data, "&", flags)
   }
+}
+
+#' Encode webR share items into a URL-fragment payload
+#'
+#' The shared encoding tail for webR links: serialize the files to JSON, gzip,
+#' and base64. `URLencode(reserved = TRUE)` is the non-obvious step: it
+#' percent-escapes base64's `+` and `/`, which are URL-reserved and would
+#' otherwise corrupt the `#code=` fragment.
+#' @param share_items List of file items (each `name`/`path`/`text`, plus an
+#'   optional `autorun`)
+#' @return A URL-safe encoded string
+#' @noRd
+encode_webr_payload <- function(share_items) {
+  json_data <- jsonlite::toJSON(share_items, auto_unbox = TRUE)
+  compressed <- memCompress(charToRaw(json_data), type = "gzip")
+  base64_data <- base64enc::base64encode(compressed)
+  utils::URLencode(base64_data, reserved = TRUE)
 }
