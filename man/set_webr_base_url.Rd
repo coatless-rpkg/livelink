@@ -21,9 +21,15 @@ unaffected. Once set, a custom base URL takes precedence over the \code{version}
 argument passed to the link builders.
 }
 \examples{
+# Remember the current setting so it can be restored afterwards
+old <- getOption("livelink.base_url")
+
 # Set custom base URL
 set_webr_base_url("https://my-custom-webr.com/")
 
 # Reset to default (removes custom setting)
 set_webr_base_url(NULL)
+
+# Restore the previous setting
+set_webr_base_url(old)
 }
