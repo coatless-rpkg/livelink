@@ -336,6 +336,15 @@ eval_project_list <- function(x_expr, env) {
   args <- as.list(x_expr)[-1]
 
   if (length(args) == 0 || is.null(names(args)) || !all(nzchar(names(args)))) {
+    # Not project-shaped, so the caller falls through to ordinary evaluation --
+    # which would force any braces. A brace is code to ship, never code to run,
+    # so refuse a malformed list that carries one before anything executes.
+    if (any(vapply(args, is_brace_call, logical(1)))) {
+      cli::cli_abort(c(
+        "Project files must be a named list",
+        "i" = 'Name every element: {.code list("app.R" = {{ ... }})}'
+      ))
+    }
     return(NULL)
   }
 

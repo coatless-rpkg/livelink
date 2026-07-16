@@ -92,6 +92,18 @@ test_that("an unnamed list is still rejected", {
   expect_error(webr_repl_project(list({ plot(1:10) })), "named list")
 })
 
+# Rejecting a malformed list must not run the code it carries: the fall-through
+# used to force the promise, executing the blocks in the caller's frame (and,
+# with plot() in a block, leaving Rplots.pdf in the check directory on CRAN).
+test_that("rejecting an unnamed literal list does not evaluate its blocks", {
+  ran <- FALSE
+  expect_error(webr_repl_project(list({ ran <- TRUE })), "named list")
+  expect_false(ran)
+
+  expect_error(shinylive_project(list({ ran <- TRUE }), engine = "r"), "named list")
+  expect_false(ran)
+})
+
 # `list()` is an ordinary call, so assigning it to a variable first evaluates the
 # blocks -- livelink never sees the source, and receives whatever they returned.
 # Say so, rather than encoding a function into a link.
