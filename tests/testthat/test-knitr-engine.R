@@ -17,6 +17,9 @@ knit_livelink <- function(chunk_header, code_lines) {
   input <- withr::local_tempfile(fileext = ".Rmd")
   output <- withr::local_tempfile(fileext = ".md")
   writeLines(rmd, input)
+  # Knit from a temp directory so figures and Rplots.pdf land there rather
+  # than in tests/testthat: CRAN only allows writes to tempdir() during check.
+  withr::local_dir(withr::local_tempdir())
   suppressMessages(knitr::knit(input, output = output, quiet = TRUE))
   readLines(output, warn = FALSE)
 }
@@ -118,11 +121,14 @@ test_that("no hyphenated shinylive engine is registered", {
 # when a document is rendered. The engine receives the chunk's verbatim source, so
 # they survive.
 test_that("comments in a livelink chunk survive into the generated link", {
-  rendered <- knit_livelink("```{livelink}", c(
-    "# a leading comment",
-    "data(mtcars)",
-    "plot(mtcars$mpg, mtcars$wt)  # a trailing comment"
-  ))
+  rendered <- knit_livelink(
+    "```{livelink}",
+    c(
+      "# a leading comment",
+      "data(mtcars)",
+      "plot(mtcars$mpg, mtcars$wt)  # a trailing comment"
+    )
+  )
 
   code <- preview_webr_link(extract_url(rendered))$files_data[[1]]$text
 
@@ -165,7 +171,10 @@ test_that("the source block is fenced as the language it actually is", {
 })
 
 test_that("link.only suppresses the source chunk", {
-  rendered <- knit_livelink("```{livelink, link.only=TRUE}", "secret_marker <- 1")
+  rendered <- knit_livelink(
+    "```{livelink, link.only=TRUE}",
+    "secret_marker <- 1"
+  )
   text <- paste(rendered, collapse = "\n")
 
   expect_match(text, "https://webr.r-wasm.org/")
@@ -193,7 +202,11 @@ test_that("engine.target routes to Shinylive", {
   url <- extract_url(rendered)
 
   expect_match(url, "^https://shinylive\\.io/r/")
-  expect_match(paste(rendered, collapse = "\n"), "Open in Shinylive", fixed = TRUE)
+  expect_match(
+    paste(rendered, collapse = "\n"),
+    "Open in Shinylive",
+    fixed = TRUE
+  )
 })
 
 test_that("engine.target routes to Python Shinylive", {
@@ -211,7 +224,11 @@ test_that("link.text overrides the hyperlink label", {
     "plot(1:10)"
   )
 
-  expect_match(paste(rendered, collapse = "\n"), "[Run this yourself](http", fixed = TRUE)
+  expect_match(
+    paste(rendered, collapse = "\n"),
+    "[Run this yourself](http",
+    fixed = TRUE
+  )
 })
 
 test_that("an invalid engine.target is rejected", {
@@ -222,7 +239,10 @@ test_that("an invalid engine.target is rejected", {
 })
 
 test_that("filename chunk option names the file in the link", {
-  rendered <- knit_livelink("```{livelink, filename='analysis.R'}", "plot(1:10)")
+  rendered <- knit_livelink(
+    "```{livelink, filename='analysis.R'}",
+    "plot(1:10)"
+  )
 
   preview <- preview_webr_link(extract_url(rendered))
   expect_equal(preview$files_data[[1]]$name, "analysis.R")
