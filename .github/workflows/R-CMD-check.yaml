@@ -21,6 +21,9 @@ jobs:
         config:
           - {os: macos-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
+          # CRAN's incoming pretest runs r-devel on Windows; 0.1.0 was rejected
+          # by a failure that only appeared on that flavor.
+          - {os: windows-latest, r: 'devel'}
           - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,  r: 'release'}
           - {os: ubuntu-latest,  r: 'oldrel-1'}
