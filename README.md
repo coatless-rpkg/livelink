@@ -9,8 +9,6 @@
 [![R-CMD-check](https://github.com/coatless-rpkg/livelink/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/coatless-rpkg/livelink/actions/workflows/R-CMD-check.yaml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/livelink.png)](https://CRAN.R-project.org/package=livelink)
-[![Codecov test
-coverage](https://codecov.io/gh/coatless-rpkg/livelink/graph/badge.svg)](https://app.codecov.io/gh/coatless-rpkg/livelink)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
