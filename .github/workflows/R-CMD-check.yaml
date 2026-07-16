@@ -44,9 +44,13 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
+      # local::. pre-installs the package into the runner library: on Windows,
+      # Quarto renders vignettes in a child R process that misses R CMD check's
+      # temporary library path (r-lib/rcmdcheck#236), so the package under
+      # check is otherwise not found.
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          extra-packages: any::rcmdcheck, local::.
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
