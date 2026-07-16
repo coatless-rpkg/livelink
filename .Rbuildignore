@@ -11,6 +11,7 @@
 ^.*_files$
 ^CLAUDE\.md$
 ^cran-comments\.md$
+^CRAN-SUBMISSION$
 ^\.claude$
 ^livelink_.*\.tar\.gz$
 ^livelink\.Rcheck$
