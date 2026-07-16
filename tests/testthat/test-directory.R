@@ -48,6 +48,39 @@ test_that("shinylive_directory finds Python apps", {
   expect_match(result$urls[["py_app"]], "^https://shinylive\\.io/py/")
 })
 
+test_that("app files are named by their app-relative path in the link", {
+  parent <- withr::local_tempdir()
+  app <- make_shiny_app(parent, "app_one")
+  dir.create(file.path(app, "data"))
+  writeLines("x,y", file.path(app, "data", "values.csv"))
+
+  result <- suppressMessages(shinylive_directory(parent, engine = "r"))
+  files <- preview_shinylive_link(result$urls[["app_one"]])$files_data
+  file_names <- vapply(files, function(f) f$name, character(1))
+
+  expect_setequal(file_names, c("app.R", "data/values.csv"))
+})
+
+# Regression for CRAN's r-devel-windows failure: every Windows path contains
+# backslash sequences (like \R, \U, \t) that are invalid TRE escapes, so an app
+# path must never reach the regex engine as a pattern. Backslashes are legal in
+# Unix file names, so a Windows-shaped directory name reproduces the Windows
+# failure on every platform.
+test_that("shinylive_directory survives regex-hostile directory names", {
+  skip_on_os("windows") # backslash and colon are illegal in Windows file names
+
+  parent <- withr::local_tempdir()
+  hostile <- file.path(parent, "d:\\temp\\Rtmp+1")
+  dir.create(hostile)
+  make_shiny_app(hostile, "app_one")
+
+  result <- suppressMessages(shinylive_directory(hostile, engine = "r"))
+
+  expect_named(result$urls, "app_one")
+  files <- preview_shinylive_link(result$urls[["app_one"]])$files_data
+  expect_equal(vapply(files, function(f) f$name, character(1)), "app.R")
+})
+
 test_that("webr_repl_directory builds a link per R script", {
   dir <- withr::local_tempdir()
   writeLines("plot(1:10)", file.path(dir, "one.R"))

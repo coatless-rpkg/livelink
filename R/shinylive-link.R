@@ -393,7 +393,12 @@ shinylive_directory <- function(directory_path,
           next
         }
 
-        relative_path <- sub(paste0(app_dir, "/"), "", file_path)
+        # fixed = TRUE: app_dir is a filesystem path, not a regex. Windows
+        # paths contain backslash sequences (\R, \U, \t) that are invalid TRE
+        # escapes -- R-devel on Windows rejects them as errors, and other
+        # flavors silently fail to match, leaking absolute paths into file
+        # names.
+        relative_path <- sub(paste0(app_dir, "/"), "", file_path, fixed = TRUE)
 
         # Read file content
         if (grepl("\\.(R|py|txt|md|csv|json|yaml|yml)$", file_path, ignore.case = TRUE)) {
