@@ -59,7 +59,7 @@ writeLines("hist(rnorm(100))", file.path(dir, "two.R"))
 
 links <- webr_repl_directory(dir)
 #> ✔ Found 2 files matching pattern "\\.R$"
-#> ℹ Processing files in /tmp/RtmpeoCUsF/file1b271a179b94...
+#> ℹ Processing files in /tmp/RtmpjKvFS6/file1aaf10e002fd...
 #> ✔ Successfully created 2 WebR links
 as.data.frame(links)
 #>   filename
