@@ -72,17 +72,17 @@ url <- as.character(webr_repl_link("plot(1:10)"))
 result <- decode_webr_link(url)
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpjKvFS6/webr_files/webr_6376df5f
+#> Created directory: /tmp/RtmpIrzLvn/webr_files/webr_6376df5f
 #> Decoding 1 file...
 #> script.R (10 bytes)
-#> ✔ Successfully decoded 1 file to /tmp/RtmpjKvFS6/webr_files/webr_6376df5f
+#> ✔ Successfully decoded 1 file to /tmp/RtmpIrzLvn/webr_files/webr_6376df5f
 print(result)
 #> 
 #> ── webR Decoded Files ──
 #> 
 #> Source:
 #> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKijIyS%2FRMLQyNNBUqo0FAJecF%2Fo%3D&jz>
-#> Output: /tmp/RtmpjKvFS6/webr_files/webr_6376df5f
+#> Output: /tmp/RtmpIrzLvn/webr_files/webr_6376df5f
 #> 
 #> Files (1):
 #> script.R (10 bytes)
@@ -95,16 +95,16 @@ out <- file.path(tempdir(), "my_code")
 decode_webr_link(url, output_dir = out, create_subdir = FALSE, overwrite = TRUE)
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpjKvFS6/my_code
+#> Created directory: /tmp/RtmpIrzLvn/my_code
 #> Decoding 1 file...
 #> script.R (10 bytes)
-#> ✔ Successfully decoded 1 file to /tmp/RtmpjKvFS6/my_code
+#> ✔ Successfully decoded 1 file to /tmp/RtmpIrzLvn/my_code
 #> 
 #> ── webR Decoded Files ──
 #> 
 #> Source:
 #> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKijIyS%2FRMLQyNNBUqo0FAJecF%2Fo%3D&jz>
-#> Output: /tmp/RtmpjKvFS6/my_code
+#> Output: /tmp/RtmpIrzLvn/my_code
 #> 
 #> Files (1):
 #> script.R (10 bytes)
@@ -123,33 +123,33 @@ decode_webr_link(urls, output_dir = file.path(tempdir(), "my_scripts"))
 #> ── Processing URL 1/2: script_01 
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpjKvFS6/my_scripts/script_01
+#> Created directory: /tmp/RtmpIrzLvn/my_scripts/script_01
 #> Decoding 1 file...
 #> script.R (10 bytes)
-#> ✔ Successfully decoded 1 file to /tmp/RtmpjKvFS6/my_scripts/script_01
+#> ✔ Successfully decoded 1 file to /tmp/RtmpIrzLvn/my_scripts/script_01
 #> 
 #> 
 #> ── Processing URL 2/2: script_02 
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpjKvFS6/my_scripts/script_02
+#> Created directory: /tmp/RtmpIrzLvn/my_scripts/script_02
 #> Decoding 1 file...
 #> script.R (16 bytes)
-#> ✔ Successfully decoded 1 file to /tmp/RtmpjKvFS6/my_scripts/script_02
+#> ✔ Successfully decoded 1 file to /tmp/RtmpIrzLvn/my_scripts/script_02
 #> 
 #> ✔ Successfully processed 2/2 URLs
 #> 
 #> ── webR Decoded Batch ──
 #> 
-#> Base directory: /tmp/RtmpjKvFS6/my_scripts
+#> Base directory: /tmp/RtmpIrzLvn/my_scripts
 #> Total URLs: 2
 #> 
 #> Successfully processed 2 URLs:
 #> script_01: 1 file
-#> /tmp/RtmpjKvFS6/my_scripts/script_01
+#> /tmp/RtmpIrzLvn/my_scripts/script_01
 #> 
 #> script_02: 1 file
-#> /tmp/RtmpjKvFS6/my_scripts/script_02
+#> /tmp/RtmpIrzLvn/my_scripts/script_02
 #> 
 #> Summary: 2 total files saved across 2 URLs
 ```

@@ -74,18 +74,18 @@ url <- as.character(shinylive_r_link("library(shiny)"))
 result <- decode_shinylive_link(url)
 #> Decompressing Shinylive data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpjKvFS6/shinylive_files/shinylive_e2010f1a
+#> Created directory: /tmp/RtmpIrzLvn/shinylive_files/shinylive_e2010f1a
 #> Decoding 1 file...
 #> app.R (text, 14 bytes)
 #> ✔ Successfully decoded 1 file to
-#>   /tmp/RtmpjKvFS6/shinylive_files/shinylive_e2010f1a
+#>   /tmp/RtmpIrzLvn/shinylive_files/shinylive_e2010f1a
 print(result)
 #> 
 #> ── Shinylive R Decoded Files ──
 #> 
 #> Source:
 #> <https://shinylive.io/r/editor/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlHjClWqBMnIAPUmAC+AXSA>
-#> Output: /tmp/RtmpjKvFS6/shinylive_files/shinylive_e2010f1a
+#> Output: /tmp/RtmpIrzLvn/shinylive_files/shinylive_e2010f1a
 #> 
 #> Files (1):
 #> app.R (14 bytes)
@@ -98,16 +98,16 @@ out <- file.path(tempdir(), "my_app")
 decode_shinylive_link(url, output_dir = out, create_subdir = FALSE, overwrite = TRUE)
 #> Decompressing Shinylive data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpjKvFS6/my_app
+#> Created directory: /tmp/RtmpIrzLvn/my_app
 #> Decoding 1 file...
 #> app.R (text, 14 bytes)
-#> ✔ Successfully decoded 1 file to /tmp/RtmpjKvFS6/my_app
+#> ✔ Successfully decoded 1 file to /tmp/RtmpIrzLvn/my_app
 #> 
 #> ── Shinylive R Decoded Files ──
 #> 
 #> Source:
 #> <https://shinylive.io/r/editor/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlHjClWqBMnIAPUmAC+AXSA>
-#> Output: /tmp/RtmpjKvFS6/my_app
+#> Output: /tmp/RtmpIrzLvn/my_app
 #> 
 #> Files (1):
 #> app.R (14 bytes)
@@ -126,30 +126,30 @@ decode_shinylive_link(urls, output_dir = file.path(tempdir(), "my_apps"))
 #> ── Processing URL 1/2: app_01 
 #> Decompressing Shinylive data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpjKvFS6/my_apps/app_01
+#> Created directory: /tmp/RtmpIrzLvn/my_apps/app_01
 #> Decoding 1 file...
 #> app.R (text, 14 bytes)
-#> ✔ Successfully decoded 1 file to /tmp/RtmpjKvFS6/my_apps/app_01
+#> ✔ Successfully decoded 1 file to /tmp/RtmpIrzLvn/my_apps/app_01
 #> 
 #> 
 #> ── Processing URL 2/2: app_02 
 #> Decompressing Shinylive data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpjKvFS6/my_apps/app_02
+#> Created directory: /tmp/RtmpIrzLvn/my_apps/app_02
 #> Decoding 1 file...
 #> app.py (text, 21 bytes)
-#> ✔ Successfully decoded 1 file to /tmp/RtmpjKvFS6/my_apps/app_02
+#> ✔ Successfully decoded 1 file to /tmp/RtmpIrzLvn/my_apps/app_02
 #> 
 #> ✔ Successfully processed 2/2 URLs
 #> 
 #> ── Shinylive Decoded Batch ──
 #> 
-#> Base directory: /tmp/RtmpjKvFS6/my_apps
+#> Base directory: /tmp/RtmpIrzLvn/my_apps
 #> Total URLs: 2
 #> 
 #> Successfully processed 2 URLs:
-#> /tmp/RtmpjKvFS6/my_apps/app_01 (1 file)
-#> /tmp/RtmpjKvFS6/my_apps/app_02 (1 file)
+#> /tmp/RtmpIrzLvn/my_apps/app_01 (1 file)
+#> /tmp/RtmpIrzLvn/my_apps/app_02 (1 file)
 #> 
 #> Total files: 2
 #> Total size: 35 bytes
