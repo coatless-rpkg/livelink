@@ -1,12 +1,20 @@
+## Resubmission
+
+This is a resubmission. The r-devel-windows pretest of the previous
+submission failed in the `shinylive_directory()` tests: a filesystem path
+was interpolated into a regular-expression pattern, and Windows paths
+contain backslash sequences that are not valid regex escapes. File paths
+are no longer passed to the regex engine (`fixed = TRUE`), and a
+regression test now exercises regex-hostile paths on every platform.
+
+The "possibly misspelled" words flagged in DESCRIPTION (REPL, WASM,
+WebAssembly) are standard technical terms and are spelled correctly.
+
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
 
 The note is the standard "New submission" note for a first submission.
-
-## First submission
-
-This is the first submission of the livelink package to CRAN.
 
 ## Method References
 
