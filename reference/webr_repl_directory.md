@@ -89,13 +89,13 @@ writeLines("hist(rnorm(100))", file.path(examples, "hist.R"))
 
 links <- webr_repl_directory(examples, autorun = TRUE)
 #> ✔ Found 2 files matching pattern "\\.R$"
-#> ℹ Processing files in /tmp/Rtmpu9EXN0/file1adf35735b61...
+#> ℹ Processing files in /tmp/RtmpyIcAxT/file1a546bb41c4f...
 #> ✔ Successfully created 2 WebR links
 print(links)
 #> 
 #> ── webR Directory Links ──
 #> 
-#> Source: /tmp/Rtmpu9EXN0/file1adf35735b61
+#> Source: /tmp/RtmpyIcAxT/file1a546bb41c4f
 #> 
 #> Generated 2 links:
 #> hist.R → /home/web_user/hist.R
@@ -123,12 +123,12 @@ webr_repl_directory(examples, single_link = TRUE, panels = c("editor", "plot"))
 # Show only the editor and terminal panels
 webr_repl_directory(examples, panels = c("editor", "terminal"))
 #> ✔ Found 2 files matching pattern "\\.R$"
-#> ℹ Processing files in /tmp/Rtmpu9EXN0/file1adf35735b61...
+#> ℹ Processing files in /tmp/RtmpyIcAxT/file1a546bb41c4f...
 #> ✔ Successfully created 2 WebR links
 #> 
 #> ── webR Directory Links ──
 #> 
-#> Source: /tmp/Rtmpu9EXN0/file1adf35735b61
+#> Source: /tmp/RtmpyIcAxT/file1a546bb41c4f
 #> 
 #> Generated 2 links:
 #> hist.R → /home/web_user/hist.R
@@ -143,12 +143,12 @@ webr_repl_directory(examples, panels = c("editor", "terminal"))
 # Match a subset of files
 webr_repl_directory(examples, pattern = "^plot")
 #> ✔ Found 1 file matching pattern "^plot"
-#> ℹ Processing files in /tmp/Rtmpu9EXN0/file1adf35735b61...
+#> ℹ Processing files in /tmp/RtmpyIcAxT/file1a546bb41c4f...
 #> ✔ Successfully created 1 WebR link
 #> 
 #> ── webR Directory Links ──
 #> 
-#> Source: /tmp/Rtmpu9EXN0/file1adf35735b61
+#> Source: /tmp/RtmpyIcAxT/file1a546bb41c4f
 #> 
 #> Generated 1 link:
 #> plot.R → /home/web_user/plot.R
