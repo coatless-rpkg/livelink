@@ -14,6 +14,8 @@
 ^CRAN-SUBMISSION$
 ^\.claude$
 ^livelink_.*\.tar\.gz$
+^tests/testthat/_problems$
+^tests/testthat/testthat-problems\.rds$
 ^livelink\.Rcheck$
 ^\.Rhistory$
 ^\.RData$
