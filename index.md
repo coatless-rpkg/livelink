@@ -297,3 +297,25 @@ print(py_link)
 ## License
 
 AGPL (\>= 3)
+
+## Acknowledgements
+
+Thanks to [George Stagg](https://github.com/georgestagg) for
+[webR](https://docs.r-wasm.org/webr/latest/) and its browser REPL, and
+to [Winston Chang](https://github.com/wch) for the
+[Shinylive](https://github.com/posit-dev/shinylive) share-URL feature.
+livelink writes to the share formats they built and opens in the
+runtimes they maintain, so it is mostly a friendly wrapper around a good
+idea they had. [Pyodide](https://github.com/pyodide/pyodide) is its own
+remarkable project, and it is what runs the Python side of Shinylive.
+Thanks, too, to [`peeky`](https://github.com/coatless-rpkg/peeky) for
+stating the other half of this idea plainly enough that the feature
+became obvious. And for turning a braced R expression into clean,
+verbatim source, livelink borrows
+[reprex](https://reprex.tidyverse.org/)’s
+[`stringify_expression()`](https://github.com/tidyverse/reprex/blob/main/R/stringify_expression.R),
+copyright the reprex authors and [MIT
+licensed](https://github.com/tidyverse/reprex/blob/main/LICENSE.md).
+livelink is one step, and
+[webrarian](https://github.com/coatless-rpkg/webrarian) is the next,
+already taking shape.
