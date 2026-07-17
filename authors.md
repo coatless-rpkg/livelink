@@ -6,7 +6,7 @@
 
 - **reprex authors**. Copyright holder.  
   stringify_expression() and trim_common_leading_ws(), adapted in
-  R/process-input.R; see LICENSE.note
+  R/process-input.R; see inst/COPYRIGHTS
 
 ## Citation
 
