@@ -1,14 +1,18 @@
 ## Resubmission
 
-This is a resubmission. The r-devel-windows pretest of the previous
-submission failed in the `shinylive_directory()` tests: a filesystem path
-was interpolated into a regular-expression pattern, and Windows paths
-contain backslash sequences that are not valid regex escapes. File paths
-are no longer passed to the regex engine (`fixed = TRUE`), and a
-regression test now exercises regex-hostile paths on every platform.
+This is a resubmission. In response to the reviewer's comment on the
+previous submission:
 
-The "possibly misspelled" words flagged in DESCRIPTION (REPL, WASM,
-WebAssembly) are standard technical terms and are spelled correctly.
+> Possibly misspelled words in DESCRIPTION:
+>   WebAssembly (9:54)
+> Please single quote software names in both Title and Description fields
+> of the DESCRIPTION file such as 'WebAssembly'.
+
+the software name 'WebAssembly' is now single-quoted in the Description
+field, consistent with the other software names already quoted there
+('R', 'webR', 'Shiny', 'Shinylive', 'Python') and in the Title. A
+package-level .aspell wordlist of the correctly-spelled technical terms
+is also included, so the incoming spelling check no longer flags them.
 
 ## R CMD check results
 
@@ -20,7 +24,7 @@ The note is the standard "New submission" note for a first submission.
 
 There are no published references describing the methods in this package.
 The package implements original functionality for creating shareable links
-to WebAssembly-based R and Shiny environments.
+to 'WebAssembly'-based 'R' and 'Shiny' environments.
 
 ## Notes for the reviewer
 
