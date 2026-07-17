@@ -26,3 +26,4 @@
 ^\.git$
 ^\.gitignore$
 ^specs$
+^data-raw$

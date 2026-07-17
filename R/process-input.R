@@ -2,7 +2,7 @@
 #'
 #' Adapted from `stringify_expression()` in the reprex package
 #' (<https://github.com/tidyverse/reprex/blob/main/R/stringify_expression.R>),
-#' Copyright (c) 2024 reprex authors, MIT licensed -- see LICENSE.note. The
+#' Copyright (c) 2024 reprex authors, MIT licensed -- see inst/COPYRIGHTS. The
 #' srcref reconstruction, trailing-comment rescue, and common-indentation trim
 #' come from reprex; the braced-body deparse fallback, the wholeSrcref bound on
 #' the tail scan, and the clamped-range `getSrcLines()` shim below are local
@@ -87,7 +87,7 @@ stringify_expression <- function(x) {
 #' Trim common leading whitespace from lines
 #'
 #' Adapted from the reprex package's helper of the same name (R/utils.R),
-#' Copyright (c) 2024 reprex authors, MIT licensed -- see LICENSE.note.
+#' Copyright (c) 2024 reprex authors, MIT licensed -- see inst/COPYRIGHTS.
 #' The guards for empty and whitespace-only input are local additions.
 #'
 #' @param lines Character vector of lines

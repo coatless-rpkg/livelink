@@ -4,9 +4,9 @@ Version: 0.1.0
 Authors@R: c(
     person("James Joseph", "Balamuta", , "james.balamuta@gmail.com", role = c("aut", "cre", "cph")),
     person("reprex authors", role = "cph",
-           comment = "stringify_expression() and trim_common_leading_ws(), adapted in R/process-input.R; see LICENSE.note")
+           comment = "stringify_expression() and trim_common_leading_ws(), adapted in R/process-input.R; see inst/COPYRIGHTS")
   )
-Description: Creates shareable links for 'R' code in WebAssembly (WASM)
+Description: Creates shareable links for 'R' code in 'WebAssembly' (WASM)
     Read-Eval-Print Loop (REPL) environments like 'webR'
     <https://webr.r-wasm.org/> and for 'Shiny' applications using
     'Shinylive' <https://shinylive.io/>. Supports single scripts,

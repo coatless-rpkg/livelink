@@ -8,5 +8,4 @@ R/process-input.R
     stringify_expression() and trim_common_leading_ws() are adapted from
     the reprex package (https://github.com/tidyverse/reprex),
     Copyright (c) 2024 reprex authors, and are used under the MIT
-    license. The full MIT license text is reproduced in the top-level
-    LICENSE.note file of this package.
+    license (https://spdx.org/licenses/MIT.html).
