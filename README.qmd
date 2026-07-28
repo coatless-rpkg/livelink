@@ -278,7 +278,7 @@ other half of this idea plainly enough that the feature became obvious. And
 for turning a braced R expression into clean, verbatim source, livelink
 borrows [reprex][reprex]'s [`stringify_expression()`][reprex-stringify],
 copyright the reprex authors and [MIT licensed][reprex-license]. livelink is
-one step, and [webrarian][webrarian] is the next, already taking shape.
+one step, and webrarian is the next, already taking shape.
 
 [stagg]: https://github.com/georgestagg
 [webr]: https://docs.r-wasm.org/webr/latest/
@@ -289,4 +289,3 @@ one step, and [webrarian][webrarian] is the next, already taking shape.
 [reprex]: https://reprex.tidyverse.org/
 [reprex-stringify]: https://github.com/tidyverse/reprex/blob/main/R/stringify_expression.R
 [reprex-license]: https://github.com/tidyverse/reprex/blob/main/LICENSE.md
-[webrarian]: https://github.com/coatless-rpkg/webrarian
