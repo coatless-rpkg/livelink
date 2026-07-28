@@ -168,9 +168,10 @@ Nothing here is magic, and the URL is readable if you know where to look.
 ![A webR URL in five parts: the base address, the version, the panels to show, the `#code=` fragment carrying your files, and the flags saying how the payload was encoded.](../man/figures/url-anatomy-light.svg){.ll-fig .ll-light}
 ![](../man/figures/url-anatomy-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
-The flags at the end say how the payload was encoded: `j` for JSON, `z` for gzip,
-`m` for msgpack, `u` for uncompressed, `a` for autorun. livelink writes `jz`, and webR's
-own share button writes `mz`. livelink reads both.
+The flags at the end say how the payload was encoded: `m` for msgpack, `j` for JSON,
+`z` for gzip, `u` for uncompressed, `a` for autorun. livelink writes `mz`, the same
+format webR's own share button writes. It reads all of them, including the `jz` links
+earlier versions produced.
 
 ## Going the other way
 

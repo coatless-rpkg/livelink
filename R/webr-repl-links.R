@@ -1,8 +1,7 @@
 
 #' Create a webR REPL sharelink from R code
 #'
-#' Generates a shareable URL for R code that can be executed in the webR environment.
-#' Supports expressions, file paths, character strings, and clipboard input.
+#' Turns a single R script into a URL that runs it in the webR REPL.
 #'
 #' @param input Code input. Can be:
 #'   - R expression (no quotes needed): `webr_repl_link({ plot(1:10) })`
@@ -15,29 +14,52 @@
 #' @param autorun Logical. Whether to auto-execute the code when link is opened (default: `FALSE`).
 #'   Only R files (`.R`) can be auto-executed.
 #' @param panels Character vector or string specifying which webR interface panels to show.
-#'   Valid panels: `"plot"`, `"files"`, `"terminal"`, `"editor"`. Can be `c("plot", "files")` or `"plot-files"`.
+#'   The panels are `"plot"`, `"files"`, `"terminal"`, and `"editor"`. Can be `c("plot", "files")` or `"plot-files"`.
 #'   If NULL (default), shows all panels.
 #' @param version webR version to use (`"latest"` or specific version >= "v0.5.4")
 #' @param base_url webR application URL. If NULL, uses global option or builds from version
 #'
-#' @return webr_link object containing the webR sharelink and metadata
+#' @return
+#' A `webr_link` object, which is a list with these entries.
+#'
+#' - `url`, the sharelink itself, as a single string.
+#' - `filename`, the name the script is given inside webR.
+#' - `path`, where that file is placed inside webR.
+#' - `mode`, the panels the link asks for, or `NULL` for all of them.
+#' - `version`, the webR version the link points at.
+#' - `autorun`, `TRUE` when the code runs as soon as the link opens.
+#'
+#' Use `as.character()` on the object to get the URL on its own.
+#'
+#' @details
+#' The code travels inside the URL, in the fragment after the `#`, which browsers
+#' keep local and never send to a server. Opening the link boots webR in the
+#' reader's own tab, so nothing is installed and nothing runs on your side.
+#'
+#' `input` is deliberately permissive. It takes an expression in braces, a string,
+#' a path to a file, or the clipboard when nothing is passed at all. One script
+#' goes in one link. For several files, see [webr_repl_project()].
 #'
 #' @section Comments in expression input:
-#' Expression input recovers your source from R's *source references*, which R only
-#' attaches when `keep.source` is enabled. Comments therefore survive in an
-#' interactive session, but are dropped when the calling code is parsed without
-#' source references -- notably inside a knitted 'Quarto' or 'R Markdown' document,
-#' because 'knitr' evaluates chunks through `evaluate::evaluate()`, which discards
-#' them. No `keep.source` setting recovers them there.
+#' Expression input recovers your code from the source R kept when it read the
+#' expression. R only keeps that source when `keep.source` is enabled, so comments
+#' survive in an interactive session but are dropped when the calling code is read
+#' without it. That is what happens inside a knitted 'Quarto' or 'R Markdown'
+#' document, because 'knitr' evaluates chunks through `evaluate::evaluate()`, which
+#' throws the source away. No `keep.source` setting recovers them there.
 #'
 #' If you need comments preserved, pass the code as a string or a file path, or write
-#' it as a chunk in the document -- see [livelink-knitr] and
+#' it as a chunk in the document. See [livelink-knitr] and
 #' `vignette("links-in-documents", package = "livelink")`.
 #'
-#' @seealso [webr_repl_project()] for multi-file projects and
-#'   [webr_repl_exercise()] for exercise and solution pairs; [livelink-knitr] to
-#'   give a document chunk its own link; `vignette("getting-started", package =
-#'   "livelink")` for an introduction.
+#' @seealso
+#' [webr_repl_project()] for multi-file projects.
+#'
+#' [webr_repl_exercise()] for exercise and solution pairs.
+#'
+#' [livelink-knitr] to give a document chunk its own link.
+#'
+#' `vignette("getting-started", package = "livelink")` for an introduction.
 #'
 #' @export
 #' @examples
@@ -81,6 +103,19 @@ webr_repl_link <- function(input = NULL,
     process_input(input = input)
   }
 
+  # A script is one string. Anything else is serialized as a map, an array, or
+  # nil in place of the file's `text`, producing a link that looks ordinary here
+  # and cannot open. NA is the notable one: it used to encode as a null without
+  # a word.
+  if (!is.character(code) || length(code) != 1 || is.na(code)) {
+    cli::cli_abort(c(
+      "{.arg input} must be a single piece of code",
+      "x" = "You provided: {describe_value(code)}",
+      "i" = "Pass a string, a file path, an expression in braces, or use
+             {.fn webr_repl_project} for several files."
+    ))
+  }
+
   check_single_string(filename, "filename")
   check_single_logical(autorun, "autorun")
   check_valid_mode(panels, "panels")
@@ -122,7 +157,7 @@ webr_repl_link <- function(input = NULL,
 
   # The `a` flag must agree with the per-item autorun set above, or the link
   # claims to autorun a file that carries no autorun instruction.
-  flags <- if (autorun_enabled) "jza" else "jz"
+  flags <- if (autorun_enabled) "mza" else "mz"
 
   url <- build_webr_url(base_url, encoded_data, flags, panels)
 
@@ -131,8 +166,8 @@ webr_repl_link <- function(input = NULL,
 
 #' Create webR REPL sharelink for multiple files
 #'
-#' Creates a webR sharelink for projects with multiple R files, data files, or other resources.
-#' Supports named lists and file path vectors as input.
+#' Creates a webR sharelink for projects with multiple R files, data files, or
+#' other resources.
 #'
 #' @param input Input for multiple files. Can be:
 #'   - Named list of braced expressions, so each file is written as R rather than
@@ -146,12 +181,25 @@ webr_repl_link <- function(input = NULL,
 #' @param autorun_files Character vector of filenames to auto-execute when project loads, or "all" to autorun all R files (default: none)
 #' @param base_path Base directory path for all files (default: `"/home/web_user/"`)
 #' @param panels Character vector or string specifying which webR interface panels to show.
-#'   Valid panels: `"plot"`, `"files"`, `"terminal"`, `"editor"`. Can be `c("plot", "files")` or `"plot-files"`.
+#'   The panels are `"plot"`, `"files"`, `"terminal"`, and `"editor"`. Can be `c("plot", "files")` or `"plot-files"`.
 #'   If NULL (default), shows all panels.
 #' @param version webR version to use (`"latest"` or specific version >= "v0.5.4")
 #' @param base_url webR application URL. If NULL, uses global option or builds from version
 #'
-#' @return webr_project object containing the webR sharelink for the multi-file project
+#' @return
+#' A `webr_project` object, which is a list with these entries.
+#'
+#' - `url`, the sharelink itself, as a single string.
+#' - `files`, the names of the files carried in the link.
+#' - `base_path`, the folder the files are placed in inside webR.
+#' - `mode`, the panels the link asks for, or `NULL` for all of them.
+#' - `version`, the webR version the link points at.
+#' - `autorun_files`, the names you asked to run on opening.
+#'
+#' @details
+#' Every file is placed under `base_path` inside webR, so a
+#' `source("utils.R")` in one file finds its sibling. Names are used verbatim
+#' and may carry a subdirectory, as in `"R/helpers.R"`.
 #'
 #' @section Writing a project as code:
 #' A file's contents can be given as a `{ ... }` block instead of a string, which
@@ -165,16 +213,17 @@ webr_repl_link <- function(input = NULL,
 #' ))
 #' ```
 #'
-#' The blocks are **never evaluated** -- they are source to ship, not code to run
-#' -- so an assignment inside one leaves nothing behind in your session.
+#' The blocks are **never evaluated**. They are source to ship, not code to run,
+#' so an assignment inside one leaves nothing behind in your session.
 #'
 #' Two things to know. Comments inside `{ }` survive in an interactive session but
 #' not in a knitted document (see [webr_repl_link()]). And a `library()` call
 #' inside a block is visible to `R CMD check`, which will report the package as an
-#' undeclared dependency of *yours*; in a vignette or an example, use a string for
+#' undeclared dependency of *yours*. In a vignette or an example, use a string for
 #' code that loads packages.
 #'
-#' @seealso [webr_repl_link()] for the single-file case.
+#' @seealso
+#' [webr_repl_link()] for the single-file case.
 #'
 #' @export
 #' @examples
@@ -213,7 +262,14 @@ webr_repl_project <- function(input,
   # Captured, not forced: a literal list() may name each file's contents as a
   # `{ ... }` block, and forcing it would run those blocks instead of shipping
   # them.
-  x_expr <- substitute(input)
+  # A missing `input` would otherwise reach process_project_input() as an empty
+  # promise and surface base R's "argument \"x_expr\" is missing" -- naming an
+  # internal variable. Route it to the clipboard branch, which has the message.
+  x_expr <- if (missing(input)) NULL else substitute(input)
+  if (missing(input)) {
+    input <- NULL
+  }
+
   processed_files <- process_project_input(
     input = input, x_expr = x_expr, env = parent.frame()
   )
@@ -247,9 +303,7 @@ webr_repl_project <- function(input,
 #' Bundle a set of named file contents into one webR project link
 #'
 #' The encoding core shared by [webr_repl_project()] and
-#' [webr_repl_directory()]'s `single_link` mode. Inputs are already validated and
-#' normalized: `processed_files` is a named list of file contents, `base_path`
-#' ends in `/`, and `base_url` is resolved.
+#' [webr_repl_directory()]'s `single_link` mode.
 #'
 #' @param processed_files Named list mapping filename to its content string
 #' @param autorun_files Character vector of files to autorun, or `"all"`
@@ -257,11 +311,34 @@ webr_repl_project <- function(input,
 #' @param panels Panels to show, or NULL
 #' @param version WebR version
 #' @param base_url Resolved WebR base URL
-#' @return A `webr_project` object
+#'
+#' @return
+#' A `webr_project` object, a list holding the `url`, `files`, `base_path`,
+#' `mode`, `version`, and `autorun_files` entries described in
+#' [webr_repl_project()].
+#'
+#' @details
+#' Inputs are already validated and normalized.
+#'
+#' - `processed_files` is a named list of file contents.
+#' - `base_path` ends in `/`.
+#' - `base_url` is resolved.
+#'
 #' @noRd
 build_webr_project <- function(processed_files, autorun_files, base_path,
                                panels, version, base_url) {
-  autorun_all <- length(autorun_files) == 1 && autorun_files == "all"
+  will_autorun <- effective_autorun_files(names(processed_files), autorun_files)
+
+  # Naming a file that cannot autorun is a silent no-op otherwise, and
+  # webr_repl_link() already warns in the same situation.
+  ignored <- setdiff(autorun_files, c("all", will_autorun))
+  if (length(ignored) > 0) {
+    cli::cli_warn(c(
+      "Ignoring {.arg autorun_files} entr{?y/ies}: {.file {ignored}}",
+      "i" = "webR only runs {.code .R} files on open, and each name must match
+             a file in the project."
+    ))
+  }
 
   share_items <- mapply(function(content, filename) {
     item <- list(
@@ -270,10 +347,7 @@ build_webr_project <- function(processed_files, autorun_files, base_path,
       text = content
     )
 
-    should_autorun <- grepl("\\.R$", filename, ignore.case = TRUE) &&
-      (autorun_all || filename %in% autorun_files)
-
-    if (should_autorun) {
+    if (filename %in% will_autorun) {
       item$autorun <- TRUE
     }
 
@@ -286,7 +360,7 @@ build_webr_project <- function(processed_files, autorun_files, base_path,
   # `autorun_files = "all"` -- a named autorun list used to encode the per-item
   # flag but never the URL flag that activates it.
   any_autorun <- any(vapply(share_items, function(i) isTRUE(i$autorun), logical(1)))
-  flags <- if (any_autorun) "jza" else "jz"
+  flags <- if (any_autorun) "mza" else "mz"
 
   url <- build_webr_url(base_url, encoded_data, flags, panels)
 
@@ -296,8 +370,8 @@ build_webr_project <- function(processed_files, autorun_files, base_path,
 
 #' Create paired exercise and solution webR REPL links
 #'
-#' Generates a pair of webR links for educational purposes: one for student exercises
-#' (without autorun) and one for solutions (with autorun enabled).
+#' Generates a pair of webR links for teaching. One link holds the exercise for
+#' the student and the other holds the solution.
 #'
 #' @param exercise_text Character string containing the exercise code with placeholders or TODOs
 #' @param solution_text Character string containing the complete solution code
@@ -306,11 +380,25 @@ build_webr_project <- function(processed_files, autorun_files, base_path,
 #' @param version webR version to use ("latest" or specific version >= "v0.5.4")
 #' @param base_url webR application URL. If NULL, uses global option or builds from version
 #'
-#' @return webr_exercise object holding the paired `exercise` and `solution` links
+#' @return
+#' A `webr_exercise` object, which is a list with these entries.
 #'
-#' @seealso [webr_repl_link()], which this builds on;
-#'   `vignette("teaching", package = "livelink")` for using links in a course.
+#' - `exercise`, the student's link, a `webr_link` object that does not autorun.
+#' - `solution`, the answer link, a `webr_link` object that autoruns on opening.
 #'
+#' Each of the two is itself a list holding the entries described in
+#' [webr_repl_link()], so `links$solution$url` is the solution URL on its own.
+#'
+#' @details
+#' The exercise link is built without autorun, so the student works through it,
+#' while the solution link is built with autorun enabled.
+#'
+#' @seealso
+#' [webr_repl_link()], which this builds on.
+#'
+#' `vignette("teaching", package = "livelink")` for using links in a course.
+#'
+#' @export
 #' @examples
 #' exercise_code <- "
 #' # Exercise: Calculate mean of mtcars$mpg
@@ -332,8 +420,6 @@ build_webr_project <- function(processed_files, autorun_files, base_path,
 #' # Custom path and version
 #' webr_repl_exercise(exercise_code, solution_code, "stats",
 #'                    base_path = "/exercises/", version = "v0.5.4")
-#'
-#' @export
 webr_repl_exercise <- function(exercise_text,
                                solution_text,
                                exercise_name,

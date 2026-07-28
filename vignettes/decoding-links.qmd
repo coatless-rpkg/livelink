@@ -176,11 +176,12 @@ Each URL gets its own subdirectory, so submissions cannot overwrite one another.
 
 ## Reading links livelink did not create
 
-webR's own share dialog encodes files with **msgpack**, not JSON, and livelink writes
-JSON. The flags at the end of a URL say which is which. `jz` is JSON + gzip,
-`mz` is msgpack + gzip, and `a` means autorun.
+webR's own share dialog encodes files with **msgpack**, and so does livelink, so a
+link from either writes the same format. Older livelink links used JSON. The flags at
+the end of a URL say which is which: `mz` is msgpack + gzip, `jz` is JSON + gzip, and
+`a` means autorun.
 
-![The flags record how a link was encoded. livelink decodes both its own JSON links and the msgpack links webR's share button writes, into the same files.](../man/figures/dialects-light.svg){.ll-fig .ll-light}
+![The flags record how a link was encoded. livelink decodes msgpack and JSON links alike, whoever wrote them, into the same files.](../man/figures/dialects-light.svg){.ll-fig .ll-light}
 ![](../man/figures/dialects-dark.svg){.ll-fig .ll-dark aria-hidden="true"}
 
 livelink reads all of them. A link produced by webR itself decodes exactly like one

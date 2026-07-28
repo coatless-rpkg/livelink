@@ -7,12 +7,12 @@
       -- webR Link Preview --
       
       URL:
-      <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBaUlNLkotic9NLMpOLVKw0VUwMVKqjQUAjrwblA%3D%3D&jz>
+      <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKks3FqclFqSXxuYlF2alFCja6CiZGACt4HFg%3D&mz>
       
       Files: 1
       Total size: 19 bytes
       Version: "latest"
-      Encoding: "jz"
+      Encoding: "mz"
       
       'script.R' (19 bytes)
       
@@ -27,12 +27,12 @@
       -- webR Link Preview --
       
       URL:
-      <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBaUlNLkotic9NLMpOLVKw0VUwMVKqjQUAjrwblA%3D%3D&jz>
+      <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKks3FqclFqSXxuYlF2alFCja6CiZGACt4HFg%3D&mz>
       
       Files: 1
       Total size: 19 bytes
       Version: "latest"
-      Encoding: "jz"
+      Encoding: "mz"
       
       'script.R' (19 bytes)
         secret_marker <- 42

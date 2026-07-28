@@ -180,7 +180,7 @@ for your reader.
 | `livelink: true` | `webr.r-wasm.org/…` | hook only: turn an `r` chunk into a webR link |
 | `livelink: shinylive-r` | `shinylive.io/r/…` | hook only: a Shiny app instead of a REPL (also `"webr"`, `"shinylive-py"`) |
 | `engine.target: shinylive-r` | `shinylive.io/r/…` | engine only: the same targets, for a `{livelink}` chunk |
-| `autorun: true` | `&jza` (the `a` flag) | webR only: run the code the moment the link opens |
+| `autorun: true` | `&mza` (the `a` flag) | webR only: run the code the moment the link opens |
 | `panels: ["editor", "plot"]` | `?mode='editor-plot'` | webR only: which panels appear |
 | `mode: app` | `shinylive.io/r/app/` | Shinylive only: the running app, not the code |
 | `filename: analysis.R` | `analysis.R` | the file's name inside the environment |

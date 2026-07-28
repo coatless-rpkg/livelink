@@ -20,7 +20,7 @@
   <text class="s muted" x="548" y="150" font-size="11.5">engine only: a Shiny app link</text>
   <rect x="25" y="160" width="800" height="30" fill="#1e293b"/>
   <text class="m" x="40" y="180" font-size="11" xml:space="preserve"><tspan class="ink">autorun</tspan><tspan class="ink">: </tspan><tspan class="num">true</tspan></text>
-  <text class="m" x="300" y="180" font-size="11" xml:space="preserve"><tspan class="ink">&amp;jz</tspan><tspan class="flag">a</tspan></text>
+  <text class="m" x="300" y="180" font-size="11" xml:space="preserve"><tspan class="ink">&amp;mz</tspan><tspan class="flag">a</tspan></text>
   <text class="s muted" x="548" y="180" font-size="11.5">webR: run the moment it opens</text>
   <text class="m" x="40" y="210" font-size="11" xml:space="preserve"><tspan class="ink">panels</tspan><tspan class="ink">: </tspan><tspan class="str">["editor", "plot"]</tspan></text>
   <text class="m" x="300" y="210" font-size="11" xml:space="preserve"><tspan class="ink">?mode=</tspan><tspan class="pan">'editor-plot'</tspan></text>

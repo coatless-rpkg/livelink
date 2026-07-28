@@ -29,7 +29,7 @@ test_that("webr_repl_link respects autorun", {
   result <- webr_repl_link("print('hello')", autorun = TRUE)
 
   expect_true(result$autorun)
-  expect_true(grepl("&jza", result$url)) # 'a' flag for autorun
+  expect_true(grepl("&mza", result$url)) # 'a' flag for autorun
 })
 
 test_that("webr_repl_link respects mode parameter", {

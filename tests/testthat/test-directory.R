@@ -139,7 +139,7 @@ test_that("single_link honors panels and autorun", {
 
   expect_match(url, "mode='editor-plot'", fixed = TRUE)
   # autorun bundles the a flag and marks every R file to run.
-  expect_match(url, "&jza", fixed = TRUE)
+  expect_match(url, "&mza", fixed = TRUE)
   expect_setequal(preview_webr_link(url)$autorun_files, c("one.R", "two.R"))
 })
 

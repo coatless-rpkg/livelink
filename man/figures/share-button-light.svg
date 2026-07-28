@@ -43,7 +43,7 @@
   <rect x="206" y="106" width="156" height="50" rx="7" fill="#ffffff" stroke="#e2e8f0"/>
   <text class="s lbl faint" x="217" y="121" font-size="7.5">SHARE LINK</text>
   <rect x="217" y="127" width="94" height="21" rx="4" fill="#f1f5f9" stroke="#e2e8f0"/>
-  <text class="m" x="222" y="141" font-size="8.5" xml:space="preserve"><tspan class="frag">#code=eJyLrlb…</tspan><tspan class="flag">&amp;jz</tspan></text>
+  <text class="m" x="222" y="141" font-size="8.5" xml:space="preserve"><tspan class="frag">#code=eJyLrlb…</tspan><tspan class="flag">&amp;mz</tspan></text>
   <rect x="316" y="127" width="37" height="21" rx="5" fill="#0054AD"/>
   <text x="334.5" y="141" font-size="9" font-weight="700" text-anchor="middle" fill="#ffffff" class="s">Copy</text>
   <rect x="386" y="44" width="334" height="196" rx="8" fill="#e2e8f0" stroke="#e2e8f0"/>
