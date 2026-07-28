@@ -8,3 +8,7 @@ inst/doc
 .DS_Store
 *_files
 CRAN-SUBMISSION
+
+# conformance harness deps
+tools/conformance/node_modules/
+tools/conformance/package-lock.json

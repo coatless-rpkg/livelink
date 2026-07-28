@@ -27,3 +27,4 @@
 ^\.gitignore$
 ^specs$
 ^data-raw$
+^tools$
