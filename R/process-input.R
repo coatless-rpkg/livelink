@@ -1,15 +1,21 @@
 #' Stringify R expressions to source code
 #'
-#' Adapted from `stringify_expression()` in the reprex package
-#' (<https://github.com/tidyverse/reprex/blob/main/R/stringify_expression.R>),
-#' Copyright (c) 2024 reprex authors, MIT licensed -- see inst/COPYRIGHTS. The
-#' srcref reconstruction, trailing-comment rescue, and common-indentation trim
-#' come from reprex; the braced-body deparse fallback, the wholeSrcref bound on
-#' the tail scan, and the clamped-range `getSrcLines()` shim below are local
-#' changes.
+#' Recovers the source text a captured expression was written from.
 #'
 #' @param x Expression to stringify
-#' @return Character string of source code
+#'
+#' @return
+#' Character string of source code
+#'
+#' @section Provenance:
+#' Adapted from `stringify_expression()` in the reprex package
+#' (<https://github.com/tidyverse/reprex/blob/main/R/stringify_expression.R>),
+#' Copyright (c) 2024 reprex authors, MIT licensed (see inst/COPYRIGHTS).
+#' The srcref reconstruction, trailing-comment rescue, and common-indentation
+#' trim come from reprex. The braced-body deparse fallback, the wholeSrcref
+#' bound on the tail scan, and the clamped-range `getSrcLines()` shim below are
+#' local changes.
+#'
 #' @noRd
 stringify_expression <- function(x) {
   if (is.null(x)) {
@@ -18,18 +24,18 @@ stringify_expression <- function(x) {
 
   .srcref <- utils::getSrcref(x)
 
-  if (is.null(.srcref)) {
-    # No srcrefs: R was parsed with keep.source = FALSE (the default under
-    # Rscript and R CMD check), so comments are already gone and only the
-    # abstract syntax survives. Deparse the braced body statement by statement
-    # so the wrapping `{` and `}` do not end up in the shared script.
-    if (is.call(x) && identical(x[[1]], as.name("{"))) {
-      body_exprs <- as.list(x)[-1]
-      lines <- unlist(lapply(body_exprs, deparse))
-      return(enc2utf8(lines))
-    }
+  # Srcrefs can exist while the source they point at cannot be read back: an
+  # editor's unsaved buffer parses against a srcfile whose "filename" is not a
+  # path (Positron's Run button sends "untitled:Untitled-1") and whose lines
+  # are not cached. as.character(useSource = TRUE) then hands back a
+  # "<srcref: ...>" placeholder rather than code, so treat an unreadable
+  # srcfile as if there were no srcrefs at all and deparse instead.
+  if (!is.null(.srcref) && !srcref_is_readable(.srcref[[1L]])) {
+    .srcref <- NULL
+  }
 
-    return(enc2utf8(deparse(x)))
+  if (is.null(.srcref)) {
+    return(deparse_expression(x))
   }
 
   # Construct a new srcref with the first_line, first_byte, etc. from the
@@ -52,21 +58,33 @@ stringify_expression <- function(x) {
   lines <- enc2utf8(as.character(src, useSource = TRUE))
 
   # remove the first brace and line if the brace is the only thing on the line
-  lines[[1L]] <- sub("^[{]", "", lines[[1L]])
-  if (!nzchar(lines[[1L]])) {
-    lines <- lines[-1L]
+  if (length(lines) > 0) {
+    lines[[1L]] <- sub("^[{]", "", lines[[1L]])
+    if (!nzchar(lines[[1L]])) {
+      lines <- lines[-1L]
+    }
   }
 
   # identify the last source line affiliated with an expression
   n <- utils::getSrcLocation(last_src, which = "line", first = FALSE)
 
-  # rescue trailing comment on (current) last surviving line
+  # rescue trailing comment on (current) last surviving line.
+  #
+  # Both sides can legitimately be empty, and neither may be indexed blind:
+  # `{ }` or a comment-only block leaves nothing once the brace is stripped,
+  # and a srcfile that no longer reaches line n -- a file truncated or shortened
+  # since it was parsed -- yields no raw line. Handing character(0) to regexpr()
+  # or grepl() aborts with "invalid 'pattern' argument" or "argument is of
+  # length zero". There is simply no line to hang a rescued comment on, so skip.
   last_source_line <- getSrcLines(.srcfile, n, n) # "raw"
-  last_line <- lines[length(lines)] # srcref'd
-  m <- regexpr(last_line, last_source_line, fixed = TRUE)
-  rescue_me <- substring(last_source_line, m + attr(m, "match.length"))
-  if (grepl("^\\s*#", rescue_me)) {
-    lines[length(lines)] <- paste0(last_line, rescue_me)
+
+  if (length(lines) > 0 && length(last_source_line) > 0) {
+    last_line <- lines[length(lines)] # srcref'd
+    m <- regexpr(last_line, last_source_line, fixed = TRUE)
+    rescue_me <- substring(last_source_line, m + attr(m, "match.length"))
+    if (grepl("^\\s*#", rescue_me)) {
+      lines[length(lines)] <- paste0(last_line, rescue_me)
+    }
   }
 
   # rescue trailing comment lines, but only those still INSIDE the block.
@@ -81,17 +99,139 @@ stringify_expression <- function(x) {
   closing_bracket_line <- max(grep("^\\s*[}]", tail_lines), 0)
   tail_lines <- utils::head(tail_lines, closing_bracket_line - 1)
 
-  trim_common_leading_ws(c(lines, tail_lines))
+  recovered <- trim_common_leading_ws(c(lines, tail_lines))
+
+  # A srcref records where the source was, not what it says now. If the file has
+  # changed since it was parsed -- an editor buffer saved over, a script
+  # regenerated -- those line and column numbers address whatever occupies them
+  # today, and the "recovered" text is some other code entirely. That is worse
+  # than losing comments: it silently ships source the caller never wrote, and
+  # has been seen to pick up neighbouring lines wholesale. Deparsing the
+  # expression we were actually handed cannot do that.
+  if (!recovered_matches(recovered, x)) {
+    return(deparse_expression(x))
+  }
+
+  recovered
+}
+
+#' Deparse an expression to shareable source
+#'
+#' The fallback whenever source references cannot be trusted.
+#'
+#' @param x Expression to deparse
+#'
+#' @return
+#' Character vector of source lines, without the wrapping braces
+#'
+#' @details
+#' Source references cannot be trusted when there are no srcrefs at all, when
+#' the source cannot be read back, or when it no longer matches. Comments are
+#' lost (they live only in srcrefs), but the code is right.
+#'
+#' @noRd
+deparse_expression <- function(x) {
+  # Deparse a braced body statement by statement, so the wrapping `{` and `}`
+  # do not end up in the shared script.
+  if (is_brace_call(x)) {
+    body_exprs <- as.list(x)[-1]
+
+    # An empty block has nothing to deparse, and unlist() of nothing is NULL,
+    # which enc2utf8() rejects. Say so directly instead.
+    if (length(body_exprs) == 0) {
+      return(character(0))
+    }
+
+    return(enc2utf8(unlist(lapply(body_exprs, deparse))))
+  }
+
+  enc2utf8(deparse(x))
+}
+
+#' Does recovered source actually say what the expression says?
+#'
+#' Compares structure, not text.
+#'
+#' @param lines Source lines recovered from the srcrefs
+#' @param x The expression they are supposed to describe
+#'
+#' @return
+#' TRUE if the two agree
+#'
+#' @details
+#' The recovered lines are parsed and deparsed alongside the expression itself,
+#' so comments, indentation and line breaks are free to differ (which is the
+#' whole point of reading source back), while a genuine mismatch is caught.
+#'
+#' @noRd
+recovered_matches <- function(lines, x) {
+  if (length(lines) == 0) {
+    # Nothing recovered is only right when there was nothing to recover.
+    return(!is_brace_call(x) || length(as.list(x)) == 1L)
+  }
+
+  parsed <- tryCatch(
+    parse(text = lines, keep.source = FALSE),
+    error = function(e) NULL
+  )
+
+  if (is.null(parsed)) {
+    return(FALSE)
+  }
+
+  expected <- if (is_brace_call(x)) as.list(x)[-1] else list(x)
+
+  if (length(parsed) != length(expected)) {
+    return(FALSE)
+  }
+
+  normalise <- function(exprs) {
+    vapply(exprs, function(e) paste(deparse(e), collapse = "\n"), character(1))
+  }
+
+  identical(normalise(as.list(parsed)), normalise(expected))
+}
+
+#' Is the source text behind a srcref still readable?
+#'
+#' A srcref only locates source. It does not carry it.
+#'
+#' @param src A single srcref
+#'
+#' @return
+#' TRUE if the srcref's first line can be read back
+#'
+#' @details
+#' Whether the text can be recovered depends on the srcfile still being able to
+#' produce its lines.
+#'
+#' @noRd
+srcref_is_readable <- function(src) {
+  .srcfile <- attr(src, "srcfile")
+
+  if (is.null(.srcfile)) {
+    return(FALSE)
+  }
+
+  first_line <- src[[1L]]
+
+  length(getSrcLines(.srcfile, first_line, first_line)) > 0
 }
 
 #' Trim common leading whitespace from lines
 #'
-#' Adapted from the reprex package's helper of the same name (R/utils.R),
-#' Copyright (c) 2024 reprex authors, MIT licensed -- see inst/COPYRIGHTS.
-#' The guards for empty and whitespace-only input are local additions.
+#' Removes the leading whitespace that every line has in common.
 #'
 #' @param lines Character vector of lines
-#' @return Character vector with common leading whitespace removed
+#'
+#' @return
+#' Character vector with common leading whitespace removed
+#'
+#' @section Provenance:
+#' Adapted from the reprex package's helper of the same name (R/utils.R),
+#' Copyright (c) 2024 reprex authors, MIT licensed (see inst/COPYRIGHTS).
+#' The guards for empty and whitespace-only input are local additions.
+#'
 #' @noRd
 trim_common_leading_ws <- function(lines) {
   if (length(lines) == 0) return(lines)
@@ -114,24 +254,94 @@ trim_common_leading_ws <- function(lines) {
 #' Get source lines from srcfile
 #'
 #' Deliberately shadows base::getSrcLines(), which the reprex original calls,
-#' with clamped-range semantics: out-of-range requests return character(0)
-#' rather than erroring.
+#' with total semantics. Anything unreadable returns character(0) rather than
+#' erroring.
 #'
 #' @param srcfile Source file object
 #' @param start Start line
 #' @param end End line
-#' @return Character vector of source lines
+#'
+#' @return
+#' Character vector of source lines, empty if they cannot be read
+#'
+#' @details
+#' Reading `srcfile$lines` directly is not enough, because only a srcfilecopy
+#' caches its lines. A plain srcfile leaves them NULL and base reads the file on
+#' demand.
+#'
 #' @noRd
 getSrcLines <- function(srcfile, start, end = start) {
   if (start > end || start < 1) {
     return(character(0))
   }
 
-  srcfile$lines[start:min(end, length(srcfile$lines))]
+  # base::getSrcLines() clamps an end past the last line, but errors outright
+  # when the file behind the srcfile cannot be opened.
+  tryCatch(
+    suppressWarnings(base::getSrcLines(srcfile, start, end)),
+    error = function(e) character(0)
+  )
+}
+
+#' Read a file that has to survive being embedded in a link
+#'
+#' Reads a text file and refuses content that could not be read back out of a
+#' link.
+#'
+#' @param path Path to a single file
+#'
+#' @return
+#' The file's contents as one UTF-8 string
+#'
+#' @details
+#' The payload is serialized to JSON and later parsed back with
+#' `rawToChar()`, so anything that is not valid UTF-8 produces a link that
+#' cannot be decoded. Not even this package's own `preview_webr_link()` can
+#' read it back, and it fails with "input string 1 is invalid UTF-8".
+#' A latin-1 script or a stray binary file is the realistic case, and it used
+#' to be accepted silently. An embedded NUL is worse than invalid. `readLines()`
+#' truncates the line at it, so content disappears without a word.
+#'
+#' @noRd
+read_text_file <- function(path) {
+  # `warn = TRUE`, because `warn = FALSE` silences the embedded-NUL warning
+  # along with the harmless missing-final-EOL one. The handler below keeps the
+  # distinction: abort on the first, muffle the second.
+  lines <- withCallingHandlers(
+    readLines(path, warn = TRUE),
+    warning = function(w) {
+      if (grepl("nul|embedded", conditionMessage(w), ignore.case = TRUE)) {
+        cli::cli_abort(c(
+          "Cannot embed {.file {path}}: it contains an embedded NUL",
+          "i" = "Only text files can travel in a link.",
+          "i" = "Have the code fetch a binary file instead of carrying it."
+        ), call = NULL)
+      }
+      invokeRestart("muffleWarning")
+    }
+  )
+
+  content <- enc2utf8(paste(lines, collapse = "\n"))
+
+  if (!all(validUTF8(content))) {
+    cli::cli_abort(c(
+      "Cannot embed {.file {path}}: it is not valid UTF-8",
+      "i" = "A link carries its files as UTF-8 text, so this one could not be
+             read back.",
+      "i" = "Re-save the file as UTF-8, or have the code fetch it instead."
+    ), call = NULL)
+  }
+
+  content
 }
 
 #' Read clipboard content
-#' @return Character vector of clipboard content
+#'
+#' Reads the clipboard, aborting when it is unavailable or empty.
+#'
+#' @return
+#' Character vector of clipboard content
+#'
 #' @noRd
 ingest_clipboard <- function() {
   if (!requireNamespace("clipr", quietly = TRUE)) {
@@ -158,14 +368,21 @@ ingest_clipboard <- function() {
 
 #' Locate and categorize input type
 #'
-#' The locate-then-switch dispatch design, and the helper names locate_input()
-#' and ingest_clipboard(), follow the reprex package's input handling
-#' (R/utils-io.R, R/utils-clipboard.R, R/reprex_impl.R); the implementations
-#' here are livelink's own.
+#' Works out where the code is coming from, whether an expression, the
+#' clipboard, file paths, or literal input.
 #'
 #' @param input Input provided by user
 #' @param x_expr Expression provided by user
-#' @return Character string indicating input type
+#'
+#' @return
+#' Character string indicating input type
+#'
+#' @section Provenance:
+#' The locate-then-switch dispatch design, and the helper names locate_input()
+#' and ingest_clipboard(), follow the reprex package's input handling
+#' (R/utils-io.R, R/utils-clipboard.R, R/reprex_impl.R). The implementations
+#' here are livelink's own.
+#'
 #' @noRd
 locate_input <- function(input = NULL, x_expr = NULL) {
   if (!is.null(x_expr)) {
@@ -174,6 +391,15 @@ locate_input <- function(input = NULL, x_expr = NULL) {
 
   if (is.null(input)) {
     return("clipboard")
+  }
+
+  # Zero-length input classified as a path, because `all()` of nothing is TRUE,
+  # and then failed inside readLines() with "invalid 'description' argument".
+  if (length(input) == 0) {
+    cli::cli_abort(c(
+      "{.arg input} is empty",
+      "i" = "Pass code, a file path, or an expression in braces."
+    ), call = NULL)
   }
 
   if (is.character(input)) {
@@ -209,15 +435,20 @@ locate_input <- function(input = NULL, x_expr = NULL) {
 
 #' Check if string looks like a file path
 #'
-#' A file on disk is always a path. For anything else we have to guess, and the
-#' guess must be conservative: R code routinely contains `/` (division) and
-#' trailing dot-suffixes (`df$col.name`), so treating those as paths would
-#' reject ordinary code. We therefore only call a non-existent string a path
-#' when it carries no code syntax *and* has a file extension -- which keeps
-#' mistyped filenames reporting "not found" instead of being silently encoded.
+#' A file on disk is always a path. For anything else we have to guess.
 #'
 #' @param x Character vector to check
-#' @return Logical vector, one element per input
+#'
+#' @return
+#' Logical vector, one element per input
+#'
+#' @details
+#' The guess must be conservative. R code routinely contains `/` (division) and
+#' trailing dot-suffixes (`df$col.name`), so treating those as paths would
+#' reject ordinary code. We therefore only call a non-existent string a path
+#' when it carries no code syntax *and* has a file extension. That keeps
+#' mistyped filenames reporting "not found" instead of being silently encoded.
+#'
 #' @noRd
 is_likely_file_path <- function(x) {
   if (!is.character(x)) return(FALSE)
@@ -241,9 +472,18 @@ is_likely_file_path <- function(x) {
 }
 
 #' Process input based on its type
+#'
+#' Dispatches on the located input type and turns it into the code to share.
+#'
 #' @param input Input provided by user
 #' @param x_expr Expression provided by user
-#' @return Character string or named list of processed content
+#'
+#' @return
+#' The processed content.
+#'
+#' - A character string.
+#' - A named list.
+#'
 #' @noRd
 process_input <- function(input = NULL, x_expr = NULL) {
   where <- locate_input(input, x_expr)
@@ -261,19 +501,19 @@ process_input <- function(input = NULL, x_expr = NULL) {
            paste(content, collapse = "\n")
          },
          path = {
-           if (length(input) == 1) {
-             # Single file - return content as string
-             content <- readLines(input, warn = FALSE)
-             paste(content, collapse = "\n")
-           } else {
-             # Multiple files - return named list
-             files <- lapply(input, function(file) {
-               content <- readLines(file, warn = FALSE)
-               paste(content, collapse = "\n")
-             })
-             names(files) <- basename(input)
-             files
+           # A single script is one file. Returning a named list here instead
+           # produced a link whose only file had a JSON object for its body,
+           # which looks fine locally and fails to open. The sibling `input`
+           # branch already refuses the analogous case.
+           if (length(input) > 1) {
+             cli::cli_abort(c(
+               "Multiple file paths not supported for single code input",
+               "i" = "Use one file path, a single string, or an expression",
+               "i" = "For multiple files, use {.fn webr_repl_project}"
+             ))
            }
+
+           read_text_file(input)
          },
          input = {
            if (length(input) == 1) {
@@ -293,13 +533,18 @@ process_input <- function(input = NULL, x_expr = NULL) {
 
 #' Is this captured expression a `{ ... }` block?
 #'
-#' Only a brace block means "treat my argument as literal source code". Any
-#' other call -- `list(...)`, `paste0(...)`, `readLines(f)` -- is a value the
+#' Only a brace block means "treat my argument as literal source code".
+#'
+#' @param x_expr Result of [substitute()] on the input argument
+#'
+#' @return
+#' TRUE if `x_expr` is a brace block
+#'
+#' @details
+#' Any other call (`list(...)`, `paste0(...)`, `readLines(f)`) is a value the
 #' user wants evaluated, and deparsing it would ship the call itself as the
 #' shared script.
 #'
-#' @param x_expr Result of [substitute()] on the input argument
-#' @return TRUE if `x_expr` is a brace block
 #' @noRd
 is_brace_call <- function(x_expr) {
   is.call(x_expr) && identical(x_expr[[1]], as.name("{"))
@@ -308,11 +553,17 @@ is_brace_call <- function(x_expr) {
 #' Is this captured expression a literal `list(...)` call?
 #'
 #' Only a literal call written at the call site can be taken apart without
-#' evaluating it. A symbol -- `webr_repl_project(project)` -- has to be forced
-#' and handled the ordinary way.
+#' evaluating it.
 #'
 #' @param x_expr Result of [substitute()] on the input argument
-#' @return TRUE if `x_expr` is a call to `list`
+#'
+#' @return
+#' TRUE if `x_expr` is a call to `list`
+#'
+#' @details
+#' A symbol (`webr_repl_project(project)`) has to be forced and handled the
+#' ordinary way.
+#'
 #' @noRd
 is_literal_list_call <- function(x_expr) {
   is.call(x_expr) && identical(x_expr[[1]], as.name("list"))
@@ -323,14 +574,21 @@ is_literal_list_call <- function(x_expr) {
 #' Each element is either a `{ ... }` block, taken as literal source, or an
 #' ordinary value, evaluated in the caller's environment.
 #'
+#' @param x_expr The captured `list(...)` call
+#' @param env Environment in which to evaluate the non-braced elements
+#'
+#' @return
+#' One of two things.
+#'
+#' - A named list of file contents.
+#' - NULL if this is not the shape we want.
+#'
+#' @details
 #' The braces must NOT be evaluated. `list("a.R" = { x <- 1 })` would otherwise
-#' run the block in the caller's frame and leave `x` behind; the whole point is
+#' run the block in the caller's frame and leave `x` behind. The whole point is
 #' that this is code to ship, not code to run. Because we work from
 #' [substitute()] and never force the promise, nothing in a brace is executed.
 #'
-#' @param x_expr The captured `list(...)` call
-#' @param env Environment in which to evaluate the non-braced elements
-#' @return Named list of file contents, or NULL if this is not the shape we want
 #' @noRd
 eval_project_list <- function(x_expr, env) {
   args <- as.list(x_expr)[-1]
@@ -369,14 +627,22 @@ eval_project_list <- function(x_expr, env) {
 #' Process input for a Shinylive app
 #'
 #' Shinylive apps are single-file or multi-file, so the input can be a lone code
-#' string (or expression) as well as the project-shaped forms -- a named list of
-#' files, or several file paths. Route the project-shaped ones accordingly;
-#' [process_input()] deliberately rejects them.
+#' string (or expression) as well as the project-shaped forms.
 #'
 #' @param input Input provided by the user
 #' @param x_expr Expression provided by the user
 #' @param env Environment for evaluating list elements
-#' @return A single code string, or a named list of file contents
+#'
+#' @return
+#' The content to share.
+#'
+#' - A single code string.
+#' - A named list of file contents.
+#'
+#' @details
+#' The project-shaped forms are a named list of files, or several file paths.
+#' Route those accordingly. [process_input()] deliberately rejects them.
+#'
 #' @noRd
 process_shinylive_input <- function(input = NULL, x_expr = NULL,
                                     env = parent.frame()) {
@@ -401,10 +667,17 @@ process_shinylive_input <- function(input = NULL, x_expr = NULL,
 }
 
 #' Process input for multi-file projects
+#'
+#' Turns project-shaped input (a named list of files, or several file paths)
+#' into the files to ship.
+#'
 #' @param input Input provided by user
 #' @param x_expr Expression provided by user
 #' @param env Environment for evaluating list elements
-#' @return Named list of file contents
+#'
+#' @return
+#' Named list of file contents
+#'
 #' @noRd
 process_project_input <- function(input = NULL, x_expr = NULL,
                                   env = parent.frame()) {
@@ -438,10 +711,7 @@ process_project_input <- function(input = NULL, x_expr = NULL,
          },
          path = {
            # Read all files and create named list
-           files <- lapply(input, function(file) {
-             content <- readLines(file, warn = FALSE)
-             paste(content, collapse = "\n")
-           })
+           files <- lapply(input, read_text_file)
            names(files) <- basename(input)
            files
          },
@@ -460,9 +730,17 @@ process_project_input <- function(input = NULL, x_expr = NULL,
 
 #' Check that every element of a project list is file contents
 #'
-#' Catches the one way the braced form goes wrong. `list()` is an ordinary call,
-#' so its arguments evaluate unless livelink captures them -- which it can only do
-#' when the list is written inside the call:
+#' Catches the one way the braced form goes wrong.
+#'
+#' @param files Named list of file contents
+#'
+#' @return
+#' Invisible TRUE, or aborts
+#'
+#' @details
+#' `list()` is an ordinary call, so its arguments evaluate unless livelink
+#' captures them, which it can only do when the list is written inside the
+#' call:
 #'
 #' ```
 #' project <- list("main.R" = { plot(1:10) })   # the block RUNS, here and now
@@ -474,8 +752,6 @@ process_project_input <- function(input = NULL, x_expr = NULL,
 #' Assigning first leaves non-character values in the list, so say what happened
 #' rather than serializing a function into a link.
 #'
-#' @param files Named list of file contents
-#' @return Invisible TRUE, or aborts
 #' @noRd
 check_file_contents <- function(files) {
   bad <- !vapply(files, function(x) is.character(x) && length(x) == 1, logical(1))

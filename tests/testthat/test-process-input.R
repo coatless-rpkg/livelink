@@ -64,17 +64,25 @@ test_that("process_input reads a single file path", {
   expect_equal(process_input(f), "x <- 1\ny <- 2")
 })
 
-test_that("process_input reads multiple file paths into a named list", {
+# Regression: process_input() serves the single-script functions, and it used
+# to answer a vector of paths with a named list. Nothing could use that: a
+# project routes to process_project_input() before reaching here, so the list
+# only ever reached webr_repl_link(), which dropped it into one file's `text`
+# and emitted a JSON object where webR needs a string -- a link that looked
+# fine and would not open. Refuse it instead, and name the function that does
+# take several files.
+test_that("process_input refuses multiple file paths for a single script", {
   tmp <- withr::local_tempdir()
   a <- file.path(tmp, "a.R")
   b <- file.path(tmp, "b.R")
   writeLines("x <- 1", a)
   writeLines("y <- 2", b)
 
-  res <- process_input(c(a, b))
+  expect_error(process_input(c(a, b)), "Multiple file paths")
+  expect_error(webr_repl_link(c(a, b)), "webr_repl_project")
 
-  expect_named(res, c("a.R", "b.R"))
-  expect_equal(res$`a.R`, "x <- 1")
+  # One path is still the ordinary case.
+  expect_equal(process_input(a), "x <- 1")
 })
 
 test_that("expression input is converted to source code", {
@@ -146,6 +154,76 @@ test_that("expression input strips braces even without source refs", {
   expect_false(grepl("}", code, fixed = TRUE))
   expect_match(code, "x <- 1")
   expect_match(code, "plot(x)", fixed = TRUE)
+})
+
+# Regression: srcrefs can exist while the source text they point at cannot be
+# read back. Positron's Run button parses the buffer against a plain srcfile
+# whose filename ("untitled:Untitled-1") is not a path and whose lines are not
+# cached, so the trailing-comment rescue indexed a NULL srcfile$lines and
+# aborted with "argument is of length zero". Guarding that alone is not enough:
+# as.character(useSource = TRUE) yields a "<srcref: ...>" placeholder rather
+# than code, so an unreadable srcfile has to fall back to deparsing.
+test_that("an expression whose source cannot be read back is deparsed", {
+  expr <- parse(
+    text = "f({\n  data(mtcars)\n  plot(mtcars$mpg, mtcars$wt)\n})",
+    keep.source = TRUE,
+    srcfile = srcfile("untitled:Untitled-1")
+  )[[1]]
+
+  brace <- expr[[2]]
+  code <- paste(stringify_expression(brace), collapse = "\n")
+
+  expect_match(code, "data(mtcars)", fixed = TRUE)
+  expect_match(code, "plot(mtcars$mpg, mtcars$wt)", fixed = TRUE)
+  # The placeholder as.character() returns when it cannot reach the source.
+  expect_false(grepl("srcref", code, fixed = TRUE))
+  expect_false(startsWith(trimws(code), "{"))
+})
+
+# Regression: the local getSrcLines() read srcfile$lines directly, which is
+# NULL for a srcfile backed by a real file on disk (base reads the file
+# instead). Comments were then silently never rescued, and an out-of-range
+# start produced a descending index, returning NAs and unrelated lines.
+test_that("source lines are read from a srcfile backed by a real file", {
+  path <- withr::local_tempfile(fileext = ".R")
+  writeLines(c("f({", "  x <- 1 # kept", "})"), path)
+
+  # srcfile() does not cache the lines; base reads them from the file on
+  # demand, so srcfile$lines stays NULL even though the source is available.
+  expr <- parse(text = readLines(path), keep.source = TRUE,
+                srcfile = srcfile(path))[[1]]
+  code <- paste(stringify_expression(expr[[2]]), collapse = "\n")
+
+  expect_match(code, "x <- 1 # kept", fixed = TRUE)
+})
+
+# Regression: readability is not all-or-nothing. A srcfile whose file is
+# shorter than the block it was parsed from -- a stale or truncated file --
+# still reads back line 1, so the deparse fallback does not engage, and the
+# trailing-comment rescue then asked for a line past EOF and aborted with
+# "argument is of length zero".
+test_that("a srcfile shorter than the block does not abort", {
+  path <- withr::local_tempfile(fileext = ".R")
+  buffer <- c("f({", "  x <- 1 # trail", "  y <- 2", "})")
+  writeLines(utils::head(buffer, 2), path) # on disk: shorter than what we parse
+
+  expr <- parse(text = buffer, keep.source = TRUE, srcfile = srcfile(path))[[1]]
+  code <- paste(stringify_expression(expr[[2]]), collapse = "\n")
+
+  expect_match(code, "x <- 1", fixed = TRUE)
+})
+
+# Regression: a block with no statements left nothing behind once the brace
+# was stripped, and `lines[length(lines)]` handed regexpr() a zero-length
+# pattern: "invalid 'pattern' argument". `webr_repl_link({ # TODO })` is an
+# ordinary thing to type.
+test_that("an empty or comment-only block does not abort", {
+  empty <- parse(text = "f({})", keep.source = TRUE)[[1]]
+  expect_no_error(stringify_expression(empty[[2]]))
+
+  todo <- parse(text = "f({\n  # TODO: paste code here\n})", keep.source = TRUE)[[1]]
+  expect_no_error(code <- stringify_expression(todo[[2]]))
+  expect_match(paste(code, collapse = "\n"), "# TODO", fixed = TRUE)
 })
 
 # Regression: only a `{ ... }` block means "this argument is source code".
@@ -237,4 +315,82 @@ test_that("clipboard content becomes the app body", {
 
   contents <- preview_shinylive_link(as.character(link))$files_data[[1]]$content
   expect_equal(contents, "marker <- 1")
+})
+
+# Regression: a link carries its files as UTF-8 text and is parsed back with
+# rawToChar(), so a latin-1 file used to produce a link that livelink's own
+# preview_webr_link() could not read ("input string 1 is invalid UTF-8"). An
+# embedded NUL was worse: readLines() truncated the line and lost content
+# without a word.
+test_that("a file that cannot survive the round trip is refused", {
+  tmp <- withr::local_tempdir()
+
+  latin1 <- file.path(tmp, "latin1.R")
+  writeBin(c(charToRaw("x <- '"), as.raw(0xE9), charToRaw("'")), latin1)
+  expect_error(webr_repl_link(latin1), "not valid UTF-8")
+
+  nul <- file.path(tmp, "nul.R")
+  writeBin(c(charToRaw("a <- 1"), as.raw(0), charToRaw("b <- 2")), nul)
+  expect_error(webr_repl_link(nul), "embedded NUL")
+})
+
+test_that("a file with no trailing newline is read without complaint", {
+  tmp <- withr::local_tempdir()
+  path <- file.path(tmp, "noeol.R")
+  writeBin(charToRaw("x <- 1"), path)
+
+  expect_no_warning(link <- webr_repl_link(path))
+  expect_equal(
+    preview_webr_link(as.character(link))$files_data[[1]]$text,
+    "x <- 1"
+  )
+})
+
+
+# Regression: a srcref records where source was, not what it says now. When the
+# file changed after parsing, the recovered "source" was whatever occupied those
+# lines by then -- observed to be entirely unrelated code, silently encoded into
+# the link. Structure is now compared before the recovered text is trusted.
+test_that("source that no longer matches the expression is not shipped", {
+  path <- withr::local_tempfile(fileext = ".R")
+  writeLines(c("f({", "  secret <- Sys.getenv('AWS_KEY')", "  z <- 9", "})"), path)
+
+  buffer <- c("f({", "  x <- 1 # mine", "  y <- 2", "})")
+  expr <- parse(text = buffer, keep.source = TRUE, srcfile = srcfile(path))[[1]]
+
+  code <- paste(stringify_expression(expr[[2]]), collapse = "\n")
+
+  expect_false(grepl("AWS_KEY", code, fixed = TRUE))
+  expect_match(code, "x <- 1", fixed = TRUE)
+  expect_match(code, "y <- 2", fixed = TRUE)
+})
+
+test_that("matching source still keeps its comments", {
+  path <- withr::local_tempfile(fileext = ".R")
+  writeLines(c("f({", "  x <- 1 # kept", "  y <- 2", "})"), path)
+
+  expr <- parse(text = readLines(path), keep.source = TRUE,
+                srcfile = srcfile(path))[[1]]
+
+  expect_match(
+    paste(stringify_expression(expr[[2]]), collapse = "\n"),
+    "x <- 1 # kept",
+    fixed = TRUE
+  )
+})
+
+# Regression: an empty block has nothing to deparse, and unlist() of nothing is
+# NULL, which enc2utf8() rejects with "argument is not a character vector". Only
+# reachable without source references, so Rscript and R CMD check hit it while an
+# interactive session did not.
+test_that("an empty block is handled without source references", {
+  expr <- parse(text = "{}", keep.source = FALSE)[[1]]
+
+  expect_no_error(code <- stringify_expression(expr))
+  expect_equal(code, character(0))
+  expect_no_error(deparse_expression(expr))
+
+  # A block holding only a comment reduces to the same thing once parsed.
+  commented <- parse(text = "{\n  # nothing but a comment\n}", keep.source = FALSE)[[1]]
+  expect_no_error(stringify_expression(commented))
 })
