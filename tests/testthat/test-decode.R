@@ -143,3 +143,151 @@ test_that("decode_shinylive_link creates files from URL", {
   # Cleanup
   unlink(temp_dir, recursive = TRUE)
 })
+
+# Regression: the file names in a payload are attacker-controlled, since
+# decoding a link is how you open one a stranger sent you. A name like
+# "../../.Rprofile" resolved outside output_dir and overwrote a file that runs
+# at R startup, while the summary still reported success against a directory
+# nothing had been written to.
+test_that("decoding refuses a file name that escapes output_dir", {
+  payload <- jsonlite::toJSON(
+    list(list(name = "../escaped.R", path = "/escaped.R", text = "pwned <- TRUE")),
+    auto_unbox = TRUE
+  )
+  url <- paste0(
+    "https://webr.r-wasm.org/latest/#code=",
+    utils::URLencode(
+      base64enc::base64encode(memCompress(charToRaw(payload), "gzip")),
+      reserved = TRUE
+    ),
+    "&jz"
+  )
+
+  parent <- withr::local_tempdir()
+  output_dir <- file.path(parent, "decoded")
+  dir.create(output_dir)
+
+  expect_warning(
+    decode_webr_link(url, output_dir = output_dir, create_subdir = FALSE),
+    "Unsafe file name"
+  )
+
+  expect_false(file.exists(file.path(parent, "escaped.R")))
+})
+
+test_that("decoding still writes names holding a subdirectory", {
+  payload <- jsonlite::toJSON(
+    list(
+      list(name = "main.R", path = "/main.R", text = "1"),
+      list(name = "R/helpers.R", path = "/R/helpers.R", text = "2")
+    ),
+    auto_unbox = TRUE
+  )
+  url <- paste0(
+    "https://webr.r-wasm.org/latest/#code=",
+    utils::URLencode(
+      base64enc::base64encode(memCompress(charToRaw(payload), "gzip")),
+      reserved = TRUE
+    ),
+    "&jz"
+  )
+
+  output_dir <- withr::local_tempdir()
+  decode_webr_link(url, output_dir = output_dir, create_subdir = FALSE)
+
+  expect_true(file.exists(file.path(output_dir, "main.R")))
+  expect_true(file.exists(file.path(output_dir, "R", "helpers.R")))
+})
+
+# Regression: msgpack carries text and binary alike as raw. Binary was rendered
+# as the hex string "89 50 4e 47", which then failed the is-this-binary test
+# and was written out as a text dump of the file, while decode reported
+# success. Bytes now stay bytes.
+test_that("a binary file in a link is written back byte for byte", {
+  skip_if_not_installed("RcppMsgPack")
+
+  png <- as.raw(c(0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x01))
+  packed <- RcppMsgPack::msgpack_pack(
+    list(list(name = "logo.png", path = "/home/web_user/logo.png", data = png))
+  )
+  url <- paste0(
+    "https://webr.r-wasm.org/latest/#code=",
+    utils::URLencode(
+      base64enc::base64encode(memCompress(packed, "gzip")),
+      reserved = TRUE
+    ),
+    "&mz"
+  )
+
+  output_dir <- withr::local_tempdir()
+  suppressMessages(
+    decode_webr_link(url, output_dir = output_dir, create_subdir = FALSE)
+  )
+
+  expect_equal(readBin(file.path(output_dir, "logo.png"), "raw", 10), png)
+})
+
+test_that("a msgpack text link still decodes as text", {
+  skip_if_not_installed("RcppMsgPack")
+
+  packed <- RcppMsgPack::msgpack_pack(
+    list(list(name = "script.R", path = "/home/web_user/script.R",
+              text = "plot(1:10) # kept"))
+  )
+  url <- paste0(
+    "https://webr.r-wasm.org/latest/#code=",
+    utils::URLencode(
+      base64enc::base64encode(memCompress(packed, "gzip")),
+      reserved = TRUE
+    ),
+    "&mz"
+  )
+
+  expect_equal(
+    preview_webr_link(url)$files_data[[1]]$text,
+    "plot(1:10) # kept"
+  )
+})
+
+# Regression: a payload that parsed but was not a list of file entries -- what
+# a link whose flags no longer describe its contents decodes to -- reached `$`
+# on an atomic vector and surfaced "$ operator is invalid for atomic vectors".
+test_that("a link whose flags do not match its payload says so", {
+  # Built rather than derived from webr_repl_link(), so the test does not
+  # depend on which serialization the encoder happens to write today: msgpack
+  # bytes, deliberately labelled as JSON.
+  packed <- RcppMsgPack::msgpack_pack(
+    list(list(name = "script.R", path = "/home/web_user/script.R",
+              text = "plot(1:10)"))
+  )
+  mislabelled <- paste0(
+    "https://webr.r-wasm.org/latest/#code=",
+    utils::URLencode(
+      base64enc::base64encode(memCompress(packed, "gzip")),
+      reserved = TRUE
+    ),
+    "&jz"
+  )
+
+  expect_error(preview_webr_link(mislabelled), "preview webR link")
+
+  # The cause is chained rather than pasted in, so cli never has to render the
+  # raw bytes that failed to parse -- which are not valid UTF-8.
+  expect_no_error(
+    conditionMessage(tryCatch(preview_webr_link(mislabelled), error = function(e) e))
+  )
+})
+
+test_that("a payload that is not a list of files is reported as malformed", {
+  packed <- RcppMsgPack::msgpack_pack(list("not", "a", "file", "list"))
+  url <- paste0(
+    "https://webr.r-wasm.org/latest/#code=",
+    utils::URLencode(
+      base64enc::base64encode(memCompress(packed, "gzip")),
+      reserved = TRUE
+    ),
+    "&mz"
+  )
+
+  expect_error(preview_webr_link(url), "Malformed webR link")
+})

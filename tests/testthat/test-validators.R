@@ -109,3 +109,56 @@ test_that("is_valid_shinylive_url works correctly", {
   expect_false(livelink:::is_valid_shinylive_url("https://example.com"))
   expect_false(livelink:::is_valid_shinylive_url("https://shinylive.io/r/"))
 })
+
+# Regression: NA reached the comparisons inside the predicates, where `NA ==
+# "latest"` is NA and `if (NA)` aborts with "missing value where TRUE/FALSE
+# needed" -- naming neither the argument nor the value.
+test_that("NA is reported as an invalid value, not a control-flow error", {
+  expect_error(webr_repl_link("1", version = NA_character_), "version")
+  expect_error(webr_repl_link("1", panels = NA_character_), "panels")
+  expect_false(is_valid_version(NA_character_))
+  expect_false(is_valid_mode(NA_character_))
+})
+
+# Regression: the message listed the valid components and nothing else, so
+# rejecting c("plot", "plot") read as a contradiction -- "plot" was named valid
+# in the same breath. Say which component is at fault, and why.
+test_that("an invalid panels value names the offending component", {
+  expect_error(webr_repl_link("1", panels = c("plot", "plot")), "more than once")
+  expect_error(webr_repl_link("1", panels = "plot-editorr"), "Unknown panel")
+  expect_error(webr_repl_link("1", panels = "plot-editorr"), "editorr")
+})
+
+# Regression: `{.val {x}}` renders nothing for NULL and for a zero-length
+# vector, leaving a dangling "You provided:" in exactly the cases where the
+# value is the whole problem.
+test_that("the reported value is never blank", {
+  expect_match(
+    tryCatch(webr_repl_link("1", version = NULL), error = conditionMessage),
+    "You provided: NULL"
+  )
+  expect_match(
+    tryCatch(webr_repl_link("1", version = character(0)), error = conditionMessage),
+    "empty character vector"
+  )
+  expect_equal(describe_value(NA), "NA")
+})
+
+# Regression: the URL validators required webr.r-wasm.org, so a link built
+# against a self-hosted webR -- a documented workflow, via base_url or
+# set_webr_base_url() -- could not be read back by the package that wrote it.
+# Decoding never contacts the server; the fragment is what matters.
+test_that("a self-hosted link can be read back", {
+  url <- as.character(
+    webr_repl_link("plot(1:10)", base_url = "https://my-webr.example.com/")
+  )
+
+  expect_true(is_valid_webr_url(url))
+  expect_equal(
+    preview_webr_link(url)$files_data[[1]]$text,
+    "plot(1:10)"
+  )
+
+  # The sibling format must still be turned away: its fragment is LZ-string.
+  expect_false(is_valid_webr_url(as.character(shinylive_r_link("1"))))
+})

@@ -116,3 +116,49 @@ test_that("a URL with no code fragment is rejected", {
 test_that("a non-webR URL is rejected", {
   expect_error(preview_webr_link("https://example.com/nope"))
 })
+
+# The decoder must hand back the same shape whichever serialization a link
+# used, so nothing downstream has to know or ask. msgpack arrives as
+# RcppMsgPack's key/value structure and JSON as a plain list;
+# normalize_msgpack_data() reconciles them at the boundary. This matters more
+# since livelink began writing msgpack: its own links now travel that path.
+test_that("msgpack and JSON links decode to the same shape", {
+  skip_if_not_installed("RcppMsgPack")
+
+  items <- list(list(
+    name = "script.R",
+    path = "/home/web_user/script.R",
+    text = "x <- 1 # hi",
+    autorun = TRUE
+  ))
+
+  as_url <- function(payload, flags) {
+    paste0(
+      "https://webr.r-wasm.org/latest/#code=",
+      utils::URLencode(
+        base64enc::base64encode(memCompress(payload, "gzip")),
+        reserved = TRUE
+      ),
+      "&", flags
+    )
+  }
+
+  from_json <- preview_webr_link(as_url(
+    charToRaw(jsonlite::toJSON(items, auto_unbox = TRUE)), "jza"
+  ))
+  from_msgpack <- preview_webr_link(as_url(
+    RcppMsgPack::msgpack_pack(items), "mza"
+  ))
+
+  # Field access must work the same way for both: a plain list, reachable with
+  # `$`, not a named vector that would need [[ ]].
+  expect_type(from_json$files_data[[1]], "list")
+  expect_type(from_msgpack$files_data[[1]], "list")
+
+  for (field in c("name", "path", "text")) {
+    expect_equal(from_msgpack$files_data[[1]][[field]],
+                 from_json$files_data[[1]][[field]])
+  }
+
+  expect_equal(from_msgpack$autorun_files, from_json$autorun_files)
+})

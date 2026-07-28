@@ -1,32 +1,63 @@
 #' Decode webR REPL link(s) to extract files to local directory
 #'
 #' Decodes webR REPL sharelinks to extract the embedded files and save them
-#' to a local directory. This is the reverse operation of creating webR links.
-#' Handles both single URLs and multiple URLs automatically.
+#' to a local directory.
 #'
 #' @param url Character string or vector containing webR REPL URL(s)
 #' @param output_dir Character string specifying the output directory path.
 #'   Defaults to a `webr_files` directory inside the session temporary
-#'   directory; pass an explicit path to extract somewhere permanent.
-#' @param overwrite Logical. Whether to overwrite existing files (default: FALSE)
+#'   directory. Pass an explicit path to extract somewhere permanent.
+#' @param overwrite Logical. Whether to overwrite existing files. Defaults to
+#'   `FALSE`.
 #' @param create_subdir Logical. If `TRUE` (default), each decoded link is
 #'   extracted into its own subdirectory under `output_dir` rather than directly
 #'   into it. For a single URL the subdirectory is named `webr_<hash>`, where
 #'   `<hash>` is a short fingerprint of the URL. For multiple URLs, see
 #'   `name_dirs`. Set `FALSE` to extract straight into `output_dir`.
 #' @param name_dirs Logical. For multiple URLs, controls how the per-link
-#'   subdirectories are named: `TRUE` (default) numbers them `script_01`,
-#'   `script_02`, ...; `FALSE` names each one `webr_<hash>` from the URL
-#'   fingerprint. Ignored for a single URL, and ignored when
-#'   `create_subdir = FALSE` (all files then extract into `output_dir`).
+#'   subdirectories are named.
+#'
+#'   - `TRUE` (default) numbers them `script_01`, `script_02`, and so on.
+#'   - `FALSE` names each one `webr_<hash>` from the URL fingerprint.
+#'
+#'   Ignored for a single URL, and ignored when `create_subdir = FALSE` (all
+#'   files then extract into `output_dir`).
 #'
 #' @return
-#' For a single URL, a `webr_decoded` object. For multiple URLs, a
-#' `webr_decoded_batch` object.
+#' What comes back depends on how many URLs you pass.
 #'
-#' @seealso [preview_webr_link()] to inspect a link without writing files, and
-#'   [webr_repl_link()], [webr_repl_project()], and [webr_repl_exercise()], which
-#'   create the links this function decodes.
+#' For one URL, a `webr_decoded` object, which is a list with these entries.
+#'
+#' - `files_info`, a data frame of the files written, one row per file, with
+#'   the columns `filename`, `path`, `autorun`, and `size_bytes`.
+#' - `output_dir`, the directory the files were written to.
+#' - `url`, the link that was decoded.
+#' - `mode`, the panels the link asks for, or `NULL` for all of them.
+#' - `version`, the webR version the link points at.
+#' - `flags`, the encoding flags read off the link.
+#' - `total_files`, how many files were written.
+#' - `total_size`, the size of those files in bytes.
+#'
+#' For several URLs, a `webr_decoded_batch` object, which is a list with these
+#' entries.
+#'
+#' - `results`, a list of `webr_decoded` objects, one for each URL that decoded.
+#' - `base_dir`, the directory the per-link subdirectories sit under.
+#' - `urls`, the URLs you passed in, one per entry.
+#' - `total_urls`, how many URLs were handed in.
+#' - `successful_urls`, how many of them decoded.
+#' - `total_files`, how many files were written across every URL.
+#' - `total_size`, the size of those files in bytes.
+#'
+#' @details
+#' This is the reverse operation of creating webR links. Handles both single
+#' URLs and multiple URLs automatically.
+#'
+#' @seealso
+#' [preview_webr_link()] to inspect a link without writing files.
+#'
+#' [webr_repl_link()], [webr_repl_project()], and [webr_repl_exercise()] create
+#' the links this function decodes.
 #'
 #' @include utils.R
 #' @export
@@ -68,11 +99,17 @@ decode_webr_link <- function(url,
 }
 
 #' Decode a single webR REPL link
+#'
 #' @param url Single URL string
 #' @param output_dir Output directory
 #' @param overwrite Whether to overwrite files
 #' @param create_subdir Whether to create subdirectory
-#' @return webr_decoded object
+#'
+#' @return
+#' A `webr_decoded` object, the list of `files_info`, `output_dir`, `url`,
+#' `mode`, `version`, `flags`, `total_files`, and `total_size` described under
+#' [decode_webr_link()].
+#'
 #' @noRd
 decode_single_webr_link <- function(url, output_dir, overwrite, create_subdir) {
   # Validate URL
@@ -117,12 +154,18 @@ decode_single_webr_link <- function(url, output_dir, overwrite, create_subdir) {
 }
 
 #' Decode multiple webR REPL links
+#'
 #' @param urls Vector of URL strings
 #' @param output_dir Base output directory
 #' @param overwrite Whether to overwrite files
 #' @param create_subdir Whether to create subdirectories
 #' @param name_dirs Whether to use numbered directory names
-#' @return webr_decoded_batch object
+#'
+#' @return
+#' A `webr_decoded_batch` object, the list of `results`, `base_dir`, `urls`,
+#' `total_urls`, `successful_urls`, `total_files`, and `total_size` described
+#' under [decode_webr_link()].
+#'
 #' @noRd
 decode_multiple_webr_links <- function(urls, output_dir, overwrite, create_subdir, name_dirs) {
   if (length(urls) == 0) {
@@ -197,10 +240,16 @@ decode_multiple_webr_links <- function(urls, output_dir, overwrite, create_subdi
 }
 
 #' Decode and save files from webR data
+#'
 #' @param files_data Parsed file data from webR
 #' @param output_dir Directory to save files
 #' @param overwrite Whether to overwrite existing files
-#' @return Data frame with file information
+#'
+#' @return
+#' A data frame with one row per file written, holding the columns `filename`,
+#' `path`, `autorun`, and `size_bytes`. A `skip_reasons` attribute lists the
+#' files that were passed over and why.
+#'
 #' @noRd
 decode_and_save_webr_files <- function(files_data, output_dir, overwrite) {
   cli::cli_inform("Decoding {length(files_data)} file{?s}...")
@@ -243,6 +292,14 @@ decode_and_save_webr_files <- function(files_data, output_dir, overwrite) {
     }
 
     filename <- file_info$name
+
+    # Refuse a name that would write outside the directory the caller named.
+    if (!is_safe_output_name(output_dir, filename)) {
+      cli::cli_warn("Unsafe file name, skipping: {.file {filename}}")
+      skip_reasons$unsafe_name <- c(skip_reasons$unsafe_name, filename)
+      next
+    }
+
     file_path <- file.path(output_dir, filename)
     autorun <- isTRUE(file_info$autorun)
 
@@ -276,8 +333,12 @@ decode_and_save_webr_files <- function(files_data, output_dir, overwrite) {
       }
 
       if (is_binary) {
-        # Handle as binary data
-        if (is.character(content) && grepl("^[0-9a-f ]+$", content)) {
+        # Already bytes: write them, rather than round-tripping through a hex
+        # rendering that only ever lost fidelity.
+        if (is.raw(content)) {
+          writeBin(content, file_path)
+          file_size <- length(content)
+        } else if (is.character(content) && grepl("^[0-9a-f ]+$", content)) {
           # Hex string format - convert back to binary
           hex_chars <- strsplit(gsub(" ", "", content), "")[[1]]
           if (length(hex_chars) %% 2 == 0) {
@@ -333,10 +394,22 @@ decode_and_save_webr_files <- function(files_data, output_dir, overwrite) {
 }
 
 #' Detect if content is likely binary
+#'
 #' @param content Character string to check
-#' @return Logical indicating if content is likely binary
+#'
+#' @return
+#' Logical indicating if content is likely binary.
+#'
 #' @noRd
 detect_binary_content <- function(content) {
+  # Raw is binary by construction, and saying otherwise sent genuine bytes --
+  # what a msgpack `data` field unpacks to -- down the text branch, where
+  # writeLines() coerced them to the strings "89" "50" "4e" and wrote a hex
+  # dump of the file instead of the file.
+  if (is.raw(content)) {
+    return(TRUE)
+  }
+
   if (!is.character(content) || length(content) == 0 || nchar(content) == 0) {
     return(FALSE)
   }
@@ -361,8 +434,12 @@ detect_binary_content <- function(content) {
 }
 
 #' Normalize msgpack data from RcppMsgPack format to list format
+#'
 #' @param msgpack_data Raw msgpack data from RcppMsgPack
-#' @return Normalized list structure
+#'
+#' @return
+#' Normalized list structure.
+#'
 #' @noRd
 normalize_msgpack_data <- function(msgpack_data) {
   if (!is.list(msgpack_data)) {
@@ -389,8 +466,12 @@ normalize_msgpack_data <- function(msgpack_data) {
 }
 
 #' Convert key-value structure to named list
+#'
 #' @param kv_item Item with key and value lists
-#' @return Named list
+#'
+#' @return
+#' Named list.
+#'
 #' @noRd
 convert_keyvalue_to_list <- function(kv_item) {
   keys <- kv_item$key
@@ -409,15 +490,20 @@ convert_keyvalue_to_list <- function(kv_item) {
 
     # Handle different value types
     if (is.raw(value)) {
+      # msgpack carries both text and binary as raw. Text is worth converting;
+      # bytes are not, and rendering them as the hex string "89 50 4e 47" wrote
+      # a dump of the file in place of the file. Keep anything that is not text
+      # as the bytes it already is, so it can be written back verbatim.
+      #
       # Take the fallback as the value of tryCatch; assigning to `result` inside
       # the handler would write into the handler's frame and be discarded.
-      result[[key]] <- tryCatch(
-        rawToChar(value),
-        error = function(e) {
-          cli::cli_warn("Failed to convert raw data for key '{key}' to character: {conditionMessage(e)}")
-          paste(sprintf("%02x", as.integer(value)), collapse = " ")
-        }
-      )
+      as_text <- tryCatch(rawToChar(value), error = function(e) NULL)
+
+      result[[key]] <- if (!is.null(as_text) && all(validUTF8(as_text))) {
+        as_text
+      } else {
+        value
+      }
     } else if (is.logical(value) && key == "autorun") {
       # Keep autorun as logical
       result[[key]] <- as.logical(value)
@@ -431,8 +517,12 @@ convert_keyvalue_to_list <- function(kv_item) {
 }
 
 #' Decompress and parse webR URL data
+#'
 #' @param url webR URL
-#' @return List containing mode, version, flags, and files_data
+#'
+#' @return
+#' List containing mode, version, flags, and files_data.
+#'
 #' @noRd
 decompress_webr_url <- function(url) {
   # Extract URL metadata
@@ -514,11 +604,13 @@ decompress_webr_url <- function(url) {
       files_data <- normalize_msgpack_data(files_data_raw)
 
     }, error = function(e) {
+      # Chained, not interpolated: the cause's message can carry the raw bytes
+      # that failed to parse, and cli aborts while rendering anything that is
+      # not valid UTF-8 -- reporting that instead of the real problem.
       cli::cli_abort(c(
         "Error parsing msgpack data",
-        "x" = "Failed to parse msgpack format: {e$message}",
         "i" = "The decoded data may not be valid msgpack"
-      ))
+      ), parent = e)
     })
   } else if (grepl("j", flags)) {
     # JSON format
@@ -526,11 +618,11 @@ decompress_webr_url <- function(url) {
       json_string <- rawToChar(raw_data)
       files_data <- jsonlite::fromJSON(json_string, simplifyVector = FALSE)
     }, error = function(e) {
+      # See above: chain the cause rather than pasting its text.
       cli::cli_abort(c(
         "Error parsing JSON data",
-        "x" = "Failed to parse JSON format: {e$message}",
         "i" = "The decoded data may not be valid JSON"
-      ))
+      ), parent = e)
     })
   } else {
     cli::cli_abort(c(
@@ -539,6 +631,12 @@ decompress_webr_url <- function(url) {
       "i" = "Supported flags: 'm' (msgpack), 'j' (JSON)"
     ))
   }
+
+  # Check the shape once, here, rather than letting each consumer discover it.
+  # A payload that parses but is not a list of file entries -- what a link whose
+  # flags do not describe its contents decodes to -- otherwise reached `$` on an
+  # atomic vector and surfaced "$ operator is invalid for atomic vectors".
+  check_webr_files_data(files_data, flags)
 
   list(
     mode = mode,
@@ -549,8 +647,13 @@ decompress_webr_url <- function(url) {
 }
 
 #' Parse webR URL structure
+#'
 #' @param url webR URL to parse
-#' @return List with URL components
+#'
+#' @return
+#' A list with the URL components `mode`, `version`, `encoded_data`, and
+#' `flags`.
+#'
 #' @noRd
 parse_webr_url <- function(url) {
   # Extract version from URL path using a more robust approach
@@ -583,8 +686,12 @@ parse_webr_url <- function(url) {
 }
 
 #' Extract version from webR URL
+#'
 #' @param url webR URL
-#' @return Version string
+#'
+#' @return
+#' Version string.
+#'
 #' @noRd
 extract_version_from_url <- function(url) {
   # Use regmatches and regexec for more reliable capture group extraction
@@ -608,8 +715,12 @@ extract_version_from_url <- function(url) {
 }
 
 #' Extract mode from webR URL
+#'
 #' @param base_url Base part of URL before fragment
-#' @return Mode string or NULL
+#'
+#' @return
+#' Mode string or NULL.
+#'
 #' @noRd
 extract_mode_from_url <- function(base_url) {
   # Look for mode parameter in query string - simplified approach
@@ -645,8 +756,12 @@ extract_mode_from_url <- function(base_url) {
 }
 
 #' Format panel vector for display using cli
+#'
 #' @param mode Panel vector (like c("editor", "plot")) or string ("editor-plot")
-#' @return Formatted string for display
+#'
+#' @return
+#' Formatted string for display.
+#'
 #' @noRd
 format_mode_for_display <- function(mode) {
   if (is.null(mode) || !is.character(mode) || length(mode) == 0) {
@@ -662,8 +777,12 @@ format_mode_for_display <- function(mode) {
 }
 
 #' Extract parameters from webR URL fragment
+#'
 #' @param fragment URL fragment part after '#'
-#' @return List with code and flags
+#'
+#' @return
+#' List with code and flags.
+#'
 #' @noRd
 extract_webr_parameters <- function(fragment) {
   # Split by & to handle multiple parameters
@@ -692,20 +811,36 @@ extract_webr_parameters <- function(fragment) {
 
 #' Preview webR REPL link contents without writing files to disk
 #'
-#' @description
 #' Decodes a webR URL and returns information about the embedded files
-#' without actually saving them to disk. Use print method options to control display.
+#' without actually saving them to disk.
 #'
 #' @param url Character string containing the webR URL
 #'
-#' @return A `webr_preview` object (a list) with elements including `files_data`
-#'   (the embedded files), `total_files`, `total_size`, `mode`, `version`,
-#'   `flags`, and `autorun_files`. Its `print()` method accepts `show_content`
-#'   and `max_content_length` to display file bodies.
+#' @return
+#' A `webr_preview` object, which is a list with these entries.
 #'
-#' @seealso [decode_webr_link()] to extract the embedded files to disk once you
-#'   are happy with the preview.
+#' - `url`, the link that was read.
+#' - `mode`, the panels the link asks for, or `NULL` for all of them.
+#' - `version`, the webR version the link points at.
+#' - `flags`, the encoding flags read off the link.
+#' - `files_data`, a list with one entry per embedded file, each holding the
+#'   file's `name`, its `path` inside webR, and its `text`.
+#' - `total_files`, how many files the link carries.
+#' - `total_size`, the size of those files in bytes.
+#' - `autorun_files`, the names of the files that run as soon as the link opens.
 #'
+#' Nothing is written to disk.
+#'
+#' @details
+#' Use print method options to control the display. The returned object's
+#' `print()` method accepts `show_content` and `max_content_length` to display
+#' file bodies.
+#'
+#' @seealso
+#' [decode_webr_link()] to extract the embedded files to disk once you are happy
+#' with the preview.
+#'
+#' @export
 #' @examples
 #' url <- as.character(webr_repl_link("plot(1:10)"))
 #'
@@ -724,8 +859,6 @@ extract_webr_parameters <- function(fragment) {
 #' # Access the preview data
 #' preview$files_data
 #' preview$total_files
-#'
-#' @export
 preview_webr_link <- function(url) {
 
   # Validate inputs
@@ -772,9 +905,11 @@ preview_webr_link <- function(url) {
     new_webr_preview(url, mode, version, flags, files_data, total_size, autorun_files)
 
   }, error = function(e) {
-    cli::cli_abort(c(
-      "Failed to preview webR link",
-      "x" = "{e$message}"
-    ))
+    # Chained, not interpolated. Pasting `e$message` into a bullet threw away
+    # every diagnostic the inner error carried, so previewing a broken link
+    # said strictly less than decoding it -- and when the payload was not valid
+    # UTF-8, cli failed while rendering the message and reported that instead
+    # of the actual problem.
+    cli::cli_abort("Failed to preview webR link", parent = e)
   })
 }
