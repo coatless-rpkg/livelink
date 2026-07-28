@@ -12,8 +12,11 @@
 \item{...}{Additional arguments (ignored)}
 }
 \value{
-Invisibly returns the object
+The \code{webr_exercise} object it was handed, returned invisibly, so it can be
+passed straight on. Called for the summary it prints, which covers both the
+exercise sharelink and the solution sharelink. See \code{\link[=webr_repl_exercise]{webr_repl_exercise()}}
+for the entries the object holds.
 }
 \description{
-Print method for webr_exercise objects
+Displays the exercise sharelink and the matching solution sharelink.
 }

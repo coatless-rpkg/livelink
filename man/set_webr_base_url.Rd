@@ -10,15 +10,21 @@ set_webr_base_url(base_url = NULL)
 \item{base_url}{Custom base URL to use for all webR links}
 }
 \value{
-Invisibly returns the \code{base_url} value (or \code{NULL} if resetting
-to default).
+Invisibly returns the value supplied to \code{base_url}.
+\itemize{
+\item The custom URL when you set one.
+\item \code{NULL} when you reset to the default.
+}
 }
 \description{
 Overrides the base URL used when building webR REPL links, for instance to
-point at a self-hosted or pinned webR deployment. The value is stored in the
-\code{livelink.base_url} option and applies to webR links only; Shinylive links are
-unaffected. Once set, a custom base URL takes precedence over the \code{version}
-argument passed to the link builders.
+point at a webR site you host yourself or at a fixed webR version.
+}
+\details{
+The value is stored in the \code{livelink.base_url} option and applies to webR
+links only. Shinylive links are unaffected. Once set, a custom base URL takes
+precedence over the \code{version} argument given to the functions that build
+links.
 }
 \examples{
 # Remember the current setting so it can be restored afterwards
@@ -32,4 +38,9 @@ set_webr_base_url(NULL)
 
 # Restore the previous setting
 set_webr_base_url(old)
+}
+\seealso{
+\code{\link[=webr_repl_link]{webr_repl_link()}} for single-script links that honor this option.
+
+\code{\link[=webr_repl_project]{webr_repl_project()}} for multi-file projects that honor this option.
 }

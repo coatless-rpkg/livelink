@@ -10,14 +10,29 @@ preview_webr_link(url)
 \item{url}{Character string containing the webR URL}
 }
 \value{
-A \code{webr_preview} object (a list) with elements including \code{files_data}
-(the embedded files), \code{total_files}, \code{total_size}, \code{mode}, \code{version},
-\code{flags}, and \code{autorun_files}. Its \code{print()} method accepts \code{show_content}
-and \code{max_content_length} to display file bodies.
+A \code{webr_preview} object, which is a list with these entries.
+\itemize{
+\item \code{url}, the link that was read.
+\item \code{mode}, the panels the link asks for, or \code{NULL} for all of them.
+\item \code{version}, the webR version the link points at.
+\item \code{flags}, the encoding flags read off the link.
+\item \code{files_data}, a list with one entry per embedded file, each holding the
+file's \code{name}, its \code{path} inside webR, and its \code{text}.
+\item \code{total_files}, how many files the link carries.
+\item \code{total_size}, the size of those files in bytes.
+\item \code{autorun_files}, the names of the files that run as soon as the link opens.
+}
+
+Nothing is written to disk.
 }
 \description{
 Decodes a webR URL and returns information about the embedded files
-without actually saving them to disk. Use print method options to control display.
+without actually saving them to disk.
+}
+\details{
+Use print method options to control the display. The returned object's
+\code{print()} method accepts \code{show_content} and \code{max_content_length} to display
+file bodies.
 }
 \examples{
 url <- as.character(webr_repl_link("plot(1:10)"))
@@ -37,9 +52,8 @@ print(preview, show_content = TRUE, max_content_length = 200)
 # Access the preview data
 preview$files_data
 preview$total_files
-
 }
 \seealso{
-\code{\link[=decode_webr_link]{decode_webr_link()}} to extract the embedded files to disk once you
-are happy with the preview.
+\code{\link[=decode_webr_link]{decode_webr_link()}} to extract the embedded files to disk once you are happy
+with the preview.
 }

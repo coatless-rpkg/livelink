@@ -17,32 +17,63 @@ decode_shinylive_link(
 
 \item{output_dir}{Character string specifying the output directory path.
 Defaults to a \code{shinylive_files} directory inside the session temporary
-directory; pass an explicit path to extract somewhere permanent.}
+directory. Pass an explicit path to extract somewhere permanent.}
 
-\item{overwrite}{Logical. Whether to overwrite existing files (default: FALSE)}
+\item{overwrite}{Logical. Whether to overwrite existing files. Defaults to
+\code{FALSE}.}
 
 \item{create_subdir}{Logical. If \code{TRUE} (default), each decoded link is
 extracted into its own subdirectory under \code{output_dir} rather than directly
 into it. For a single URL the subdirectory is named \verb{shinylive_<hash>}, where
 \verb{<hash>} is a short fingerprint of the URL. For multiple URLs, see
-\code{name_dirs}. Set \code{FALSE} to extract straight into \code{output_dir}; with multiple
-URLs this means identically named files (such as \code{app.R}) collide, so a later
-app overwrites an earlier one when \code{overwrite = TRUE}, or is skipped when
-\code{overwrite = FALSE}.}
+\code{name_dirs}. Set \code{FALSE} to extract straight into \code{output_dir}. With
+multiple URLs that means identically named files (such as \code{app.R}) collide,
+so a later app overwrites an earlier one when \code{overwrite = TRUE}, or is
+skipped when \code{overwrite = FALSE}.}
 
-\item{name_dirs}{Logical. For multiple URLs, controls how the per-link
-subdirectories are named: \code{TRUE} (default) numbers them \code{app_01}, \code{app_02},
-...; \code{FALSE} names each one \verb{shinylive_<hash>} from the URL fingerprint.
-Ignored for a single URL, and ignored when \code{create_subdir = FALSE}.}
+\item{name_dirs}{Logical. For multiple URLs, this controls how the per-link
+subdirectories are named. \code{TRUE} (default) numbers them \code{app_01}, \code{app_02},
+and so on. \code{FALSE} names each one \verb{shinylive_<hash>} from the URL
+fingerprint. Ignored for a single URL, and ignored when
+\code{create_subdir = FALSE}.}
 }
 \value{
-For a single URL, a \code{shinylive_decoded} object. For multiple URLs, a
-\code{shinylive_decoded_batch} object.
+The decoded contents, in one of two shapes.
+
+For a single URL, a \code{shinylive_decoded} object, which is a list with these
+entries.
+\itemize{
+\item \code{files_info}, a data frame with one row per file written, with the columns
+\code{filename}, \code{path}, \code{type}, and \code{size_bytes}.
+\item \code{output_dir}, the directory the files were written to.
+\item \code{url}, the link that was decoded.
+\item \code{engine}, \code{"r"} or \code{"python"}, read off the link.
+\item \code{mode}, \code{"editor"} when the link opens the editor, \code{"app"} when it opens
+the running app on its own.
+\item \code{total_files}, how many files were written.
+\item \code{total_size}, the size of those files added up, in bytes.
+}
+
+For several URLs, a \code{shinylive_decoded_batch} object, which is a list with
+these entries.
+\itemize{
+\item \code{results}, a named list of the \code{shinylive_decoded} objects described above,
+one per link that decoded, each named after the subdirectory it went into.
+\item \code{base_dir}, the directory those per-link subdirectories sit in.
+\item \code{urls}, the links you passed in.
+\item \code{total_urls}, how many links you passed in.
+\item \code{successful_urls}, how many of them decoded.
+\item \code{total_files}, how many files were written across all of them.
+\item \code{total_size}, the size of those files added up, in bytes.
+}
 }
 \description{
 Decodes Shinylive sharelinks to extract the embedded files and save them
-to a local directory. This is the reverse operation of creating Shinylive links.
-Handles both single URLs and multiple URLs automatically.
+to a local directory.
+}
+\details{
+This is the reverse operation of creating Shinylive links. Handles both
+single URLs and multiple URLs automatically.
 }
 \examples{
 # Round-trip: build a link, then decode it back to files
@@ -59,9 +90,9 @@ list.files(out)
 # Both engines at once
 urls <- c(url, as.character(shinylive_py_link("from shiny import App")))
 decode_shinylive_link(urls, output_dir = file.path(tempdir(), "my_apps"))
-
 }
 \seealso{
-\code{\link[=preview_shinylive_link]{preview_shinylive_link()}} to inspect a link without writing files;
+\code{\link[=preview_shinylive_link]{preview_shinylive_link()}} to inspect a link without writing files.
+
 \code{\link[=shinylive_r_link]{shinylive_r_link()}} and \code{\link[=shinylive_py_link]{shinylive_py_link()}} to create links.
 }

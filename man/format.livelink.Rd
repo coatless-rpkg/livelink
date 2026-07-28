@@ -55,13 +55,23 @@ A character vector of formatted lines.
 }
 \description{
 Returns an object's printed representation as a character vector, one element
-per line, so it can be captured, logged, pasted into a report, or otherwise
-reused. \code{\link[=print]{print()}} renders the very same content to the console; \code{format()}
-hands it back to you instead.
+per line.
+}
+\details{
+Having the printed form as a character vector means it can be captured,
+logged, pasted into a report, or otherwise reused. \code{\link[=print]{print()}} renders the very
+same content to the console. \code{format()} hands it back to you instead.
 }
 \examples{
 link <- webr_repl_link("plot(1:10)")
 format(link)
 writeLines(format(link))
 
+}
+\seealso{
+\code{\link[=as.character.webr_link]{as.character.webr_link()}} for the shareable URL alone, without the
+surrounding printed report.
+
+\link{as.data.frame.livelink} for turning directory and batch objects into a data
+frame.
 }

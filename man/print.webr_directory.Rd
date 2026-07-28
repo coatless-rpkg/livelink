@@ -12,8 +12,11 @@
 \item{...}{Additional arguments (ignored)}
 }
 \value{
-Invisibly returns the object
+The \code{webr_directory} object it was handed, returned invisibly, so it can be
+passed straight on. Called for the summary it prints, which covers the
+source folder, one sharelink per file, the interface, and the version. See
+\code{\link[=webr_repl_directory]{webr_repl_directory()}} for the entries the object holds.
 }
 \description{
-Print method for webr_directory objects
+Displays every sharelink generated from a source directory.
 }

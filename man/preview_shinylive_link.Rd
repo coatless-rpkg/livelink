@@ -10,11 +10,27 @@ preview_shinylive_link(url)
 \item{url}{Character string containing the Shinylive URL}
 }
 \value{
-shinylive_preview object with file information and metadata
+A \code{shinylive_preview} object, which is a list with these entries.
+\itemize{
+\item \code{url}, the link that was read.
+\item \code{engine}, \code{"r"} or \code{"python"}, read off the link.
+\item \code{mode}, \code{"editor"} when the link opens the editor, \code{"app"} when it opens
+the running app on its own.
+\item \code{files_data}, a list with one entry per file, each holding \code{name},
+\code{content}, and \code{type}.
+\item \code{total_files}, how many files the link carries.
+\item \code{total_size}, the size of those files added up, in bytes.
+\item \code{file_types}, the distinct file types found, such as \code{"text"} and
+\code{"binary"}.
+}
 }
 \description{
 Decodes a Shinylive URL and returns information about the embedded files
-without actually saving them to disk. Use print method options to control display.
+without actually saving them to disk.
+}
+\details{
+Nothing is written to disk, which makes this the safe way to look inside a
+link someone else sent you before extracting it.
 }
 \examples{
 url <- as.character(shinylive_r_link("library(shiny)"))
@@ -34,9 +50,9 @@ print(preview, show_content = TRUE, max_content_length = 200)
 # Access the preview data
 preview$files_data
 preview$total_files
-
 }
 \seealso{
-\code{\link[=decode_shinylive_link]{decode_shinylive_link()}} to extract files to disk;
+\code{\link[=decode_shinylive_link]{decode_shinylive_link()}} to extract files to disk.
+
 \code{\link[=shinylive_r_link]{shinylive_r_link()}} and \code{\link[=shinylive_py_link]{shinylive_py_link()}} to create links.
 }

@@ -12,8 +12,11 @@
 \item{...}{Additional arguments (ignored)}
 }
 \value{
-Invisibly returns the object
+The \code{webr_link} object it was handed, returned invisibly, so it can be
+passed straight on. Called for the summary it prints, which covers the URL,
+the file and where it lands, the interface, the version, and autorun. See
+\code{\link[=webr_repl_link]{webr_repl_link()}} for the entries the object holds.
 }
 \description{
-Print method for webr_link objects
+Displays the sharelink and its details in the console.
 }

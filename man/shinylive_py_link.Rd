@@ -22,7 +22,7 @@ shinylive_py_link(
 }}
 
 \item{mode}{Shinylive display mode (default \code{"editor"}). \code{"editor"} shows an
-editable code panel beside the running app; \code{"app"} shows only the running app.}
+editable code panel beside the running app. \code{"app"} shows only the running app.}
 
 \item{header}{Logical, whether to show the Shinylive header bar. It applies only
 when \code{mode = "app"} and is ignored in the default \code{"editor"} mode. Defaults to \code{TRUE}.}
@@ -30,11 +30,24 @@ when \code{mode = "app"} and is ignored in the default \code{"editor"} mode. Def
 \item{base_url}{Custom Shinylive base URL. If NULL (default), links point at https://shinylive.io.}
 }
 \value{
-shinylive_link object containing the Shinylive URL and metadata
+A \code{shinylive_link} object, which is a list with these entries.
+\itemize{
+\item \code{url}, the sharelink itself, as a single string.
+\item \code{files}, the names of the files carried in the link, as a character vector.
+\item \code{engine}, the Shiny flavor the link runs, \code{"python"} here.
+\item \code{mode}, the Shinylive display mode, \code{"editor"} or \code{"app"}.
+}
+
+Use \code{as.character()} on the object to get the URL on its own.
 }
 \description{
-Generates a shareable URL for Python Shiny applications that can run in the browser
-using Shinylive. Supports character strings, file paths, named lists, and clipboard input.
+Generates a shareable URL for Python Shiny applications that can run in the
+browser using Shinylive.
+}
+\details{
+The whole app travels inside the URL, so opening the link runs it in the
+reader's browser with no server behind it. A single string becomes \code{app.R}.
+Pass a named list to ship several files.
 }
 \examples{
 # String input
@@ -65,6 +78,7 @@ if (interactive()) {
 }
 }
 \seealso{
-\code{\link[=shinylive_project]{shinylive_project()}} for multi-file apps; \code{\link[=decode_shinylive_link]{decode_shinylive_link()}}
-and \code{\link[=preview_shinylive_link]{preview_shinylive_link()}} to read a link back.
+\code{\link[=shinylive_project]{shinylive_project()}} for multi-file apps.
+
+\code{\link[=decode_shinylive_link]{decode_shinylive_link()}} and \code{\link[=preview_shinylive_link]{preview_shinylive_link()}} to read a link back.
 }

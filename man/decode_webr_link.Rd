@@ -17,9 +17,10 @@ decode_webr_link(
 
 \item{output_dir}{Character string specifying the output directory path.
 Defaults to a \code{webr_files} directory inside the session temporary
-directory; pass an explicit path to extract somewhere permanent.}
+directory. Pass an explicit path to extract somewhere permanent.}
 
-\item{overwrite}{Logical. Whether to overwrite existing files (default: FALSE)}
+\item{overwrite}{Logical. Whether to overwrite existing files. Defaults to
+\code{FALSE}.}
 
 \item{create_subdir}{Logical. If \code{TRUE} (default), each decoded link is
 extracted into its own subdirectory under \code{output_dir} rather than directly
@@ -28,19 +29,50 @@ into it. For a single URL the subdirectory is named \verb{webr_<hash>}, where
 \code{name_dirs}. Set \code{FALSE} to extract straight into \code{output_dir}.}
 
 \item{name_dirs}{Logical. For multiple URLs, controls how the per-link
-subdirectories are named: \code{TRUE} (default) numbers them \code{script_01},
-\code{script_02}, ...; \code{FALSE} names each one \verb{webr_<hash>} from the URL
-fingerprint. Ignored for a single URL, and ignored when
-\code{create_subdir = FALSE} (all files then extract into \code{output_dir}).}
+subdirectories are named.
+\itemize{
+\item \code{TRUE} (default) numbers them \code{script_01}, \code{script_02}, and so on.
+\item \code{FALSE} names each one \verb{webr_<hash>} from the URL fingerprint.
+}
+
+Ignored for a single URL, and ignored when \code{create_subdir = FALSE} (all
+files then extract into \code{output_dir}).}
 }
 \value{
-For a single URL, a \code{webr_decoded} object. For multiple URLs, a
-\code{webr_decoded_batch} object.
+What comes back depends on how many URLs you pass.
+
+For one URL, a \code{webr_decoded} object, which is a list with these entries.
+\itemize{
+\item \code{files_info}, a data frame of the files written, one row per file, with
+the columns \code{filename}, \code{path}, \code{autorun}, and \code{size_bytes}.
+\item \code{output_dir}, the directory the files were written to.
+\item \code{url}, the link that was decoded.
+\item \code{mode}, the panels the link asks for, or \code{NULL} for all of them.
+\item \code{version}, the webR version the link points at.
+\item \code{flags}, the encoding flags read off the link.
+\item \code{total_files}, how many files were written.
+\item \code{total_size}, the size of those files in bytes.
+}
+
+For several URLs, a \code{webr_decoded_batch} object, which is a list with these
+entries.
+\itemize{
+\item \code{results}, a list of \code{webr_decoded} objects, one for each URL that decoded.
+\item \code{base_dir}, the directory the per-link subdirectories sit under.
+\item \code{urls}, the URLs you passed in, one per entry.
+\item \code{total_urls}, how many URLs were handed in.
+\item \code{successful_urls}, how many of them decoded.
+\item \code{total_files}, how many files were written across every URL.
+\item \code{total_size}, the size of those files in bytes.
+}
 }
 \description{
 Decodes webR REPL sharelinks to extract the embedded files and save them
-to a local directory. This is the reverse operation of creating webR links.
-Handles both single URLs and multiple URLs automatically.
+to a local directory.
+}
+\details{
+This is the reverse operation of creating webR links. Handles both single
+URLs and multiple URLs automatically.
 }
 \examples{
 # Round-trip: build a link, then decode it back to files
@@ -59,7 +91,8 @@ urls <- c(url, as.character(webr_repl_link("hist(rnorm(100))")))
 decode_webr_link(urls, output_dir = file.path(tempdir(), "my_scripts"))
 }
 \seealso{
-\code{\link[=preview_webr_link]{preview_webr_link()}} to inspect a link without writing files, and
-\code{\link[=webr_repl_link]{webr_repl_link()}}, \code{\link[=webr_repl_project]{webr_repl_project()}}, and \code{\link[=webr_repl_exercise]{webr_repl_exercise()}}, which
-create the links this function decodes.
+\code{\link[=preview_webr_link]{preview_webr_link()}} to inspect a link without writing files.
+
+\code{\link[=webr_repl_link]{webr_repl_link()}}, \code{\link[=webr_repl_project]{webr_repl_project()}}, and \code{\link[=webr_repl_exercise]{webr_repl_exercise()}} create
+the links this function decodes.
 }

@@ -18,7 +18,7 @@ shinylive_r_link(input = NULL, mode = "editor", header = TRUE, base_url = NULL)
 }}
 
 \item{mode}{Shinylive display mode (default \code{"editor"}). \code{"editor"} shows an
-editable code panel beside the running app; \code{"app"} shows only the running app.}
+editable code panel beside the running app. \code{"app"} shows only the running app.}
 
 \item{header}{Logical, whether to show the Shinylive header bar. It applies only
 when \code{mode = "app"} and is ignored in the default \code{"editor"} mode. Defaults to \code{TRUE}.}
@@ -26,16 +26,28 @@ when \code{mode = "app"} and is ignored in the default \code{"editor"} mode. Def
 \item{base_url}{Custom Shinylive base URL. If NULL (default), links point at https://shinylive.io.}
 }
 \value{
-shinylive_link object containing the Shinylive URL and metadata
+A \code{shinylive_link} object, which is a list with these entries.
+\itemize{
+\item \code{url}, the sharelink itself, as a single string.
+\item \code{files}, the names of the files carried in the link, as a character vector.
+\item \code{engine}, the Shiny flavor the link runs, \code{"r"} here.
+\item \code{mode}, the Shinylive display mode, \code{"editor"} or \code{"app"}.
+}
+
+Use \code{as.character()} on the object to get the URL on its own.
 }
 \description{
 Generates a shareable URL for R Shiny applications that can run in the browser
-using Shinylive. Supports expressions, character strings, file paths, named lists,
-and clipboard input.
+using Shinylive.
+}
+\details{
+The whole app travels inside the URL, so opening the link runs it in the
+reader's browser with no server behind it. A single string becomes \code{app.py}.
+Pass a named list to ship several files.
 }
 \section{Comments in expression input}{
 
-Comments inside a \code{{ }} expression are recovered from R's source references, so
+Comments inside a \code{{ }} expression are recovered from the source R keeps, so
 they survive interactively but are dropped inside a knitted 'Quarto' or
 'R Markdown' document. Pass a string or a file path, or use the \code{livelink} chunk
 engine, if you need them preserved. See \code{\link[=webr_repl_link]{webr_repl_link()}} for the details.
@@ -68,8 +80,11 @@ if (interactive()) {
 }
 }
 \seealso{
-\code{\link[=shinylive_project]{shinylive_project()}} for multi-file apps; \code{\link[=decode_shinylive_link]{decode_shinylive_link()}}
-and \code{\link[=preview_shinylive_link]{preview_shinylive_link()}} to read a link back; \link{livelink-knitr} to give
-a document chunk its own link;
+\code{\link[=shinylive_project]{shinylive_project()}} for multi-file apps.
+
+\code{\link[=decode_shinylive_link]{decode_shinylive_link()}} and \code{\link[=preview_shinylive_link]{preview_shinylive_link()}} to read a link back.
+
+\link{livelink-knitr} to give a document chunk its own link.
+
 \code{vignette("webr-and-shinylive", package = "livelink")} for the guide.
 }

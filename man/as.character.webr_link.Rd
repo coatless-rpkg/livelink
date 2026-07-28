@@ -48,14 +48,16 @@
 \item{...}{Additional arguments}
 }
 \value{
-A character vector of URLs. Most objects yield a single URL; exercise objects
-return a length-2 named vector (\code{exercise}, \code{solution}); directory and batch
-objects return one URL per file.
+A character vector of URLs.
+\itemize{
+\item Most objects give a single URL.
+\item An exercise gives two, named \code{exercise} and \code{solution}.
+\item A directory or a batch gives one URL for each file.
+}
 }
 \description{
-Extract URLs as character vector
+Pulls the shareable URL(s) out of a livelink object.
 }
 \seealso{
-\code{\link[=repl_urls]{repl_urls()}} for the same extraction as a named generic you can call
-explicitly.
+\code{\link[=repl_urls]{repl_urls()}} for the same result from a function you can call by name.
 }

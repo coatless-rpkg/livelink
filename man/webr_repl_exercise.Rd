@@ -27,11 +27,22 @@ webr_repl_exercise(
 \item{base_url}{webR application URL. If NULL, uses global option or builds from version}
 }
 \value{
-webr_exercise object holding the paired \code{exercise} and \code{solution} links
+A \code{webr_exercise} object, which is a list with these entries.
+\itemize{
+\item \code{exercise}, the student's link, a \code{webr_link} object that does not autorun.
+\item \code{solution}, the answer link, a \code{webr_link} object that autoruns on opening.
+}
+
+Each of the two is itself a list holding the entries described in
+\code{\link[=webr_repl_link]{webr_repl_link()}}, so \code{links$solution$url} is the solution URL on its own.
 }
 \description{
-Generates a pair of webR links for educational purposes: one for student exercises
-(without autorun) and one for solutions (with autorun enabled).
+Generates a pair of webR links for teaching. One link holds the exercise for
+the student and the other holds the solution.
+}
+\details{
+The exercise link is built without autorun, so the student works through it,
+while the solution link is built with autorun enabled.
 }
 \examples{
 exercise_code <- "
@@ -54,9 +65,9 @@ links$solution
 # Custom path and version
 webr_repl_exercise(exercise_code, solution_code, "stats",
                    base_path = "/exercises/", version = "v0.5.4")
-
 }
 \seealso{
-\code{\link[=webr_repl_link]{webr_repl_link()}}, which this builds on;
+\code{\link[=webr_repl_link]{webr_repl_link()}}, which this builds on.
+
 \code{vignette("teaching", package = "livelink")} for using links in a course.
 }

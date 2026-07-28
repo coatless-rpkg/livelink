@@ -11,17 +11,35 @@ use_livelink_hook()
 use_livelink_engine()
 }
 \value{
-Called for their side effect. Invisibly \code{TRUE} if registration
-happened, \code{FALSE} if 'knitr' is not installed.
+Called for their side effect. The value is returned invisibly.
+\itemize{
+\item \code{TRUE} if registration happened.
+\item \code{FALSE} if 'knitr' is not installed.
+}
 }
 \description{
 livelink plugs into 'knitr' two ways, and which you want depends on one
-question: \strong{should the code also run in your document?}
+question. \strong{Should the code also run in your document?}
+}
+\details{
+Reach for either of these rather than expression input
+(\code{webr_repl_link({ ... })}) inside a knitted document. 'knitr' evaluates
+chunks through \code{evaluate::evaluate()}, which discards the source R kept, and
+comments live in that. Comments inside a \code{{ }} expression are therefore
+silently dropped from the link when the document renders, and no \code{keep.source}
+setting brings them back. Both the hook and the engine are handed the chunk's
+verbatim source, so nothing is lost.
 
-\strong{A chunk hook}, on an ordinary \code{r} chunk. The chunk runs as usual -- its
-output, plots and all, appear in the rendered page -- and a link is added
-underneath. Use this for code you want your reader to \emph{see the result of} and
-\emph{also} be able to open and play with.
+Both are registered automatically when livelink is loaded, provided 'knitr' is
+installed. Call these yourself only if you have reset \code{knitr::knit_hooks} or
+\code{knitr::knit_engines}.
+}
+\section{A chunk hook}{
+
+Set on an ordinary \code{r} chunk. The chunk runs as usual (its output, plots and
+all, appear in the rendered page) and a link is added underneath. Use this
+for code you want your reader to \emph{see the result of} and \emph{also} be able to open
+and play with.
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{```\{r\}
 #| livelink: true
@@ -31,11 +49,14 @@ data(mtcars)
 plot(mtcars$mpg, mtcars$wt)
 ```
 }\if{html}{\out{</div>}}
+}
 
-\strong{An engine}, as \verb{```\{livelink\}}. The chunk is displayed but \strong{not}
-run: only the link is produced. Use this for code your session cannot or should
-not execute -- a Shiny app, something needing a package you have not installed,
-or anything slow.
+\section{An engine}{
+
+Written as \verb{```\{livelink\}}. The chunk is displayed but \strong{not} run, so
+only the link is produced. Use this for code your session cannot or should not
+execute, such as a Shiny app, something needing a package you have not
+installed, or anything slow.
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{```\{livelink\}
 #| engine.target: shinylive-r
@@ -45,41 +66,31 @@ shinyApp(fluidPage(), function(input, output) \{\})
 }\if{html}{\out{</div>}}
 
 There is deliberately no \code{{shinylive-r}} or \code{{shinylive-py}} engine. 'knitr'
-cannot dispatch a chunk whose engine name contains a hyphen (its chunk syntax
+will not accept a chunk whose engine name contains a hyphen (its chunk syntax
 forbids it), and in Quarto such a cell is handed to the Shinylive extension
 rather than to 'knitr'. Name Shinylive through \code{engine.target} instead.
 }
-\details{
-Reach for either of these rather than expression input
-(\code{webr_repl_link({ ... })}) inside a knitted document. 'knitr' evaluates
-chunks through \code{evaluate::evaluate()}, which discards source references, and
-comments live in those -- so comments inside a \code{{ }} expression are silently
-dropped from the link when the document renders, and no \code{keep.source} setting
-brings them back. Both the hook and the engine are handed the chunk's verbatim
-source, so nothing is lost.
 
-Both are registered automatically when livelink is loaded, provided 'knitr' is
-installed. Call these yourself only if you have reset \code{knitr::knit_hooks} or
-\code{knitr::knit_engines}.
-}
 \section{Chunk options}{
+
 \describe{
-\item{\code{livelink}}{Hook only. \code{true} for a webR link, or name the target
-directly: \code{"webr"}, \code{"shinylive-r"}, \code{"shinylive-py"}.}
+\item{\code{livelink}}{Hook only. Use \code{true} for a webR link, or name the target
+directly with \code{"webr"}, \code{"shinylive-r"}, or \code{"shinylive-py"}.}
 \item{\code{engine.target}}{Engine only. \code{"webr"} (default), \code{"shinylive-r"}, or
 \code{"shinylive-py"}.}
 \item{\code{autorun}}{Logical. Run the code as soon as the link opens. webR only.}
 \item{\code{panels}}{Character vector of webR panels, e.g. \code{c("editor", "plot")}.}
 \item{\code{mode}}{Shinylive only. Display mode, \code{"editor"} (default) or \code{"app"}.}
-\item{\code{filename}}{webR only. Name for the script file in the webR virtual
-filesystem (default \code{"script.R"}); must end in \code{.R} for \code{autorun} to work.}
+\item{\code{filename}}{webR only. Name for the script file webR creates in the
+browser (default \code{"script.R"}). It must end in \code{.R} for \code{autorun} to work.}
 \item{\code{link.text}}{Text for the hyperlink. Defaults to \code{"Open in webR"} or
 \code{"Open in Shinylive"}.}
-\item{\code{link.only}}{Engine only. If \code{TRUE}, emit the link without the source.}
+\item{\code{link.only}}{Engine only. If \code{TRUE}, show the link without the source.}
 }
 }
 
 \section{Setting options once}{
+
 These are ordinary 'knitr' chunk options, so \code{opts_chunk} sets them for a whole
 document, and a single chunk opts out with \code{livelink: false}:
 
@@ -88,24 +99,26 @@ document, and a single chunk opts out with \code{livelink: false}:
 }
 
 \section{\code{echo} does not gate the link}{
+
 It is natural to assume the code must be visible for a link to be made. It need
-not be. \code{echo} controls whether the \strong{source is shown in your page}; the link is
-built from the chunk's source, which 'knitr' hands over either way. So
+not be. \code{echo} controls whether the \strong{source is shown in your page}. The link
+is built from the chunk's source, which 'knitr' hands over either way. So
 \code{echo: false} gives a working link whose code the reader simply cannot see.
 
-\code{eval: false} is the other half: the chunk is displayed but not run, which makes
-an \code{r} chunk behave rather like the engine.
+\code{eval: false} is the other half. The chunk is displayed but not run, which
+makes an \code{r} chunk behave rather like the engine.
 }
 
 \examples{
 \dontshow{if (requireNamespace("knitr", quietly = TRUE)) withAutoprint(\{ # examplesIf}
-# Both are registered on load; call directly only after resetting knitr's hooks.
+# Both are registered on load. Call directly only after resetting knitr's hooks.
 use_livelink_hook()
 use_livelink_engine()
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{vignette("links-in-documents", package = "livelink")} for the whole
-picture, and \code{\link[=webr_repl_link]{webr_repl_link()}} for why a braced expression loses comments in
-a knitted document.
+\code{vignette("links-in-documents", package = "livelink")} for the whole picture.
+
+\code{\link[=webr_repl_link]{webr_repl_link()}} for why a braced expression loses comments in a knitted
+document.
 }

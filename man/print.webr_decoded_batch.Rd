@@ -12,8 +12,12 @@
 \item{...}{Additional arguments (ignored)}
 }
 \value{
-Invisibly returns the object
+The \code{webr_decoded_batch} object it was handed, returned invisibly, so it can
+be passed straight on. Called for the summary it prints, which covers the
+base folder, each link that decoded with its file count and output folder,
+and a count of the links that failed. See \code{\link[=decode_webr_link]{decode_webr_link()}} for the
+entries the object holds.
 }
 \description{
-Print method for webr_decoded_batch objects
+Displays a summary of the webR links decoded in a batch.
 }

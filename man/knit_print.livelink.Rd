@@ -34,21 +34,30 @@
 A \code{knit_asis} object (via \code{\link[knitr:asis_output]{knitr::asis_output()}}).
 }
 \description{
+Emit a clickable Markdown link when a link object is the visible result of a
+'knitr' chunk.
+}
+\details{
 'knitr' calls \code{knit_print()} on the last value of a chunk. Without these
 methods a link object would fall back to \code{\link[=print]{print()}}, dumping cli console output
 (a header, box glyphs, metadata) into the rendered page. These methods instead
 emit a clickable Markdown link, which is almost always what you want when a
 link object is the visible result of a chunk.
 
-A single link becomes \verb{[Open in webR](url)} (or Shinylive); a project the
-same. A directory or an exercise, which carry several named URLs, become a
-bulleted list, one titled link per entry.
-
-These fire only inside 'knitr'. Call \code{\link[=print]{print()}} explicitly for the full cli
-description, or \code{\link[=as.character]{as.character()}} for the bare URL.
+These methods apply only inside 'knitr'. Call \code{\link[=print]{print()}} explicitly for the
+full cli description, or \code{\link[=as.character]{as.character()}} for the bare URL.
 }
+\section{Shape of the rendered link}{
+
+A single link becomes \verb{[Open in webR](url)}, or the Shinylive equivalent, and
+a project renders the same way. A directory or an exercise carries several
+named URLs, so it becomes a bulleted list with one titled link per entry.
+}
+
 \seealso{
-\link{livelink-knitr} for the chunk hook and engine, \code{\link[=format.livelink]{format.livelink()}}
-and \code{\link[=as.character.webr_link]{as.character.webr_link()}} for other renderings, and
+\link{livelink-knitr} for the chunk hook and engine.
+
+\code{\link[=format.livelink]{format.livelink()}} and \code{\link[=as.character.webr_link]{as.character.webr_link()}} for other renderings.
+
 \code{vignette("links-in-documents", package = "livelink")}.
 }

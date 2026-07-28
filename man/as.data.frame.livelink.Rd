@@ -22,22 +22,29 @@
 
 \item{row.names}{A character vector of row names, or \code{NULL}.}
 
-\item{optional}{Ignored; present for compatibility with the generic.}
+\item{optional}{Ignored. It is here so the arguments match those of
+\code{as.data.frame()}.}
 
 \item{...}{Ignored.}
 }
 \value{
-A data frame. For a directory, one row per generated link with columns
-\code{filename} and \code{url}. For a decoded batch, one row per successfully decoded
-URL with columns \code{name}, \code{url}, \code{total_files}, \code{total_size}, and
-\code{output_dir} (URLs that failed to decode carry no result and are omitted; the
-object's \code{total_urls} and \code{successful_urls} fields hold the counts).
+A data frame.
+\itemize{
+\item A directory gives one row for each generated link, with the columns
+\code{filename} and \code{url}.
+\item A decoded batch gives one row for each URL that decoded successfully, with
+the columns \code{name}, \code{url}, \code{total_files}, \code{total_size}, and \code{output_dir}.
+A URL that failed to decode carries no result and is left out. The counts
+are held in the object's \code{total_urls} and \code{successful_urls} fields.
+}
 }
 \description{
-The container classes coerce to a tidy data frame, so a folder of links or a
-batch of decoded results can be tabulated, filtered, joined, or written to
-CSV with the tools you already use. For a tibble, wrap the result:
-\code{tibble::as_tibble(as.data.frame(x))}.
+The container classes convert to a tidy data frame.
+}
+\details{
+A folder of links or a batch of decoded results can be tabulated, filtered,
+joined, or written to CSV with the tools you already use. For a tibble, wrap
+the result with \code{tibble::as_tibble(as.data.frame(x))}.
 }
 \examples{
 dir <- tempfile()
@@ -48,4 +55,12 @@ writeLines("hist(rnorm(100))", file.path(dir, "two.R"))
 links <- webr_repl_directory(dir)
 as.data.frame(links)
 
+}
+\seealso{
+\code{\link[=webr_repl_directory]{webr_repl_directory()}} for the webR directory objects tabulated here.
+
+\code{\link[=shinylive_directory]{shinylive_directory()}} for the Shinylive directory objects tabulated here.
+
+\code{\link[=decode_webr_link]{decode_webr_link()}} and \code{\link[=decode_shinylive_link]{decode_shinylive_link()}} for the decoded batch
+objects tabulated here.
 }

@@ -18,14 +18,17 @@ repl_urls(x, ...)
 \item{...}{Additional arguments passed to methods}
 }
 \value{
-A character vector of URLs. Most objects yield a single URL; exercise
-objects return a length-2 named vector (\code{exercise}, \code{solution}); directory
-and batch objects return one URL per file.
+A character vector of URLs.
+\itemize{
+\item Most objects give a single URL.
+\item An exercise gives two, named \code{exercise} and \code{solution}.
+\item A directory or a batch gives one URL for each file.
+}
 }
 \description{
-Generic function to extract the shareable URL(s) from any livelink object,
-covering both webR REPL and Shinylive results. Provides a clear way to get
-just the URLs for sharing or further processing.
+Extracts the shareable URL(s) from any livelink object, covering both webR
+REPL and Shinylive results. Provides a clear way to get just the URLs for
+sharing or further work.
 }
 \examples{
 # Single link
@@ -42,9 +45,8 @@ repl_urls(shinylive_r_link("library(shiny)"))
 # Decoded files (returns the original URL)
 decoded <- decode_webr_link(as.character(link))
 repl_urls(decoded)
-
 }
 \seealso{
 The \code{as.character()} methods (for example \code{\link[=as.character.webr_link]{as.character.webr_link()}}),
-which \code{repl_urls()} delegates to.
+which \code{repl_urls()} calls to do the work.
 }

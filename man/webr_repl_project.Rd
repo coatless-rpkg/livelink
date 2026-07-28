@@ -31,7 +31,7 @@ both code and, say, a \code{README.md}.}
 \item{base_path}{Base directory path for all files (default: \code{"/home/web_user/"})}
 
 \item{panels}{Character vector or string specifying which webR interface panels to show.
-Valid panels: \code{"plot"}, \code{"files"}, \code{"terminal"}, \code{"editor"}. Can be \code{c("plot", "files")} or \code{"plot-files"}.
+The panels are \code{"plot"}, \code{"files"}, \code{"terminal"}, and \code{"editor"}. Can be \code{c("plot", "files")} or \code{"plot-files"}.
 If NULL (default), shows all panels.}
 
 \item{version}{webR version to use (\code{"latest"} or specific version >= "v0.5.4")}
@@ -39,11 +39,24 @@ If NULL (default), shows all panels.}
 \item{base_url}{webR application URL. If NULL, uses global option or builds from version}
 }
 \value{
-webr_project object containing the webR sharelink for the multi-file project
+A \code{webr_project} object, which is a list with these entries.
+\itemize{
+\item \code{url}, the sharelink itself, as a single string.
+\item \code{files}, the names of the files carried in the link.
+\item \code{base_path}, the folder the files are placed in inside webR.
+\item \code{mode}, the panels the link asks for, or \code{NULL} for all of them.
+\item \code{version}, the webR version the link points at.
+\item \code{autorun_files}, the names you asked to run on opening.
+}
 }
 \description{
-Creates a webR sharelink for projects with multiple R files, data files, or other resources.
-Supports named lists and file path vectors as input.
+Creates a webR sharelink for projects with multiple R files, data files, or
+other resources.
+}
+\details{
+Every file is placed under \code{base_path} inside webR, so a
+\code{source("utils.R")} in one file finds its sibling. Names are used verbatim
+and may carry a subdirectory, as in \code{"R/helpers.R"}.
 }
 \section{Writing a project as code}{
 
@@ -57,13 +70,13 @@ spares you escaping every newline and quote:
 ))
 }\if{html}{\out{</div>}}
 
-The blocks are \strong{never evaluated} -- they are source to ship, not code to run
--- so an assignment inside one leaves nothing behind in your session.
+The blocks are \strong{never evaluated}. They are source to ship, not code to run,
+so an assignment inside one leaves nothing behind in your session.
 
 Two things to know. Comments inside \code{{ }} survive in an interactive session but
 not in a knitted document (see \code{\link[=webr_repl_link]{webr_repl_link()}}). And a \code{library()} call
 inside a block is visible to \verb{R CMD check}, which will report the package as an
-undeclared dependency of \emph{yours}; in a vignette or an example, use a string for
+undeclared dependency of \emph{yours}. In a vignette or an example, use a string for
 code that loads packages.
 }
 

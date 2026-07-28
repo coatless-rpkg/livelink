@@ -12,8 +12,11 @@
 \item{...}{Additional arguments (ignored)}
 }
 \value{
-Invisibly returns the object
+The \code{shinylive_link} object it was handed, returned invisibly, so it can be
+passed straight on. Called for the summary it prints, which covers the URL,
+the files the app is made of, the engine, and the mode. See
+\code{\link[=shinylive_r_link]{shinylive_r_link()}} for the entries the object holds.
 }
 \description{
-Print method for shinylive_link objects
+Displays the app sharelink and the files it carries.
 }

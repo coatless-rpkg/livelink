@@ -12,8 +12,11 @@
 \item{...}{Additional arguments (ignored)}
 }
 \value{
-Invisibly returns the object
+The \code{shinylive_project} object it was handed, returned invisibly, so it can
+be passed straight on. Called for the summary it prints, which covers the
+URL, the files the project carries, the engine, and the mode. See
+\code{\link[=shinylive_project]{shinylive_project()}} for the entries the object holds.
 }
 \description{
-Print method for shinylive_project objects
+Displays the project sharelink and the files it carries.
 }

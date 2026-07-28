@@ -32,7 +32,7 @@ the file is placed at \code{"/home/web_user/{filename}"}.}
 Only R files (\code{.R}) can be auto-executed.}
 
 \item{panels}{Character vector or string specifying which webR interface panels to show.
-Valid panels: \code{"plot"}, \code{"files"}, \code{"terminal"}, \code{"editor"}. Can be \code{c("plot", "files")} or \code{"plot-files"}.
+The panels are \code{"plot"}, \code{"files"}, \code{"terminal"}, and \code{"editor"}. Can be \code{c("plot", "files")} or \code{"plot-files"}.
 If NULL (default), shows all panels.}
 
 \item{version}{webR version to use (\code{"latest"} or specific version >= "v0.5.4")}
@@ -40,23 +40,41 @@ If NULL (default), shows all panels.}
 \item{base_url}{webR application URL. If NULL, uses global option or builds from version}
 }
 \value{
-webr_link object containing the webR sharelink and metadata
+A \code{webr_link} object, which is a list with these entries.
+\itemize{
+\item \code{url}, the sharelink itself, as a single string.
+\item \code{filename}, the name the script is given inside webR.
+\item \code{path}, where that file is placed inside webR.
+\item \code{mode}, the panels the link asks for, or \code{NULL} for all of them.
+\item \code{version}, the webR version the link points at.
+\item \code{autorun}, \code{TRUE} when the code runs as soon as the link opens.
+}
+
+Use \code{as.character()} on the object to get the URL on its own.
 }
 \description{
-Generates a shareable URL for R code that can be executed in the webR environment.
-Supports expressions, file paths, character strings, and clipboard input.
+Turns a single R script into a URL that runs it in the webR REPL.
+}
+\details{
+The code travels inside the URL, in the fragment after the \verb{#}, which browsers
+keep local and never send to a server. Opening the link boots webR in the
+reader's own tab, so nothing is installed and nothing runs on your side.
+
+\code{input} is deliberately permissive. It takes an expression in braces, a string,
+a path to a file, or the clipboard when nothing is passed at all. One script
+goes in one link. For several files, see \code{\link[=webr_repl_project]{webr_repl_project()}}.
 }
 \section{Comments in expression input}{
 
-Expression input recovers your source from R's \emph{source references}, which R only
-attaches when \code{keep.source} is enabled. Comments therefore survive in an
-interactive session, but are dropped when the calling code is parsed without
-source references -- notably inside a knitted 'Quarto' or 'R Markdown' document,
-because 'knitr' evaluates chunks through \code{evaluate::evaluate()}, which discards
-them. No \code{keep.source} setting recovers them there.
+Expression input recovers your code from the source R kept when it read the
+expression. R only keeps that source when \code{keep.source} is enabled, so comments
+survive in an interactive session but are dropped when the calling code is read
+without it. That is what happens inside a knitted 'Quarto' or 'R Markdown'
+document, because 'knitr' evaluates chunks through \code{evaluate::evaluate()}, which
+throws the source away. No \code{keep.source} setting recovers them there.
 
 If you need comments preserved, pass the code as a string or a file path, or write
-it as a chunk in the document -- see \link{livelink-knitr} and
+it as a chunk in the document. See \link{livelink-knitr} and
 \code{vignette("links-in-documents", package = "livelink")}.
 }
 
@@ -87,7 +105,11 @@ if (interactive()) {
 }
 }
 \seealso{
-\code{\link[=webr_repl_project]{webr_repl_project()}} for multi-file projects and
-\code{\link[=webr_repl_exercise]{webr_repl_exercise()}} for exercise and solution pairs; \link{livelink-knitr} to
-give a document chunk its own link; \code{vignette("getting-started", package = "livelink")} for an introduction.
+\code{\link[=webr_repl_project]{webr_repl_project()}} for multi-file projects.
+
+\code{\link[=webr_repl_exercise]{webr_repl_exercise()}} for exercise and solution pairs.
+
+\link{livelink-knitr} to give a document chunk its own link.
+
+\code{vignette("getting-started", package = "livelink")} for an introduction.
 }

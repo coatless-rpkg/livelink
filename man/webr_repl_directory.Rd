@@ -18,8 +18,9 @@ webr_repl_directory(
 \arguments{
 \item{directory_path}{Character string specifying the path to the directory containing R files}
 
-\item{autorun}{Logical. Whether to enable autorun for all generated links (default: FALSE).
-With \code{single_link = TRUE}, this runs every R file in the bundle on arrival.}
+\item{autorun}{Logical. Whether to enable autorun for all generated links.
+Defaults to \code{FALSE}. With \code{single_link = TRUE}, this runs every R file in
+the bundle on arrival.}
 
 \item{single_link}{Logical. If \code{FALSE} (default), each matched file becomes its
 own link and the result is a \code{webr_directory}. If \code{TRUE}, all matched files
@@ -28,26 +29,51 @@ are packed into one link and the result is a single \code{webr_project}.}
 \item{pattern}{Regular expression matched against file names in
 \code{directory_path}. Defaults to \code{"\\\\.R$"}, i.e. files ending in \code{.R}.}
 
-\item{base_path}{Base directory path for files in webR (default: "/home/web_user/")}
+\item{base_path}{Base directory path for files in webR. Defaults to
+\code{"/home/web_user/"}.}
 
 \item{panels}{Character vector or string specifying which webR interface panels to show.
-Valid panels: "plot", "files", "terminal", "editor". Can be c("plot", "files") or "plot-files".
-If NULL (default), shows all panels.}
+The valid panels are "plot", "files", "terminal", and "editor". Can be
+c("plot", "files") or "plot-files". If NULL (default), shows all panels.}
 
 \item{version}{webR version to use ("latest" or specific version >= "v0.5.4")}
 
 \item{base_url}{webR application URL. If NULL, uses global option or builds from version}
 }
 \value{
-By default a \code{webr_directory} object, whose \code{urls} element is a named character
-vector mapping each filename to its webR sharelink. With \code{single_link = TRUE}, a
-single \code{webr_project} object bundling every matched file into one link.
+By default, a \code{webr_directory} object, which is a list with these entries.
+\itemize{
+\item \code{urls}, the sharelinks, as a named character vector with one entry per
+matched file, named by file name.
+\item \code{base_path}, where the files are placed inside webR.
+\item \code{mode}, the panels the links ask for, or \code{NULL} for all of them.
+\item \code{version}, the webR version the links point at.
+\item \code{source_directory}, the directory the files were read from.
+}
+
+With \code{single_link = TRUE}, a \code{webr_project} object instead, which is a list
+with these entries.
+\itemize{
+\item \code{url}, the one sharelink that carries every matched file, as a single
+string.
+\item \code{files}, the file contents that went into the link, as a named list keyed
+by file name.
+\item \code{base_path}, where the files are placed inside webR.
+\item \code{mode}, the panels the link asks for, or \code{NULL} for all of them.
+\item \code{version}, the webR version the link points at.
+\item \code{autorun_files}, the files that run as soon as the link opens.
+}
+
+Use \code{as.character()} on either object to get the URLs on their own.
 }
 \description{
-Batch processes all R files in a directory. By default each file becomes its
-own webR sharelink; with \code{single_link = TRUE} the whole directory is bundled
-into one link instead, exactly as \code{\link[=webr_repl_project]{webr_repl_project()}} would. Useful for
-converting collections of scripts, examples, or course materials.
+Batch processes all R files in a directory into webR sharelinks.
+}
+\details{
+By default each file becomes its own webR sharelink. With
+\code{single_link = TRUE} the whole directory is bundled into one link instead,
+exactly as \code{\link[=webr_repl_project]{webr_repl_project()}} would. Useful for converting collections of
+scripts, examples, or course materials.
 }
 \examples{
 # A directory of R scripts
@@ -70,9 +96,8 @@ webr_repl_directory(examples, pattern = "^plot")
 
 # The URLs, named by file
 repl_urls(links)
-
 }
 \seealso{
-\code{\link[=webr_repl_project]{webr_repl_project()}}, which bundles a named list or a vector of file
-paths into one link.
+\code{\link[=webr_repl_project]{webr_repl_project()}}, which bundles a named list or a vector of file paths
+into one link.
 }

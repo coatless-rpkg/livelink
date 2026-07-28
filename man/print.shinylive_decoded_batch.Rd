@@ -12,8 +12,12 @@
 \item{...}{Additional arguments (ignored)}
 }
 \value{
-Invisibly returns the object
+The \code{shinylive_decoded_batch} object it was handed, returned invisibly, so
+it can be passed straight on. Called for the summary it prints, which covers
+the base folder, the output folder and file count for each link that
+decoded, and the totals across all of them. See \code{\link[=decode_shinylive_link]{decode_shinylive_link()}}
+for the entries the object holds.
 }
 \description{
-Print method for shinylive_decoded_batch objects
+Displays a summary of the Shinylive links decoded in a batch.
 }

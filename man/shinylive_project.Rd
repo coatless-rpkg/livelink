@@ -19,10 +19,10 @@ shinylive_project(
 \item Vector of file paths: \code{c("app.R", "utils.R", "data.csv")}
 }}
 
-\item{engine}{Engine to use: "r" for R Shiny or "python" for Python Shiny}
+\item{engine}{Engine to use, either "r" for R Shiny or "python" for Python Shiny}
 
 \item{mode}{Shinylive display mode (default \code{"editor"}). \code{"editor"} shows an
-editable code panel beside the running app; \code{"app"} shows only the running app.}
+editable code panel beside the running app. \code{"app"} shows only the running app.}
 
 \item{header}{Logical, whether to show the Shinylive header bar. It applies only
 when \code{mode = "app"} and is ignored in the default \code{"editor"} mode. Defaults to \code{TRUE}.}
@@ -30,7 +30,15 @@ when \code{mode = "app"} and is ignored in the default \code{"editor"} mode. Def
 \item{base_url}{Custom Shinylive base URL. If NULL (default), links point at https://shinylive.io.}
 }
 \value{
-shinylive_project object containing the Shinylive URL and metadata
+A \code{shinylive_project} object, which is a list with these entries.
+\itemize{
+\item \code{url}, the one sharelink that carries every file, as a single string.
+\item \code{files}, the names of the files carried in the link, as a character vector.
+\item \code{engine}, the Shiny flavor the link runs, \code{"r"} or \code{"python"}.
+\item \code{mode}, the Shinylive display mode, \code{"editor"} or \code{"app"}.
+}
+
+Use \code{as.character()} on the object to get the URL on its own.
 }
 \description{
 Creates Shinylive projects for either R or Python from named lists or
@@ -54,6 +62,7 @@ writeLines("# utils", utils)
 shinylive_project(c(app, utils), engine = "r")
 }
 \seealso{
-\code{\link[=shinylive_r_link]{shinylive_r_link()}} and \code{\link[=shinylive_py_link]{shinylive_py_link()}} for single apps;
+\code{\link[=shinylive_r_link]{shinylive_r_link()}} and \code{\link[=shinylive_py_link]{shinylive_py_link()}} for single apps.
+
 \code{\link[=decode_shinylive_link]{decode_shinylive_link()}} and \code{\link[=preview_shinylive_link]{preview_shinylive_link()}} to read a link back.
 }

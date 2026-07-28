@@ -16,25 +16,35 @@ shinylive_directory(
 \arguments{
 \item{directory_path}{Character string specifying the path to the directory containing Shiny app directories}
 
-\item{engine}{Engine to use: "r" for R Shiny or "python" for Python Shiny}
+\item{engine}{Engine to use, either "r" for R Shiny or "python" for Python Shiny}
 
 \item{mode}{Shinylive display mode (default \code{"editor"}). \code{"editor"} shows an
-editable code panel beside the running app; \code{"app"} shows only the running app.}
+editable code panel beside the running app. \code{"app"} shows only the running app.}
 
 \item{header}{Logical, whether to show the Shinylive header bar. It applies only
 when \code{mode = "app"} and is ignored in the default \code{"editor"} mode. Defaults to \code{TRUE}.}
 
-\item{app_file}{Main app filename to look for (default: "app.R" for R, "app.py" for Python)}
+\item{app_file}{Main app filename to look for (defaults to "app.R" for R and "app.py" for Python)}
 
 \item{base_url}{Custom Shinylive base URL. If NULL (default), links point at https://shinylive.io.}
 }
 \value{
-shinylive_directory object containing URLs and metadata for all found apps
+A \code{shinylive_directory} object, which is a list with these entries.
+\itemize{
+\item \code{urls}, one sharelink per app, as a named character vector whose names are
+the app subdirectory names. It is empty when no app was found.
+\item \code{engine}, the Shiny flavor the links run, \code{"r"} or \code{"python"}.
+\item \code{mode}, the Shinylive display mode, \code{"editor"} or \code{"app"}.
+\item \code{source_directory}, the directory that was read.
+}
+
+Use \code{repl_urls()} on the object to get the URLs on their own.
 }
 \description{
-Batch processes directories containing Shiny applications to create individual Shinylive links.
-Each subdirectory is treated as a separate Shiny app project.
-
+Batch processes directories containing Shiny applications to create individual
+Shinylive links. Each subdirectory is treated as a separate Shiny app project.
+}
+\details{
 Only text files with extensions .R, .py, .txt, .md, .csv, .json, .yaml, or
 .yml are embedded in a link. Other files (for example images or binary data)
 are skipped with a warning.
@@ -55,5 +65,9 @@ print(links)
 
 # Extract just the URLs
 repl_urls(links)
+}
+\seealso{
+\code{\link[=shinylive_project]{shinylive_project()}} for a single multi-file app.
 
+\code{\link[=shinylive_r_link]{shinylive_r_link()}} and \code{\link[=shinylive_py_link]{shinylive_py_link()}} for single apps.
 }

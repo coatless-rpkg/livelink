@@ -12,8 +12,11 @@
 \item{...}{Additional arguments (ignored)}
 }
 \value{
-Invisibly returns the object
+The \code{webr_project} object it was handed, returned invisibly, so it can be
+passed straight on. Called for the summary it prints, which covers the URL,
+every file and where it lands, which files run on open, the interface, and
+the version. See \code{\link[=webr_repl_project]{webr_repl_project()}} for the entries the object holds.
 }
 \description{
-Print method for webr_project objects
+Displays the project sharelink and the files it carries.
 }
