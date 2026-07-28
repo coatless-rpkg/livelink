@@ -1,6 +1,10 @@
 #' Get the base WebR URL from options or default
+#'
 #' @param version WebR version to use ("latest" or specific version like "v0.5.4")
-#' @return Character string with the base URL
+#'
+#' @return
+#' Character string with the base URL.
+#'
 #' @noRd
 get_webr_base_url <- function(version = "latest") {
   # Check if user has set a custom base URL
@@ -16,16 +20,28 @@ get_webr_base_url <- function(version = "latest") {
 
 #' Set global base URL for webR links
 #'
-#' @description
 #' Overrides the base URL used when building webR REPL links, for instance to
-#' point at a self-hosted or pinned webR deployment. The value is stored in the
-#' `livelink.base_url` option and applies to webR links only; Shinylive links are
-#' unaffected. Once set, a custom base URL takes precedence over the `version`
-#' argument passed to the link builders.
+#' point at a webR site you host yourself or at a fixed webR version.
 #'
 #' @param base_url Custom base URL to use for all webR links
-#' @return Invisibly returns the `base_url` value (or `NULL` if resetting
-#'   to default).
+#'
+#' @return
+#' Invisibly returns the value supplied to `base_url`.
+#'
+#' - The custom URL when you set one.
+#' - `NULL` when you reset to the default.
+#'
+#' @details
+#' The value is stored in the `livelink.base_url` option and applies to webR
+#' links only. Shinylive links are unaffected. Once set, a custom base URL takes
+#' precedence over the `version` argument given to the functions that build
+#' links.
+#'
+#' @seealso
+#' [webr_repl_link()] for single-script links that honor this option.
+#'
+#' [webr_repl_project()] for multi-file projects that honor this option.
+#'
 #' @export
 #' @examples
 #' # Remember the current setting so it can be restored afterwards

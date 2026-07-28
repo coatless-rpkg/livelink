@@ -346,6 +346,13 @@ test_that("a file with no trailing newline is read without complaint", {
   )
 })
 
+# Regression: a missing `input` reached process_project_input() as an empty
+# promise, so the abort named the internal variable: `argument "x_expr" is
+# missing, with no default`. The intended message existed but was unreachable.
+test_that("the project functions explain a missing input", {
+  expect_error(webr_repl_project(), "Clipboard input not supported")
+  expect_error(shinylive_project(engine = "r"), "Clipboard input not supported")
+})
 
 # Regression: a srcref records where source was, not what it says now. When the
 # file changed after parsing, the recovered "source" was whatever occupied those

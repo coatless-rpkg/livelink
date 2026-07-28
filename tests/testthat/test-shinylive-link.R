@@ -98,3 +98,28 @@ test_that("as.character works for shinylive_link", {
   expect_type(url, "character")
   expect_equal(url, result$url)
 })
+
+# Regression: files were admitted by extension, so the .css and .js a Shiny app
+# actually needs were dropped -- although the vignette says helpers, data and
+# CSS are bundled -- and the warning called them "binary", which they are not.
+# What matters is whether a file can travel as text.
+test_that("text assets are bundled and only real binaries are skipped", {
+  apps <- withr::local_tempdir()
+  dir.create(file.path(apps, "myapp", "www"), recursive = TRUE)
+  writeLines("library(shiny)", file.path(apps, "myapp", "app.R"))
+  writeLines("body { color: red; }", file.path(apps, "myapp", "style.css"))
+  writeLines("var x = 1;", file.path(apps, "myapp", "www", "app.js"))
+  writeBin(as.raw(c(0x89, 0x50, 0x4e, 0x47, 0x00, 0x01)),
+           file.path(apps, "myapp", "logo.png"))
+
+  expect_warning(link <- shinylive_directory(apps, engine = "r"), "logo.png")
+
+  bundled <- vapply(
+    preview_shinylive_link(as.character(link))$files_data,
+    function(f) f$name,
+    character(1)
+  )
+
+  expect_true(all(c("app.R", "style.css", "www/app.js") %in% bundled))
+  expect_false("logo.png" %in% bundled)
+})

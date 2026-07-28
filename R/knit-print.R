@@ -1,27 +1,35 @@
 #' Render livelink objects as links in knitted documents
 #'
-#' @description
+#' Emit a clickable Markdown link when a link object is the visible result of a
+#' 'knitr' chunk.
+#'
+#' @param x A livelink object (a link, project, exercise, or directory).
+#' @param ... Ignored.
+#'
+#' @return
+#' A `knit_asis` object (via [knitr::asis_output()]).
+#'
+#' @details
 #' 'knitr' calls `knit_print()` on the last value of a chunk. Without these
 #' methods a link object would fall back to [print()], dumping cli console output
 #' (a header, box glyphs, metadata) into the rendered page. These methods instead
 #' emit a clickable Markdown link, which is almost always what you want when a
 #' link object is the visible result of a chunk.
 #'
-#' A single link becomes `[Open in webR](url)` (or Shinylive); a project the
-#' same. A directory or an exercise, which carry several named URLs, become a
-#' bulleted list, one titled link per entry.
+#' These methods apply only inside 'knitr'. Call [print()] explicitly for the
+#' full cli description, or [as.character()] for the bare URL.
 #'
-#' These fire only inside 'knitr'. Call [print()] explicitly for the full cli
-#' description, or [as.character()] for the bare URL.
+#' @section Shape of the rendered link:
+#' A single link becomes `[Open in webR](url)`, or the Shinylive equivalent, and
+#' a project renders the same way. A directory or an exercise carries several
+#' named URLs, so it becomes a bulleted list with one titled link per entry.
 #'
-#' @param x A livelink object (a link, project, exercise, or directory).
-#' @param ... Ignored.
+#' @seealso
+#' [livelink-knitr] for the chunk hook and engine.
 #'
-#' @return A `knit_asis` object (via [knitr::asis_output()]).
+#' [format.livelink()] and [as.character.webr_link()] for other renderings.
 #'
-#' @seealso [livelink-knitr] for the chunk hook and engine, [format.livelink()]
-#'   and [as.character.webr_link()] for other renderings, and
-#'   `vignette("links-in-documents", package = "livelink")`.
+#' `vignette("links-in-documents", package = "livelink")`.
 #'
 #' @name knit_print.livelink
 NULL

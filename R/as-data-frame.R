@@ -1,22 +1,36 @@
 #' Turn a livelink container into a data frame
 #'
-#' The container classes coerce to a tidy data frame, so a folder of links or a
-#' batch of decoded results can be tabulated, filtered, joined, or written to
-#' CSV with the tools you already use. For a tibble, wrap the result:
-#' `tibble::as_tibble(as.data.frame(x))`.
+#' The container classes convert to a tidy data frame.
 #'
 #' @param x A `webr_directory`, `shinylive_directory`, `webr_decoded_batch`, or
 #'   `shinylive_decoded_batch` object.
 #' @param row.names A character vector of row names, or `NULL`.
-#' @param optional Ignored; present for compatibility with the generic.
+#' @param optional Ignored. It is here so the arguments match those of
+#'   `as.data.frame()`.
 #' @param ... Ignored.
 #'
 #' @return
-#' A data frame. For a directory, one row per generated link with columns
-#' `filename` and `url`. For a decoded batch, one row per successfully decoded
-#' URL with columns `name`, `url`, `total_files`, `total_size`, and
-#' `output_dir` (URLs that failed to decode carry no result and are omitted; the
-#' object's `total_urls` and `successful_urls` fields hold the counts).
+#' A data frame.
+#'
+#' - A directory gives one row for each generated link, with the columns
+#'   `filename` and `url`.
+#' - A decoded batch gives one row for each URL that decoded successfully, with
+#'   the columns `name`, `url`, `total_files`, `total_size`, and `output_dir`.
+#'   A URL that failed to decode carries no result and is left out. The counts
+#'   are held in the object's `total_urls` and `successful_urls` fields.
+#'
+#' @details
+#' A folder of links or a batch of decoded results can be tabulated, filtered,
+#' joined, or written to CSV with the tools you already use. For a tibble, wrap
+#' the result with `tibble::as_tibble(as.data.frame(x))`.
+#'
+#' @seealso
+#' [webr_repl_directory()] for the webR directory objects tabulated here.
+#'
+#' [shinylive_directory()] for the Shinylive directory objects tabulated here.
+#'
+#' [decode_webr_link()] and [decode_shinylive_link()] for the decoded batch
+#' objects tabulated here.
 #'
 #' @examples
 #' dir <- tempfile()

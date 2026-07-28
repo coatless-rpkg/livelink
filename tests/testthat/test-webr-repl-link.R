@@ -116,3 +116,50 @@ test_that("as.character works for webr_link", {
   expect_type(url, "character")
   expect_equal(url, result$url)
 })
+
+# Regression: the payload builder and print() decided autorun separately and
+# disagreed in both directions. "all" matched no filename, so a project that
+# did autorun printed no marker; a named non-R file matched, so print claimed
+# "(autorun)" for a file webR will not run. Both now ask the same helper.
+test_that("the autorun markers agree with the link", {
+  printed_autorun <- function(p) {
+    out <- utils::capture.output(print(p), type = "message")
+    sub("^'([^']+)'.*", "\\1", trimws(grep("autorun", out, value = TRUE)))
+  }
+
+  all_files <- webr_repl_project(
+    list("a.R" = "1", "b.R" = "2"),
+    autorun_files = "all"
+  )
+  expect_equal(printed_autorun(all_files), c("a.R", "b.R"))
+  expect_equal(
+    preview_webr_link(as.character(all_files))$autorun_files,
+    c("a.R", "b.R")
+  )
+
+  named <- webr_repl_project(list("a.R" = "1", "b.R" = "2"), autorun_files = "a.R")
+  expect_equal(printed_autorun(named), "a.R")
+})
+
+test_that("a file webR cannot autorun is reported, not silently ignored", {
+  expect_warning(
+    project <- webr_repl_project(
+      list("main.R" = "1", "notes.md" = "# hi"),
+      autorun_files = "notes.md"
+    ),
+    "autorun_files"
+  )
+
+  # Nothing autoruns, so the URL must not carry the flag either.
+  expect_equal(preview_webr_link(as.character(project))$autorun_files, character(0))
+  expect_false(grepl("a$", sub("^.*&", "", project$url)))
+})
+
+# Regression: input that is not a single string reached jsonlite and became a
+# JSON object, array, or null where webR needs the file's text -- a link that
+# looked ordinary and could not open.
+test_that("input that cannot be a script is refused", {
+  expect_error(webr_repl_link(NA_character_), "single piece of code")
+  expect_error(webr_repl_link(character(0)), "empty")
+  expect_error(webr_repl_link(list()), "empty")
+})

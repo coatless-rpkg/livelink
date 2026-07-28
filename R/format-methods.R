@@ -1,16 +1,27 @@
 #' Format a livelink object as a character vector
 #'
 #' Returns an object's printed representation as a character vector, one element
-#' per line, so it can be captured, logged, pasted into a report, or otherwise
-#' reused. [print()] renders the very same content to the console; `format()`
-#' hands it back to you instead.
+#' per line.
 #'
 #' @param x A livelink object (a link, project, exercise, directory, decoded
 #'   result, batch, or preview).
 #' @param ... Passed to the object's [print()] method, so preview-specific
 #'   options such as `show_content` work here too.
 #'
-#' @return A character vector of formatted lines.
+#' @return
+#' A character vector of formatted lines.
+#'
+#' @details
+#' Having the printed form as a character vector means it can be captured,
+#' logged, pasted into a report, or otherwise reused. [print()] renders the very
+#' same content to the console. `format()` hands it back to you instead.
+#'
+#' @seealso
+#' [as.character.webr_link()] for the shareable URL alone, without the
+#' surrounding printed report.
+#'
+#' [as.data.frame.livelink] for turning directory and batch objects into a data
+#' frame.
 #'
 #' @examples
 #' link <- webr_repl_link("plot(1:10)")

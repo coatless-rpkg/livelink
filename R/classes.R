@@ -1,11 +1,24 @@
 #' Create a webr_link object
+#'
 #' @param url WebR URL
 #' @param filename Original filename
 #' @param path Full path in WebR
 #' @param mode Interface mode
 #' @param version WebR version
 #' @param autorun Whether autorun is enabled
-#' @return webr_link object
+#'
+#' @return
+#' A `webr_link` object, which is a list with these entries.
+#'
+#' - `url`, the sharelink itself, as a single string.
+#' - `filename`, the name the script is given inside webR.
+#' - `path`, where that file is placed inside webR.
+#' - `mode`, the panels the link asks for, or `NULL` for all of them.
+#' - `version`, the webR version the link points at.
+#' - `autorun`, `TRUE` when the code runs as soon as the link opens.
+#'
+#' Use `as.character()` on the object to get the URL on its own.
+#'
 #' @noRd
 new_webr_link <- function(url, filename, path, mode, version, autorun) {
   structure(
@@ -22,13 +35,26 @@ new_webr_link <- function(url, filename, path, mode, version, autorun) {
 }
 
 #' Create a webr_project object
+#'
 #' @param url WebR URL
 #' @param files Named list of file contents
 #' @param base_path Base directory path
 #' @param mode Interface mode
 #' @param version WebR version
 #' @param autorun_files Files with autorun enabled
-#' @return webr_project object
+#'
+#' @return
+#' A `webr_project` object, which is a list with these entries.
+#'
+#' - `url`, the sharelink itself, as a single string.
+#' - `files`, the names of the files the link carries.
+#' - `base_path`, the directory those files are placed in inside webR.
+#' - `mode`, the panels the link asks for, or `NULL` for all of them.
+#' - `version`, the webR version the link points at.
+#' - `autorun_files`, the files that run as soon as the link opens.
+#'
+#' Use `as.character()` on the object to get the URL on its own.
+#'
 #' @noRd
 new_webr_project <- function(url, files, base_path, mode, version, autorun_files) {
   structure(
@@ -45,9 +71,19 @@ new_webr_project <- function(url, files, base_path, mode, version, autorun_files
 }
 
 #' Create a webr_exercise object
+#'
 #' @param exercise webr_link object for exercise
 #' @param solution webr_link object for solution
-#' @return webr_exercise object
+#'
+#' @return
+#' A `webr_exercise` object, which is a list with these entries.
+#'
+#' - `exercise`, a `webr_link` object for the starter file.
+#' - `solution`, a `webr_link` object for the worked answer.
+#'
+#' Each of the two is itself a list holding `url`, `filename`, `path`, `mode`,
+#' `version`, and `autorun`.
+#'
 #' @noRd
 new_webr_exercise <- function(exercise, solution) {
   structure(
@@ -68,7 +104,15 @@ new_webr_exercise <- function(exercise, solution) {
 #' @param source_directory Original source directory
 #'
 #' @return
-#' webr_directory object
+#' A `webr_directory` object, which is a list with these entries.
+#'
+#' - `urls`, a named character vector holding one sharelink per file.
+#' - `base_path`, the directory the files are placed in inside webR.
+#' - `mode`, the panels the links ask for, or `NULL` for all of them.
+#' - `version`, the webR version the links point at.
+#' - `source_directory`, the folder on disk the files were read from.
+#'
+#' Use `as.character()` on the object to get the URLs on their own.
 #'
 #' @noRd
 new_webr_directory <- function(urls, base_path, mode, version, source_directory) {
@@ -85,13 +129,27 @@ new_webr_directory <- function(urls, base_path, mode, version, source_directory)
 }
 
 #' Create a webr_decoded object
+#'
 #' @param files_info Data frame with file information
 #' @param output_dir Output directory path
 #' @param url Original webR URL
 #' @param mode Interface mode
 #' @param version WebR version
 #' @param flags Encoding flags
-#' @return webr_decoded object
+#'
+#' @return
+#' A `webr_decoded` object, which is a list with these entries.
+#'
+#' - `files_info`, a data frame of the files written out, with columns
+#'   `filename`, `path`, `autorun`, and `size_bytes`.
+#' - `output_dir`, the folder on disk the files were written to.
+#' - `url`, the link that was decoded.
+#' - `mode`, the panels the link asks for, or `NULL` for all of them.
+#' - `version`, the webR version the link points at.
+#' - `flags`, the encoding flags the link carries.
+#' - `total_files`, how many files were written.
+#' - `total_size`, the size of those files in bytes.
+#'
 #' @noRd
 new_webr_decoded <- function(files_info, output_dir, url, mode, version, flags) {
   structure(
@@ -115,11 +173,24 @@ new_webr_decoded <- function(files_info, output_dir, url, mode, version, flags) 
 #'
 #' webr_decoded_batch and shinylive_decoded_batch are field-for-field identical,
 #' differing only in their class tag, so both are built here.
+#'
 #' @param results List of decoded objects
 #' @param base_dir Base output directory
 #' @param urls Original URLs
 #' @param subclass Class tag for the returned object
-#' @return An object of class `subclass`
+#'
+#' @return
+#' An object of class `subclass`, either `webr_decoded_batch` or
+#' `shinylive_decoded_batch`. Both are a list with these entries.
+#'
+#' - `results`, one decoded object per link, or `NULL` where a link failed.
+#' - `base_dir`, the folder on disk everything was written under.
+#' - `urls`, the links that were handed in.
+#' - `total_urls`, how many links were handed in.
+#' - `successful_urls`, how many of them decoded.
+#' - `total_files`, how many files were written across all of them.
+#' - `total_size`, the size of those files in bytes.
+#'
 #' @noRd
 new_decoded_batch <- function(results, base_dir, urls, subclass) {
   successful <- results[!vapply(results, is.null, logical(1))]
@@ -139,16 +210,30 @@ new_decoded_batch <- function(results, base_dir, urls, subclass) {
 }
 
 #' Create a webr_decoded_batch object
+#'
 #' @param results List of webr_decoded objects
 #' @param base_dir Base output directory
 #' @param urls Original URLs
-#' @return webr_decoded_batch object
+#'
+#' @return
+#' A `webr_decoded_batch` object, which is a list with these entries.
+#'
+#' - `results`, one `webr_decoded` object per link, or `NULL` where a link
+#'   failed.
+#' - `base_dir`, the folder on disk everything was written under.
+#' - `urls`, the links that were handed in.
+#' - `total_urls`, how many links were handed in.
+#' - `successful_urls`, how many of them decoded.
+#' - `total_files`, how many files were written across all of them.
+#' - `total_size`, the size of those files in bytes.
+#'
 #' @noRd
 new_webr_decoded_batch <- function(results, base_dir, urls) {
   new_decoded_batch(results, base_dir, urls, "webr_decoded_batch")
 }
 
 #' Create a webr_preview object
+#'
 #' @param url Original webR URL
 #' @param mode Interface mode
 #' @param version WebR version
@@ -156,7 +241,21 @@ new_webr_decoded_batch <- function(results, base_dir, urls) {
 #' @param files_data Raw file data
 #' @param total_size Total size in bytes
 #' @param autorun_files Files with autorun enabled
-#' @return webr_preview object
+#'
+#' @return
+#' A `webr_preview` object, which is a list with these entries.
+#'
+#' - `url`, the link that was read.
+#' - `mode`, the panels the link asks for, or `NULL` for all of them.
+#' - `version`, the webR version the link points at.
+#' - `flags`, the encoding flags the link carries.
+#' - `files_data`, one entry per file, each holding `name`, `path`, and `text`.
+#' - `total_files`, how many files the link carries.
+#' - `total_size`, the size of those files in bytes.
+#' - `autorun_files`, the files that run as soon as the link opens.
+#'
+#' Nothing is written to disk.
+#'
 #' @noRd
 new_webr_preview <- function(url, mode, version, flags, files_data, total_size, autorun_files) {
   structure(
@@ -176,11 +275,23 @@ new_webr_preview <- function(url, mode, version, flags, files_data, total_size, 
 
 
 #' Create a shinylive_link object
+#'
 #' @param url Shinylive URL
 #' @param files Named list of file contents
 #' @param engine Engine type ("r" or "python")
 #' @param mode Shinylive mode ("editor" or "app")
-#' @return shinylive_link object
+#'
+#' @return
+#' A `shinylive_link` object, which is a list with these entries.
+#'
+#' - `url`, the sharelink itself, as a single string.
+#' - `files`, the names of the files the app is made of.
+#' - `engine`, `"r"` or `"python"`, the language the app runs in.
+#' - `mode`, `"editor"` to show the code beside the app, `"app"` for the app
+#'   on its own.
+#'
+#' Use `as.character()` on the object to get the URL on its own.
+#'
 #' @noRd
 new_shinylive_link <- function(url, files, engine, mode) {
   structure(
@@ -195,11 +306,23 @@ new_shinylive_link <- function(url, files, engine, mode) {
 }
 
 #' Create a shinylive_project object
+#'
 #' @param url Shinylive URL
 #' @param files Named list of file contents
 #' @param engine Engine type ("r" or "python")
 #' @param mode Shinylive mode ("editor" or "app")
-#' @return shinylive_project object
+#'
+#' @return
+#' A `shinylive_project` object, which is a list with these entries.
+#'
+#' - `url`, the sharelink itself, as a single string.
+#' - `files`, the names of the files the project carries.
+#' - `engine`, `"r"` or `"python"`, the language the app runs in.
+#' - `mode`, `"editor"` to show the code beside the app, `"app"` for the app
+#'   on its own.
+#'
+#' Use `as.character()` on the object to get the URL on its own.
+#'
 #' @noRd
 new_shinylive_project <- function(url, files, engine, mode) {
   structure(
@@ -214,11 +337,23 @@ new_shinylive_project <- function(url, files, engine, mode) {
 }
 
 #' Create a shinylive_directory object
+#'
 #' @param urls Named character vector of URLs
 #' @param engine Engine type ("r" or "python")
 #' @param mode Shinylive mode ("editor" or "app")
 #' @param source_directory Original source directory
-#' @return shinylive_directory object
+#'
+#' @return
+#' A `shinylive_directory` object, which is a list with these entries.
+#'
+#' - `urls`, a named character vector holding one sharelink per app.
+#' - `engine`, `"r"` or `"python"`, the language the apps run in.
+#' - `mode`, `"editor"` to show the code beside the app, `"app"` for the app
+#'   on its own.
+#' - `source_directory`, the folder on disk the apps were read from.
+#'
+#' Use `as.character()` on the object to get the URLs on their own.
+#'
 #' @noRd
 new_shinylive_directory <- function(urls, engine, mode, source_directory) {
   structure(
@@ -233,12 +368,26 @@ new_shinylive_directory <- function(urls, engine, mode, source_directory) {
 }
 
 #' Create a shinylive_decoded object
+#'
 #' @param files_info Data frame with file information
 #' @param output_dir Directory where files were saved
 #' @param url Original Shinylive URL
 #' @param engine Engine type
 #' @param mode Shinylive mode
-#' @return shinylive_decoded object
+#'
+#' @return
+#' A `shinylive_decoded` object, which is a list with these entries.
+#'
+#' - `files_info`, a data frame of the files written out, with columns
+#'   `filename`, `path`, `type`, and `size_bytes`.
+#' - `output_dir`, the folder on disk the files were written to.
+#' - `url`, the link that was decoded.
+#' - `engine`, `"r"` or `"python"`, the language the app runs in.
+#' - `mode`, `"editor"` to show the code beside the app, `"app"` for the app
+#'   on its own.
+#' - `total_files`, how many files were written.
+#' - `total_size`, the size of those files in bytes.
+#'
 #' @noRd
 new_shinylive_decoded <- function(files_info, output_dir, url, engine, mode) {
   structure(
@@ -256,23 +405,52 @@ new_shinylive_decoded <- function(files_info, output_dir, url, engine, mode) {
 }
 
 #' Create a shinylive_decoded_batch object
+#'
 #' @param results List of shinylive_decoded objects
 #' @param base_dir Base output directory
 #' @param urls Original URLs
-#' @return shinylive_decoded_batch object
+#'
+#' @return
+#' A `shinylive_decoded_batch` object, which is a list with these entries.
+#'
+#' - `results`, one `shinylive_decoded` object per link, or `NULL` where a link
+#'   failed.
+#' - `base_dir`, the folder on disk everything was written under.
+#' - `urls`, the links that were handed in.
+#' - `total_urls`, how many links were handed in.
+#' - `successful_urls`, how many of them decoded.
+#' - `total_files`, how many files were written across all of them.
+#' - `total_size`, the size of those files in bytes.
+#'
 #' @noRd
 new_shinylive_decoded_batch <- function(results, base_dir, urls) {
   new_decoded_batch(results, base_dir, urls, "shinylive_decoded_batch")
 }
 
 #' Create a shinylive_preview object
+#'
 #' @param url Original Shinylive URL
 #' @param engine Engine type
 #' @param mode Shinylive mode
 #' @param files_data Raw file data
 #' @param total_size Total size in bytes
 #' @param file_types Unique file types found
-#' @return shinylive_preview object
+#'
+#' @return
+#' A `shinylive_preview` object, which is a list with these entries.
+#'
+#' - `url`, the link that was read.
+#' - `engine`, `"r"` or `"python"`, the language the app runs in.
+#' - `mode`, `"editor"` to show the code beside the app, `"app"` for the app
+#'   on its own.
+#' - `files_data`, one entry per file, each holding `name`, `content`, and
+#'   `type`.
+#' - `total_files`, how many files the link carries.
+#' - `total_size`, the size of those files in bytes.
+#' - `file_types`, the kinds of file found, with no repeats.
+#'
+#' Nothing is written to disk.
+#'
 #' @noRd
 new_shinylive_preview <- function(url, engine, mode, files_data, total_size, file_types) {
   structure(
@@ -292,9 +470,18 @@ new_shinylive_preview <- function(url, engine, mode, files_data, total_size, fil
 # S3 print methods
 
 #' Print method for webr_link objects
+#'
+#' Displays the sharelink and its details in the console.
+#'
 #' @param x webr_link object
 #' @param ... Additional arguments (ignored)
-#' @return Invisibly returns the object
+#'
+#' @return
+#' The `webr_link` object it was handed, returned invisibly, so it can be
+#' passed straight on. Called for the summary it prints, which covers the URL,
+#' the file and where it lands, the interface, the version, and autorun. See
+#' [webr_repl_link()] for the entries the object holds.
+#'
 #' @export
 print.webr_link <- function(x, ...) {
   cli::cli_h2("webR Link")
@@ -315,9 +502,18 @@ print.webr_link <- function(x, ...) {
 }
 
 #' Print method for webr_project objects
+#'
+#' Displays the project sharelink and the files it carries.
+#'
 #' @param x webr_project object
 #' @param ... Additional arguments (ignored)
-#' @return Invisibly returns the object
+#'
+#' @return
+#' The `webr_project` object it was handed, returned invisibly, so it can be
+#' passed straight on. Called for the summary it prints, which covers the URL,
+#' every file and where it lands, which files run on open, the interface, and
+#' the version. See [webr_repl_project()] for the entries the object holds.
+#'
 #' @export
 print.webr_project <- function(x, ...) {
   cli::cli_h2("webR Project")
@@ -325,9 +521,14 @@ print.webr_project <- function(x, ...) {
   cli::cli_text("")
 
   cli::cli_text("Files ({length(x$files)}):")
+
+  # Ask what will really run, rather than re-reading the request: `"all"`
+  # matches no filename, and a named non-R file is not run by webR.
+  will_autorun <- effective_autorun_files(x$files, x$autorun_files)
+
   for (file in x$files) {
     path <- paste0(x$base_path, file)
-    if (file %in% x$autorun_files) {
+    if (file %in% will_autorun) {
       cli::cli_text("  {.file {file}} \u2192 {.path {path}} {.emph (autorun)}")
     } else {
       cli::cli_text("  {.file {file}} \u2192 {.path {path}}")
@@ -346,9 +547,18 @@ print.webr_project <- function(x, ...) {
 }
 
 #' Print method for webr_exercise objects
+#'
+#' Displays the exercise sharelink and the matching solution sharelink.
+#'
 #' @param x webr_exercise object
 #' @param ... Additional arguments (ignored)
-#' @return Invisibly returns the object
+#'
+#' @return
+#' The `webr_exercise` object it was handed, returned invisibly, so it can be
+#' passed straight on. Called for the summary it prints, which covers both the
+#' exercise sharelink and the solution sharelink. See [webr_repl_exercise()]
+#' for the entries the object holds.
+#'
 #' @export
 print.webr_exercise <- function(x, ...) {
   cli::cli_h2("webR Exercise")
@@ -375,9 +585,18 @@ print.webr_exercise <- function(x, ...) {
 }
 
 #' Print method for webr_directory objects
+#'
+#' Displays every sharelink generated from a source directory.
+#'
 #' @param x webr_directory object
 #' @param ... Additional arguments (ignored)
-#' @return Invisibly returns the object
+#'
+#' @return
+#' The `webr_directory` object it was handed, returned invisibly, so it can be
+#' passed straight on. Called for the summary it prints, which covers the
+#' source folder, one sharelink per file, the interface, and the version. See
+#' [webr_repl_directory()] for the entries the object holds.
+#'
 #' @export
 print.webr_directory <- function(x, ...) {
   cli::cli_h2("webR Directory Links")
@@ -407,9 +626,19 @@ print.webr_directory <- function(x, ...) {
 
 
 #' Print method for webr_decoded objects
+#'
+#' Displays the files recovered from a webR link and where they were written.
+#'
 #' @param x webr_decoded object
 #' @param ... Additional arguments (ignored)
-#' @return Invisibly returns the object
+#'
+#' @return
+#' The `webr_decoded` object it was handed, returned invisibly, so it can be
+#' passed straight on. Called for the summary it prints, which covers the link,
+#' the output folder, each file with its size, and any file that was skipped
+#' along with the reason. See [decode_webr_link()] for the entries the object
+#' holds.
+#'
 #' @export
 print.webr_decoded <- function(x, ...) {
   cli::cli_h2("webR Decoded Files")
@@ -479,9 +708,19 @@ print.webr_decoded <- function(x, ...) {
 }
 
 #' Print method for webr_decoded_batch objects
+#'
+#' Displays a summary of the webR links decoded in a batch.
+#'
 #' @param x webr_decoded_batch object
 #' @param ... Additional arguments (ignored)
-#' @return Invisibly returns the object
+#'
+#' @return
+#' The `webr_decoded_batch` object it was handed, returned invisibly, so it can
+#' be passed straight on. Called for the summary it prints, which covers the
+#' base folder, each link that decoded with its file count and output folder,
+#' and a count of the links that failed. See [decode_webr_link()] for the
+#' entries the object holds.
+#'
 #' @export
 print.webr_decoded_batch <- function(x, ...) {
   cli::cli_h2("webR Decoded Batch")
@@ -535,11 +774,21 @@ print.webr_decoded_batch <- function(x, ...) {
 }
 
 #' Print method for webr_preview objects
+#'
+#' Displays what a webR link contains without writing anything to disk.
+#'
 #' @param x webr_preview object
-#' @param show_content Logical. Whether to print the contents of each file (default: FALSE)
-#' @param max_content_length Maximum number of characters of content to show per file (default: 500)
+#' @param show_content Logical. Whether to print the contents of each file. Defaults to `FALSE`.
+#' @param max_content_length Maximum number of characters of content to show per file. Defaults to 500.
 #' @param ... Additional arguments (ignored)
-#' @return Invisibly returns the object
+#'
+#' @return
+#' The `webr_preview` object it was handed, returned invisibly, so it can be
+#' passed straight on. Called for the summary it prints, which covers the link,
+#' the file count and total size, the interface, the version, the encoding
+#' flags, and each file with its size. See [preview_webr_link()] for the
+#' entries the object holds.
+#'
 #' @export
 print.webr_preview <- function(x, show_content = FALSE, max_content_length = 500, ...) {
   cli::cli_h2("webR Link Preview")
@@ -625,11 +874,21 @@ print.webr_preview <- function(x, show_content = FALSE, max_content_length = 500
 }
 
 #' Print method for shinylive_preview objects
+#'
+#' Displays what a Shinylive link contains without writing anything to disk.
+#'
 #' @param x shinylive_preview object
-#' @param show_content Logical. Whether to print the contents of each file (default: FALSE)
-#' @param max_content_length Maximum number of characters of content to show per file (default: 500)
+#' @param show_content Logical. Whether to print the contents of each file. Defaults to `FALSE`.
+#' @param max_content_length Maximum number of characters of content to show per file. Defaults to 500.
 #' @param ... Additional arguments (ignored)
-#' @return Invisibly returns the object
+#'
+#' @return
+#' The `shinylive_preview` object it was handed, returned invisibly, so it can
+#' be passed straight on. Called for the summary it prints, which covers the
+#' link, the file count and total size, the engine, the mode, and each file
+#' with its kind and size. See [preview_shinylive_link()] for the entries the
+#' object holds.
+#'
 #' @export
 print.shinylive_preview <- function(x, show_content = FALSE, max_content_length = 500, ...) {
   engine_name <- if (x$engine == "python") "Python" else "R"
@@ -680,9 +939,18 @@ print.shinylive_preview <- function(x, show_content = FALSE, max_content_length 
 }
 
 #' Print method for shinylive_decoded objects
+#'
+#' Displays the files recovered from a Shinylive link and where they were written.
+#'
 #' @param x shinylive_decoded object
 #' @param ... Additional arguments (ignored)
-#' @return Invisibly returns the object
+#'
+#' @return
+#' The `shinylive_decoded` object it was handed, returned invisibly, so it can
+#' be passed straight on. Called for the summary it prints, which covers the
+#' link, the output folder, each file with its size, the total size, and the
+#' mode. See [decode_shinylive_link()] for the entries the object holds.
+#'
 #' @export
 print.shinylive_decoded <- function(x, ...) {
   engine_name <- if (x$engine == "python") "Python" else "R"
@@ -711,9 +979,19 @@ print.shinylive_decoded <- function(x, ...) {
 }
 
 #' Print method for shinylive_decoded_batch objects
+#'
+#' Displays a summary of the Shinylive links decoded in a batch.
+#'
 #' @param x shinylive_decoded_batch object
 #' @param ... Additional arguments (ignored)
-#' @return Invisibly returns the object
+#'
+#' @return
+#' The `shinylive_decoded_batch` object it was handed, returned invisibly, so
+#' it can be passed straight on. Called for the summary it prints, which covers
+#' the base folder, the output folder and file count for each link that
+#' decoded, and the totals across all of them. See [decode_shinylive_link()]
+#' for the entries the object holds.
+#'
 #' @export
 print.shinylive_decoded_batch <- function(x, ...) {
   cli::cli_h2("Shinylive Decoded Batch")
@@ -740,9 +1018,18 @@ print.shinylive_decoded_batch <- function(x, ...) {
 }
 
 #' Print method for shinylive_link objects
+#'
+#' Displays the app sharelink and the files it carries.
+#'
 #' @param x shinylive_link object
 #' @param ... Additional arguments (ignored)
-#' @return Invisibly returns the object
+#'
+#' @return
+#' The `shinylive_link` object it was handed, returned invisibly, so it can be
+#' passed straight on. Called for the summary it prints, which covers the URL,
+#' the files the app is made of, the engine, and the mode. See
+#' [shinylive_r_link()] for the entries the object holds.
+#'
 #' @export
 print.shinylive_link <- function(x, ...) {
   engine_name <- if (x$engine == "python") "Python" else "R"
@@ -763,9 +1050,18 @@ print.shinylive_link <- function(x, ...) {
 }
 
 #' Print method for shinylive_project objects
+#'
+#' Displays the project sharelink and the files it carries.
+#'
 #' @param x shinylive_project object
 #' @param ... Additional arguments (ignored)
-#' @return Invisibly returns the object
+#'
+#' @return
+#' The `shinylive_project` object it was handed, returned invisibly, so it can
+#' be passed straight on. Called for the summary it prints, which covers the
+#' URL, the files the project carries, the engine, and the mode. See
+#' [shinylive_project()] for the entries the object holds.
+#'
 #' @export
 print.shinylive_project <- function(x, ...) {
   engine_name <- if (x$engine == "python") "Python" else "R"
@@ -786,9 +1082,18 @@ print.shinylive_project <- function(x, ...) {
 }
 
 #' Print method for shinylive_directory objects
+#'
+#' Displays every app sharelink generated from a source directory.
+#'
 #' @param x shinylive_directory object
 #' @param ... Additional arguments (ignored)
-#' @return Invisibly returns the object
+#'
+#' @return
+#' The `shinylive_directory` object it was handed, returned invisibly, so it
+#' can be passed straight on. Called for the summary it prints, which covers
+#' the source folder, one sharelink per app, the engine, and the mode. See
+#' [shinylive_directory()] for the entries the object holds.
+#'
 #' @export
 print.shinylive_directory <- function(x, ...) {
   engine_name <- if (x$engine == "python") "Python" else "R"

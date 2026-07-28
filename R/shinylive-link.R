@@ -1,6 +1,11 @@
 #' Convert files to Shinylive JSON format
+#'
 #' @param files Named list where names are filenames and values are content
-#' @return List in Shinylive JSON format
+#'
+#' @return
+#' An unnamed list in Shinylive JSON form, one entry per file, each entry a list
+#' with `name`, `content` and `type`.
+#'
 #' @noRd
 files_to_shinylive_json <- function(files) {
   lapply(names(files), function(filename) {
@@ -13,8 +18,12 @@ files_to_shinylive_json <- function(files) {
 }
 
 #' Proper LZ-string compression for Shinylive URLs
+#'
 #' @param json_string JSON string to compress
-#' @return LZ-string compressed and encoded string
+#'
+#' @return
+#' LZ-string compressed and encoded string.
+#'
 #' @noRd
 compress_for_shinylive <- function(json_string) {
   compressed <- lzstring::compressToEncodedURIComponent(json_string)
@@ -26,12 +35,16 @@ compress_for_shinylive <- function(json_string) {
 }
 
 #' Build Shinylive URL with proper format
+#'
 #' @param engine Engine ("r" or "python")
 #' @param mode Mode ("editor" or "app")
 #' @param encoded_data LZ-string compressed file data
-#' @param header Whether to show header in app mode (default: TRUE)
+#' @param header Whether to show header in app mode (defaults to TRUE)
 #' @param base_url Base Shinylive URL
-#' @return Complete Shinylive URL
+#'
+#' @return
+#' Complete Shinylive URL.
+#'
 #' @noRd
 build_shinylive_url <- function(engine, mode, encoded_data, header = TRUE, base_url = NULL) {
   if (is.null(base_url)) {
@@ -48,16 +61,22 @@ build_shinylive_url <- function(engine, mode, encoded_data, header = TRUE, base_
 
 #' Build a Shinylive link from already-processed input
 #'
-#' Shared body of [shinylive_r_link()] and [shinylive_py_link()]. A lone code
-#' string becomes the app's entry-point file; anything else is already a named
-#' list of files.
+#' Shared body of [shinylive_r_link()] and [shinylive_py_link()].
 #'
 #' @param processed_input Result of [process_input()]
-#' @param engine Engine: `"r"` or `"python"`
-#' @param mode Shinylive mode: `"editor"` or `"app"`
+#' @param engine Engine, either `"r"` or `"python"`
+#' @param mode Shinylive mode, either `"editor"` or `"app"`
 #' @param header Logical. Whether to show the header in app mode
 #' @param base_url Custom Shinylive base URL, or NULL for the default
-#' @return shinylive_link object
+#'
+#' @return
+#' A `shinylive_link` object, a list holding `url`, `files`, `engine` and
+#' `mode`. See [shinylive_r_link()] for what each entry holds.
+#'
+#' @details
+#' A lone code string becomes the app's entry-point file. Anything else is
+#' already a named list of files.
+#'
 #' @noRd
 build_shinylive_link <- function(processed_input, engine, mode, header, base_url) {
   check_valid_shinylive_mode(mode, "mode")
@@ -80,15 +99,21 @@ build_shinylive_link <- function(processed_input, engine, mode, header, base_url
 
 #' Encode Shinylive files into a share URL
 #'
-#' The shared encoding tail for Shinylive links: reshape to the Shinylive JSON
-#' form, serialize, LZ-string-compress, then build the URL. Shared by
-#' [build_shinylive_link()] and [shinylive_project()].
+#' The shared encoding tail for Shinylive links. It reshapes to the Shinylive
+#' JSON form, serializes, LZ-string-compresses, then builds the URL.
+#'
 #' @param files_list Named list of file contents
 #' @param engine "r" or "python"
 #' @param mode "editor" or "app"
-#' @param header Logical; whether to keep the Shinylive header
+#' @param header Logical. Whether to keep the Shinylive header
 #' @param base_url Base URL, or NULL for the default
-#' @return A Shinylive share URL
+#'
+#' @return
+#' A Shinylive share URL.
+#'
+#' @details
+#' Shared by [build_shinylive_link()] and [shinylive_project()].
+#'
 #' @noRd
 encode_shinylive_url <- function(files_list, engine, mode, header, base_url) {
   shinylive_files <- files_to_shinylive_json(files_list)
@@ -99,8 +124,8 @@ encode_shinylive_url <- function(files_list, engine, mode, header, base_url) {
 
 #' Create a Shinylive sharelink for Python Shiny apps
 #'
-#' Generates a shareable URL for Python Shiny applications that can run in the browser
-#' using Shinylive. Supports character strings, file paths, named lists, and clipboard input.
+#' Generates a shareable URL for Python Shiny applications that can run in the
+#' browser using Shinylive.
 #'
 #' @param input App input. Can be:
 #'   - Character string: Python code for the app
@@ -109,15 +134,30 @@ encode_shinylive_url <- function(files_list, engine, mode, header, base_url) {
 #'   - Named list: `list("app.py" = code1, "utils.py" = code2)`
 #'   - NULL: Read from clipboard
 #' @param mode Shinylive display mode (default `"editor"`). `"editor"` shows an
-#'   editable code panel beside the running app; `"app"` shows only the running app.
+#'   editable code panel beside the running app. `"app"` shows only the running app.
 #' @param header Logical, whether to show the Shinylive header bar. It applies only
 #'   when `mode = "app"` and is ignored in the default `"editor"` mode. Defaults to `TRUE`.
 #' @param base_url Custom Shinylive base URL. If NULL (default), links point at https://shinylive.io.
 #'
-#' @return shinylive_link object containing the Shinylive URL and metadata
+#' @return
+#' A `shinylive_link` object, which is a list with these entries.
 #'
-#' @seealso [shinylive_project()] for multi-file apps; [decode_shinylive_link()]
-#'   and [preview_shinylive_link()] to read a link back.
+#' - `url`, the sharelink itself, as a single string.
+#' - `files`, the names of the files carried in the link, as a character vector.
+#' - `engine`, the Shiny flavor the link runs, `"python"` here.
+#' - `mode`, the Shinylive display mode, `"editor"` or `"app"`.
+#'
+#' Use `as.character()` on the object to get the URL on its own.
+#'
+#' @details
+#' The whole app travels inside the URL, so opening the link runs it in the
+#' reader's browser with no server behind it. A single string becomes `app.R`.
+#' Pass a named list to ship several files.
+#'
+#' @seealso
+#' [shinylive_project()] for multi-file apps.
+#'
+#' [decode_shinylive_link()] and [preview_shinylive_link()] to read a link back.
 #'
 #' @export
 #' @examples
@@ -160,8 +200,7 @@ shinylive_py_link <- function(input = NULL, mode = "editor", header = TRUE, base
 #' Create a Shinylive sharelink for R Shiny apps
 #'
 #' Generates a shareable URL for R Shiny applications that can run in the browser
-#' using Shinylive. Supports expressions, character strings, file paths, named lists,
-#' and clipboard input.
+#' using Shinylive.
 #'
 #' @param input App input. Can be:
 #'   - R expression (no quotes needed): `shinylive_r_link({ shinyApp(ui, server) })`
@@ -171,23 +210,40 @@ shinylive_py_link <- function(input = NULL, mode = "editor", header = TRUE, base
 #'   - Named list: `list("app.R" = code1, "utils.R" = code2)`
 #'   - NULL: Read from clipboard
 #' @param mode Shinylive display mode (default `"editor"`). `"editor"` shows an
-#'   editable code panel beside the running app; `"app"` shows only the running app.
+#'   editable code panel beside the running app. `"app"` shows only the running app.
 #' @param header Logical, whether to show the Shinylive header bar. It applies only
 #'   when `mode = "app"` and is ignored in the default `"editor"` mode. Defaults to `TRUE`.
 #' @param base_url Custom Shinylive base URL. If NULL (default), links point at https://shinylive.io.
 #'
-#' @return shinylive_link object containing the Shinylive URL and metadata
+#' @return
+#' A `shinylive_link` object, which is a list with these entries.
+#'
+#' - `url`, the sharelink itself, as a single string.
+#' - `files`, the names of the files carried in the link, as a character vector.
+#' - `engine`, the Shiny flavor the link runs, `"r"` here.
+#' - `mode`, the Shinylive display mode, `"editor"` or `"app"`.
+#'
+#' Use `as.character()` on the object to get the URL on its own.
+#'
+#' @details
+#' The whole app travels inside the URL, so opening the link runs it in the
+#' reader's browser with no server behind it. A single string becomes `app.py`.
+#' Pass a named list to ship several files.
 #'
 #' @section Comments in expression input:
-#' Comments inside a `{ }` expression are recovered from R's source references, so
+#' Comments inside a `{ }` expression are recovered from the source R keeps, so
 #' they survive interactively but are dropped inside a knitted 'Quarto' or
 #' 'R Markdown' document. Pass a string or a file path, or use the `livelink` chunk
 #' engine, if you need them preserved. See [webr_repl_link()] for the details.
 #'
-#' @seealso [shinylive_project()] for multi-file apps; [decode_shinylive_link()]
-#'   and [preview_shinylive_link()] to read a link back; [livelink-knitr] to give
-#'   a document chunk its own link;
-#'   `vignette("webr-and-shinylive", package = "livelink")` for the guide.
+#' @seealso
+#' [shinylive_project()] for multi-file apps.
+#'
+#' [decode_shinylive_link()] and [preview_shinylive_link()] to read a link back.
+#'
+#' [livelink-knitr] to give a document chunk its own link.
+#'
+#' `vignette("webr-and-shinylive", package = "livelink")` for the guide.
 #'
 #' @export
 #' @examples
@@ -242,17 +298,27 @@ shinylive_r_link <- function(input = NULL, mode = "editor", header = TRUE, base_
 #' @param input Input for multiple files. Can be:
 #'   - Named list: `list("app.R" = code1, "utils.R" = code2)`
 #'   - Vector of file paths: `c("app.R", "utils.R", "data.csv")`
-#' @param engine Engine to use: "r" for R Shiny or "python" for Python Shiny
+#' @param engine Engine to use, either "r" for R Shiny or "python" for Python Shiny
 #' @param mode Shinylive display mode (default `"editor"`). `"editor"` shows an
-#'   editable code panel beside the running app; `"app"` shows only the running app.
+#'   editable code panel beside the running app. `"app"` shows only the running app.
 #' @param header Logical, whether to show the Shinylive header bar. It applies only
 #'   when `mode = "app"` and is ignored in the default `"editor"` mode. Defaults to `TRUE`.
 #' @param base_url Custom Shinylive base URL. If NULL (default), links point at https://shinylive.io.
 #'
-#' @return shinylive_project object containing the Shinylive URL and metadata
+#' @return
+#' A `shinylive_project` object, which is a list with these entries.
 #'
-#' @seealso [shinylive_r_link()] and [shinylive_py_link()] for single apps;
-#'   [decode_shinylive_link()] and [preview_shinylive_link()] to read a link back.
+#' - `url`, the one sharelink that carries every file, as a single string.
+#' - `files`, the names of the files carried in the link, as a character vector.
+#' - `engine`, the Shiny flavor the link runs, `"r"` or `"python"`.
+#' - `mode`, the Shinylive display mode, `"editor"` or `"app"`.
+#'
+#' Use `as.character()` on the object to get the URL on its own.
+#'
+#' @seealso
+#' [shinylive_r_link()] and [shinylive_py_link()] for single apps.
+#'
+#' [decode_shinylive_link()] and [preview_shinylive_link()] to read a link back.
 #'
 #' @export
 #' @examples
@@ -275,7 +341,13 @@ shinylive_project <- function(input, engine, mode = "editor", header = TRUE, bas
 
   # Captured, not forced: a literal list() may name each file's contents as a
   # `{ ... }` block.
-  x_expr <- substitute(input)
+  # See webr_repl_project(): a missing `input` must not surface the internal
+  # `x_expr` in the error.
+  x_expr <- if (missing(input)) NULL else substitute(input)
+  if (missing(input)) {
+    input <- NULL
+  }
+
   processed_files <- process_project_input(
     input = input, x_expr = x_expr, env = parent.frame()
   )
@@ -295,25 +367,40 @@ shinylive_project <- function(input, engine, mode = "editor", header = TRUE, bas
 
 #' Create Shinylive sharelinks from a directory of Shiny apps
 #'
-#' @description
-#' Batch processes directories containing Shiny applications to create individual Shinylive links.
-#' Each subdirectory is treated as a separate Shiny app project.
+#' Batch processes directories containing Shiny applications to create individual
+#' Shinylive links. Each subdirectory is treated as a separate Shiny app project.
 #'
+#' @param directory_path Character string specifying the path to the directory containing Shiny app directories
+#' @param engine Engine to use, either "r" for R Shiny or "python" for Python Shiny
+#' @param mode Shinylive display mode (default `"editor"`). `"editor"` shows an
+#'   editable code panel beside the running app. `"app"` shows only the running app.
+#' @param header Logical, whether to show the Shinylive header bar. It applies only
+#'   when `mode = "app"` and is ignored in the default `"editor"` mode. Defaults to `TRUE`.
+#' @param app_file Main app filename to look for (defaults to "app.R" for R and "app.py" for Python)
+#' @param base_url Custom Shinylive base URL. If NULL (default), links point at https://shinylive.io.
+#'
+#' @return
+#' A `shinylive_directory` object, which is a list with these entries.
+#'
+#' - `urls`, one sharelink per app, as a named character vector whose names are
+#'   the app subdirectory names. It is empty when no app was found.
+#' - `engine`, the Shiny flavor the links run, `"r"` or `"python"`.
+#' - `mode`, the Shinylive display mode, `"editor"` or `"app"`.
+#' - `source_directory`, the directory that was read.
+#'
+#' Use `repl_urls()` on the object to get the URLs on their own.
+#'
+#' @details
 #' Only text files with extensions .R, .py, .txt, .md, .csv, .json, .yaml, or
 #' .yml are embedded in a link. Other files (for example images or binary data)
 #' are skipped with a warning.
 #'
-#' @param directory_path Character string specifying the path to the directory containing Shiny app directories
-#' @param engine Engine to use: "r" for R Shiny or "python" for Python Shiny
-#' @param mode Shinylive display mode (default `"editor"`). `"editor"` shows an
-#'   editable code panel beside the running app; `"app"` shows only the running app.
-#' @param header Logical, whether to show the Shinylive header bar. It applies only
-#'   when `mode = "app"` and is ignored in the default `"editor"` mode. Defaults to `TRUE`.
-#' @param app_file Main app filename to look for (default: "app.R" for R, "app.py" for Python)
-#' @param base_url Custom Shinylive base URL. If NULL (default), links point at https://shinylive.io.
+#' @seealso
+#' [shinylive_project()] for a single multi-file app.
 #'
-#' @return shinylive_directory object containing URLs and metadata for all found apps
+#' [shinylive_r_link()] and [shinylive_py_link()] for single apps.
 #'
+#' @export
 #' @examples
 #' # Each app lives in its own subdirectory:
 #' #   shiny_apps/
@@ -330,8 +417,6 @@ shinylive_project <- function(input, engine, mode = "editor", header = TRUE, bas
 #'
 #' # Extract just the URLs
 #' repl_urls(links)
-#'
-#' @export
 shinylive_directory <- function(directory_path,
                                 engine,
                                 mode = "editor",
@@ -344,6 +429,11 @@ shinylive_directory <- function(directory_path,
   check_valid_shinylive_engine(engine, "engine")
   check_valid_shinylive_mode(mode, "mode")
   check_single_logical(header, "header")
+  # Unvalidated, a non-string reached cli and surfaced vapply's "values must be
+  # type 'character'" rather than naming the argument.
+  if (!is.null(app_file)) {
+    check_single_string(app_file, "app_file")
+  }
 
   if (!is.null(base_url)) {
     check_single_string(base_url, "base_url")
@@ -400,12 +490,20 @@ shinylive_directory <- function(directory_path,
         # names.
         relative_path <- sub(paste0(app_dir, "/"), "", file_path, fixed = TRUE)
 
-        # Read file content
-        if (grepl("\\.(R|py|txt|md|csv|json|yaml|yml)$", file_path, ignore.case = TRUE)) {
-          content <- readLines(file_path, warn = FALSE)
-          files[[relative_path]] <- paste(content, collapse = "\n")
+        # Decide by content, not by extension. An allow-list of R, py, txt, md,
+        # csv, json and yaml dropped the .css and .js an app actually needs --
+        # which the vignette promises are bundled -- and called them "binary",
+        # which they are not. read_text_file() refuses exactly what cannot
+        # travel as UTF-8 text, which is the real question.
+        content <- tryCatch(read_text_file(file_path), error = function(e) NULL)
+
+        if (!is.null(content)) {
+          files[[relative_path]] <- content
         } else {
-          cli::cli_warn("Skipping binary file: {.file {relative_path}} in {.file {app_name}}")
+          cli::cli_warn(c(
+            "Skipping {.file {relative_path}} in {.file {app_name}}",
+            "i" = "Only text files can travel in a link."
+          ))
         }
       }
 

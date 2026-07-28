@@ -1,15 +1,19 @@
 #' Extract URLs as character vector
 #'
+#' Pulls the shareable URL(s) out of a livelink object.
+#'
 #' @param x Link object
 #' @param ... Additional arguments
 #'
 #' @return
-#' A character vector of URLs. Most objects yield a single URL; exercise objects
-#' return a length-2 named vector (`exercise`, `solution`); directory and batch
-#' objects return one URL per file.
+#' A character vector of URLs.
 #'
-#' @seealso [repl_urls()] for the same extraction as a named generic you can call
-#'   explicitly.
+#' - Most objects give a single URL.
+#' - An exercise gives two, named `exercise` and `solution`.
+#' - A directory or a batch gives one URL for each file.
+#'
+#' @seealso
+#' [repl_urls()] for the same result from a function you can call by name.
 #'
 #' @export
 as.character.webr_link <- function(x, ...) {
@@ -90,23 +94,28 @@ as.character.shinylive_preview <- function(x, ...) {
 
 #' Extract shareable URLs from livelink objects
 #'
-#' @description
-#' Generic function to extract the shareable URL(s) from any livelink object,
-#' covering both webR REPL and Shinylive results. Provides a clear way to get
-#' just the URLs for sharing or further processing.
+#' Extracts the shareable URL(s) from any livelink object, covering both webR
+#' REPL and Shinylive results. Provides a clear way to get just the URLs for
+#' sharing or further work.
 #'
 #' @param x A livelink object. Supported classes are `webr_link`, `webr_project`,
 #'   `webr_exercise`, `webr_directory`, `webr_decoded`, `webr_decoded_batch`,
 #'   `webr_preview`, `shinylive_link`, `shinylive_project`, `shinylive_directory`,
 #'   `shinylive_decoded`, `shinylive_decoded_batch`, and `shinylive_preview`.
 #' @param ... Additional arguments passed to methods
-#' @return A character vector of URLs. Most objects yield a single URL; exercise
-#'   objects return a length-2 named vector (`exercise`, `solution`); directory
-#'   and batch objects return one URL per file.
 #'
-#' @seealso The `as.character()` methods (for example [as.character.webr_link()]),
-#'   which `repl_urls()` delegates to.
+#' @return
+#' A character vector of URLs.
 #'
+#' - Most objects give a single URL.
+#' - An exercise gives two, named `exercise` and `solution`.
+#' - A directory or a batch gives one URL for each file.
+#'
+#' @seealso
+#' The `as.character()` methods (for example [as.character.webr_link()]),
+#' which `repl_urls()` calls to do the work.
+#'
+#' @export
 #' @examples
 #' # Single link
 #' link <- webr_repl_link("plot(1:10)")
@@ -122,8 +131,6 @@ as.character.shinylive_preview <- function(x, ...) {
 #' # Decoded files (returns the original URL)
 #' decoded <- decode_webr_link(as.character(link))
 #' repl_urls(decoded)
-#'
-#' @export
 repl_urls <- function(x, ...) {
   UseMethod("repl_urls")
 }

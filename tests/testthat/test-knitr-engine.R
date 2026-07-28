@@ -247,3 +247,23 @@ test_that("filename chunk option names the file in the link", {
   preview <- preview_webr_link(extract_url(rendered))
   expect_equal(preview$files_data[[1]]$name, "analysis.R")
 })
+
+# Regression: `link.only = TRUE` is documented as emitting the link without the
+# source, but engine_output() writes a source block whenever `echo` is on, and
+# `code = NULL` reached the hook as an empty string -- so the reader got an
+# empty fenced block above the link.
+test_that("link.only emits the link without an empty code block", {
+  skip_if_not_installed("knitr")
+
+  out <- livelink_engine(list(
+    code = "plot(1:10)",
+    engine = "livelink",
+    link.only = TRUE,
+    echo = TRUE,
+    results = "asis",
+    label = "test"
+  ))
+
+  expect_match(out, "Open in webR", fixed = TRUE)
+  expect_false(grepl("``` livelink", out, fixed = TRUE))
+})
