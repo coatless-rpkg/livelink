@@ -70,7 +70,7 @@ decoded <- decode_webr_link(as.character(link))
 #> Parsing file data...
 #> Decoding 1 file...
 #> Warning: File already exists, skipping: script.R
-#> ✔ Successfully decoded 0 files to /tmp/RtmpHcJ7gV/webr_files/webr_8430d3f5
+#> ✔ Successfully decoded 0 files to /tmp/Rtmp04svWU/webr_files/webr_8430d3f5
 repl_urls(decoded)
 #> [1] "https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKklUFOfklGoZWhgaaAC8DGLU%3D&mz"
 ```
