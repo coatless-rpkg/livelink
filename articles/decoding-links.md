@@ -96,17 +96,17 @@ out <- file.path(tempdir(), "recovered")
 result <- decode_webr_link(url, output_dir = out)
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: '/tmp/Rtmp3NtG7u/recovered/webr_f40f99ea'
+#> Created directory: '/tmp/RtmpBomGnp/recovered/webr_f40f99ea'
 #> Decoding 1 file...
 #> 'plot.R' (16 bytes)
-#> ✔ Successfully decoded 1 file to '/tmp/Rtmp3NtG7u/recovered/webr_f40f99ea'
+#> ✔ Successfully decoded 1 file to '/tmp/RtmpBomGnp/recovered/webr_f40f99ea'
 result
 #> 
 #> ── webR Decoded Files ──
 #> 
 #> Source:
 #> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dVlBTn6JXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipINGZnFJRpFeflFuRqGBgaamgBhqxlI&mz>
-#> Output: '/tmp/Rtmp3NtG7u/recovered/webr_f40f99ea'
+#> Output: '/tmp/RtmpBomGnp/recovered/webr_f40f99ea'
 #> 
 #> Files (1):
 #> 'plot.R' (16 bytes)
@@ -137,7 +137,7 @@ decode_webr_link(url, output_dir = out)
 #> Parsing file data...
 #> Decoding 1 file...
 #> Warning: File already exists, skipping: 'plot.R'
-#> ✔ Successfully decoded 0 files to '/tmp/Rtmp3NtG7u/recovered/webr_f40f99ea'
+#> ✔ Successfully decoded 0 files to '/tmp/RtmpBomGnp/recovered/webr_f40f99ea'
 #> 
 #> 
 #> ── webR Decoded Files ──
@@ -147,7 +147,7 @@ decode_webr_link(url, output_dir = out)
 #> Source:
 #> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dVlBTn6JXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipINGZnFJRpFeflFuRqGBgaamgBhqxlI&mz>
 #> 
-#> Output: '/tmp/Rtmp3NtG7u/recovered/webr_f40f99ea'
+#> Output: '/tmp/RtmpBomGnp/recovered/webr_f40f99ea'
 #> 
 #> 
 #> 
@@ -185,12 +185,12 @@ recovered_dir <- file.path(tempdir(), "roundtrip")
 invisible(decode_webr_link(as.character(link), output_dir = recovered_dir))
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: '/tmp/Rtmp3NtG7u/roundtrip/webr_45b92ad7'
+#> Created directory: '/tmp/RtmpBomGnp/roundtrip/webr_45b92ad7'
 #> Decoding 3 files...
 #> 'main.R' (23 bytes)
 #> 'utils.R' (20 bytes)
 #> 'README.md' (33 bytes)
-#> ✔ Successfully decoded 3 files to '/tmp/Rtmp3NtG7u/roundtrip/webr_45b92ad7'
+#> ✔ Successfully decoded 3 files to '/tmp/RtmpBomGnp/roundtrip/webr_45b92ad7'
 
 files <- list.files(recovered_dir, recursive = TRUE, full.names = TRUE)
 recovered <- setNames(
@@ -232,10 +232,10 @@ preview_shinylive_link(app_url)
 decode_shinylive_link(app_url, output_dir = file.path(tempdir(), "app"))
 #> Decompressing Shinylive data...
 #> Parsing file data...
-#> Created directory: '/tmp/Rtmp3NtG7u/app/shinylive_6f92fb6e'
+#> Created directory: '/tmp/RtmpBomGnp/app/shinylive_6f92fb6e'
 #> Decoding 1 file...
 #> 'app.R' (text, 55 bytes)
-#> ✔ Successfully decoded 1 file to '/tmp/Rtmp3NtG7u/app/shinylive_6f92fb6e'
+#> ✔ Successfully decoded 1 file to '/tmp/RtmpBomGnp/app/shinylive_6f92fb6e'
 #> 
 #> 
 #> ── Shinylive R Decoded Files ──
@@ -245,7 +245,7 @@ decode_shinylive_link(app_url, output_dir = file.path(tempdir(), "app"))
 #> Source:
 #> <https://shinylive.io/r/editor/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlAB0IPPqwCC6dgDNqAV1oATAApQA5nHYDcAAhnyIBUrRLtaeogN0gAvgLxhSrVAmTkAHqTC2AukA>
 #> 
-#> Output: '/tmp/Rtmp3NtG7u/app/shinylive_6f92fb6e'
+#> Output: '/tmp/RtmpBomGnp/app/shinylive_6f92fb6e'
 #> 
 #> 
 #> 
@@ -295,10 +295,10 @@ batch <- decode_webr_link(urls, output_dir = file.path(tempdir(), "batch"))
 #> 
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: '/tmp/Rtmp3NtG7u/batch/script_01'
+#> Created directory: '/tmp/RtmpBomGnp/batch/script_01'
 #> Decoding 1 file...
 #> 'one.R' (10 bytes)
-#> ✔ Successfully decoded 1 file to '/tmp/Rtmp3NtG7u/batch/script_01'
+#> ✔ Successfully decoded 1 file to '/tmp/RtmpBomGnp/batch/script_01'
 #> 
 #> 
 #> 
@@ -306,25 +306,25 @@ batch <- decode_webr_link(urls, output_dir = file.path(tempdir(), "batch"))
 #> 
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: '/tmp/Rtmp3NtG7u/batch/script_02'
+#> Created directory: '/tmp/RtmpBomGnp/batch/script_02'
 #> Decoding 1 file...
 #> 'two.R' (15 bytes)
-#> ✔ Successfully decoded 1 file to '/tmp/Rtmp3NtG7u/batch/script_02'
+#> ✔ Successfully decoded 1 file to '/tmp/RtmpBomGnp/batch/script_02'
 #> 
 #> ✔ Successfully processed 2/2 URLs
 batch
 #> 
 #> ── webR Decoded Batch ──
 #> 
-#> Base directory: '/tmp/Rtmp3NtG7u/batch'
+#> Base directory: '/tmp/RtmpBomGnp/batch'
 #> Total URLs: 2
 #> 
 #> Successfully processed 2 URLs:
 #> 'script_01': 1 file
-#> '/tmp/Rtmp3NtG7u/batch/script_01'
+#> '/tmp/RtmpBomGnp/batch/script_01'
 #> 
 #> 'script_02': 1 file
-#> '/tmp/Rtmp3NtG7u/batch/script_02'
+#> '/tmp/RtmpBomGnp/batch/script_02'
 #> 
 #> Summary: 2 total files saved across 2 URLs
 ```
