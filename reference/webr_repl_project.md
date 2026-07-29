@@ -1,7 +1,7 @@
 # Create webR REPL sharelink for multiple files
 
 Creates a webR sharelink for projects with multiple R files, data files,
-or other resources. Supports named lists and file path vectors as input.
+or other resources.
 
 ## Usage
 
@@ -45,9 +45,9 @@ webr_repl_project(
 - panels:
 
   Character vector or string specifying which webR interface panels to
-  show. Valid panels: `"plot"`, `"files"`, `"terminal"`, `"editor"`. Can
-  be `c("plot", "files")` or `"plot-files"`. If NULL (default), shows
-  all panels.
+  show. The panels are `"plot"`, `"files"`, `"terminal"`, and
+  `"editor"`. Can be `c("plot", "files")` or `"plot-files"`. If NULL
+  (default), shows all panels.
 
 - version:
 
@@ -60,8 +60,25 @@ webr_repl_project(
 
 ## Value
 
-webr_project object containing the webR sharelink for the multi-file
-project
+A `webr_project` object, which is a list with these entries.
+
+- `url`, the sharelink itself, as a single string.
+
+- `files`, the names of the files carried in the link.
+
+- `base_path`, the folder the files are placed in inside webR.
+
+- `mode`, the panels the link asks for, or `NULL` for all of them.
+
+- `version`, the webR version the link points at.
+
+- `autorun_files`, the names you asked to run on opening.
+
+## Details
+
+Every file is placed under `base_path` inside webR, so a
+`source("utils.R")` in one file finds its sibling. Names are used
+verbatim and may carry a subdirectory, as in `"R/helpers.R"`.
 
 ## Writing a project as code
 
@@ -74,9 +91,8 @@ which spares you escaping every newline and quote:
       "README.md" = "# Analysis"
     ))
 
-The blocks are **never evaluated** – they are source to ship, not code
-to run – so an assignment inside one leaves nothing behind in your
-session.
+The blocks are **never evaluated**. They are source to ship, not code to
+run, so an assignment inside one leaves nothing behind in your session.
 
 Two things to know. Comments inside
 [`{ }`](https://rdrr.io/r/base/Paren.html) survive in an interactive
@@ -84,7 +100,7 @@ session but not in a knitted document (see
 [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)).
 And a [`library()`](https://rdrr.io/r/base/library.html) call inside a
 block is visible to `R CMD check`, which will report the package as an
-undeclared dependency of *yours*; in a vignette or an example, use a
+undeclared dependency of *yours*. In a vignette or an example, use a
 string for code that loads packages.
 
 ## See also
@@ -103,7 +119,7 @@ webr_repl_project(list(
 #> 
 #> ── webR Project ──
 #> 
-#> <https://webr.r-wasm.org/latest/#code=eJx1jcEKwjAQRH8l7CmB2tzFr%2BjViMS40oCbSHaDivTfDWjbU28zvGHe8QPJE8IeyMfUD9DBw8vYuh0zoX3i5VwZi12w4Esa5lxLQO2gSrxzPzgwLnEl8iUyapLgCxuYukXwH24aVj4r5jd12KlbTUFiTvpq1A%2B8W4Tp9AW8VkGO&jz>
+#> <https://webr.r-wasm.org/latest/#code=eJyb1LwkLzE3dVluYmaeXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipKbysX5pUXJqRpKpSWZOcV6QUqaXMWlubmJRZnFqRq5JcmJRcWaEBOXQ1WAjdyGZiRMDmomzAQFG12FtNK85JLM%2FDyNFE0FiESlRoomAD5RQiY%3D&mz>
 #> 
 #> Files (2):
 #> main.R → /home/web_user/main.R
@@ -120,7 +136,7 @@ webr_repl_project(files, autorun_files = "main.R")
 #> 
 #> ── webR Project ──
 #> 
-#> <https://webr.r-wasm.org/latest/#code=eJx1z8GKwkAMBuBXCbMHW3Dbu%2BxFWI9eijcViTXSkc6MTBK0St%2FdFqv24jH5k3xkfTceHZmZcWh9VpipOaNUXZ1XwVF%2Bof1OmWL%2BjoWu0sUcNJaUTFRszVkxSTc%2BEmst8PcL6LFubrQ7oGDipMTIabeKKiGqNzOJSu30TQ83vtqffMDH93vvqL4UG3zSN1K4A6tzGJuhbs0IKxbz%2F%2BUic4ev3HhiAH9g2cC8V9nyxq8qy3CO4USlvJ5lkIrg%2BSz0LpNkpt0%2BAJkud98%3D&jza>
+#> <https://webr.r-wasm.org/latest/#code=eJxdzz%2BqwkAQBvDeUwy8wqR4yeteYyNoaRPsZYwjWcnuys4sGsVKb%2BAVRPEAir2n8DaSP6JYznzM%2FPj2u4NBTUeNykTJYY6SXeLMaooXNB55Jhc3kdBSHn9svUspaHtROUdJO2w5Yp8LdH4BDebFikYTFAy0pOg4PKEX67y5byvn1NxV0PULemW19Pmt%2FD71JhVlTVAuQlgDe63RFc28qYFz0u%2F2Bv1ITyri9kW80wr5%2F4FBAd1SYsWtYaYY5s7OKJVXGwbJCOo2UFJMEj0B03F4qQ%3D%3D&mza>
 #> 
 #> Files (3):
 #> main.R → /home/web_user/main.R (autorun)
@@ -133,11 +149,11 @@ webr_repl_project(files, autorun_files = "all")
 #> 
 #> ── webR Project ──
 #> 
-#> <https://webr.r-wasm.org/latest/#code=eJx9j72OwkAMhF%2FF2itIJC7p0TVIR0kT0QFCJhhlUXYXrW1BQHl3EhF%2BGijtseebWV6NR0dmYhxanxVmbI4oVTfnVXCUn2i7UaaYP2Whs3QyB40lJSMVW3NWjNKVj8RaC%2Fz9AnqsmwttdiiYOCkxctq9okqI6s1EolI7fqIHj4%2Fslz7A3%2F173l59KTb4pF%2BkcAVW5zA2w9x%2BYRez6f98lrndR%2Fr7xcD%2FgXkD0z4EW175RWUZjjEcqJRHdwapCO7doY%2FBJJlp1zf%2BYX1X&jza>
+#> <https://webr.r-wasm.org/latest/#code=eJxdzzuOwkAMBuCeU1jagqTYZLtttkFaSpqIHplglEGZGTT2CAKightwBQTiACB6TsFtUB48RGn%2Fsj%2F9283OoKa9RmWiZDdFyU5xZjXFMxoOPJOLm0hoLrcftt6lFLS9qJyjpB22HLHPBf6%2BAQ3mxYIGIxQMtKToODygF%2Bu8udbOobmroPMH9Mhq6f1b%2BX3sTSrKmqBchLAE9lqjK5p59ZTWlXRMup3%2FXjfSo8q6fFivtNJ%2Bv6BXQKckWXGrnymGqbMTSuVRi0EygroWlCaTRHebw30i&mza>
 #> 
 #> Files (3):
-#> main.R → /home/web_user/main.R
-#> utils.R → /home/web_user/utils.R
+#> main.R → /home/web_user/main.R (autorun)
+#> utils.R → /home/web_user/utils.R (autorun)
 #> README.md → /home/web_user/README.md
 #> Version: "latest"
 
@@ -152,7 +168,7 @@ webr_repl_project(c(main, utils))
 #> 
 #> ── webR Project ──
 #> 
-#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSyk3MzNMLUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlQOni%2FNKi5FQN9dKSzJxivSB1TaVaHbhZUEGchiHkoaYpK4CFlGpjAXHGL1w%3D&jz>
+#> <https://webr.r-wasm.org/latest/#code=eJyb1LwkLzE3dVluYmaeXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipKNxfmlRcmpGuqlJZk5xXpB6poQ7cuhfLD%2BbWj6YXIgA5YrK4C5AJisMMw%3D&mz>
 #> 
 #> Files (2):
 #> main.R → /home/web_user/main.R

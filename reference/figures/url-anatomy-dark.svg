@@ -11,7 +11,7 @@
   <rect x="648.0" y="31" width="133.5" height="22" rx="4" fill="#12315c"/>
   <text class="m" x="651.0" y="46" font-size="12.5" textLength="127.5" lengthAdjust="spacing" fill="#4C9AFF">#code=eJyLrlbKS8…</text>
   <rect x="775.5" y="31" width="28.5" height="22" rx="4" fill="#3d2f10"/>
-  <text class="m" x="778.5" y="46" font-size="12.5" textLength="22.5" lengthAdjust="spacing" fill="#fbbf24">&amp;jz</text>
+  <text class="m" x="778.5" y="46" font-size="12.5" textLength="22.5" lengthAdjust="spacing" fill="#fbbf24">&amp;mz</text>
   <path d="M366.0 57 V82 H266" fill="none" stroke="#94a3b8" stroke-width="1.3" stroke-linejoin="round" opacity="0.55"/>
   <circle cx="266" cy="82" r="3" fill="#94a3b8"/>
   <text class="s lbl" x="252" y="78" font-size="11.5" text-anchor="end" fill="#94a3b8">base address</text>
@@ -48,5 +48,5 @@
   <rect x="626" y="305" width="18" height="18" rx="4" fill="#12315c"/>
   <text class="m accent" x="632" y="318" font-size="12" font-weight="700">a</text>
   <text class="s muted" x="654" y="318" font-size="12.5">autorun</text>
-  <text class="s faint" x="42" y="346" font-size="12">livelink writes jz. webR's own share button writes mz. livelink reads both.</text>
+  <text class="s faint" x="42" y="346" font-size="12">livelink writes mz, the same as webR's own share button. It reads jz too.</text>
 </svg>

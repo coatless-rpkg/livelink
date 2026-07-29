@@ -41,7 +41,7 @@ plot(mtcars$mpg, mtcars$wt)   # a comment your reader will actually see
 ![](links-in-documents_files/figure-html/unnamed-chunk-1-1.png)
 
 [Open in
-webR](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJxNjUsKwkAQRK9STFwYCGafM7hya0TaSWMC86OnhxjEuztCFm6KquLBu75NIM9mMNnKkvR0MZ1JpHN9%2Bjl67ld%2B3Etm6f8A5ZdWoME50gSdGRMpjeGXR6%2BWJLdjSC7qvg4%2BPTvsfdUWQAOCjd5zUGyxCIRpYsG6OAeyWsi5DZm5%2BqholBLMoFL4c%2FsC0zw%2BsQ%3D%3D&jza)
+webR](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJw9ic0JwkAQRu%2Bp4oN4MCCmEU82IOPu4Ab2j9lZ1txtwB4C2oEFWIXdiBC8PN7j3W9LpMDPYmTKuj8umdS9RpcCj43Pp1pYxv9UvurH9jgkslDHsKTU%2FbANakjK0GWfdI1NyJcdVm86AOhBMCkEjoo5VYEwWRa0yXuQ0UrezyjMD6qapMb3F9lVPYA%3D&mza)
 
 This is usually what you want. Readers see the result, and can still go
 and poke at it.
@@ -99,7 +99,7 @@ simply cannot see in the document:
     #> [1] 20.09062
 
 [This link works, though you cannot see its code
-above](https://webr.r-wasm.org/latest/#code=eJxNyk0KAjEMQOGrhOhCQezeY7gVkViCDTaZ0sQfGObu0%2BVs3%2FtuMxop4wU9d2lxvuIJG0UZJZVJOf34%2Bfg497QBwf8YQJnsoJGp%2B17b6wgAO4giDnlSZQvwkFohOn25OoiNy1DF3rjcV%2FzYKf8%3D&jz)
+above](https://webr.r-wasm.org/latest/#code=eJw9yb0NwkAMBtBVLEEBDTcAW7AAMieLszg7p%2FPHT88E7JCCDTJLtkmqvPb9vqOzyT9y14bTZWyMMqUymKS33K7PkJ62hHwwn03YD4bMPfbW7kci2hGKBuXBTBwU0FoJnV9Sg9TXFarqjwXhFysk&mz)
 
 The code, and that comment, are both in the link. Follow it and look.
 
@@ -164,7 +164,7 @@ changes, and what that means for your reader.
 | `livelink: true` | `webr.r-wasm.org/…` | hook only: turn an `r` chunk into a webR link |
 | `livelink: shinylive-r` | `shinylive.io/r/…` | hook only: a Shiny app instead of a REPL (also `"webr"`, `"shinylive-py"`) |
 | `engine.target: shinylive-r` | `shinylive.io/r/…` | engine only: the same targets, for a [livelink](https://r-pkg.thecoatlessprofessor.com/livelink/) chunk |
-| `autorun: true` | `&jza` (the `a` flag) | webR only: run the code the moment the link opens |
+| `autorun: true` | `&mza` (the `a` flag) | webR only: run the code the moment the link opens |
 | `panels: ["editor", "plot"]` | `?mode='editor-plot'` | webR only: which panels appear |
 | `mode: app` | `shinylive.io/r/app/` | Shinylive only: the running app, not the code |
 | `filename: analysis.R` | `analysis.R` | the file’s name inside the environment |

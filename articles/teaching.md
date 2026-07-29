@@ -40,8 +40,8 @@ links <- webr_repl_exercise(exercise, solution, "mean_mpg")
 links
 ```
 
-- [exercise](https://webr.r-wasm.org/latest/#code=eJxtjkEKwjAQRa8yxI2Ctl0XwZUX6NZISctoAs0kJFNSEe9uUuzO3cz7%2F8G%2FvQUpi6IVFhX11j97XDCMJmLViaPwinUOa%2B0s1gmHfo4Y6v9dxoVzV9IOrj%2FeQtKKwURgjVA0yBq4x%2FqPKkQwGXG5LkXs0E9qxDVuYMDJJUiGNbzcHEBRTBgqSZK2CXA%2BQSPJB0O83%2BBBkvjcvx7STSE%3D&jz)
-- [solution](https://webr.r-wasm.org/latest/#code=eJxtzMEKwjAMxvFXKdHDBLX34VPo0UqpEtzApiVNUBDf3Qy2227hnx%2Ff9QuUMkIPGRPFXJ%2BxlZfKWOh4hj3UJIM9%2FVAy%2BjfeozZkv24FP2I20MZd5h5ooe50cNPdZXkkbltLu0CVR5JuMRZsJqkUVoJeWPF3%2BwNT1joH&jza)
+- [exercise](https://webr.r-wasm.org/latest/#code=eJxtjc0NgkAQhe9bxUQvehA4GxNPNkADZCFPdxP2J7tDFm8mVmAPdGA1dCMQuXGb%2Bd778j7vwUqDr4G0lfGPCj1CoyOycvCS1bjLlTPIE%2Bqqiwj5VpHR8%2FgSe7r92ZmSkkw6EivQrNCkkLsvfyNDJD0hnq%2Fr5JXwrWywpAXVaF2ipFnR03WBpI0JIRNi3abLiQrhg7Z8WNlR%2FABOeUpa&mz)
+- [solution](https://webr.r-wasm.org/latest/#code=eJyb2LIkLzE3dXNuamJefG5Benxxfk5pSWZ%2Bnl7QkoLEkoybSvoZ%2Bbmp%2BuWpSfGlxalF%2BtgUlqRWlNy05FJWCIaKccFUKdjoKoDYGrklyYlFxSpAIU2ugqLMvBINmBJNruWJpSX5RaV5hwHY2Td6&mza)
 
 These are written as plain strings on purpose. An exercise is mostly its
 instructions, and those live in comments, so a braced
@@ -69,10 +69,10 @@ until afterwards, or put it behind a collapsed callout in your notes.
 ``` r
 
 repl_urls(links)
-#>                                                                                                                                                                                                                                                                       exercise 
-#> "https://webr.r-wasm.org/latest/#code=eJxtjkEKwjAQRa8yxI2Ctl0XwZUX6NZISctoAs0kJFNSEe9uUuzO3cz7%2F8G%2FvQUpi6IVFhX11j97XDCMJmLViaPwinUOa%2B0s1gmHfo4Y6v9dxoVzV9IOrj%2FeQtKKwURgjVA0yBq4x%2FqPKkQwGXG5LkXs0E9qxDVuYMDJJUiGNbzcHEBRTBgqSZK2CXA%2BQSPJB0O83%2BBBkvjcvx7STSE%3D&jz" 
-#>                                                                                                                                                                                                                                                                       solution 
-#>                                                      "https://webr.r-wasm.org/latest/#code=eJxtzMEKwjAMxvFXKdHDBLX34VPo0UqpEtzApiVNUBDf3Qy2227hnx%2Ff9QuUMkIPGRPFXJ%2BxlZfKWOh4hj3UJIM9%2FVAy%2BjfeozZkv24FP2I20MZd5h5ooe50cNPdZXkkbltLu0CVR5JuMRZsJqkUVoJeWPF3%2BwNT1joH&jza"
+#>                                                                                                                                                                                                                                                                 exercise 
+#> "https://webr.r-wasm.org/latest/#code=eJxtjc0NgkAQhe9bxUQvehA4GxNPNkADZCFPdxP2J7tDFm8mVmAPdGA1dCMQuXGb%2Bd778j7vwUqDr4G0lfGPCj1CoyOycvCS1bjLlTPIE%2Bqqiwj5VpHR8%2FgSe7r92ZmSkkw6EivQrNCkkLsvfyNDJD0hnq%2Fr5JXwrWywpAXVaF2ipFnR03WBpI0JIRNi3abLiQrhg7Z8WNlR%2FABOeUpa&mz" 
+#>                                                                                                                                                                                                                                                                 solution 
+#>                                                                  "https://webr.r-wasm.org/latest/#code=eJyb2LIkLzE3dXNuamJefG5Benxxfk5pSWZ%2Bnl7QkoLEkoybSvoZ%2Bbmp%2BuWpSfGlxalF%2BtgUlqRWlNy05FJWCIaKccFUKdjoKoDYGrklyYlFxSpAIU2ugqLMvBINmBJNruWJpSX5RaV5hwHY2Td6&mza"
 ```
 
 ## Choosing what students see
@@ -94,7 +94,7 @@ webr_repl_link("plot(1:10)", panels = c("editor", "plot"))
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKijIyS%2FRMLQyNNBUqo0FAJecF%2Fo%3D&jz)
+webR](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKklUFOfklGoZWhgaaAC8DGLU%3D&mz)
 
 ``` r
 
@@ -115,7 +115,7 @@ webr_repl_link(
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/?mode='plot'#code=eJxNzEsKwjAURuGtXDJpC8HEacFNiDMRScOPCeRRbm5QEPdunDk9fJzrWxWXoVbVPMddDmel1e4kjGJCzTBPbPfewOYPCF4yQIhNZi6V83y01i6afE10oqkJkLbUMWnKLpZfuwSQRxF2iVLMUUgCKiNrco9hpmWMXZfKvahVuONz%2BwIbnTR%2B&jza)
+webR](https://webr.r-wasm.org/latest/?mode='plot'#code=eJw9ysEJAjEQQNFW5pZdCCYWYA2CeJfZMJhAJlkmE7QAG7CHBe3AAqzCbtTLXv9%2F99tSkOnZgqRZN4dlRo0vFyuTu9B06o3ErVPpqp99TE0HKVV42HrvRwuhZtiBaUqUp9zJWGBM5d%2BOkSBQUcEMOXFS0EhViC3g%2BWfM%2BMCuVXp5fwEBUzS4&mza)
 
 Only `.R` files can autorun. Ask for it on something else and livelink
 tells you rather than quietly producing a link that does nothing:
@@ -129,7 +129,7 @@ webr_repl_link("some data", filename = "data.csv", autorun = TRUE)
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSSkksSdRLLi5T0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKigGyiuAhJVqYwGBRBiK&jz)
+webR](https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVKYkmiXnJx2ZKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKkpXFQDmFlMSSRAAVRhlE&mz)
 
 ## A whole folder of scripts
 
@@ -158,14 +158,14 @@ writeLines("lm(mpg ~ wt, mtcars)", file.path(course, "03-models.R"))
 
 links <- webr_repl_directory(course, panels = c("editor", "plot"))
 #> ✔ Found 3 files matching pattern "\\.R$"
-#> ℹ Processing files in '/tmp/RtmpZkLoKZ/course'...
+#> ℹ Processing files in '/tmp/RtmpzW7hFJ/course'...
 #> ✔ Successfully created 3 WebR links
 links
 ```
 
-- [01-plotting.R](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyLrlbKS8xNVbJSMjDULcjJLynJzEvXC1LSUSpILMkACutn5Oem6penJsWXFqcW6aOrKkmtKAGqAolpGFoZGmgq1cYCAIPDGs4%3D&jz)
-- [02-summaries.R](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyLrlbKS8xNVbJSMjDSLS7NzU0sykwt1gtS0lEqSCzJAIrrZ%2BTnpuqXpybFlxanFuljKCtJrSgBKstNTczTyC1JTiwqVsktSNdUqo0FAHt7HqI%3D&jz)
-- [03-models.R](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyLrlbKS8xNVbJSMjDWzc1PSc0p1gtS0lEqSCzJAArqZ%2BTnpuqXpybFlxanFumjqilJrSgBqsnJ1cgtSFeoUygv0VHILUlOLCrWVKqNBQAVDx0J&jz)
+- [01-plotting.R](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyb2LwkLzE3da2BoW5BTn5JSWZeul7QkoLEkow9%2Bhn5uan65alJ8aXFqUX6qCpKUitKVoH4GoZWhgaaAA8cG5M%3D&mz)
+- [02-summaries.R](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyb2LwkLzE3dZ2BkW5xaW5uYlFmarFe0JKCxJKMvfoZ%2Bbmp%2BuWpSfGlxalF%2BmhKSlIrSjbkpibmaeSWJCcWFavkFqRrAgAESB9v&mz)
+- [03-models.R](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyb2LwkLzE3dbWBsW5ufkpqTrFe0JKCxJKMXfoZ%2Bbmp%2BuWpSfGlxalF%2BsjyJakVJVtycjVyC9IV6hTKS3QUckuSE4uKNQGxch3U&mz)
 
 The result is named by file, so it drops straight into a table of
 contents:
@@ -174,9 +174,9 @@ contents:
 
 urls <- repl_urls(links)
 cat(sprintf("- [%s](%s)", names(urls), urls), sep = "\n")
-#> - [01-plotting.R](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyLrlbKS8xNVbJSMjDULcjJLynJzEvXC1LSUSpILMkACutn5Oem6penJsWXFqcW6aOrKkmtKAGqAolpGFoZGmgq1cYCAIPDGs4%3D&jz)
-#> - [02-summaries.R](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyLrlbKS8xNVbJSMjDSLS7NzU0sykwt1gtS0lEqSCzJAIrrZ%2BTnpuqXpybFlxanFuljKCtJrSgBKstNTczTyC1JTiwqVsktSNdUqo0FAHt7HqI%3D&jz)
-#> - [03-models.R](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyLrlbKS8xNVbJSMjDWzc1PSc0p1gtS0lEqSCzJAArqZ%2BTnpuqXpybFlxanFumjqilJrSgBqsnJ1cgtSFeoUygv0VHILUlOLCrWVKqNBQAVDx0J&jz)
+#> - [01-plotting.R](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyb2LwkLzE3da2BoW5BTn5JSWZeul7QkoLEkow9%2Bhn5uan65alJ8aXFqUX6qCpKUitKVoH4GoZWhgaaAA8cG5M%3D&mz)
+#> - [02-summaries.R](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyb2LwkLzE3dZ2BkW5xaW5uYlFmarFe0JKCxJKMvfoZ%2Bbmp%2BuWpSfGlxalF%2BmhKSlIrSjbkpibmaeSWJCcWFavkFqRrAgAESB9v&mz)
+#> - [03-models.R](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyb2LwkLzE3dbWBsW5ufkpqTrFe0JKCxJKMXfoZ%2Bbmp%2BuWpSfGlxalF%2BsjyJakVJVtycjVyC9IV6hTKS3QUckuSE4uKNQGxch3U&mz)
 ```
 
 Use `pattern` to pick out a subset, say the exercises but not the
@@ -186,12 +186,12 @@ solutions:
 
 webr_repl_directory(course, pattern = "^0[12]")
 #> ✔ Found 2 files matching pattern "^0[12]"
-#> ℹ Processing files in '/tmp/RtmpZkLoKZ/course'...
+#> ℹ Processing files in '/tmp/RtmpzW7hFJ/course'...
 #> ✔ Successfully created 2 WebR links
 ```
 
-- [01-plotting.R](https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSMjDULcjJLynJzEvXC1LSUSpILMkACutn5Oem6penJsWXFqcW6aOrKkmtKAGqAolpGFoZGmgq1cYCAIPDGs4%3D&jz)
-- [02-summaries.R](https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSMjDSLS7NzU0sykwt1gtS0lEqSCzJAIrrZ%2BTnpuqXpybFlxanFuljKCtJrSgBKstNTczTyC1JTiwqVsktSNdUqo0FAHt7HqI%3D&jz)
+- [01-plotting.R](https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3da2BoW5BTn5JSWZeul7QkoLEkow9%2Bhn5uan65alJ8aXFqUX6qCpKUitKVoH4GoZWhgaaAA8cG5M%3D&mz)
+- [02-summaries.R](https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dZ2BkW5xaW5uYlFmarFe0JKCxJKMvfoZ%2Bbmp%2BuWpSfGlxalF%2BmhKSlIrSjbkpibmaeSWJCcWFavkFqRrAgAESB9v&mz)
 
 ### One link per file, or one link for the folder?
 
@@ -222,7 +222,7 @@ webr_repl_directory(course, single_link = TRUE, panels = c("editor", "plot"))
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJx9zEEKwjAQQNGrlMFFC4lpdNdjuBWRqENbyCQhmVJB6tmNWJB20e3n884vcIYQGqi1DNYz967dn0BAMNzlrDpPqEa8XYeEUa0vxifn69tK3ei6gkn8yYNMA5GJPaYtc73NKKFxJfHdxLSj0C7poyT%2FQLvpLp4ZtVRmq3gXI4vih1cwXT7%2F51Vf&jz)
+webR](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyb3LwkLzE3da2BoW5BTn5JSWZeul7QkoLEkow9%2Bhn5uan65alJ8aXFqUX6qCpKUitKVoH4GoZWhgaaEFPWGRjpFpfm5iYWZaYWQ43Zi24MqhKQORtyUxPzNHJLkhOLilVyC9Khpq02MNbNzU9JzYEZtQvdKCR5kDlbcnI1gNoV6hTKS3QUIOZpAgAvMFe0&mz)
 
 ## Embedding links in your notes
 
@@ -248,7 +248,7 @@ plot(mtcars$mpg, mtcars$wt)   # a comment students will actually see
 ![](teaching_files/figure-html/unnamed-chunk-12-1.png)
 
 [Open in
-webR](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJxNjUsKwjAURbfySB1YKHbeNThyakWe6cMU8iO5IYq4dyN00Mn9ceBeP8qzEzWprNMacbqoQUWGactogpOxyuNesqRxB0BeaEBH58ALwQgtDJ79X48OmlPuZx9twNYOLj4H2nJFT0QdMengnHhQRlmaZ6qrtcQaha19UxZpZ1wQUvFqQiryvf0AIC89yQ%3D%3D&jza)
+webR](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJw9ic0JwkAYRO%2BpYiAeDIhpxJMNyOfmwwT2j91ZVu82YA8B7cACrMJuVAheZt7j3a6zF6ePbNIUud3PUTg%2B%2BzE47aseDyVr6v%2BReuZbWuyCDOCoGITS%2FGbtaCTlrok2cJGVi6cNFq7sALQQmOCceiKzDN%2FPqJO1EMMi1l6QVe9SGFLxrw8qzjyV&mza)
 
 Students read the result *and* get to go and poke at it. Follow the
 link: the comments are still there, which they would not be had you
@@ -290,10 +290,10 @@ decode_webr_link(submissions, output_dir = file.path(tempdir(), "submissions"))
 #> 
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: '/tmp/RtmpZkLoKZ/submissions/script_01'
+#> Created directory: '/tmp/RtmpzW7hFJ/submissions/script_01'
 #> Decoding 1 file...
 #> 'student_a.R' (16 bytes)
-#> ✔ Successfully decoded 1 file to '/tmp/RtmpZkLoKZ/submissions/script_01'
+#> ✔ Successfully decoded 1 file to '/tmp/RtmpzW7hFJ/submissions/script_01'
 #> 
 #> 
 #> 
@@ -301,10 +301,10 @@ decode_webr_link(submissions, output_dir = file.path(tempdir(), "submissions"))
 #> 
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: '/tmp/RtmpZkLoKZ/submissions/script_02'
+#> Created directory: '/tmp/RtmpzW7hFJ/submissions/script_02'
 #> Decoding 1 file...
 #> 'student_b.R' (18 bytes)
-#> ✔ Successfully decoded 1 file to '/tmp/RtmpZkLoKZ/submissions/script_02'
+#> ✔ Successfully decoded 1 file to '/tmp/RtmpzW7hFJ/submissions/script_02'
 #> 
 #> ✔ Successfully processed 2/2 URLs
 #> 
@@ -313,7 +313,7 @@ decode_webr_link(submissions, output_dir = file.path(tempdir(), "submissions"))
 #> 
 #> 
 #> 
-#> Base directory: '/tmp/RtmpZkLoKZ/submissions'
+#> Base directory: '/tmp/RtmpzW7hFJ/submissions'
 #> 
 #> Total URLs: 2
 #> 
@@ -323,13 +323,13 @@ decode_webr_link(submissions, output_dir = file.path(tempdir(), "submissions"))
 #> 
 #> 'script_01': 1 file
 #> 
-#> '/tmp/RtmpZkLoKZ/submissions/script_01'
+#> '/tmp/RtmpzW7hFJ/submissions/script_01'
 #> 
 #> 
 #> 
 #> 'script_02': 1 file
 #> 
-#> '/tmp/RtmpZkLoKZ/submissions/script_02'
+#> '/tmp/RtmpzW7hFJ/submissions/script_02'
 #> 
 #> 
 #> 

@@ -14,14 +14,14 @@ Source:
 [`DESCRIPTION`](https://github.com/coatless-rpkg/livelink/blob/main/DESCRIPTION)
 
 Balamuta J (2026). *livelink: Create Shareable Links for 'webR' and
-'Shinylive' Environments*. R package version 0.1.0,
+'Shinylive' Environments*. R package version 0.1.1,
 <https://r-pkg.thecoatlessprofessor.com/livelink/>.
 
     @Manual{,
       title = {livelink: Create Shareable Links for 'webR' and 'Shinylive' Environments},
       author = {James Joseph Balamuta},
       year = {2026},
-      note = {R package version 0.1.0},
+      note = {R package version 0.1.1},
       url = {https://r-pkg.thecoatlessprofessor.com/livelink/},
     }
 

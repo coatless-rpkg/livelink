@@ -1,8 +1,7 @@
 # Create a Shinylive sharelink for Python Shiny apps
 
 Generates a shareable URL for Python Shiny applications that can run in
-the browser using Shinylive. Supports character strings, file paths,
-named lists, and clipboard input.
+the browser using Shinylive.
 
 ## Usage
 
@@ -34,7 +33,7 @@ shinylive_py_link(
 - mode:
 
   Shinylive display mode (default `"editor"`). `"editor"` shows an
-  editable code panel beside the running app; `"app"` shows only the
+  editable code panel beside the running app. `"app"` shows only the
   running app.
 
 - header:
@@ -50,12 +49,31 @@ shinylive_py_link(
 
 ## Value
 
-shinylive_link object containing the Shinylive URL and metadata
+A `shinylive_link` object, which is a list with these entries.
+
+- `url`, the sharelink itself, as a single string.
+
+- `files`, the names of the files carried in the link, as a character
+  vector.
+
+- `engine`, the Shiny flavor the link runs, `"python"` here.
+
+- `mode`, the Shinylive display mode, `"editor"` or `"app"`.
+
+Use [`as.character()`](https://rdrr.io/r/base/character.html) on the
+object to get the URL on its own.
+
+## Details
+
+The whole app travels inside the URL, so opening the link runs it in the
+reader's browser with no server behind it. A single string becomes
+`app.R`. Pass a named list to ship several files.
 
 ## See also
 
 [`shinylive_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/shinylive_project.md)
-for multi-file apps;
+for multi-file apps.
+
 [`decode_shinylive_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/decode_shinylive_link.md)
 and
 [`preview_shinylive_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/preview_shinylive_link.md)

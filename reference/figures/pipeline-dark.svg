@@ -29,7 +29,7 @@
   <text class="s lbl ink" x="46" y="304" font-size="11">YOU GET</text>
   <text class="m muted" x="46" y="324" font-size="12">one shareable URL</text>
   <rect x="212" y="286" width="618" height="40" rx="8" fill="#1e293b" stroke="#334155"/>
-  <text class="m" x="226" y="310" font-size="11.5" xml:space="preserve"><tspan class="ink">https://webr.r-wasm.org/latest/</tspan><tspan class="frag">#code=eJyLrlbKS8xNVbJS…</tspan><tspan class="flag">&amp;jz</tspan></text>
+  <text class="m" x="226" y="310" font-size="11.5" xml:space="preserve"><tspan class="ink">https://webr.r-wasm.org/latest/</tspan><tspan class="frag">#code=eJyLrlbKS8xNVbJS…</tspan><tspan class="flag">&amp;mz</tspan></text>
   <circle cx="26" cy="376" r="5" fill="#4C9AFF"/>
   <text class="s lbl ink" x="46" y="374" font-size="11">IT RUNS</text>
   <text class="m muted" x="46" y="394" font-size="12">in the browser</text>

@@ -37,12 +37,12 @@ preview
 #> ── webR Link Preview ──
 #> 
 #> URL:
-#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKsjJL9ELUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlQOmMzOISjaK8%2FKJcDUMDA01NpdpYALyJGIs%3D&jz>
+#> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dVlBTn6JXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipINGZnFJRpFeflFuRqGBgaamgBhqxlI&mz>
 #> 
 #> Files: 1
 #> Total size: 16 bytes
 #> Version: "latest"
-#> Encoding: "jz"
+#> Encoding: "mz"
 #> 
 #> 'plot.R' (16 bytes)
 #> 
@@ -69,12 +69,12 @@ print(preview, show_content = TRUE)
 #> ── webR Link Preview ──
 #> 
 #> URL:
-#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKsjJL9ELUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlQOmMzOISjaK8%2FKJcDUMDA01NpdpYALyJGIs%3D&jz>
+#> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dVlBTn6JXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipINGZnFJRpFeflFuRqGBgaamgBhqxlI&mz>
 #> 
 #> Files: 1
 #> Total size: 16 bytes
 #> Version: "latest"
-#> Encoding: "jz"
+#> Encoding: "mz"
 #> 
 #> 'plot.R' (16 bytes)
 #>   hist(rnorm(100))
@@ -96,23 +96,23 @@ out <- file.path(tempdir(), "recovered")
 result <- decode_webr_link(url, output_dir = out)
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: '/tmp/Rtmpm5O6Vn/recovered/webr_dbaaf593'
+#> Created directory: '/tmp/Rtmp1ANNiA/recovered/webr_f40f99ea'
 #> Decoding 1 file...
 #> 'plot.R' (16 bytes)
-#> ✔ Successfully decoded 1 file to '/tmp/Rtmpm5O6Vn/recovered/webr_dbaaf593'
+#> ✔ Successfully decoded 1 file to '/tmp/Rtmp1ANNiA/recovered/webr_f40f99ea'
 result
 #> 
 #> ── webR Decoded Files ──
 #> 
 #> Source:
-#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKsjJL9ELUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlQOmMzOISjaK8%2FKJcDUMDA01NpdpYALyJGIs%3D&jz>
-#> Output: '/tmp/Rtmpm5O6Vn/recovered/webr_dbaaf593'
+#> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dVlBTn6JXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipINGZnFJRpFeflFuRqGBgaamgBhqxlI&mz>
+#> Output: '/tmp/Rtmp1ANNiA/recovered/webr_f40f99ea'
 #> 
 #> Files (1):
 #> 'plot.R' (16 bytes)
 #> 
 #> Version: "latest"
-#> Encoding: "jz"
+#> Encoding: "mz"
 ```
 
 By default it writes into a subdirectory of your session’s temporary
@@ -137,7 +137,7 @@ decode_webr_link(url, output_dir = out)
 #> Parsing file data...
 #> Decoding 1 file...
 #> Warning: File already exists, skipping: 'plot.R'
-#> ✔ Successfully decoded 0 files to '/tmp/Rtmpm5O6Vn/recovered/webr_dbaaf593'
+#> ✔ Successfully decoded 0 files to '/tmp/Rtmp1ANNiA/recovered/webr_f40f99ea'
 #> 
 #> 
 #> ── webR Decoded Files ──
@@ -145,9 +145,9 @@ decode_webr_link(url, output_dir = out)
 #> 
 #> 
 #> Source:
-#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKsjJL9ELUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlQOmMzOISjaK8%2FKJcDUMDA01NpdpYALyJGIs%3D&jz>
+#> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dVlBTn6JXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipINGZnFJRpFeflFuRqGBgaamgBhqxlI&mz>
 #> 
-#> Output: '/tmp/Rtmpm5O6Vn/recovered/webr_dbaaf593'
+#> Output: '/tmp/Rtmp1ANNiA/recovered/webr_f40f99ea'
 #> 
 #> 
 #> 
@@ -161,7 +161,7 @@ decode_webr_link(url, output_dir = out)
 #> 
 #> Version: "latest"
 #> 
-#> Encoding: "jz"
+#> Encoding: "mz"
 ```
 
 Pass `overwrite = TRUE` when replacing them is what you actually want.
@@ -185,12 +185,12 @@ recovered_dir <- file.path(tempdir(), "roundtrip")
 invisible(decode_webr_link(as.character(link), output_dir = recovered_dir))
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: '/tmp/Rtmpm5O6Vn/roundtrip/webr_27866f36'
+#> Created directory: '/tmp/Rtmp1ANNiA/roundtrip/webr_45b92ad7'
 #> Decoding 3 files...
 #> 'main.R' (23 bytes)
 #> 'utils.R' (20 bytes)
 #> 'README.md' (33 bytes)
-#> ✔ Successfully decoded 3 files to '/tmp/Rtmpm5O6Vn/roundtrip/webr_27866f36'
+#> ✔ Successfully decoded 3 files to '/tmp/Rtmp1ANNiA/roundtrip/webr_45b92ad7'
 
 files <- list.files(recovered_dir, recursive = TRUE, full.names = TRUE)
 recovered <- setNames(
@@ -232,10 +232,10 @@ preview_shinylive_link(app_url)
 decode_shinylive_link(app_url, output_dir = file.path(tempdir(), "app"))
 #> Decompressing Shinylive data...
 #> Parsing file data...
-#> Created directory: '/tmp/Rtmpm5O6Vn/app/shinylive_6f92fb6e'
+#> Created directory: '/tmp/Rtmp1ANNiA/app/shinylive_6f92fb6e'
 #> Decoding 1 file...
 #> 'app.R' (text, 55 bytes)
-#> ✔ Successfully decoded 1 file to '/tmp/Rtmpm5O6Vn/app/shinylive_6f92fb6e'
+#> ✔ Successfully decoded 1 file to '/tmp/Rtmp1ANNiA/app/shinylive_6f92fb6e'
 #> 
 #> 
 #> ── Shinylive R Decoded Files ──
@@ -245,7 +245,7 @@ decode_shinylive_link(app_url, output_dir = file.path(tempdir(), "app"))
 #> Source:
 #> <https://shinylive.io/r/editor/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlAB0IPPqwCC6dgDNqAV1oATAApQA5nHYDcAAhnyIBUrRLtaeogN0gAvgLxhSrVAmTkAHqTC2AukA>
 #> 
-#> Output: '/tmp/Rtmpm5O6Vn/app/shinylive_6f92fb6e'
+#> Output: '/tmp/Rtmp1ANNiA/app/shinylive_6f92fb6e'
 #> 
 #> 
 #> 
@@ -295,10 +295,10 @@ batch <- decode_webr_link(urls, output_dir = file.path(tempdir(), "batch"))
 #> 
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: '/tmp/Rtmpm5O6Vn/batch/script_01'
+#> Created directory: '/tmp/Rtmp1ANNiA/batch/script_01'
 #> Decoding 1 file...
 #> 'one.R' (10 bytes)
-#> ✔ Successfully decoded 1 file to '/tmp/Rtmpm5O6Vn/batch/script_01'
+#> ✔ Successfully decoded 1 file to '/tmp/Rtmp1ANNiA/batch/script_01'
 #> 
 #> 
 #> 
@@ -306,25 +306,25 @@ batch <- decode_webr_link(urls, output_dir = file.path(tempdir(), "batch"))
 #> 
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: '/tmp/Rtmpm5O6Vn/batch/script_02'
+#> Created directory: '/tmp/Rtmp1ANNiA/batch/script_02'
 #> Decoding 1 file...
 #> 'two.R' (15 bytes)
-#> ✔ Successfully decoded 1 file to '/tmp/Rtmpm5O6Vn/batch/script_02'
+#> ✔ Successfully decoded 1 file to '/tmp/Rtmp1ANNiA/batch/script_02'
 #> 
 #> ✔ Successfully processed 2/2 URLs
 batch
 #> 
 #> ── webR Decoded Batch ──
 #> 
-#> Base directory: '/tmp/Rtmpm5O6Vn/batch'
+#> Base directory: '/tmp/Rtmp1ANNiA/batch'
 #> Total URLs: 2
 #> 
 #> Successfully processed 2 URLs:
 #> 'script_01': 1 file
-#> '/tmp/Rtmpm5O6Vn/batch/script_01'
+#> '/tmp/Rtmp1ANNiA/batch/script_01'
 #> 
 #> 'script_02': 1 file
-#> '/tmp/Rtmpm5O6Vn/batch/script_02'
+#> '/tmp/Rtmp1ANNiA/batch/script_02'
 #> 
 #> Summary: 2 total files saved across 2 URLs
 ```
@@ -334,13 +334,13 @@ another.
 
 ## Reading links livelink did not create
 
-webR’s own share dialog encodes files with **msgpack**, not JSON, and
-livelink writes JSON. The flags at the end of a URL say which is which.
-`jz` is JSON + gzip, `mz` is msgpack + gzip, and `a` means autorun.
+webR’s own share dialog encodes files with **msgpack**, and so does
+livelink, so a link from either writes the same format. Older livelink
+links used JSON. The flags at the end of a URL say which is which: `mz`
+is msgpack + gzip, `jz` is JSON + gzip, and `a` means autorun.
 
-![The flags record how a link was encoded. livelink decodes both its own
-JSON links and the msgpack links webR’s share button writes, into the
-same
+![The flags record how a link was encoded. livelink decodes msgpack and
+JSON links alike, whoever wrote them, into the same
 files.](../reference/figures/dialects-light.svg)![](../reference/figures/dialects-dark.svg)
 
 livelink reads all of them. A link produced by webR itself decodes
@@ -356,10 +356,10 @@ results) answers to
 ``` r
 
 repl_urls(preview)
-#> [1] "https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKsjJL9ELUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlQOmMzOISjaK8%2FKJcDUMDA01NpdpYALyJGIs%3D&jz"
+#> [1] "https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dVlBTn6JXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipINGZnFJRpFeflFuRqGBgaamgBhqxlI&mz"
 repl_urls(batch)
-#> [1] "https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSys9L1QtS0lEqSCzJAHL1M%2FJzU%2FXLU5PiS4tTi%2FRhsiWpFSVA2YKc%2FBINQytDA02l2lgA7HMVVA%3D%3D&jz"
-#> [2] "https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKinP1wtS0lEqSCzJAHL1M%2FJzU%2FXLU5PiS4tTi%2FRhsiWpFSVA2YzM4hKNorz8olwNUwNNTaXaWABtIBeV&jz"
+#> [1] "https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dWl%2BXqpe0JKCxJKMLfoZ%2Bbmp%2BuWpSfGlxalF%2BhCZktSKklUFOfklGoZWhgaaAJPuFgk%3D&mz"          
+#> [2] "https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dWlJeb5e0JKCxJKMLfoZ%2Bbmp%2BuWpSfGlxalF%2BhCZktSKkvUZmcUlGkV5%2BUW5GqYGmpoAFX0YTw%3D%3D&mz"
 ```
 
 which is handy when you want to write links out to a file, or drop them
