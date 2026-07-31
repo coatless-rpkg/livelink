@@ -10,9 +10,9 @@ correcting promptly:
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 notes
 
-The note is "Days since last update: 4", explained above.
+Checked on macOS and on win-builder R-devel.
 
 The package makes no network connections, so examples, tests and vignettes all
 run offline.
