@@ -34,14 +34,11 @@
   shorter than the expression.
 
 - `webr_repl_link({ })`, and a block holding only comments, no longer
-  fail with `invalid 'pattern' argument`.
+  fail.
 
 - [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)
-  no longer takes code from elsewhere in a file that has changed since
-  the expression was read.
-
-- [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)
-  keeps the comments in a braced expression read from a file on disk.
+  reads a braced expression from a file on disk, which failed outright
+  before, and keeps its comments.
 
 - [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)
   now reports an error when given several file paths, instead of

@@ -62,9 +62,8 @@
 <h3 id="bug-fixes-0-1-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-1-1"></a></h3>
 <ul><li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> no longer fails with <code>argument is of length zero</code> when the code behind a braced expression cannot be read back, as from an unsaved buffer in Positron. The code is rebuilt from the expression instead, which loses comments but not the code itself.</p></li>
 <li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> no longer fails the same way when the file it was reading from is shorter than the expression.</p></li>
-<li><p><code>webr_repl_link({ })</code>, and a block holding only comments, no longer fail with <code>invalid 'pattern' argument</code>.</p></li>
-<li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> no longer takes code from elsewhere in a file that has changed since the expression was read.</p></li>
-<li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> keeps the comments in a braced expression read from a file on disk.</p></li>
+<li><p><code>webr_repl_link({ })</code>, and a block holding only comments, no longer fail.</p></li>
+<li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> reads a braced expression from a file on disk, which failed outright before, and keeps its comments.</p></li>
 <li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> now reports an error when given several file paths, instead of building a link that cannot open, and points to <code><a href="../reference/webr_repl_project.html">webr_repl_project()</a></code>.</p></li>
 <li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> and <code><a href="../reference/webr_repl_project.html">webr_repl_project()</a></code> now refuse a file that is not valid UTF-8, or that holds an embedded NUL, instead of building a link that cannot be read back.</p></li>
 <li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> now refuses <code>NA</code> and empty input.</p></li>
