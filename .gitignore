@@ -9,6 +9,5 @@ inst/doc
 *_files
 CRAN-SUBMISSION
 
-# conformance harness deps
-tools/conformance/node_modules/
-tools/conformance/package-lock.json
+# local-only conformance harness, not part of the package
+tools/conformance/
