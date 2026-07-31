@@ -1,6 +1,6 @@
 # Print method for webr_decoded_batch objects
 
-Displays a summary of the webR links decoded in a batch.
+Print method for webr_decoded_batch objects
 
 ## Usage
 
@@ -21,9 +21,4 @@ print(x, ...)
 
 ## Value
 
-The `webr_decoded_batch` object it was handed, returned invisibly, so it
-can be passed straight on. Called for the summary it prints, which
-covers the base folder, each link that decoded with its file count and
-output folder, and a count of the links that failed. See
-[`decode_webr_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/decode_webr_link.md)
-for the entries the object holds.
+Invisibly returns the object

@@ -64,7 +64,7 @@ print(link)
 #> 
 #> ── webR Link ──
 #> 
-#> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKkpsaKYkliRq5JcmJRcWaXAU5%2BSVQjkpuQbqOApRdXqIJAPpaJJY%3D&mz>
+#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKkhJLEnUyC1JTiwq1ozJK8jJL4HyVHIL0nUUoOzyEk2l2lgAXmokRA%3D%3D&jz>
 #> 
 #> File: 'script.R' → '/home/web_user/script.R'
 #> Version: "latest"
@@ -153,7 +153,7 @@ print(project)
 #> 
 #> ── webR Project ──
 #> 
-#> <https://webr.r-wasm.org/latest/#code=eJxdj01qAkEQRvdzimKSwAyYmQskC0kkKyEIIUspx9JpmO4euqv9QVzpDbyCIHoA0bWn8DaOraJYq6K%2Bot6rxXypUNIGFRZjK2zSWpbI%2BT7NtaR0SJ22s2TSh5hpxMc3q53JKAodi6KahnGQGUKmdllojiRnaGy8QsfaOHWYecjquuwJ2yfCLfPn%2Fx6Owcc79JzKWGgVdZExhkkAVXnSefAqy34NfDfkGkgUCj4hbP7%2BwMDCP4l%2BzpXg9GKxbjXq381GIrveY%2FfkcU%2B9SfICX2igfv0%2FuDWge8A5weVTD7fEyQlXE38U&mza>
+#> <https://webr.r-wasm.org/latest/#code=eJx1kEFPwzAMhf%2BKZTi0UmnvExwmmDhNQrtwIGgynbdGapIqcRho6n8ndN3WHeaTZT%2F7fXofB7RkGGdIltrfoEO5wgI7kibNqsYZrvb8tY6BfXUlEf6RJAku%2BpozhVF0mzYKc2VrzyS87lonmZGafMjTBUVxPlqciY%2FcF2fn8fKm7WU%2Fek7ew%2BMDbKOtRTubbUgoh4OykGow%2F5%2Fcm25XwNDtpQBD2sITKFy%2BvcJ3gHfWu0YG7B4nVKvF%2FGW5KM3mJtdUMZLdwTN5mI85KXvqwG1BGoZjGANMYCmx%2F%2FwDH8yBIQ%3D%3D&jza>
 #> 
 #> Files (3):
 #> 'analysis.R' → '/home/web_user/analysis.R' (autorun)
@@ -316,4 +316,6 @@ verbatim source, livelink borrows
 [`stringify_expression()`](https://github.com/tidyverse/reprex/blob/main/R/stringify_expression.R),
 copyright the reprex authors and [MIT
 licensed](https://github.com/tidyverse/reprex/blob/main/LICENSE.md).
-livelink is one step, and webrarian is the next, already taking shape.
+livelink is one step, and
+[webrarian](https://github.com/coatless-rpkg/webrarian) is the next,
+already taking shape.

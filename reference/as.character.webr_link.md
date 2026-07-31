@@ -1,6 +1,6 @@
 # Extract URLs as character vector
 
-Pulls the shareable URL(s) out of a livelink object.
+Extract URLs as character vector
 
 ## Usage
 
@@ -57,15 +57,11 @@ as.character(x, ...)
 
 ## Value
 
-A character vector of URLs.
-
-- Most objects give a single URL.
-
-- An exercise gives two, named `exercise` and `solution`.
-
-- A directory or a batch gives one URL for each file.
+A character vector of URLs. Most objects yield a single URL; exercise
+objects return a length-2 named vector (`exercise`, `solution`);
+directory and batch objects return one URL per file.
 
 ## See also
 
 [`repl_urls()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/repl_urls.md)
-for the same result from a function you can call by name.
+for the same extraction as a named generic you can call explicitly.

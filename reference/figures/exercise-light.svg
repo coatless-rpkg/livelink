@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 708 278" role="img" aria-labelledby="t d">
   <title id="t">An exercise and its solution</title>
-  <desc id="d">One call to webr_repl_exercise returns two links. The exercise link carries the mz flags and waits; the solution link carries mza and runs itself on arrival.</desc>
-  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}.shadow{fill:#1e293b}</style>
+  <desc id="d">One call to webr_repl_exercise returns two links. The exercise link carries the jz flags and waits; the solution link carries jza and runs itself on arrival.</desc>
+  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}</style>
   <text class="s lbl muted" x="24" y="22" font-size="11">ONE CALL</text>
   <rect x="24" y="34" width="660" height="40" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
   <text class="m" x="40" y="59" font-size="12.5" xml:space="preserve"><tspan class="fn">webr_repl_exercise</tspan><tspan class="ink">(exercise, solution, </tspan><tspan class="str">"mean_mpg"</tspan><tspan class="ink">)</tspan></text>
@@ -19,7 +19,7 @@
   <rect x="24" y="208" width="320" height="28" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
   <circle cx="41" cy="222.0" r="8" fill="#e0edff"/>
   <path d="M38 225.0 L44 219.0 M41 219.0 h3 v3" stroke="#0054AD" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <text class="m" x="57" y="225.5" font-size="10.5" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/…#code=</tspan><tspan class="frag">eJyLrlbKS8…</tspan><tspan class="flag">&amp;mz</tspan></text>
+  <text class="m" x="57" y="225.5" font-size="10.5" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/…#code=</tspan><tspan class="frag">eJyLrlbKS8…</tspan><tspan class="flag">&amp;jz</tspan></text>
   <rect x="364" y="120" width="320" height="68" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
   <path d="M364 120 h320 v22 h-320 z" fill="#f8fafc"/>
   <path d="M364 142 h320" stroke="#e2e8f0"/>
@@ -33,6 +33,6 @@
   <rect x="364" y="208" width="320" height="28" rx="8" fill="#ffffff" stroke="#e2e8f0"/>
   <circle cx="381" cy="222.0" r="8" fill="#e0edff"/>
   <path d="M378 225.0 L384 219.0 M381 219.0 h3 v3" stroke="#0054AD" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <text class="m" x="397" y="225.5" font-size="10.5" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/…#code=</tspan><tspan class="frag">eJyLrlbKS8…</tspan><tspan class="flag">&amp;mza</tspan></text>
-  <text class="s faint" x="24" y="264" font-size="12">The links differ by one flag. The a in mza is autorun: the solution runs itself, the exercise waits.</text>
+  <text class="m" x="397" y="225.5" font-size="10.5" xml:space="preserve"><tspan class="ink">webr.r-wasm.org/…#code=</tspan><tspan class="frag">eJyLrlbKS8…</tspan><tspan class="flag">&amp;jza</tspan></text>
+  <text class="s faint" x="24" y="264" font-size="12">The links differ by one flag. The a in jza is autorun: the solution runs itself, the exercise waits.</text>
 </svg>

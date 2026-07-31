@@ -33,7 +33,7 @@ webr_repl_link("plot(1:10)")
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKklUFOfklGoZWhgaaAC8DGLU%3D&mz)
+webR](https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKijIyS%2FRMLQyNNBUqo0FAJecF%2Fo%3D&jz)
 
 In a rendered document like this one the object becomes a clickable
 link, so you can open it right from the page. At an interactive console
@@ -53,7 +53,7 @@ webr_repl_link({
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKkpsaKYkliRq5JcmJRcWaXAU5%2BSVQjkpuQbqOApRdXqIJAPpaJJY%3D&mz)
+webR](https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKkhJLEnUyC1JTiwq1ozJK8jJL4HyVHIL0nUUoOzyEk2l2lgAXmokRA%3D%3D&jz)
 
 > **Comments and expression input**
 >
@@ -77,7 +77,7 @@ webr_repl_link(script)
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKkpuaygppmSUKiQq5%2BSmpOVw5uRq5BekKdQrlJToKKYkliQq2CrklyYlFxZoA9uUjdw%3D%3D&mz)
+webR](https://webr.r-wasm.org/latest/#code=eJxNys0KQEAQAOBXmcaFkr0rL%2BGKNBg%2FZdh2R5R4dnt0%2FfqqGzcSxhx97xarWYkpWtI5iJl3YXNy1x6enfkF5UtDiGBcFAhkH3itt1VisRO8cGoKAylBAaI9OZ%2Fg03xVICMk&jz)
 
 …or, in an interactive session, copy code to your clipboard and call
 [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)
@@ -95,7 +95,7 @@ webr_repl_link("hist(rnorm(1000))", autorun = TRUE)
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/#code=eJyb2LIkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKko0ZmcUlGkV5%2BUW5GoYGBgaamssTS0vyi0rzDgMA96Yfog%3D%3D&mza)
+webR](https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKsjILC7RKMrLL8rVMDQwMNDUBEollpbkF5XmKVmVFJWm1sYCAAQSH98%3D&jza)
 
 ## Choosing what they see
 
@@ -113,7 +113,7 @@ webr_repl_link("plot(1:10)", panels = c("editor", "plot"))
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKklUFOfklGoZWhgaaAC8DGLU%3D&mz)
+webR](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKijIyS%2FRMLQyNNBUqo0FAJecF%2Fo%3D&jz)
 
 The names are joined into the URL’s query string, `?mode='editor-plot'`,
 so you can read a link and tell what the recipient will land on. Omit
@@ -125,7 +125,7 @@ webr_repl_link("plot(1:10)")
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKklUFOfklGoZWhgaaAC8DGLU%3D&mz)
+webR](https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKijIyS%2FRMLQyNNBUqo0FAJecF%2Fo%3D&jz)
 
 Trimming the panels is worth doing when the terminal would only invite
 someone to wander off. [Teaching with
@@ -184,10 +184,10 @@ show, the \#code= fragment carrying your files, and the flags saying how
 the payload was
 encoded.](../reference/figures/url-anatomy-light.svg)![](../reference/figures/url-anatomy-dark.svg)
 
-The flags at the end say how the payload was encoded: `m` for msgpack,
-`j` for JSON, `z` for gzip, `u` for uncompressed, `a` for autorun.
-livelink writes `mz`, the same format webR’s own share button writes. It
-reads all of them, including the `jz` links earlier versions produced.
+The flags at the end say how the payload was encoded: `j` for JSON, `z`
+for gzip, `m` for msgpack, `u` for uncompressed, `a` for autorun.
+livelink writes `jz`, and webR’s own share button writes `mz`. livelink
+reads both.
 
 ## Going the other way
 
@@ -203,12 +203,12 @@ preview_webr_link(url)
 #> ── webR Link Preview ──
 #> 
 #> URL:
-#> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKklUFOfklGoZWhgaaAC8DGLU%3D&mz>
+#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKijIyS%2FRMLQyNNBUqo0FAJecF%2Fo%3D&jz>
 #> 
 #> Files: 1
 #> Total size: 10 bytes
 #> Version: "latest"
-#> Encoding: "mz"
+#> Encoding: "jz"
 #> 
 #> 'script.R' (10 bytes)
 #> 

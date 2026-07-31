@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">livelink</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,41 +43,9 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/coatless-rpkg/livelink/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/coatless-rpkg/livelink/blob/v0.1.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.1" id="livelink-011">livelink 0.1.1<a class="anchor" aria-label="anchor" href="#livelink-011"></a></h2>
-<div class="section level3">
-<h3 id="security-0-1-1">Security<a class="anchor" aria-label="anchor" href="#security-0-1-1"></a></h3>
-<ul><li>
-<code><a href="../reference/decode_webr_link.html">decode_webr_link()</a></code> and <code><a href="../reference/decode_shinylive_link.html">decode_shinylive_link()</a></code> now refuse file names that escape <code>output_dir</code>, such as <code>../../.Rprofile</code>. Names holding a subdirectory, like <code>R/helpers.R</code>, are unaffected.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="encoding-0-1-1">Encoding<a class="anchor" aria-label="anchor" href="#encoding-0-1-1"></a></h3>
-<ul><li>webR links now use msgpack rather than JSON, so a link ends in <code>mz</code> where it used to end in <code>jz</code>. This is the same form the webR share button writes. A one-line snippet comes out about 11% shorter, and links you have already shared keep working, since both forms still decode.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="bug-fixes-0-1-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-1-1"></a></h3>
-<ul><li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> now handles a braced expression whose code cannot be read back, which failed in an unsaved buffer in Positron, when the file was shorter than the expression, and when the block was empty. Where the code can be read its comments survive, and where it cannot the code is rebuilt without them.</p></li>
-<li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> and <code><a href="../reference/webr_repl_project.html">webr_repl_project()</a></code> now refuse input that cannot become a script, rather than building a link that will not open. That covers several file paths given to a single script, a file that is not valid UTF-8 or holds an embedded NUL, <code>NA</code>, and empty input.</p></li>
-<li><p><code><a href="../reference/webr_repl_project.html">webr_repl_project()</a></code> now warns when <code>autorun_files</code> names a file webR cannot run on opening, and <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> marks the files that really do run.</p></li>
-<li><p><code><a href="../reference/decode_webr_link.html">decode_webr_link()</a></code> writes a binary file back exactly as it was, rather than as text listing its byte values.</p></li>
-<li><p><code><a href="../reference/decode_webr_link.html">decode_webr_link()</a></code> and <code><a href="../reference/preview_webr_link.html">preview_webr_link()</a></code> now read links built against a webR site you host yourself, and report a malformed link when the ending of the link does not describe the code inside it.</p></li>
-<li><p><code><a href="../reference/shinylive_directory.html">shinylive_directory()</a></code> now includes the <code>.css</code> and <code>.js</code> files an app needs, leaves out only files that cannot be read as text, and checks <code>app_file</code>.</p></li>
-<li><p><code>link.only = TRUE</code> no longer leaves an empty code block above the link.</p></li>
-</ul></div>
-<div class="section level3">
-<h3 id="error-messages-0-1-1">Error messages<a class="anchor" aria-label="anchor" href="#error-messages-0-1-1"></a></h3>
-<ul><li><p><code><a href="../reference/webr_repl_project.html">webr_repl_project()</a></code> and <code><a href="../reference/shinylive_project.html">shinylive_project()</a></code> now explain a missing <code>input</code> instead of reporting the name of an internal variable.</p></li>
-<li><p>Errors about an invalid argument now name the value at fault. <code>NA</code> given to <code>version</code>, <code>panels</code>, or <code>mode</code> failed with <code>missing value where TRUE/FALSE needed</code>, an invalid <code>panels</code> did not say which component was wrong, and <code>NULL</code> left a blank <code>You provided:</code> line.</p></li>
-<li><p><code><a href="../reference/preview_webr_link.html">preview_webr_link()</a></code> and <code><a href="../reference/preview_shinylive_link.html">preview_shinylive_link()</a></code> now keep the explanation from the underlying error rather than replacing it.</p></li>
-</ul></div>
-<div class="section level3">
-<h3 id="documentation-0-1-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-1-1"></a></h3>
-<ul><li>Every help page now lists what a returned object holds, one entry at a time, rather than describing it only as an object with metadata.</li>
-</ul></div>
-</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="livelink-010">livelink 0.1.0<a class="anchor" aria-label="anchor" href="#livelink-010"></a></h2><p class="text-muted">CRAN release: 2026-07-24</p>
 <p>Initial CRAN release. livelink packs R code into a shareable URL that runs in the browser, with no server and nothing to upload. Two destinations are supported: webR, a full R REPL, and Shinylive, which runs R and Python Shiny apps.</p>

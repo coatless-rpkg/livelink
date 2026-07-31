@@ -1,7 +1,6 @@
 # Print method for shinylive_preview objects
 
-Displays what a Shinylive link contains without writing anything to
-disk.
+Print method for shinylive_preview objects
 
 ## Usage
 
@@ -18,13 +17,12 @@ print(x, show_content = FALSE, max_content_length = 500, ...)
 
 - show_content:
 
-  Logical. Whether to print the contents of each file. Defaults to
-  `FALSE`.
+  Logical. Whether to print the contents of each file (default: FALSE)
 
 - max_content_length:
 
-  Maximum number of characters of content to show per file. Defaults to
-  500.
+  Maximum number of characters of content to show per file (default:
+  500)
 
 - ...:
 
@@ -32,9 +30,4 @@ print(x, show_content = FALSE, max_content_length = 500, ...)
 
 ## Value
 
-The `shinylive_preview` object it was handed, returned invisibly, so it
-can be passed straight on. Called for the summary it prints, which
-covers the link, the file count and total size, the engine, the mode,
-and each file with its kind and size. See
-[`preview_shinylive_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/preview_shinylive_link.md)
-for the entries the object holds.
+Invisibly returns the object

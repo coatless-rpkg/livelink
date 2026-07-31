@@ -1,8 +1,8 @@
 # Extract shareable URLs from livelink objects
 
-Extracts the shareable URL(s) from any livelink object, covering both
-webR REPL and Shinylive results. Provides a clear way to get just the
-URLs for sharing or further work.
+Generic function to extract the shareable URL(s) from any livelink
+object, covering both webR REPL and Shinylive results. Provides a clear
+way to get just the URLs for sharing or further processing.
 
 ## Usage
 
@@ -29,20 +29,16 @@ repl_urls(x, ...)
 
 ## Value
 
-A character vector of URLs.
-
-- Most objects give a single URL.
-
-- An exercise gives two, named `exercise` and `solution`.
-
-- A directory or a batch gives one URL for each file.
+A character vector of URLs. Most objects yield a single URL; exercise
+objects return a length-2 named vector (`exercise`, `solution`);
+directory and batch objects return one URL per file.
 
 ## See also
 
 The [`as.character()`](https://rdrr.io/r/base/character.html) methods
 (for example
 [`as.character.webr_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/as.character.webr_link.md)),
-which `repl_urls()` calls to do the work.
+which `repl_urls()` delegates to.
 
 ## Examples
 
@@ -50,15 +46,15 @@ which `repl_urls()` calls to do the work.
 # Single link
 link <- webr_repl_link("plot(1:10)")
 repl_urls(link)
-#> [1] "https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKklUFOfklGoZWhgaaAC8DGLU%3D&mz"
+#> [1] "https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKijIyS%2FRMLQyNNBUqo0FAJecF%2Fo%3D&jz"
 
 # Exercise (returns named vector)
 exercise <- webr_repl_exercise("# TODO", "plot(1:10)", "test")
 repl_urls(exercise)
-#>                                                                                                                                                        exercise 
-#>                            "https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dX1JanFJfGpFalFyZnGqXtCSgsSSjH36Gfm5qfrlqUnxpcWpRfroakpSK0qWKSuE%2BLv4AwBJ1R0g&mz" 
-#>                                                                                                                                                        solution 
-#> "https://webr.r-wasm.org/latest/#code=eJyb2LIkLzE3dX1JanFJfHF%2BTmlJZn6eXtCSgsSSjH36Gfm5qfrlqUnxpcWpRfroakpSK0pWFeTkl2gYWhkaaC5PLC3JLyrNOwwA%2FhQjSg%3D%3D&mza" 
+#>                                                                                                                                                                        exercise 
+#>                              "https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKkktLolPrUgtSs4sTtULUtJRKkgsyQBK6Gfk56bql6cmxZcWpxbpY6orSa0oAapTVgjxd%2FFXqo0FANZtHFs%3D&jz" 
+#>                                                                                                                                                                        solution 
+#> "https://webr.r-wasm.org/latest/#code=eJxlykEKgCAQRuG7zKogsrYeo21EGAwYqCP6DwXR3XPf9r1vfSi5yGQJXLFXCYpT0rjQQNnBt2G8RDYXH7tWLubvwDeay0HQzXae%2BtacQoomsijK7%2FYBSMojgA%3D%3D&jza" 
 
 # Shinylive links work the same way
 repl_urls(shinylive_r_link("library(shiny)"))
@@ -70,7 +66,7 @@ decoded <- decode_webr_link(as.character(link))
 #> Parsing file data...
 #> Decoding 1 file...
 #> Warning: File already exists, skipping: script.R
-#> ✔ Successfully decoded 0 files to /tmp/Rtmp9qm1fg/webr_files/webr_8430d3f5
+#> ✔ Successfully decoded 0 files to /tmp/RtmprOK2PD/webr_files/webr_6376df5f
 repl_urls(decoded)
-#> [1] "https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKklUFOfklGoZWhgaaAC8DGLU%3D&mz"
+#> [1] "https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKijIyS%2FRMLQyNNBUqo0FAJecF%2Fo%3D&jz"
 ```

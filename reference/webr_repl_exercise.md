@@ -1,7 +1,8 @@
 # Create paired exercise and solution webR REPL links
 
-Generates a pair of webR links for teaching. One link holds the exercise
-for the student and the other holds the solution.
+Generates a pair of webR links for educational purposes: one for student
+exercises (without autorun) and one for solutions (with autorun
+enabled).
 
 ## Usage
 
@@ -47,28 +48,12 @@ webr_repl_exercise(
 
 ## Value
 
-A `webr_exercise` object, which is a list with these entries.
-
-- `exercise`, the student's link, a `webr_link` object that does not
-  autorun.
-
-- `solution`, the answer link, a `webr_link` object that autoruns on
-  opening.
-
-Each of the two is itself a list holding the entries described in
-[`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md),
-so `links$solution$url` is the solution URL on its own.
-
-## Details
-
-The exercise link is built without autorun, so the student works through
-it, while the solution link is built with autorun enabled.
+webr_exercise object holding the paired `exercise` and `solution` links
 
 ## See also
 
 [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md),
-which this builds on.
-
+which this builds on;
 [`vignette("teaching", package = "livelink")`](https://r-pkg.thecoatlessprofessor.com/livelink/articles/teaching.md)
 for using links in a course.
 
@@ -93,7 +78,7 @@ links$exercise
 #> 
 #> ── webR Link ──
 #> 
-#> <https://webr.r-wasm.org/latest/#code=eJx1yz0KAjEQQOE%2BpxhQQQtda7FT6wWxD5MwmkD%2BSGbZ7T2Bd9gzeJe9jRG03PbxvddzDOjprbBYLQsjF0kDZW0L7a5jQjbTqjHRU9OTkl2h3MxYpoEnIxZw%2BbUDnNDpziETeMIA8Q6eNeay9OlR4a09txVFnxxVw4bA2UCgyMVefBdZIRy3sBcp28Drf9uID3wZRNM%3D&mz>
+#> <https://webr.r-wasm.org/latest/#code=eJx1yzELwjAQhuG%2FckQHBbXOxU2dC%2BJmJVzDaQPJJSRXWhD%2Fuyno6Pp%2Bz3d7KUZPqlYdZmt0FpSsaaJkbKbdRW1UROnLXvXBUzVSp4dMqfrLhSYpvOUFnL%2B9hiM6MzgUAk%2FIEB7gxWDKSx%2Bfs7w2p6ao4KOjgqQncJYJOnJhbHk%2B6ULhsIV9yzFZltUvrltW7%2FsHAiFG7A%3D%3D&jz>
 #> 
 #> File: basic_stats_exercise.R → /home/web_user/basic_stats_exercise.R
 #> Version: "latest"
@@ -102,7 +87,7 @@ links$solution
 #> 
 #> ── webR Link ──
 #> 
-#> <https://webr.r-wasm.org/latest/#code=eJyb2LIkLzE3dVtSYnFmcnxxSWJJcXxxfk5pSWZ%2Bnl7QkoLEkoybqvoZ%2Bbmp%2BuWpSfGlxalF%2BjjUlqRWlNwM51JWCIaKWSk4J%2BYkl%2BYklqQq5KYm5inkpynkliQnFhWr5Bakc4GE4oEMBRtdsLQGQk6Tq6AoM69EA6ZEk2t5YmlJflFp3mEAuo1E5g%3D%3D&mza>
+#> <https://webr.r-wasm.org/latest/#code=eJx1jcEKAiEURX9FrMUElXtp1x%2FUMkPeyKsR9Cn6pCD69yyKVrO7nHPgnh6SIKLUcoTqna0MXG1NobFPtD3ItczAU%2FdqShHVDUfbKhY1mzPeueeGFuL45VrsIbgWgFFEBBLpIiI7KHUZ89XQm9m%2BxG7z8cNfrgzl4omHX9NBP4HGqTSSmkvD5%2FkFmdJHTw%3D%3D&jza>
 #> 
 #> File: basic_stats_solution.R → /home/web_user/basic_stats_solution.R
 #> Version: "latest"
@@ -117,12 +102,12 @@ webr_repl_exercise(exercise_code, solution_code, "stats",
 #> 
 #> 
 #> ── Exercise 
-#> <https://webr.r-wasm.org/v0.5.4/#code=eJyb2LwkLzE3dUNxSWJJcXxqRWpRcmZxql7QkoLEkozd%2BjCBYn0MBSWpFSU3M7iUFVyhYlYKzok5yaU5iSWpCrmpiXkK%2BWkKuSXJiUXFKrkF6UCFIf4u%2FkBF%2BbkFOalANSUZqQo5mXmpCkmpOfnlXCAt8UCFCja6CgZcBUWZeSUaMDFNLgDmvz5f&mz>
+#> <https://webr.r-wasm.org/v0.5.4/#code=eJxtyzELwjAQhuG%2FcpwOCmqdi5s6F8TNSDnLaQPJJSQnFsT%2Fbgp2c32%2F57u8Ucgz1piVNLc8cOps5s0JVxhJ%2B7JUU8zVH6Q8aEFGZnD89Rr25LqnI2XwTALhDl47Snnu42OU5%2BbQFBV8dFyQ9gzOCsONXXgZGU9tobBbw9ZITFZ0McWlEfxcv24aQME%3D&jz>
 #> File: stats_exercise.R → /exercises/stats_exercise.R
 #> 
 #> 
 #> ── Solution 
-#> <https://webr.r-wasm.org/v0.5.4/#code=eJyb2LIkLzE3dUNxSWJJcXxxfk5pSWZ%2Bnl7QkoLEkozd%2BqkVqUXJmcWpxfoYCkpSK0puhnMpKwRDxawUnBNzkktzEktSFXJTE%2FMU8tMUckuSE4uKVXIL0rlAQvFAhoKNLlhaAyGnyVVQlJlXogFTosm1PLG0JL%2BoNO8wAFc6PnI%3D&mza>
+#> <https://webr.r-wasm.org/v0.5.4/#code=eJxtjTEKAjEQRa8SRosV1O2DnTfQ0sgyhFEDySRkJrAg3t0oio3d570H%2F3QHxkRgQRRVJsmxaci8PcAaCuqtm5Fmqj4IyfgnUpq1R44X5vjh1uwx%2BhZRySRCNvliknqsskzl6vjFpr7MbvP2w0%2BuHJcaWIdv00E%2Fwaa5NgartdHj%2FAQW6UEk&jza>
 #> File: stats_solution.R → /exercises/stats_solution.R (autorun)
 #> 
 #> Version: "v0.5.4"

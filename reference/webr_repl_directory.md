@@ -1,6 +1,11 @@
 # Create webR REPL sharelinks from a directory of R files
 
-Batch processes all R files in a directory into webR sharelinks.
+Batch processes all R files in a directory. By default each file becomes
+its own webR sharelink; with `single_link = TRUE` the whole directory is
+bundled into one link instead, exactly as
+[`webr_repl_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_project.md)
+would. Useful for converting collections of scripts, examples, or course
+materials.
 
 ## Usage
 
@@ -26,8 +31,8 @@ webr_repl_directory(
 
 - autorun:
 
-  Logical. Whether to enable autorun for all generated links. Defaults
-  to `FALSE`. With `single_link = TRUE`, this runs every R file in the
+  Logical. Whether to enable autorun for all generated links (default:
+  FALSE). With `single_link = TRUE`, this runs every R file in the
   bundle on arrival.
 
 - single_link:
@@ -43,15 +48,14 @@ webr_repl_directory(
 
 - base_path:
 
-  Base directory path for files in webR. Defaults to
-  `"/home/web_user/"`.
+  Base directory path for files in webR (default: "/home/web_user/")
 
 - panels:
 
   Character vector or string specifying which webR interface panels to
-  show. The valid panels are "plot", "files", "terminal", and "editor".
-  Can be c("plot", "files") or "plot-files". If NULL (default), shows
-  all panels.
+  show. Valid panels: "plot", "files", "terminal", "editor". Can be
+  c("plot", "files") or "plot-files". If NULL (default), shows all
+  panels.
 
 - version:
 
@@ -64,48 +68,10 @@ webr_repl_directory(
 
 ## Value
 
-By default, a `webr_directory` object, which is a list with these
-entries.
-
-- `urls`, the sharelinks, as a named character vector with one entry per
-  matched file, named by file name.
-
-- `base_path`, where the files are placed inside webR.
-
-- `mode`, the panels the links ask for, or `NULL` for all of them.
-
-- `version`, the webR version the links point at.
-
-- `source_directory`, the directory the files were read from.
-
-With `single_link = TRUE`, a `webr_project` object instead, which is a
-list with these entries.
-
-- `url`, the one sharelink that carries every matched file, as a single
-  string.
-
-- `files`, the file contents that went into the link, as a named list
-  keyed by file name.
-
-- `base_path`, where the files are placed inside webR.
-
-- `mode`, the panels the link asks for, or `NULL` for all of them.
-
-- `version`, the webR version the link points at.
-
-- `autorun_files`, the files that run as soon as the link opens.
-
-Use [`as.character()`](https://rdrr.io/r/base/character.html) on either
-object to get the URLs on their own.
-
-## Details
-
-By default each file becomes its own webR sharelink. With
-`single_link = TRUE` the whole directory is bundled into one link
-instead, exactly as
-[`webr_repl_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_project.md)
-would. Useful for converting collections of scripts, examples, or course
-materials.
+By default a `webr_directory` object, whose `urls` element is a named
+character vector mapping each filename to its webR sharelink. With
+`single_link = TRUE`, a single `webr_project` object bundling every
+matched file into one link.
 
 ## See also
 
@@ -123,20 +89,20 @@ writeLines("hist(rnorm(100))", file.path(examples, "hist.R"))
 
 links <- webr_repl_directory(examples, autorun = TRUE)
 #> ✔ Found 2 files matching pattern "\\.R$"
-#> ℹ Processing files in /tmp/Rtmp9qm1fg/file1ae96de6e3de...
+#> ℹ Processing files in /tmp/RtmprOK2PD/file1d73252dd3a...
 #> ✔ Successfully created 2 WebR links
 print(links)
 #> 
 #> ── webR Directory Links ──
 #> 
-#> Source: /tmp/Rtmp9qm1fg/file1ae96de6e3de
+#> Source: /tmp/RtmprOK2PD/file1d73252dd3a
 #> 
 #> Generated 2 links:
 #> hist.R → /home/web_user/hist.R
-#> <https://webr.r-wasm.org/latest/#code=eJyb2LIkLzE3dVlGZnGJXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipINILZGUV5%2BUa6GoYGBpubyxNKS%2FKLSvMMAWH8dsw%3D%3D&mza>
+#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSysgsLtELUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlUOUaRXn5RbkahgYGmppAmcTSkvyi0jwlq5Ki0tTaWABQkR31&jza>
 #> 
 #> plot.R → /home/web_user/plot.R
-#> <https://webr.r-wasm.org/latest/#code=eJyb2LIkLzE3dVlBTn6JXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipJVILaGoZWhgebyxNKS%2FKLSvMMArjAbfg%3D%3D&mza>
+#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKsjJL9ELUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlUOUahlaGBppAscTSkvyi0jwlq5Ki0tTaWACdwxvG&jza>
 #> Version: "latest"
 
 # Bundle the whole directory into one link instead
@@ -145,7 +111,7 @@ webr_repl_directory(examples, single_link = TRUE, panels = c("editor", "plot"))
 #> 
 #> ── webR Project ──
 #> 
-#> <https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyb1LwkLzE3dVlGZnGJXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipINILZGUV5%2BUa6GoYGBpiZUd0FOPi7dUCmQ7lUgtoahlaGBJgCNSy%2Bu&mz>
+#> <https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyLrlbKS8xNVbJSysgsLtELUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlUOUaRXn5RbkahgYGmppKtTpwowpy8vEZBZeGGgXiaxhaGRpoKtXGAgBVBi4%2B&jz>
 #> 
 #> Files (2):
 #> hist.R → /home/web_user/hist.R
@@ -157,19 +123,19 @@ webr_repl_directory(examples, single_link = TRUE, panels = c("editor", "plot"))
 # Show only the editor and terminal panels
 webr_repl_directory(examples, panels = c("editor", "terminal"))
 #> ✔ Found 2 files matching pattern "\\.R$"
-#> ℹ Processing files in /tmp/Rtmp9qm1fg/file1ae96de6e3de...
+#> ℹ Processing files in /tmp/RtmprOK2PD/file1d73252dd3a...
 #> ✔ Successfully created 2 WebR links
 #> 
 #> ── webR Directory Links ──
 #> 
-#> Source: /tmp/Rtmp9qm1fg/file1ae96de6e3de
+#> Source: /tmp/RtmprOK2PD/file1d73252dd3a
 #> 
 #> Generated 2 links:
 #> hist.R → /home/web_user/hist.R
-#> <https://webr.r-wasm.org/latest/?mode='editor-terminal'#code=eJyb2LwkLzE3dVlGZnGJXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipINILZGUV5%2BUa6GoYGBpiYAX1wZOg%3D%3D&mz>
+#> <https://webr.r-wasm.org/latest/?mode='editor-terminal'#code=eJyLrlbKS8xNVbJSysgsLtELUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlUOUaRXn5RbkahgYGmppKtbEAubwYfQ%3D%3D&jz>
 #> 
 #> plot.R → /home/web_user/plot.R
-#> <https://webr.r-wasm.org/latest/?mode='editor-terminal'#code=eJyb2LwkLzE3dVlBTn6JXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipJVILaGoZWhgSYAyPAXBQ%3D%3D&mz>
+#> <https://webr.r-wasm.org/latest/?mode='editor-terminal'#code=eJyLrlbKS8xNVbJSKsjJL9ELUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlUOUahlaGBppKtbEAJ74WTg%3D%3D&jz>
 #> 
 #> Interface: "Editor" and "Terminal"
 #> Version: "latest"
@@ -177,22 +143,22 @@ webr_repl_directory(examples, panels = c("editor", "terminal"))
 # Match a subset of files
 webr_repl_directory(examples, pattern = "^plot")
 #> ✔ Found 1 file matching pattern "^plot"
-#> ℹ Processing files in /tmp/Rtmp9qm1fg/file1ae96de6e3de...
+#> ℹ Processing files in /tmp/RtmprOK2PD/file1d73252dd3a...
 #> ✔ Successfully created 1 WebR link
 #> 
 #> ── webR Directory Links ──
 #> 
-#> Source: /tmp/Rtmp9qm1fg/file1ae96de6e3de
+#> Source: /tmp/RtmprOK2PD/file1d73252dd3a
 #> 
 #> Generated 1 link:
 #> plot.R → /home/web_user/plot.R
-#> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dVlBTn6JXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipJVILaGoZWhgSYAyPAXBQ%3D%3D&mz>
+#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKsjJL9ELUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlUOUahlaGBppKtbEAJ74WTg%3D%3D&jz>
 #> Version: "latest"
 
 # The URLs, named by file
 repl_urls(links)
-#>                                                                                                                                                  hist.R 
-#> "https://webr.r-wasm.org/latest/#code=eJyb2LIkLzE3dVlGZnGJXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipINILZGUV5%2BUa6GoYGBpubyxNKS%2FKLSvMMAWH8dsw%3D%3D&mza" 
-#>                                                                                                                                                  plot.R 
-#>           "https://webr.r-wasm.org/latest/#code=eJyb2LIkLzE3dVlBTn6JXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipJVILaGoZWhgebyxNKS%2FKLSvMMArjAbfg%3D%3D&mza" 
+#>                                                                                                                                                      hist.R 
+#> "https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSysgsLtELUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlUOUaRXn5RbkahgYGmppAmcTSkvyi0jwlq5Ki0tTaWABQkR31&jza" 
+#>                                                                                                                                                      plot.R 
+#>         "https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKsjJL9ELUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlUOUahlaGBppAscTSkvyi0jwlq5Ki0tTaWACdwxvG&jza" 
 ```
