@@ -304,24 +304,21 @@ getSrcLines <- function(srcfile, start, end = start) {
 #'
 #' @noRd
 read_text_file <- function(path) {
-  # `warn = TRUE`, because `warn = FALSE` silences the embedded-NUL warning
-  # along with the harmless missing-final-EOL one. The handler below keeps the
-  # distinction: abort on the first, muffle the second.
-  lines <- withCallingHandlers(
-    readLines(path, warn = TRUE),
-    warning = function(w) {
-      if (grepl("nul|embedded", conditionMessage(w), ignore.case = TRUE)) {
-        cli::cli_abort(c(
-          "Cannot embed {.file {path}}: it contains an embedded NUL",
-          "i" = "Only text files can travel in a link.",
-          "i" = "Have the code fetch a binary file instead of carrying it."
-        ), call = NULL)
-      }
-      invokeRestart("muffleWarning")
-    }
-  )
+  # Look at the bytes rather than at readLines()'s warning. Whether that
+  # warning appears, and what it says, varies by platform: Windows does not
+  # raise it, so a NUL slipped through there while being caught elsewhere.
+  size <- file.info(path)$size
+  bytes <- if (is.na(size) || size == 0) raw(0) else readBin(path, "raw", size)
 
-  content <- enc2utf8(paste(lines, collapse = "\n"))
+  if (any(bytes == as.raw(0L))) {
+    cli::cli_abort(c(
+      "Cannot embed {.file {path}}: it contains an embedded NUL",
+      "i" = "Only text files can travel in a link.",
+      "i" = "Have the code fetch a binary file instead of carrying it."
+    ), call = NULL)
+  }
+
+  content <- enc2utf8(paste(readLines(path, warn = FALSE), collapse = "\n"))
 
   if (!all(validUTF8(content))) {
     cli::cli_abort(c(

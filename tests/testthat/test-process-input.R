@@ -329,9 +329,20 @@ test_that("a file that cannot survive the round trip is refused", {
   writeBin(c(charToRaw("x <- '"), as.raw(0xE9), charToRaw("'")), latin1)
   expect_error(webr_repl_link(latin1), "not valid UTF-8")
 
-  nul <- file.path(tmp, "nul.R")
-  writeBin(c(charToRaw("a <- 1"), as.raw(0), charToRaw("b <- 2")), nul)
-  expect_error(webr_repl_link(nul), "embedded NUL")
+  # The NUL is found by looking at the bytes. An earlier version keyed off the
+  # wording of readLines()'s warning, which Windows does not raise, so this
+  # passed on macOS and Linux while the file sailed through on Windows. Check a
+  # NUL in each position, since only the middle one truncates a line.
+  for (nul_at in c("start", "middle", "end")) {
+    body <- switch(nul_at,
+      start  = c(as.raw(0), charToRaw("x <- 1")),
+      middle = c(charToRaw("a <- 1"), as.raw(0), charToRaw("b <- 2")),
+      end    = c(charToRaw("x <- 1"), as.raw(0))
+    )
+    path <- file.path(tmp, paste0("nul-", nul_at, ".R"))
+    writeBin(body, path)
+    expect_error(webr_repl_link(path), "embedded NUL", label = nul_at)
+  }
 })
 
 test_that("a file with no trailing newline is read without complaint", {
