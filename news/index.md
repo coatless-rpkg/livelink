@@ -15,44 +15,26 @@
 
 - webR links now use msgpack rather than JSON, so a link ends in `mz`
   where it used to end in `jz`. This is the same form the webR share
-  button writes. A one-line snippet comes out about 11% shorter.
-
-- [`decode_webr_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/decode_webr_link.md)
-  still reads the older `jz` links, and so does webR, so links you have
-  already shared keep working.
+  button writes. A one-line snippet comes out about 11% shorter, and
+  links you have already shared keep working, since both forms still
+  decode.
 
 ### Bug fixes
 
 - [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)
-  no longer fails with `argument is of length zero` when the code behind
-  a braced expression cannot be read back, as from an unsaved buffer in
-  Positron. The code is rebuilt from the expression instead, which loses
-  comments but not the code itself.
-
-- [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)
-  no longer fails the same way when the file it was reading from is
-  shorter than the expression.
-
-- `webr_repl_link({ })`, and a block holding only comments, no longer
-  fail.
-
-- [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)
-  reads a braced expression from a file on disk, which failed outright
-  before, and keeps its comments.
-
-- [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)
-  now reports an error when given several file paths, instead of
-  building a link that cannot open, and points to
-  [`webr_repl_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_project.md).
+  now handles a braced expression whose code cannot be read back, which
+  failed in an unsaved buffer in Positron, when the file was shorter
+  than the expression, and when the block was empty. Where the code can
+  be read its comments survive, and where it cannot the code is rebuilt
+  without them.
 
 - [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)
   and
   [`webr_repl_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_project.md)
-  now refuse a file that is not valid UTF-8, or that holds an embedded
-  NUL, instead of building a link that cannot be read back.
-
-- [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)
-  now refuses `NA` and empty input.
+  now refuse input that cannot become a script, rather than building a
+  link that will not open. That covers several file paths given to a
+  single script, a file that is not valid UTF-8 or holds an embedded
+  NUL, `NA`, and empty input.
 
 - [`webr_repl_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_project.md)
   now warns when `autorun_files` names a file webR cannot run on
@@ -64,17 +46,15 @@
   listing its byte values.
 
 - [`decode_webr_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/decode_webr_link.md)
-  reports a malformed link when the ending of the link does not describe
-  the code inside it.
-
-- [`decode_webr_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/decode_webr_link.md)
   and
   [`preview_webr_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/preview_webr_link.md)
-  now read links built against a webR site you host yourself.
+  now read links built against a webR site you host yourself, and report
+  a malformed link when the ending of the link does not describe the
+  code inside it.
 
 - [`shinylive_directory()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/shinylive_directory.md)
-  now includes the `.css` and `.js` files an app needs, and leaves out
-  only files that cannot be read as text.
+  now includes the `.css` and `.js` files an app needs, leaves out only
+  files that cannot be read as text, and checks `app_file`.
 
 - `link.only = TRUE` no longer leaves an empty code block above the
   link.
@@ -87,23 +67,17 @@
   now explain a missing `input` instead of reporting the name of an
   internal variable.
 
-- `version`, `panels`, and `mode` now report `NA` as an invalid value
-  rather than failing with `missing value where TRUE/FALSE needed`.
-
-- `panels` now names the component at fault, and says whether it is an
-  unknown panel or one named twice.
-
-- [`shinylive_directory()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/shinylive_directory.md)
-  now checks `app_file`.
+- Errors about an invalid argument now name the value at fault. `NA`
+  given to `version`, `panels`, or `mode` failed with
+  `missing value where TRUE/FALSE needed`, an invalid `panels` did not
+  say which component was wrong, and `NULL` left a blank `You provided:`
+  line.
 
 - [`preview_webr_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/preview_webr_link.md)
   and
   [`preview_shinylive_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/preview_shinylive_link.md)
   now keep the explanation from the underlying error rather than
   replacing it.
-
-- Errors about an invalid argument no longer show a blank
-  `You provided:` line for `NULL` and for empty values.
 
 ### Documentation
 

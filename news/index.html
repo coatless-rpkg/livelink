@@ -55,33 +55,23 @@
 </ul></div>
 <div class="section level3">
 <h3 id="encoding-0-1-1">Encoding<a class="anchor" aria-label="anchor" href="#encoding-0-1-1"></a></h3>
-<ul><li><p>webR links now use msgpack rather than JSON, so a link ends in <code>mz</code> where it used to end in <code>jz</code>. This is the same form the webR share button writes. A one-line snippet comes out about 11% shorter.</p></li>
-<li><p><code><a href="../reference/decode_webr_link.html">decode_webr_link()</a></code> still reads the older <code>jz</code> links, and so does webR, so links you have already shared keep working.</p></li>
+<ul><li>webR links now use msgpack rather than JSON, so a link ends in <code>mz</code> where it used to end in <code>jz</code>. This is the same form the webR share button writes. A one-line snippet comes out about 11% shorter, and links you have already shared keep working, since both forms still decode.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-1-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-1-1"></a></h3>
-<ul><li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> no longer fails with <code>argument is of length zero</code> when the code behind a braced expression cannot be read back, as from an unsaved buffer in Positron. The code is rebuilt from the expression instead, which loses comments but not the code itself.</p></li>
-<li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> no longer fails the same way when the file it was reading from is shorter than the expression.</p></li>
-<li><p><code>webr_repl_link({ })</code>, and a block holding only comments, no longer fail.</p></li>
-<li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> reads a braced expression from a file on disk, which failed outright before, and keeps its comments.</p></li>
-<li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> now reports an error when given several file paths, instead of building a link that cannot open, and points to <code><a href="../reference/webr_repl_project.html">webr_repl_project()</a></code>.</p></li>
-<li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> and <code><a href="../reference/webr_repl_project.html">webr_repl_project()</a></code> now refuse a file that is not valid UTF-8, or that holds an embedded NUL, instead of building a link that cannot be read back.</p></li>
-<li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> now refuses <code>NA</code> and empty input.</p></li>
+<ul><li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> now handles a braced expression whose code cannot be read back, which failed in an unsaved buffer in Positron, when the file was shorter than the expression, and when the block was empty. Where the code can be read its comments survive, and where it cannot the code is rebuilt without them.</p></li>
+<li><p><code><a href="../reference/webr_repl_link.html">webr_repl_link()</a></code> and <code><a href="../reference/webr_repl_project.html">webr_repl_project()</a></code> now refuse input that cannot become a script, rather than building a link that will not open. That covers several file paths given to a single script, a file that is not valid UTF-8 or holds an embedded NUL, <code>NA</code>, and empty input.</p></li>
 <li><p><code><a href="../reference/webr_repl_project.html">webr_repl_project()</a></code> now warns when <code>autorun_files</code> names a file webR cannot run on opening, and <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> marks the files that really do run.</p></li>
 <li><p><code><a href="../reference/decode_webr_link.html">decode_webr_link()</a></code> writes a binary file back exactly as it was, rather than as text listing its byte values.</p></li>
-<li><p><code><a href="../reference/decode_webr_link.html">decode_webr_link()</a></code> reports a malformed link when the ending of the link does not describe the code inside it.</p></li>
-<li><p><code><a href="../reference/decode_webr_link.html">decode_webr_link()</a></code> and <code><a href="../reference/preview_webr_link.html">preview_webr_link()</a></code> now read links built against a webR site you host yourself.</p></li>
-<li><p><code><a href="../reference/shinylive_directory.html">shinylive_directory()</a></code> now includes the <code>.css</code> and <code>.js</code> files an app needs, and leaves out only files that cannot be read as text.</p></li>
+<li><p><code><a href="../reference/decode_webr_link.html">decode_webr_link()</a></code> and <code><a href="../reference/preview_webr_link.html">preview_webr_link()</a></code> now read links built against a webR site you host yourself, and report a malformed link when the ending of the link does not describe the code inside it.</p></li>
+<li><p><code><a href="../reference/shinylive_directory.html">shinylive_directory()</a></code> now includes the <code>.css</code> and <code>.js</code> files an app needs, leaves out only files that cannot be read as text, and checks <code>app_file</code>.</p></li>
 <li><p><code>link.only = TRUE</code> no longer leaves an empty code block above the link.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="error-messages-0-1-1">Error messages<a class="anchor" aria-label="anchor" href="#error-messages-0-1-1"></a></h3>
 <ul><li><p><code><a href="../reference/webr_repl_project.html">webr_repl_project()</a></code> and <code><a href="../reference/shinylive_project.html">shinylive_project()</a></code> now explain a missing <code>input</code> instead of reporting the name of an internal variable.</p></li>
-<li><p><code>version</code>, <code>panels</code>, and <code>mode</code> now report <code>NA</code> as an invalid value rather than failing with <code>missing value where TRUE/FALSE needed</code>.</p></li>
-<li><p><code>panels</code> now names the component at fault, and says whether it is an unknown panel or one named twice.</p></li>
-<li><p><code><a href="../reference/shinylive_directory.html">shinylive_directory()</a></code> now checks <code>app_file</code>.</p></li>
+<li><p>Errors about an invalid argument now name the value at fault. <code>NA</code> given to <code>version</code>, <code>panels</code>, or <code>mode</code> failed with <code>missing value where TRUE/FALSE needed</code>, an invalid <code>panels</code> did not say which component was wrong, and <code>NULL</code> left a blank <code>You provided:</code> line.</p></li>
 <li><p><code><a href="../reference/preview_webr_link.html">preview_webr_link()</a></code> and <code><a href="../reference/preview_shinylive_link.html">preview_shinylive_link()</a></code> now keep the explanation from the underlying error rather than replacing it.</p></li>
-<li><p>Errors about an invalid argument no longer show a blank <code>You provided:</code> line for <code>NULL</code> and for empty values.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="documentation-0-1-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-1-1"></a></h3>
