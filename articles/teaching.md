@@ -158,7 +158,7 @@ writeLines("lm(mpg ~ wt, mtcars)", file.path(course, "03-models.R"))
 
 links <- webr_repl_directory(course, panels = c("editor", "plot"))
 #> ✔ Found 3 files matching pattern "\\.R$"
-#> ℹ Processing files in '/tmp/RtmpLlr3oc/course'...
+#> ℹ Processing files in '/tmp/RtmptWiUg8/course'...
 #> ✔ Successfully created 3 WebR links
 links
 ```
@@ -186,7 +186,7 @@ solutions:
 
 webr_repl_directory(course, pattern = "^0[12]")
 #> ✔ Found 2 files matching pattern "^0[12]"
-#> ℹ Processing files in '/tmp/RtmpLlr3oc/course'...
+#> ℹ Processing files in '/tmp/RtmptWiUg8/course'...
 #> ✔ Successfully created 2 WebR links
 ```
 
@@ -290,10 +290,10 @@ decode_webr_link(submissions, output_dir = file.path(tempdir(), "submissions"))
 #> 
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: '/tmp/RtmpLlr3oc/submissions/script_01'
+#> Created directory: '/tmp/RtmptWiUg8/submissions/script_01'
 #> Decoding 1 file...
 #> 'student_a.R' (16 bytes)
-#> ✔ Successfully decoded 1 file to '/tmp/RtmpLlr3oc/submissions/script_01'
+#> ✔ Successfully decoded 1 file to '/tmp/RtmptWiUg8/submissions/script_01'
 #> 
 #> 
 #> 
@@ -301,10 +301,10 @@ decode_webr_link(submissions, output_dir = file.path(tempdir(), "submissions"))
 #> 
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: '/tmp/RtmpLlr3oc/submissions/script_02'
+#> Created directory: '/tmp/RtmptWiUg8/submissions/script_02'
 #> Decoding 1 file...
 #> 'student_b.R' (18 bytes)
-#> ✔ Successfully decoded 1 file to '/tmp/RtmpLlr3oc/submissions/script_02'
+#> ✔ Successfully decoded 1 file to '/tmp/RtmptWiUg8/submissions/script_02'
 #> 
 #> ✔ Successfully processed 2/2 URLs
 #> 
@@ -313,7 +313,7 @@ decode_webr_link(submissions, output_dir = file.path(tempdir(), "submissions"))
 #> 
 #> 
 #> 
-#> Base directory: '/tmp/RtmpLlr3oc/submissions'
+#> Base directory: '/tmp/RtmptWiUg8/submissions'
 #> 
 #> Total URLs: 2
 #> 
@@ -323,13 +323,13 @@ decode_webr_link(submissions, output_dir = file.path(tempdir(), "submissions"))
 #> 
 #> 'script_01': 1 file
 #> 
-#> '/tmp/RtmpLlr3oc/submissions/script_01'
+#> '/tmp/RtmptWiUg8/submissions/script_01'
 #> 
 #> 
 #> 
 #> 'script_02': 1 file
 #> 
-#> '/tmp/RtmpLlr3oc/submissions/script_02'
+#> '/tmp/RtmptWiUg8/submissions/script_02'
 #> 
 #> 
 #> 
