@@ -25,14 +25,10 @@
 * `webr_repl_link()` no longer fails the same way when the file it was reading
   from is shorter than the expression.
 
-* `webr_repl_link({ })`, and a block holding only comments, no longer fail with
-  `invalid 'pattern' argument`.
+* `webr_repl_link({ })`, and a block holding only comments, no longer fail.
 
-* `webr_repl_link()` no longer takes code from elsewhere in a file that has
-  changed since the expression was read.
-
-* `webr_repl_link()` keeps the comments in a braced expression read from a file
-  on disk.
+* `webr_repl_link()` reads a braced expression from a file on disk, which
+  failed outright before, and keeps its comments.
 
 * `webr_repl_link()` now reports an error when given several file paths, instead
   of building a link that cannot open, and points to `webr_repl_project()`.
