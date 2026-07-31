@@ -344,7 +344,7 @@ writeLines(app, file.path(apps, "histogram", "app.R"))
 writeLines(app, file.path(apps, "scatter",   "app.R"))
 
 links <- shinylive_directory(apps, engine = "r", mode = "app")
-#> ✔ Found 2 Shiny apps in '/tmp/RtmpvIzCua/apps'
+#> ✔ Found 2 Shiny apps in '/tmp/RtmpYFbNet/apps'
 #> ℹ Processing r Shiny apps...
 #> ✔ Successfully created 2 Shinylive links
 
@@ -370,7 +370,7 @@ dir.create(empty, showWarnings = FALSE)
 
 shinylive_directory(empty, engine = "r")
 #> Warning: No Shiny apps found
-#> ! No directories containing 'app.R' found in '/tmp/RtmpvIzCua/no-apps'
+#> ! No directories containing 'app.R' found in '/tmp/RtmpYFbNet/no-apps'
 #> ℹ Each app should be in its own subdirectory with 'app.R' as the main file
 ```
 
