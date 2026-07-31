@@ -1,10 +1,7 @@
 # Set global base URL for webR links
 
 Overrides the base URL used when building webR REPL links, for instance
-to point at a self-hosted or pinned webR deployment. The value is stored
-in the `livelink.base_url` option and applies to webR links only;
-Shinylive links are unaffected. Once set, a custom base URL takes
-precedence over the `version` argument passed to the link builders.
+to point at a webR site you host yourself or at a fixed webR version.
 
 ## Usage
 
@@ -20,8 +17,26 @@ set_webr_base_url(base_url = NULL)
 
 ## Value
 
-Invisibly returns the `base_url` value (or `NULL` if resetting to
-default).
+Invisibly returns the value supplied to `base_url`.
+
+- The custom URL when you set one.
+
+- `NULL` when you reset to the default.
+
+## Details
+
+The value is stored in the `livelink.base_url` option and applies to
+webR links only. Shinylive links are unaffected. Once set, a custom base
+URL takes precedence over the `version` argument given to the functions
+that build links.
+
+## See also
+
+[`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)
+for single-script links that honor this option.
+
+[`webr_repl_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_project.md)
+for multi-file projects that honor this option.
 
 ## Examples
 

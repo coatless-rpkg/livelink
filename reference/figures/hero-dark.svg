@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 290" role="img" aria-labelledby="t d">
   <title id="t">Share R code as a link that opens a live R session</title>
   <desc id="d">R code goes into webr_repl_link, comes out as one URL whose fragment carries the code itself, and opening that URL gives the recipient a running webR session: the code in the editor, the file in the filesystem, the console showing the result, and the plot drawn.</desc>
-  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#60a5fa}.str{fill:#34d399}.num{fill:#fbbf24}.com{fill:#64748b}.key{fill:#c4b5fd}.ink{fill:#e2e8f0}.body{fill:#cbd5e1}.muted{fill:#94a3b8}.faint{fill:#64748b}.card{fill:#1e293b}.cardline{fill:#334155}.rail{fill:#475569}.accent{fill:#4C9AFF}.accent_soft{fill:#12315c}.hollow{fill:#475569}.chrome{fill:#172033}.pane{fill:#0b1220}.panehdr{fill:#131c2e}.base{fill:#94a3b8}.base_bg{fill:#273244}.ver{fill:#5eead4}.ver_bg{fill:#12332e}.pan{fill:#c4b5fd}.pan_bg{fill:#2e2450}.frag{fill:#4C9AFF}.frag_bg{fill:#12315c}.flag{fill:#fbbf24}.flag_bg{fill:#3d2f10}</style>
+  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#60a5fa}.str{fill:#34d399}.num{fill:#fbbf24}.com{fill:#64748b}.key{fill:#c4b5fd}.ink{fill:#e2e8f0}.body{fill:#cbd5e1}.muted{fill:#94a3b8}.faint{fill:#64748b}.card{fill:#1e293b}.cardline{fill:#334155}.rail{fill:#475569}.accent{fill:#4C9AFF}.accent_soft{fill:#12315c}.hollow{fill:#475569}.chrome{fill:#172033}.pane{fill:#0b1220}.panehdr{fill:#131c2e}.base{fill:#94a3b8}.base_bg{fill:#273244}.ver{fill:#5eead4}.ver_bg{fill:#12332e}.pan{fill:#c4b5fd}.pan_bg{fill:#2e2450}.frag{fill:#4C9AFF}.frag_bg{fill:#12315c}.flag{fill:#fbbf24}.flag_bg{fill:#3d2f10}.shadow{fill:#000000}</style>
   <circle cx="32" cy="18" r="9" fill="#4C9AFF"/>
   <text class="s" fill="#0b1220" x="32" y="22" font-size="10.5" font-weight="700" text-anchor="middle">1</text>
   <text class="s lbl ink" x="48" y="22" font-size="11">YOU WRITE R</text>
@@ -39,7 +39,7 @@
   <text class="m" x="242" y="210" font-size="9.5" xml:space="preserve"><tspan class="frag">FtW3sK8GMpVdaQjIUzHI</tspan></text>
   <text class="m" x="242" y="224" font-size="9.5" xml:space="preserve"><tspan class="frag">6rm%2BiaExZhdoObmbDD</tspan></text>
   <text class="m" x="242" y="238" font-size="9.5" xml:space="preserve"><tspan class="frag">z%2B0Lnos4IQ%3D%3D</tspan></text>
-  <text class="m" x="242" y="252" font-size="9.5" xml:space="preserve"><tspan class="flag">&amp;jz</tspan></text>
+  <text class="m" x="242" y="252" font-size="9.5" xml:space="preserve"><tspan class="flag">&amp;mz</tspan></text>
   <path d="M381 158.0 H391" stroke="#4C9AFF" stroke-width="2"/>
   <path d="M391 153.5 L399 158.0 L391 162.5 z" fill="#4C9AFF"/>
   <rect x="402" y="44" width="424" height="228" rx="8" fill="#172033" stroke="#334155"/>

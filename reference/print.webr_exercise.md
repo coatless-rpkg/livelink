@@ -1,6 +1,6 @@
 # Print method for webr_exercise objects
 
-Print method for webr_exercise objects
+Displays the exercise sharelink and the matching solution sharelink.
 
 ## Usage
 
@@ -21,4 +21,8 @@ print(x, ...)
 
 ## Value
 
-Invisibly returns the object
+The `webr_exercise` object it was handed, returned invisibly, so it can
+be passed straight on. Called for the summary it prints, which covers
+both the exercise sharelink and the solution sharelink. See
+[`webr_repl_exercise()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_exercise.md)
+for the entries the object holds.

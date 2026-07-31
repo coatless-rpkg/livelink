@@ -1,5 +1,89 @@
 # Changelog
 
+## livelink 0.1.1
+
+### Security
+
+- [`decode_webr_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/decode_webr_link.md)
+  and
+  [`decode_shinylive_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/decode_shinylive_link.md)
+  now refuse file names that escape `output_dir`, such as
+  `../../.Rprofile`. Names holding a subdirectory, like `R/helpers.R`,
+  are unaffected.
+
+### Encoding
+
+- webR links now use msgpack rather than JSON, so a link ends in `mz`
+  where it used to end in `jz`. This is the same form the webR share
+  button writes. A one-line snippet comes out about 11% shorter, and
+  links you have already shared keep working, since both forms still
+  decode.
+
+### Bug fixes
+
+- [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)
+  now handles a braced expression whose code cannot be read back, which
+  failed in an unsaved buffer in Positron, when the file was shorter
+  than the expression, and when the block was empty. Where the code can
+  be read its comments survive, and where it cannot the code is rebuilt
+  without them.
+
+- [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)
+  and
+  [`webr_repl_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_project.md)
+  now refuse input that cannot become a script, rather than building a
+  link that will not open. That covers several file paths given to a
+  single script, a file that is not valid UTF-8 or holds an embedded
+  NUL, `NA`, and empty input.
+
+- [`webr_repl_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_project.md)
+  now warns when `autorun_files` names a file webR cannot run on
+  opening, and [`print()`](https://rdrr.io/r/base/print.html) marks the
+  files that really do run.
+
+- [`decode_webr_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/decode_webr_link.md)
+  writes a binary file back exactly as it was, rather than as text
+  listing its byte values.
+
+- [`decode_webr_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/decode_webr_link.md)
+  and
+  [`preview_webr_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/preview_webr_link.md)
+  now read links built against a webR site you host yourself, and report
+  a malformed link when the ending of the link does not describe the
+  code inside it.
+
+- [`shinylive_directory()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/shinylive_directory.md)
+  now includes the `.css` and `.js` files an app needs, leaves out only
+  files that cannot be read as text, and checks `app_file`.
+
+- `link.only = TRUE` no longer leaves an empty code block above the
+  link.
+
+### Error messages
+
+- [`webr_repl_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_project.md)
+  and
+  [`shinylive_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/shinylive_project.md)
+  now explain a missing `input` instead of reporting the name of an
+  internal variable.
+
+- Errors about an invalid argument now name the value at fault. `NA`
+  given to `version`, `panels`, or `mode` failed with
+  `missing value where TRUE/FALSE needed`, an invalid `panels` did not
+  say which component was wrong, and `NULL` left a blank `You provided:`
+  line.
+
+- [`preview_webr_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/preview_webr_link.md)
+  and
+  [`preview_shinylive_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/preview_shinylive_link.md)
+  now keep the explanation from the underlying error rather than
+  replacing it.
+
+### Documentation
+
+- Every help page now lists what a returned object holds, one entry at a
+  time, rather than describing it only as an object with metadata.
+
 ## livelink 0.1.0
 
 CRAN release: 2026-07-24

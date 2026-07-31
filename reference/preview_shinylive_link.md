@@ -1,8 +1,7 @@
 # Preview Shinylive link contents without writing files to disk
 
 Decodes a Shinylive URL and returns information about the embedded files
-without actually saving them to disk. Use print method options to
-control display.
+without actually saving them to disk.
 
 ## Usage
 
@@ -18,12 +17,35 @@ preview_shinylive_link(url)
 
 ## Value
 
-shinylive_preview object with file information and metadata
+A `shinylive_preview` object, which is a list with these entries.
+
+- `url`, the link that was read.
+
+- `engine`, `"r"` or `"python"`, read off the link.
+
+- `mode`, `"editor"` when the link opens the editor, `"app"` when it
+  opens the running app on its own.
+
+- `files_data`, a list with one entry per file, each holding `name`,
+  `content`, and `type`.
+
+- `total_files`, how many files the link carries.
+
+- `total_size`, the size of those files added up, in bytes.
+
+- `file_types`, the distinct file types found, such as `"text"` and
+  `"binary"`.
+
+## Details
+
+Nothing is written to disk, which makes this the safe way to look inside
+a link someone else sent you before extracting it.
 
 ## See also
 
 [`decode_shinylive_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/decode_shinylive_link.md)
-to extract files to disk;
+to extract files to disk.
+
 [`shinylive_r_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/shinylive_r_link.md)
 and
 [`shinylive_py_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/shinylive_py_link.md)

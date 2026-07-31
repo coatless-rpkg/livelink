@@ -1,8 +1,6 @@
 # Create a webR REPL sharelink from R code
 
-Generates a shareable URL for R code that can be executed in the webR
-environment. Supports expressions, file paths, character strings, and
-clipboard input.
+Turns a single R script into a URL that runs it in the webR REPL.
 
 ## Usage
 
@@ -49,9 +47,9 @@ webr_repl_link(
 - panels:
 
   Character vector or string specifying which webR interface panels to
-  show. Valid panels: `"plot"`, `"files"`, `"terminal"`, `"editor"`. Can
-  be `c("plot", "files")` or `"plot-files"`. If NULL (default), shows
-  all panels.
+  show. The panels are `"plot"`, `"files"`, `"terminal"`, and
+  `"editor"`. Can be `c("plot", "files")` or `"plot-files"`. If NULL
+  (default), shows all panels.
 
 - version:
 
@@ -64,20 +62,49 @@ webr_repl_link(
 
 ## Value
 
-webr_link object containing the webR sharelink and metadata
+A `webr_link` object, which is a list with these entries.
+
+- `url`, the sharelink itself, as a single string.
+
+- `filename`, the name the script is given inside webR.
+
+- `path`, where that file is placed inside webR.
+
+- `mode`, the panels the link asks for, or `NULL` for all of them.
+
+- `version`, the webR version the link points at.
+
+- `autorun`, `TRUE` when the code runs as soon as the link opens.
+
+Use [`as.character()`](https://rdrr.io/r/base/character.html) on the
+object to get the URL on its own.
+
+## Details
+
+The code travels inside the URL, in the fragment after the `#`, which
+browsers keep local and never send to a server. Opening the link boots
+webR in the reader's own tab, so nothing is installed and nothing runs
+on your side.
+
+`input` is deliberately permissive. It takes an expression in braces, a
+string, a path to a file, or the clipboard when nothing is passed at
+all. One script goes in one link. For several files, see
+[`webr_repl_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_project.md).
 
 ## Comments in expression input
 
-Expression input recovers your source from R's *source references*,
-which R only attaches when `keep.source` is enabled. Comments therefore
-survive in an interactive session, but are dropped when the calling code
-is parsed without source references – notably inside a knitted 'Quarto'
-or 'R Markdown' document, because 'knitr' evaluates chunks through
+Expression input recovers your code from the source R kept when it read
+the expression. R only keeps that source when `keep.source` is enabled,
+so comments survive in an interactive session but are dropped when the
+calling code is read without it. That is what happens inside a knitted
+'Quarto' or 'R Markdown' document, because 'knitr' evaluates chunks
+through
 [`evaluate::evaluate()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/evaluate.r-lib.org/reference/evaluate.md),
-which discards them. No `keep.source` setting recovers them there.
+which throws the source away. No `keep.source` setting recovers them
+there.
 
 If you need comments preserved, pass the code as a string or a file
-path, or write it as a chunk in the document – see
+path, or write it as a chunk in the document. See
 [livelink-knitr](https://r-pkg.thecoatlessprofessor.com/livelink/reference/livelink-knitr.md)
 and
 [`vignette("links-in-documents", package = "livelink")`](https://r-pkg.thecoatlessprofessor.com/livelink/articles/links-in-documents.md).
@@ -85,11 +112,14 @@ and
 ## See also
 
 [`webr_repl_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_project.md)
-for multi-file projects and
+for multi-file projects.
+
 [`webr_repl_exercise()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_exercise.md)
-for exercise and solution pairs;
+for exercise and solution pairs.
+
 [livelink-knitr](https://r-pkg.thecoatlessprofessor.com/livelink/reference/livelink-knitr.md)
-to give a document chunk its own link;
+to give a document chunk its own link.
+
 [`vignette("getting-started", package = "livelink")`](https://r-pkg.thecoatlessprofessor.com/livelink/articles/getting-started.md)
 for an introduction.
 
@@ -104,7 +134,7 @@ webr_repl_link({
 #> 
 #> ── webR Link ──
 #> 
-#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKijIyS%2FRMLQyNNCMySsuzc1NLKrUyC1JTiwq1lSqjQUAcSAerQ%3D%3D&jz>
+#> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKkl0FOfklGoZWhgaaXMWlubmJRZUauSXJiUXFmgDuJR64&mz>
 #> 
 #> File: script.R → /home/web_user/script.R
 #> Version: "latest"
@@ -115,7 +145,7 @@ webr_repl_link("plot(1:10)")
 #> 
 #> ── webR Link ──
 #> 
-#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKijIyS%2FRMLQyNNBUqo0FAJecF%2Fo%3D&jz>
+#> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKklUFOfklGoZWhgaaAC8DGLU%3D&mz>
 #> 
 #> File: script.R → /home/web_user/script.R
 #> Version: "latest"
@@ -126,7 +156,7 @@ webr_repl_link({ hist(rnorm(100)) }, panels = c("plot", "editor"))
 #> 
 #> ── webR Link ──
 #> 
-#> <https://webr.r-wasm.org/latest/?mode='plot-editor'#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKsjILC7RKMrLL8rVMDQw0NRUqo0FADZ%2BGjc%3D&jz>
+#> <https://webr.r-wasm.org/latest/?mode='plot-editor'#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKkg0ZmcUlGkV5%2BUW5GoYGBpqaANHPGvg%3D&mz>
 #> 
 #> File: script.R → /home/web_user/script.R
 #> Interface: "Plot" and "Editor"
@@ -138,7 +168,7 @@ webr_repl_link("plot(1:10)", autorun = TRUE)
 #> 
 #> ── webR Link ──
 #> 
-#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKijIyS%2FRMLQyNNAEiiWWluQXleYpWZUUlabWxgIAJsQdcg%3D%3D&jza>
+#> <https://webr.r-wasm.org/latest/#code=eJyb2LIkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKklUFOfklGoZWhgaayxNLS%2FKLSvMOAwAjdx0u&mza>
 #> 
 #> File: script.R → /home/web_user/script.R
 #> Version: "latest"
@@ -151,7 +181,7 @@ webr_repl_link(script)
 #> 
 #> ── webR Link ──
 #> 
-#> <https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSKk4uyiwo0QtS0lEqSCzJAIroZ%2BTnpuqXpybFlxanFukjKShJrSgBKijIyS%2FRMLQyNNBUqo0FAJecF%2Fo%3D&jz>
+#> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKklUFOfklGoZWhgaaAC8DGLU%3D&mz>
 #> 
 #> File: script.R → /home/web_user/script.R
 #> Version: "latest"

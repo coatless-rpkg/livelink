@@ -1,8 +1,7 @@
 # Create a Shinylive sharelink for R Shiny apps
 
 Generates a shareable URL for R Shiny applications that can run in the
-browser using Shinylive. Supports expressions, character strings, file
-paths, named lists, and clipboard input.
+browser using Shinylive.
 
 ## Usage
 
@@ -32,7 +31,7 @@ shinylive_r_link(input = NULL, mode = "editor", header = TRUE, base_url = NULL)
 - mode:
 
   Shinylive display mode (default `"editor"`). `"editor"` shows an
-  editable code panel beside the running app; `"app"` shows only the
+  editable code panel beside the running app. `"app"` shows only the
   running app.
 
 - header:
@@ -48,14 +47,32 @@ shinylive_r_link(input = NULL, mode = "editor", header = TRUE, base_url = NULL)
 
 ## Value
 
-shinylive_link object containing the Shinylive URL and metadata
+A `shinylive_link` object, which is a list with these entries.
+
+- `url`, the sharelink itself, as a single string.
+
+- `files`, the names of the files carried in the link, as a character
+  vector.
+
+- `engine`, the Shiny flavor the link runs, `"r"` here.
+
+- `mode`, the Shinylive display mode, `"editor"` or `"app"`.
+
+Use [`as.character()`](https://rdrr.io/r/base/character.html) on the
+object to get the URL on its own.
+
+## Details
+
+The whole app travels inside the URL, so opening the link runs it in the
+reader's browser with no server behind it. A single string becomes
+`app.py`. Pass a named list to ship several files.
 
 ## Comments in expression input
 
 Comments inside a [`{ }`](https://rdrr.io/r/base/Paren.html) expression
-are recovered from R's source references, so they survive interactively
-but are dropped inside a knitted 'Quarto' or 'R Markdown' document. Pass
-a string or a file path, or use the `livelink` chunk engine, if you need
+are recovered from the source R keeps, so they survive interactively but
+are dropped inside a knitted 'Quarto' or 'R Markdown' document. Pass a
+string or a file path, or use the `livelink` chunk engine, if you need
 them preserved. See
 [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)
 for the details.
@@ -63,13 +80,16 @@ for the details.
 ## See also
 
 [`shinylive_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/shinylive_project.md)
-for multi-file apps;
+for multi-file apps.
+
 [`decode_shinylive_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/decode_shinylive_link.md)
 and
 [`preview_shinylive_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/preview_shinylive_link.md)
-to read a link back;
+to read a link back.
+
 [livelink-knitr](https://r-pkg.thecoatlessprofessor.com/livelink/reference/livelink-knitr.md)
-to give a document chunk its own link;
+to give a document chunk its own link.
+
 [`vignette("webr-and-shinylive", package = "livelink")`](https://r-pkg.thecoatlessprofessor.com/livelink/articles/webr-and-shinylive.md)
 for the guide.
 

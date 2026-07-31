@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 360" role="img" aria-labelledby="t d">
   <title id="t">The parts of a webR URL</title>
   <desc id="d">A webR URL with each part highlighted in place: the base address, the version, the panels, the code fragment carrying your files, and the encoding flags.</desc>
-  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}</style>
+  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}.shadow{fill:#1e293b}</style>
   <rect x="273" y="31" width="186.0" height="22" rx="4" fill="#e9edf2"/>
   <text class="m" x="276" y="46" font-size="12.5" textLength="180.0" lengthAdjust="spacing" fill="#475569">https://webr.r-wasm.org/</text>
   <rect x="453.0" y="31" width="58.5" height="22" rx="4" fill="#d8f1ee"/>
@@ -11,7 +11,7 @@
   <rect x="648.0" y="31" width="133.5" height="22" rx="4" fill="#dfeaff"/>
   <text class="m" x="651.0" y="46" font-size="12.5" textLength="127.5" lengthAdjust="spacing" fill="#0054AD">#code=eJyLrlbKS8…</text>
   <rect x="775.5" y="31" width="28.5" height="22" rx="4" fill="#fdeccd"/>
-  <text class="m" x="778.5" y="46" font-size="12.5" textLength="22.5" lengthAdjust="spacing" fill="#b45309">&amp;jz</text>
+  <text class="m" x="778.5" y="46" font-size="12.5" textLength="22.5" lengthAdjust="spacing" fill="#b45309">&amp;mz</text>
   <path d="M366.0 57 V82 H266" fill="none" stroke="#475569" stroke-width="1.3" stroke-linejoin="round" opacity="0.55"/>
   <circle cx="266" cy="82" r="3" fill="#475569"/>
   <text class="s lbl" x="252" y="78" font-size="11.5" text-anchor="end" fill="#475569">base address</text>
@@ -48,5 +48,5 @@
   <rect x="626" y="305" width="18" height="18" rx="4" fill="#e0edff"/>
   <text class="m accent" x="632" y="318" font-size="12" font-weight="700">a</text>
   <text class="s muted" x="654" y="318" font-size="12.5">autorun</text>
-  <text class="s faint" x="42" y="346" font-size="12">livelink writes jz. webR's own share button writes mz. livelink reads both.</text>
+  <text class="s faint" x="42" y="346" font-size="12">livelink writes mz, the same as webR's own share button. It reads jz too.</text>
 </svg>

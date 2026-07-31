@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 646" role="img" aria-labelledby="t d">
   <title id="t">How livelink turns R code into a URL</title>
   <desc id="d">The call webr_repl_link with a braced expression is serialized to JSON, gzipped, base64 encoded and placed in the fragment of a webR URL. Opening the link runs it in a webR session whose editor, console, files and plot panels are shown.</desc>
-  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}</style>
+  <style>.s{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.m{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}.lbl{letter-spacing:.10em;font-weight:700}.fn{fill:#2563eb}.str{fill:#047857}.num{fill:#b45309}.com{fill:#94a3b8}.key{fill:#6d28d9}.ink{fill:#0f172a}.body{fill:#334155}.muted{fill:#64748b}.faint{fill:#94a3b8}.card{fill:#f1f5f9}.cardline{fill:#e2e8f0}.rail{fill:#cbd5e1}.accent{fill:#0054AD}.accent_soft{fill:#e0edff}.hollow{fill:#cbd5e1}.chrome{fill:#e2e8f0}.pane{fill:#ffffff}.panehdr{fill:#f8fafc}.base{fill:#475569}.base_bg{fill:#e9edf2}.ver{fill:#0f766e}.ver_bg{fill:#d8f1ee}.pan{fill:#6d28d9}.pan_bg{fill:#ebe3fb}.frag{fill:#0054AD}.frag_bg{fill:#dfeaff}.flag{fill:#b45309}.flag_bg{fill:#fdeccd}.shadow{fill:#1e293b}</style>
   <line x1="26" y1="42" x2="26" y2="376" stroke="#cbd5e1" stroke-width="2"/>
   <circle cx="26" cy="42" r="5" fill="#cbd5e1"/>
   <text class="s lbl ink" x="46" y="40" font-size="11">YOU WRITE</text>
@@ -29,7 +29,7 @@
   <text class="s lbl ink" x="46" y="304" font-size="11">YOU GET</text>
   <text class="m muted" x="46" y="324" font-size="12">one shareable URL</text>
   <rect x="212" y="286" width="618" height="40" rx="8" fill="#f1f5f9" stroke="#e2e8f0"/>
-  <text class="m" x="226" y="310" font-size="11.5" xml:space="preserve"><tspan class="ink">https://webr.r-wasm.org/latest/</tspan><tspan class="frag">#code=eJyLrlbKS8xNVbJS…</tspan><tspan class="flag">&amp;jz</tspan></text>
+  <text class="m" x="226" y="310" font-size="11.5" xml:space="preserve"><tspan class="ink">https://webr.r-wasm.org/latest/</tspan><tspan class="frag">#code=eJyLrlbKS8xNVbJS…</tspan><tspan class="flag">&amp;mz</tspan></text>
   <circle cx="26" cy="376" r="5" fill="#0054AD"/>
   <text class="s lbl ink" x="46" y="374" font-size="11">IT RUNS</text>
   <text class="m muted" x="46" y="394" font-size="12">in the browser</text>

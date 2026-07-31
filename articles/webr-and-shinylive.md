@@ -36,7 +36,7 @@ webr_repl_project(list(
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/#code=eJx1j8sKwjAQRX8ljJsWtN2Lm4JdusnWiMQ20kAzkcwELdJ%2Ft9CH3XQ3w7ncw71%2BAbUzcASnLWYS9vDS3Ax%2F3nhn8rd53COZkC%2BYzYcHTD6GyiQKItuWMqkgVUjROR0smcRxpQOl0O8XwRTcNPz5rJjbxOkgnhErth6TOhUj6IZz3S%2FL4nwpM1dvGtaJybETBeq2I0sKFcqIYhwq2AtiHTiD%2FvYDD4JhYw%3D%3D&jz)
+webR](https://webr.r-wasm.org/latest/#code=eJxdz0EKwjAQheF9TzG0m3ZhegE3Bbt0kwtIbCMNNIlkJmjXHsErFMUDKF7F2yhNitDdwD988K6X0Qgtb1oow%2Fh4FNQ9y85qWZ7kfudRujImkmf6ZGi9a2SeelI9Mp4WCXqthVMoc02NcFgE8R4%2FJvK1IOcWzVmA9QoO3jSkrMnbAkIYfmcwH7yuNtua6XZS3wv1XycXMqiM6AdUmCTcGwhDgCwgCUfsC7B2YYM%3D&mz)
 
 Non-R files stay strings, and the two forms mix freely, since a project
 is usually code *and* something else.
@@ -93,7 +93,7 @@ webr_repl_project(project)
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/#code=eJx1j8sKgzAQRX8lpAsVbNyXboS67CbbWkqqKQbMpGQmtFL89wo%2BN%2B5mOJdzubcfB2U1P3GrDAjJU%2F5W1Ax%2F1jirs49%2BPgJqny2Y9JcGjC74SsdRINOikFFSAgZrlTeoY0uV8pjwPl30U27Xv%2FK5YLax85G9AlRkHMR1wkbQDefWL4v8ci2ErXcbtomp48ByUG2HBksoQQZg40xGjiEpT4L39z9KBGC1&jz)
+webR](https://webr.r-wasm.org/latest/#code=eJxdz0EKwjAQheF9TzHQRduF6QXcFOzSTS4gsY000CSSmaBdewSvUBQPoHgVb6M0KUJ3A%2F%2FwwbteRiO0vGmhDOPjUVD3LDurZXmS%2B51H6cqYSJ7pk6L1rpF55kn1yHhWJOi1Fk6hzDU1wmERxHv8mMjXgpxbNGcB1is4eNOQsiZvCwhh%2BJ3BfPC62mxrpttJfS%2FUf51cSKEyoh9QYZJwbyAMAbKAJByxL7gAYY0%3D&mz)
 
 A **vector of file paths**, when the code is already on disk:
 
@@ -108,7 +108,7 @@ webr_repl_project(c(file.path(dir, "main.R"), file.path(dir, "utils.R")))
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/#code=eJyLrlbKS8xNVbJSyk3MzNMLUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlQOni%2FNKi5FQN9dKSzJxivSB1TaVaHbhZUEGchiHkoaalKdjoKqSV5iWXZObnaWgqmBgp1cYCAIlMMjQ%3D&jz)
+webR](https://webr.r-wasm.org/latest/#code=eJyb1LwkLzE3dVluYmaeXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipKNxfmlRcmpGuqlJZk5xXpB6poQ7cuhfLD%2BbWj6YXIgAzalKdjoKqSV5iWXZObnaWgqmBgBAMMfM68%3D&mz)
 
 Files are read and named by their basename, so the paths on your machine
 never leave it.
@@ -134,7 +134,7 @@ webr_repl_project(project, autorun_files = "all")
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/#code=eJx9kE0LgkAQhv%2FKsh1UML1LFyGPXbxmxKYbLrizsTNDSfjfE%2Fyoi91meN6ZB97zW4KyWmbSKgNJKWP5UNSOe9o6q9Onvl0ZtU9XTPpFI0bHvtZhwGQ6TMogqgDZWuUN6tBSrTxGY1oxOc8gM%2FKsh3i1zWebui9ffMtzcdiLO0NNxkHYRGIC%2FTj%2B0ZVFfjwViW02hb%2BJWbkTOaiuR4MVVFAyiKkEQU4gKU%2BJHC4f6X5rpQ%3D%3D&jza)
+webR](https://webr.r-wasm.org/latest/#code=eJxdz0EKgkAUgOG9pxhwoS7SC7QRctlmLhCTTjjgzMS89yjXdYOuIEkHKNp3im5TjFrg7sH%2F%2BB7vcu6M0PKqhTIp7%2FYC63tWWy2zg9xuCKTLxoTyiO8QLLlSxhGhaiDlURIAaS2cAhlrLIWDpBeE1pF5DXQ%2Frnr7MbOnNuITxZYLtiNTorImrhI2hPY7%2FvCTx2%2B8yFfrItWV558z%2Fl%2F9ARay3IimBQVBwMmw4TWGlgEKh%2BkH%2BMtqfw%3D%3D&mza)
 
 Naming a file that is not in the project is an error, rather than a link
 that quietly does nothing:
@@ -163,7 +163,7 @@ webr_repl_project(project, base_path = "/home/web_user/analysis/")
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/#code=eJyFj8sKwjAQRX8lxIUt1GQvbgp26SZbKxLbSAPNRDITtEj%2F3UIfdtfdDPdwD%2Ff65aCd4UfutAWheMZfmprhl413Rr7N4x7RBKlBtx1alAtH5kMDhz6GyiT7SLZFofZpCRid08GiSRxVOmDK%2B2zxTNy26A%2FOprmWnQ7sGaEi6yGpUzYG3XCuRarIz5dCuHpbtUYn2Y7lU1pCCSoCG4cz8gxJBxK8v%2F0AJiJrbg%3D%3D&jz)
+webR](https://webr.r-wasm.org/latest/#code=eJx1z7ENwjAQQNE%2BUxhRJCmIF6CJREoaL4COxCiWYhv5zoLUjMAKEYglYI5sA4odUaU76b7e6e63wYCWDw3KFGI4A7Vv3lot%2BUUeDx6l42Cg61Ehjw3JK41rtN7VMks9qQ4LkeYJeq3BKZSZphoc5oF%2BxmKyP0v2HEV8pth2w07e1KSsyZqchUX%2FGwP%2BElW521eFbiZ%2BXC35%2F266wNasjKskEd6w8Bsjy5DAUfEFYONsmg%3D%3D&mz)
 
 Move them and relative [`source()`](https://rdrr.io/r/base/source.html)
 calls have to move with them, so leave this alone unless you have a
@@ -344,7 +344,7 @@ writeLines(app, file.path(apps, "histogram", "app.R"))
 writeLines(app, file.path(apps, "scatter",   "app.R"))
 
 links <- shinylive_directory(apps, engine = "r", mode = "app")
-#> ✔ Found 2 Shiny apps in '/tmp/RtmpsUpaEu/apps'
+#> ✔ Found 2 Shiny apps in '/tmp/Rtmp5R5MEW/apps'
 #> ℹ Processing r Shiny apps...
 #> ✔ Successfully created 2 Shinylive links
 
@@ -370,7 +370,7 @@ dir.create(empty, showWarnings = FALSE)
 
 shinylive_directory(empty, engine = "r")
 #> Warning: No Shiny apps found
-#> ! No directories containing 'app.R' found in '/tmp/RtmpsUpaEu/no-apps'
+#> ! No directories containing 'app.R' found in '/tmp/Rtmp5R5MEW/no-apps'
 #> ℹ Each app should be in its own subdirectory with 'app.R' as the main file
 ```
 
@@ -402,7 +402,7 @@ webr_repl_directory(scripts, single_link = TRUE, panels = c("editor", "plot"))
 ```
 
 [Open in
-webR](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyLrlbKS8xNVbJSyk3MzNMLUtJRKkgsyQDy9TPyc1P1y1OT4kuLU4v04dIlqRUlQOni%2FNKi5FQN9dKSzJxivSB1TaVaHbhZUEGchiHkoaalKdjoKqSV5iWXZObnaWgqmBgp1cYCAIlMMjQ%3D&jz)
+webR](https://webr.r-wasm.org/latest/?mode='editor-plot'#code=eJyb1LwkLzE3dVluYmaeXtCSgsSSjK36Gfm5qfrlqUnxpcWpRfpQqZLUipKNxfmlRcmpGuqlJZk5xXpB6poQ7cuhfLD%2BbWj6YXIgAzalKdjoKqSV5iWXZObnaWgqmBgBAMMfM68%3D&mz)
 
 With `autorun = TRUE` alongside it, every R file in the bundle runs on
 arrival.
@@ -429,7 +429,7 @@ url <- as.character(webr_repl_link(src, filename = "stats.R"))
 
 c(source_chars = nchar(src), url_chars = nchar(url))
 #> source_chars    url_chars 
-#>        10193         4358
+#>        10193         4360
 ```
 
 The link comes out *smaller than the code it carries*, because gzip more
