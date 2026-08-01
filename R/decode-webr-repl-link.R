@@ -23,6 +23,9 @@
 #'   Ignored for a single URL, and ignored when `create_subdir = FALSE` (all
 #'   files then extract into `output_dir`).
 #'
+#' @param binary Logical. Whether to write binary files held in the link
+#'   (default: `FALSE`). A preview can show you text but not bytes, so a binary
+#'   is left alone unless you ask for it.
 #' @return
 #' What comes back depends on how many URLs you pass.
 #'
@@ -80,10 +83,12 @@ decode_webr_link <- function(url,
                              output_dir = file.path(tempdir(), "webr_files"),
                              overwrite = FALSE,
                              create_subdir = TRUE,
-                             name_dirs = TRUE) {
+                             name_dirs = TRUE,
+                             binary = FALSE) {
 
   # Validate basic inputs
   check_character_vector(url, "url")
+  check_single_logical(binary, "binary")
   check_single_string(output_dir, "output_dir")
   check_single_logical(overwrite, "overwrite")
   check_single_logical(create_subdir, "create_subdir")
@@ -91,11 +96,11 @@ decode_webr_link <- function(url,
 
   # Handle single URL case
   if (length(url) == 1) {
-    return(decode_single_webr_link(url, output_dir, overwrite, create_subdir))
+    return(decode_single_webr_link(url, output_dir, overwrite, create_subdir, binary))
   }
 
   # Handle multiple URLs case
-  return(decode_multiple_webr_links(url, output_dir, overwrite, create_subdir, name_dirs))
+  return(decode_multiple_webr_links(url, output_dir, overwrite, create_subdir, name_dirs, binary))
 }
 
 #' Decode a single webR REPL link
@@ -111,7 +116,8 @@ decode_webr_link <- function(url,
 #' [decode_webr_link()].
 #'
 #' @noRd
-decode_single_webr_link <- function(url, output_dir, overwrite, create_subdir) {
+decode_single_webr_link <- function(url, output_dir, overwrite, create_subdir,
+                                    binary = FALSE) {
   # Validate URL
   check_valid_webr_url(url, "url")
 
@@ -142,7 +148,7 @@ decode_single_webr_link <- function(url, output_dir, overwrite, create_subdir) {
   }
 
   # Decode and save files
-  files_info <- decode_and_save_webr_files(files_data, final_output_dir, overwrite)
+  files_info <- decode_and_save_webr_files(files_data, final_output_dir, overwrite, binary)
 
   # Summary
   cli::cli_inform(c(
@@ -167,7 +173,8 @@ decode_single_webr_link <- function(url, output_dir, overwrite, create_subdir) {
 #' under [decode_webr_link()].
 #'
 #' @noRd
-decode_multiple_webr_links <- function(urls, output_dir, overwrite, create_subdir, name_dirs) {
+decode_multiple_webr_links <- function(urls, output_dir, overwrite, create_subdir,
+                                       name_dirs, binary = FALSE) {
   if (length(urls) == 0) {
     cli::cli_warn("No URLs provided")
     return(new_webr_decoded_batch(list(), output_dir, character(0)))
@@ -215,7 +222,8 @@ decode_multiple_webr_links <- function(urls, output_dir, overwrite, create_subdi
         url = url,
         output_dir = url_output_dir,
         overwrite = overwrite,
-        create_subdir = FALSE  # We handle subdirectory creation here
+        create_subdir = FALSE,  # We handle subdirectory creation here
+        binary = binary
       )
 
       results[[subdir_name]] <- decoded_result
@@ -251,7 +259,8 @@ decode_multiple_webr_links <- function(urls, output_dir, overwrite, create_subdi
 #' files that were passed over and why.
 #'
 #' @noRd
-decode_and_save_webr_files <- function(files_data, output_dir, overwrite) {
+decode_and_save_webr_files <- function(files_data, output_dir, overwrite,
+                                       binary = FALSE) {
   cli::cli_inform("Decoding {length(files_data)} file{?s}...")
 
   files_info <- data.frame(
@@ -267,7 +276,8 @@ decode_and_save_webr_files <- function(files_data, output_dir, overwrite) {
     invalid_structure = character(0),
     no_content = character(0),
     already_exists = character(0),
-    save_failed = character(0)
+    save_failed = character(0),
+    binary = character(0)
   )
 
   for (i in seq_along(files_data)) {
@@ -330,6 +340,18 @@ decode_and_save_webr_files <- function(files_data, output_dir, overwrite) {
         # For webR, "data" field typically contains text content (converted from raw)
         # We can detect if it's likely binary by checking for non-printable characters
         is_binary <- detect_binary_content(content)
+      }
+
+      if (is_binary && !binary) {
+        # A link is written by whoever sent it, and preview_webr_link() can
+        # show you text but not bytes. Leave a binary alone unless it is asked
+        # for, so nothing lands on disk that could not be looked at first.
+        cli::cli_warn(c(
+          "Skipping binary file: {.file {filename}}",
+          "i" = "Pass {.code binary = TRUE} to write it."
+        ))
+        skip_reasons$binary <- c(skip_reasons$binary, filename)
+        next
       }
 
       if (is_binary) {

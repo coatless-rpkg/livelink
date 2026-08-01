@@ -168,7 +168,7 @@ test_that("decoding refuses a file name that escapes output_dir", {
   dir.create(output_dir)
 
   expect_warning(
-    decode_webr_link(url, output_dir = output_dir, create_subdir = FALSE),
+    decode_webr_link(url, output_dir = output_dir, create_subdir = FALSE, binary = TRUE),
     "Unsafe file name"
   )
 
@@ -193,7 +193,7 @@ test_that("decoding still writes names holding a subdirectory", {
   )
 
   output_dir <- withr::local_tempdir()
-  decode_webr_link(url, output_dir = output_dir, create_subdir = FALSE)
+  decode_webr_link(url, output_dir = output_dir, create_subdir = FALSE, binary = TRUE)
 
   expect_true(file.exists(file.path(output_dir, "main.R")))
   expect_true(file.exists(file.path(output_dir, "R", "helpers.R")))
@@ -221,7 +221,7 @@ test_that("a binary file in a link is written back byte for byte", {
 
   output_dir <- withr::local_tempdir()
   suppressMessages(
-    decode_webr_link(url, output_dir = output_dir, create_subdir = FALSE)
+    decode_webr_link(url, output_dir = output_dir, create_subdir = FALSE, binary = TRUE)
   )
 
   expect_equal(readBin(file.path(output_dir, "logo.png"), "raw", 10), png)
@@ -290,4 +290,41 @@ test_that("a payload that is not a list of files is reported as malformed", {
   )
 
   expect_error(preview_webr_link(url), "Malformed webR link")
+})
+
+# A binary file can now travel in a project link, in webR's `data` field. It is
+# not written on decode unless asked for, because a preview can show text but
+# not bytes, so there is no way to look at it first.
+test_that("a binary file travels in a link and is written only on request", {
+  png <- as.raw(c(0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x01))
+  src <- withr::local_tempdir()
+  writeLines("plot(1:10)", file.path(src, "main.R"))
+  writeBin(png, file.path(src, "logo.png"))
+
+  url <- as.character(webr_repl_project(
+    c(file.path(src, "main.R"), file.path(src, "logo.png"))
+  ))
+
+  skipped <- withr::local_tempdir()
+  expect_warning(
+    suppressMessages(
+      decode_webr_link(url, output_dir = skipped, create_subdir = FALSE)
+    ),
+    "Skipping binary file"
+  )
+  expect_equal(list.files(skipped), "main.R")
+
+  asked <- withr::local_tempdir()
+  suppressMessages(
+    decode_webr_link(url, output_dir = asked, create_subdir = FALSE, binary = TRUE)
+  )
+  expect_setequal(list.files(asked), c("main.R", "logo.png"))
+  expect_equal(readBin(file.path(asked, "logo.png"), "raw", 10), png)
+})
+
+test_that("a lone binary is not accepted as a script", {
+  path <- withr::local_tempfile(fileext = ".png")
+  writeBin(as.raw(c(0x89, 0x50, 0x4e, 0x47, 0x00)), path)
+
+  expect_error(webr_repl_link(path), "webr_repl_project")
 })

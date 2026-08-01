@@ -205,7 +205,9 @@ test_that("a Shinylive binary file is decoded from base64", {
     gsub("/", "-", lzstring::compressToEncodedURIComponent(as.character(json)))
   )
 
-  suppressMessages(decode_shinylive_link(url, output_dir = dir, create_subdir = FALSE))
+  suppressMessages(
+    decode_shinylive_link(url, output_dir = dir, create_subdir = FALSE, binary = TRUE)
+  )
 
   written <- readBin(file.path(dir, "logo.png"), "raw", n = 8)
   expect_identical(written, payload)
