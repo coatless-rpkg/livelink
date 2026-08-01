@@ -9,7 +9,8 @@ decode_webr_link(
   output_dir = file.path(tempdir(), "webr_files"),
   overwrite = FALSE,
   create_subdir = TRUE,
-  name_dirs = TRUE
+  name_dirs = TRUE,
+  binary = FALSE
 )
 }
 \arguments{
@@ -37,6 +38,10 @@ subdirectories are named.
 
 Ignored for a single URL, and ignored when \code{create_subdir = FALSE} (all
 files then extract into \code{output_dir}).}
+
+\item{binary}{Logical. Whether to write binary files held in the link
+(default: \code{FALSE}). A preview can show you text but not bytes, so a binary
+is left alone unless you ask for it.}
 }
 \value{
 What comes back depends on how many URLs you pass.

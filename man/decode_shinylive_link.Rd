@@ -9,7 +9,8 @@ decode_shinylive_link(
   output_dir = file.path(tempdir(), "shinylive_files"),
   overwrite = FALSE,
   create_subdir = TRUE,
-  name_dirs = TRUE
+  name_dirs = TRUE,
+  binary = FALSE
 )
 }
 \arguments{
@@ -36,6 +37,10 @@ subdirectories are named. \code{TRUE} (default) numbers them \code{app_01}, \cod
 and so on. \code{FALSE} names each one \verb{shinylive_<hash>} from the URL
 fingerprint. Ignored for a single URL, and ignored when
 \code{create_subdir = FALSE}.}
+
+\item{binary}{Logical. Whether to write binary files held in the link
+(default: \code{FALSE}). A preview can show you text but not bytes, so a binary
+is left alone unless you ask for it.}
 }
 \value{
 The decoded contents, in one of two shapes.
