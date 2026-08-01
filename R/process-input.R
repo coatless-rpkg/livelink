@@ -285,51 +285,72 @@ getSrcLines <- function(srcfile, start, end = start) {
 
 #' Read a file that has to survive being embedded in a link
 #'
-#' Reads a text file and refuses content that could not be read back out of a
-#' link.
+#' Reads a file for a link, as text where it can be and as bytes otherwise.
 #'
 #' @param path Path to a single file
 #'
 #' @return
-#' The file's contents as one UTF-8 string
+#' A single UTF-8 string for a text file, or a raw vector for a binary one.
 #'
 #' @details
-#' The payload is serialized to JSON and later parsed back with
-#' `rawToChar()`, so anything that is not valid UTF-8 produces a link that
-#' cannot be decoded. Not even this package's own `preview_webr_link()` can
-#' read it back, and it fails with "input string 1 is invalid UTF-8".
-#' A latin-1 script or a stray binary file is the realistic case, and it used
-#' to be accepted silently. An embedded NUL is worse than invalid. `readLines()`
-#' truncates the line at it, so content disappears without a word.
+#' webR's sharelink format carries a file either as `text` or as `data`, and
+#' this decides which. Anything that is valid UTF-8 and free of NUL bytes is
+#' text. Everything else travels as bytes, which msgpack stores natively, so
+#' nothing has to be escaped or base64-encoded a second time.
+#'
+#' Bytes do not compress, so a large binary makes a very long link. Past
+#' `binary_size_warning` the caller is told, rather than being stopped, since
+#' what counts as too long depends on where the link is going.
 #'
 #' @noRd
-read_text_file <- function(path) {
-  # Look at the bytes rather than at readLines()'s warning. Whether that
-  # warning appears, and what it says, varies by platform: Windows does not
-  # raise it, so a NUL slipped through there while being caught elsewhere.
+read_file_for_link <- function(path) {
   size <- file.info(path)$size
   bytes <- if (is.na(size) || size == 0) raw(0) else readBin(path, "raw", size)
 
+  if (is_text_bytes(bytes)) {
+    return(enc2utf8(paste(readLines(path, warn = FALSE), collapse = "\n")))
+  }
+
+  if (length(bytes) > binary_size_warning) {
+    cli::cli_warn(c(
+      "{.file {basename(path)}} is {format_file_size(length(bytes))} of binary data",
+      "i" = "Bytes do not compress, so the link will be long. Consider having
+             the code fetch this file instead of carrying it."
+    ))
+  }
+
+  bytes
+}
+
+# Past this, a binary file makes a link long enough to be worth mentioning.
+# 32 KB of bytes lands at roughly 46,000 URL characters.
+binary_size_warning <- 32L * 1024L
+
+#' Is this file text?
+#'
+#' @param bytes The file's contents
+#'
+#' @return
+#' TRUE when the bytes are valid UTF-8 and hold no NUL
+#'
+#' @details
+#' A NUL never appears in text and truncates a line when read, so it settles the
+#' question on its own. Everything else comes down to whether the bytes decode
+#' as UTF-8, which is what a link carries text as.
+#'
+#' @noRd
+is_text_bytes <- function(bytes) {
+  if (length(bytes) == 0) {
+    return(TRUE)
+  }
+
   if (any(bytes == as.raw(0L))) {
-    cli::cli_abort(c(
-      "Cannot embed {.file {path}}: it contains an embedded NUL",
-      "i" = "Only text files can travel in a link.",
-      "i" = "Have the code fetch a binary file instead of carrying it."
-    ), call = NULL)
+    return(FALSE)
   }
 
-  content <- enc2utf8(paste(readLines(path, warn = FALSE), collapse = "\n"))
+  text <- tryCatch(rawToChar(bytes), error = function(e) NULL)
 
-  if (!all(validUTF8(content))) {
-    cli::cli_abort(c(
-      "Cannot embed {.file {path}}: it is not valid UTF-8",
-      "i" = "A link carries its files as UTF-8 text, so this one could not be
-             read back.",
-      "i" = "Re-save the file as UTF-8, or have the code fetch it instead."
-    ), call = NULL)
-  }
-
-  content
+  !is.null(text) && all(validUTF8(text))
 }
 
 #' Read clipboard content
@@ -510,7 +531,28 @@ process_input <- function(input = NULL, x_expr = NULL) {
              ))
            }
 
-           read_text_file(input)
+           content <- read_file_for_link(input)
+
+           # A lone binary is not a script, and webR would have nothing to run.
+           # A project can carry one alongside the code that uses it. Text in
+           # the wrong encoding is a different problem and gets its own message.
+           if (is.raw(content)) {
+             if (any(content == as.raw(0L))) {
+               cli::cli_abort(c(
+                 "{.file {basename(input)}} is a binary file, not a script",
+                 "i" = "Carry it in a project alongside the code that uses it,
+                        with {.fn webr_repl_project}."
+               ))
+             }
+
+             cli::cli_abort(c(
+               "{.file {basename(input)}} is not valid UTF-8",
+               "i" = "A link carries a script as UTF-8 text. Re-save the file as
+                      UTF-8, or carry it as data with {.fn webr_repl_project}."
+             ))
+           }
+
+           content
          },
          input = {
            if (length(input) == 1) {
@@ -708,7 +750,7 @@ process_project_input <- function(input = NULL, x_expr = NULL,
          },
          path = {
            # Read all files and create named list
-           files <- lapply(input, read_text_file)
+           files <- lapply(input, read_file_for_link)
            names(files) <- basename(input)
            files
          },

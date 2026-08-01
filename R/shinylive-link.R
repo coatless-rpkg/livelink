@@ -493,11 +493,14 @@ shinylive_directory <- function(directory_path,
         # Decide by content, not by extension. An allow-list of R, py, txt, md,
         # csv, json and yaml dropped the .css and .js an app actually needs --
         # which the vignette promises are bundled -- and called them "binary",
-        # which they are not. read_text_file() refuses exactly what cannot
+        # which they are not. read_file_for_link() refuses exactly what cannot
         # travel as UTF-8 text, which is the real question.
-        content <- tryCatch(read_text_file(file_path), error = function(e) NULL)
+        content <- tryCatch(read_file_for_link(file_path), error = function(e) NULL)
 
-        if (!is.null(content)) {
+        # Bytes are left out here. Shinylive wants them base64 encoded and
+        # marked with a type, which this input does not carry, so only webR
+        # links take a binary for now.
+        if (!is.null(content) && !is.raw(content)) {
           files[[relative_path]] <- content
         } else {
           cli::cli_warn(c(

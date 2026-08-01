@@ -128,7 +128,7 @@ webr_repl_directory <- function(directory_path,
 
   links <- vapply(r_files, function(file) {
     tryCatch({
-      code_text <- read_text_file(file)
+      code_text <- read_file_for_link(file)
       filename <- basename(file)
 
       link_obj <- webr_repl_link(code_text,
@@ -191,7 +191,7 @@ directory_single_link <- function(r_files, autorun, base_path, panels, version,
                                   base_url, directory_path) {
   contents <- lapply(r_files, function(file) {
     tryCatch(
-      read_text_file(file),
+      read_file_for_link(file),
       error = function(e) {
         cli::cli_warn(c(
           "Failed to read file {.file {basename(file)}}",

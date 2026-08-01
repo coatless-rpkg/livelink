@@ -322,17 +322,17 @@ test_that("clipboard content becomes the app body", {
 # preview_webr_link() could not read ("input string 1 is invalid UTF-8"). An
 # embedded NUL was worse: readLines() truncated the line and lost content
 # without a word.
-test_that("a file that cannot survive the round trip is refused", {
+test_that("a script that is not UTF-8 text is refused", {
   tmp <- withr::local_tempdir()
 
+  # Text in the wrong encoding. A script has to be UTF-8, so this is an error
+  # rather than something to carry as bytes.
   latin1 <- file.path(tmp, "latin1.R")
   writeBin(c(charToRaw("x <- '"), as.raw(0xE9), charToRaw("'")), latin1)
   expect_error(webr_repl_link(latin1), "not valid UTF-8")
 
-  # The NUL is found by looking at the bytes. An earlier version keyed off the
-  # wording of readLines()'s warning, which Windows does not raise, so this
-  # passed on macOS and Linux while the file sailed through on Windows. Check a
-  # NUL in each position, since only the middle one truncates a line.
+  # A NUL means this is not text at all. It can travel in a project as data,
+  # so the message points there rather than refusing outright.
   for (nul_at in c("start", "middle", "end")) {
     body <- switch(nul_at,
       start  = c(as.raw(0), charToRaw("x <- 1")),
@@ -341,7 +341,7 @@ test_that("a file that cannot survive the round trip is refused", {
     )
     path <- file.path(tmp, paste0("nul-", nul_at, ".R"))
     writeBin(body, path)
-    expect_error(webr_repl_link(path), "embedded NUL", label = nul_at)
+    expect_error(webr_repl_link(path), "webr_repl_project", label = nul_at)
   }
 })
 

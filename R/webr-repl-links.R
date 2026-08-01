@@ -343,9 +343,16 @@ build_webr_project <- function(processed_files, autorun_files, base_path,
   share_items <- mapply(function(content, filename) {
     item <- list(
       name = filename,
-      path = paste0(base_path, filename),
-      text = content
+      path = paste0(base_path, filename)
     )
+
+    # webR reads a file from `text` or from `data`, never both. msgpack carries
+    # the bytes as they are, so a binary needs no second round of encoding.
+    if (is.raw(content)) {
+      item$data <- content
+    } else {
+      item$text <- content
+    }
 
     if (filename %in% will_autorun) {
       item$autorun <- TRUE
