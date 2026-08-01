@@ -1,6 +1,33 @@
 # Changelog
 
+## livelink 0.1.2
+
+### Binary files
+
+- [`webr_repl_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_project.md)
+  and
+  [`webr_repl_directory()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_directory.md)
+  now carry a binary file in a link, in the `data` field webR’s own
+  sharelink format defines. A small image or data file can travel beside
+  the code that uses it. Bytes do not compress, so livelink warns once a
+  file passes 32 KB.
+
+- [`decode_webr_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/decode_webr_link.md)
+  and
+  [`decode_shinylive_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/decode_shinylive_link.md)
+  gain a `binary` argument, `FALSE` by default. A preview can show you
+  the text a link holds but not its bytes, so a binary is skipped with a
+  warning until you ask for it with `binary = TRUE`.
+
+- [`webr_repl_link()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_link.md)
+  still takes a script only. A file holding a NUL points you to
+  [`webr_repl_project()`](https://r-pkg.thecoatlessprofessor.com/livelink/reference/webr_repl_project.md),
+  and one that is not valid UTF-8 says so, rather than both failing the
+  same way.
+
 ## livelink 0.1.1
+
+CRAN release: 2026-07-31
 
 ### Security
 

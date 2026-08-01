@@ -11,7 +11,8 @@ decode_webr_link(
   output_dir = file.path(tempdir(), "webr_files"),
   overwrite = FALSE,
   create_subdir = TRUE,
-  name_dirs = TRUE
+  name_dirs = TRUE,
+  binary = FALSE
 )
 ```
 
@@ -50,6 +51,12 @@ decode_webr_link(
 
   Ignored for a single URL, and ignored when `create_subdir = FALSE`
   (all files then extract into `output_dir`).
+
+- binary:
+
+  Logical. Whether to write binary files held in the link (default:
+  `FALSE`). A preview can show you text but not bytes, so a binary is
+  left alone unless you ask for it.
 
 ## Value
 
@@ -118,17 +125,17 @@ url <- as.character(webr_repl_link("plot(1:10)"))
 result <- decode_webr_link(url)
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpPmlQdN/webr_files/webr_8430d3f5
+#> Created directory: /tmp/RtmpjOtcTs/webr_files/webr_8430d3f5
 #> Decoding 1 file...
 #> script.R (10 bytes)
-#> ✔ Successfully decoded 1 file to /tmp/RtmpPmlQdN/webr_files/webr_8430d3f5
+#> ✔ Successfully decoded 1 file to /tmp/RtmpjOtcTs/webr_files/webr_8430d3f5
 print(result)
 #> 
 #> ── webR Decoded Files ──
 #> 
 #> Source:
 #> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKklUFOfklGoZWhgaaAC8DGLU%3D&mz>
-#> Output: /tmp/RtmpPmlQdN/webr_files/webr_8430d3f5
+#> Output: /tmp/RtmpjOtcTs/webr_files/webr_8430d3f5
 #> 
 #> Files (1):
 #> script.R (10 bytes)
@@ -141,16 +148,16 @@ out <- file.path(tempdir(), "my_code")
 decode_webr_link(url, output_dir = out, create_subdir = FALSE, overwrite = TRUE)
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpPmlQdN/my_code
+#> Created directory: /tmp/RtmpjOtcTs/my_code
 #> Decoding 1 file...
 #> script.R (10 bytes)
-#> ✔ Successfully decoded 1 file to /tmp/RtmpPmlQdN/my_code
+#> ✔ Successfully decoded 1 file to /tmp/RtmpjOtcTs/my_code
 #> 
 #> ── webR Decoded Files ──
 #> 
 #> Source:
 #> <https://webr.r-wasm.org/latest/#code=eJyb2LwkLzE3dUVxclFmQYle0JKCxJKM7foZ%2Bbmp%2BuWpSfGlxalF%2BnDJktSKklUFOfklGoZWhgaaAC8DGLU%3D&mz>
-#> Output: /tmp/RtmpPmlQdN/my_code
+#> Output: /tmp/RtmpjOtcTs/my_code
 #> 
 #> Files (1):
 #> script.R (10 bytes)
@@ -169,33 +176,33 @@ decode_webr_link(urls, output_dir = file.path(tempdir(), "my_scripts"))
 #> ── Processing URL 1/2: script_01 
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpPmlQdN/my_scripts/script_01
+#> Created directory: /tmp/RtmpjOtcTs/my_scripts/script_01
 #> Decoding 1 file...
 #> script.R (10 bytes)
-#> ✔ Successfully decoded 1 file to /tmp/RtmpPmlQdN/my_scripts/script_01
+#> ✔ Successfully decoded 1 file to /tmp/RtmpjOtcTs/my_scripts/script_01
 #> 
 #> 
 #> ── Processing URL 2/2: script_02 
 #> Decompressing webR data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpPmlQdN/my_scripts/script_02
+#> Created directory: /tmp/RtmpjOtcTs/my_scripts/script_02
 #> Decoding 1 file...
 #> script.R (16 bytes)
-#> ✔ Successfully decoded 1 file to /tmp/RtmpPmlQdN/my_scripts/script_02
+#> ✔ Successfully decoded 1 file to /tmp/RtmpjOtcTs/my_scripts/script_02
 #> 
 #> ✔ Successfully processed 2/2 URLs
 #> 
 #> ── webR Decoded Batch ──
 #> 
-#> Base directory: /tmp/RtmpPmlQdN/my_scripts
+#> Base directory: /tmp/RtmpjOtcTs/my_scripts
 #> Total URLs: 2
 #> 
 #> Successfully processed 2 URLs:
 #> script_01: 1 file
-#> /tmp/RtmpPmlQdN/my_scripts/script_01
+#> /tmp/RtmpjOtcTs/my_scripts/script_01
 #> 
 #> script_02: 1 file
-#> /tmp/RtmpPmlQdN/my_scripts/script_02
+#> /tmp/RtmpjOtcTs/my_scripts/script_02
 #> 
 #> Summary: 2 total files saved across 2 URLs
 ```

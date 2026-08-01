@@ -11,7 +11,8 @@ decode_shinylive_link(
   output_dir = file.path(tempdir(), "shinylive_files"),
   overwrite = FALSE,
   create_subdir = TRUE,
-  name_dirs = TRUE
+  name_dirs = TRUE,
+  binary = FALSE
 )
 ```
 
@@ -49,6 +50,12 @@ decode_shinylive_link(
   `app_02`, and so on. `FALSE` names each one `shinylive_<hash>` from
   the URL fingerprint. Ignored for a single URL, and ignored when
   `create_subdir = FALSE`.
+
+- binary:
+
+  Logical. Whether to write binary files held in the link (default:
+  `FALSE`). A preview can show you text but not bytes, so a binary is
+  left alone unless you ask for it.
 
 ## Value
 
@@ -116,18 +123,18 @@ url <- as.character(shinylive_r_link("library(shiny)"))
 result <- decode_shinylive_link(url)
 #> Decompressing Shinylive data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpPmlQdN/shinylive_files/shinylive_e2010f1a
+#> Created directory: /tmp/RtmpjOtcTs/shinylive_files/shinylive_e2010f1a
 #> Decoding 1 file...
 #> app.R (text, 14 bytes)
 #> ✔ Successfully decoded 1 file to
-#>   /tmp/RtmpPmlQdN/shinylive_files/shinylive_e2010f1a
+#>   /tmp/RtmpjOtcTs/shinylive_files/shinylive_e2010f1a
 print(result)
 #> 
 #> ── Shinylive R Decoded Files ──
 #> 
 #> Source:
 #> <https://shinylive.io/r/editor/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlHjClWqBMnIAPUmAC+AXSA>
-#> Output: /tmp/RtmpPmlQdN/shinylive_files/shinylive_e2010f1a
+#> Output: /tmp/RtmpjOtcTs/shinylive_files/shinylive_e2010f1a
 #> 
 #> Files (1):
 #> app.R (14 bytes)
@@ -140,16 +147,16 @@ out <- file.path(tempdir(), "my_app")
 decode_shinylive_link(url, output_dir = out, create_subdir = FALSE, overwrite = TRUE)
 #> Decompressing Shinylive data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpPmlQdN/my_app
+#> Created directory: /tmp/RtmpjOtcTs/my_app
 #> Decoding 1 file...
 #> app.R (text, 14 bytes)
-#> ✔ Successfully decoded 1 file to /tmp/RtmpPmlQdN/my_app
+#> ✔ Successfully decoded 1 file to /tmp/RtmpjOtcTs/my_app
 #> 
 #> ── Shinylive R Decoded Files ──
 #> 
 #> Source:
 #> <https://shinylive.io/r/editor/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlHjClWqBMnIAPUmAC+AXSA>
-#> Output: /tmp/RtmpPmlQdN/my_app
+#> Output: /tmp/RtmpjOtcTs/my_app
 #> 
 #> Files (1):
 #> app.R (14 bytes)
@@ -168,30 +175,30 @@ decode_shinylive_link(urls, output_dir = file.path(tempdir(), "my_apps"))
 #> ── Processing URL 1/2: app_01 
 #> Decompressing Shinylive data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpPmlQdN/my_apps/app_01
+#> Created directory: /tmp/RtmpjOtcTs/my_apps/app_01
 #> Decoding 1 file...
 #> app.R (text, 14 bytes)
-#> ✔ Successfully decoded 1 file to /tmp/RtmpPmlQdN/my_apps/app_01
+#> ✔ Successfully decoded 1 file to /tmp/RtmpjOtcTs/my_apps/app_01
 #> 
 #> 
 #> ── Processing URL 2/2: app_02 
 #> Decompressing Shinylive data...
 #> Parsing file data...
-#> Created directory: /tmp/RtmpPmlQdN/my_apps/app_02
+#> Created directory: /tmp/RtmpjOtcTs/my_apps/app_02
 #> Decoding 1 file...
 #> app.py (text, 21 bytes)
-#> ✔ Successfully decoded 1 file to /tmp/RtmpPmlQdN/my_apps/app_02
+#> ✔ Successfully decoded 1 file to /tmp/RtmpjOtcTs/my_apps/app_02
 #> 
 #> ✔ Successfully processed 2/2 URLs
 #> 
 #> ── Shinylive Decoded Batch ──
 #> 
-#> Base directory: /tmp/RtmpPmlQdN/my_apps
+#> Base directory: /tmp/RtmpjOtcTs/my_apps
 #> Total URLs: 2
 #> 
 #> Successfully processed 2 URLs:
-#> /tmp/RtmpPmlQdN/my_apps/app_01 (1 file)
-#> /tmp/RtmpPmlQdN/my_apps/app_02 (1 file)
+#> /tmp/RtmpjOtcTs/my_apps/app_01 (1 file)
+#> /tmp/RtmpjOtcTs/my_apps/app_02 (1 file)
 #> 
 #> Total files: 2
 #> Total size: 35 bytes

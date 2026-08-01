@@ -9,7 +9,7 @@ to a local directory."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">livelink</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,7 @@ to a local directory."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Decode Shinylive link(s) to extract files to local directory</h1>
-      <small class="dont-index">Source: <a href="https://github.com/coatless-rpkg/livelink/blob/v0.1.1/R/decode-shinylive-link.R" class="external-link"><code>R/decode-shinylive-link.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/coatless-rpkg/livelink/blob/main/R/decode-shinylive-link.R" class="external-link"><code>R/decode-shinylive-link.R</code></a></small>
       <div class="d-none name"><code>decode_shinylive_link.Rd</code></div>
     </div>
 
@@ -61,7 +61,8 @@ to a local directory.</p>
 <span>  output_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"shinylive_files"</span><span class="op">)</span>,</span>
 <span>  overwrite <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  create_subdir <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  name_dirs <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  name_dirs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  binary <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -101,6 +102,12 @@ subdirectories are named. <code>TRUE</code> (default) numbers them <code>app_01<
 and so on. <code>FALSE</code> names each one <code>shinylive_&lt;hash&gt;</code> from the URL
 fingerprint. Ignored for a single URL, and ignored when
 <code>create_subdir = FALSE</code>.</p></dd>
+
+
+<dt id="arg-binary">binary<a class="anchor" aria-label="anchor" href="#arg-binary"></a></dt>
+<dd><p>Logical. Whether to write binary files held in the link
+(default: <code>FALSE</code>). A preview can show you text but not bytes, so a binary
+is left alone unless you ask for it.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -145,18 +152,18 @@ single URLs and multiple URLs automatically.</p>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">decode_shinylive_link</span><span class="op">(</span><span class="va">url</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Decompressing Shinylive data...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Parsing file data...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Created directory: <span style="color: #0000BB;">/tmp/RtmpPmlQdN/shinylive_files/shinylive_e2010f1a</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Created directory: <span style="color: #0000BB;">/tmp/RtmpjOtcTs/shinylive_files/shinylive_e2010f1a</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Decoding 1 file...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">app.R</span> (text, 14 bytes)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Successfully decoded 1 file to</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   <span style="color: #0000BB;">/tmp/RtmpPmlQdN/shinylive_files/shinylive_e2010f1a</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   <span style="color: #0000BB;">/tmp/RtmpjOtcTs/shinylive_files/shinylive_e2010f1a</span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Shinylive R Decoded Files</span> ──</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Source:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-style: italic;">&lt;https://shinylive.io/r/editor/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlHjClWqBMnIAPUmAC+AXSA&gt;</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Output: <span style="color: #0000BB;">/tmp/RtmpPmlQdN/shinylive_files/shinylive_e2010f1a</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Output: <span style="color: #0000BB;">/tmp/RtmpjOtcTs/shinylive_files/shinylive_e2010f1a</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Files (1):</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">app.R</span> (14 bytes)</span>
@@ -169,16 +176,16 @@ single URLs and multiple URLs automatically.</p>
 <span class="r-in"><span><span class="fu">decode_shinylive_link</span><span class="op">(</span><span class="va">url</span>, output_dir <span class="op">=</span> <span class="va">out</span>, create_subdir <span class="op">=</span> <span class="cn">FALSE</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Decompressing Shinylive data...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Parsing file data...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Created directory: <span style="color: #0000BB;">/tmp/RtmpPmlQdN/my_app</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Created directory: <span style="color: #0000BB;">/tmp/RtmpjOtcTs/my_app</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Decoding 1 file...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">app.R</span> (text, 14 bytes)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Successfully decoded 1 file to <span style="color: #0000BB;">/tmp/RtmpPmlQdN/my_app</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Successfully decoded 1 file to <span style="color: #0000BB;">/tmp/RtmpjOtcTs/my_app</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Shinylive R Decoded Files</span> ──</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Source:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-style: italic;">&lt;https://shinylive.io/r/editor/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlHjClWqBMnIAPUmAC+AXSA&gt;</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Output: <span style="color: #0000BB;">/tmp/RtmpPmlQdN/my_app</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Output: <span style="color: #0000BB;">/tmp/RtmpjOtcTs/my_app</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Files (1):</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">app.R</span> (14 bytes)</span>
@@ -197,30 +204,30 @@ single URLs and multiple URLs automatically.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── Processing URL 1/2: app_01 </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Decompressing Shinylive data...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Parsing file data...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Created directory: <span style="color: #0000BB;">/tmp/RtmpPmlQdN/my_apps/app_01</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Created directory: <span style="color: #0000BB;">/tmp/RtmpjOtcTs/my_apps/app_01</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Decoding 1 file...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">app.R</span> (text, 14 bytes)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Successfully decoded 1 file to <span style="color: #0000BB;">/tmp/RtmpPmlQdN/my_apps/app_01</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Successfully decoded 1 file to <span style="color: #0000BB;">/tmp/RtmpjOtcTs/my_apps/app_01</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── Processing URL 2/2: app_02 </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Decompressing Shinylive data...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Parsing file data...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Created directory: <span style="color: #0000BB;">/tmp/RtmpPmlQdN/my_apps/app_02</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Created directory: <span style="color: #0000BB;">/tmp/RtmpjOtcTs/my_apps/app_02</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Decoding 1 file...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">app.py</span> (text, 21 bytes)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Successfully decoded 1 file to <span style="color: #0000BB;">/tmp/RtmpPmlQdN/my_apps/app_02</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Successfully decoded 1 file to <span style="color: #0000BB;">/tmp/RtmpjOtcTs/my_apps/app_02</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Successfully processed 2/2 URLs</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Shinylive Decoded Batch</span> ──</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Base directory: <span style="color: #0000BB;">/tmp/RtmpPmlQdN/my_apps</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Base directory: <span style="color: #0000BB;">/tmp/RtmpjOtcTs/my_apps</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Total URLs: 2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Successfully processed 2 URLs:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">/tmp/RtmpPmlQdN/my_apps/app_01</span> (1 file)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">/tmp/RtmpPmlQdN/my_apps/app_02</span> (1 file)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">/tmp/RtmpjOtcTs/my_apps/app_01</span> (1 file)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">/tmp/RtmpjOtcTs/my_apps/app_02</span> (1 file)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Total files: 2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Total size: 35 bytes</span>

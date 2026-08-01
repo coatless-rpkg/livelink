@@ -9,7 +9,7 @@ Shinylive links. Each subdirectory is treated as a separate Shiny app project.">
 
     <a class="navbar-brand me-2" href="../index.html">livelink</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,7 @@ Shinylive links. Each subdirectory is treated as a separate Shiny app project.">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Create Shinylive sharelinks from a directory of Shiny apps</h1>
-      <small class="dont-index">Source: <a href="https://github.com/coatless-rpkg/livelink/blob/v0.1.1/R/shinylive-link.R" class="external-link"><code>R/shinylive-link.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/coatless-rpkg/livelink/blob/main/R/shinylive-link.R" class="external-link"><code>R/shinylive-link.R</code></a></small>
       <div class="d-none name"><code>shinylive_directory.Rd</code></div>
     </div>
 
@@ -130,14 +130,14 @@ are skipped with a warning.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="st">"library(shiny)"</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">shiny_apps</span>, <span class="st">"app2"</span>, <span class="st">"app.R"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">links</span> <span class="op">&lt;-</span> <span class="fu">shinylive_directory</span><span class="op">(</span><span class="va">shiny_apps</span>, engine <span class="op">=</span> <span class="st">"r"</span>, mode <span class="op">=</span> <span class="st">"editor"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Found 2 Shiny apps in <span style="color: #0000BB;">/tmp/RtmpPmlQdN/file1ae56c1b07b0</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Found 2 Shiny apps in <span style="color: #0000BB;">/tmp/RtmpjOtcTs/file1b5a55ee7959</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Processing r Shiny apps...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Successfully created 2 Shinylive links</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">links</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Shinylive R Directory</span> ──</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Source: <span style="color: #0000BB;">/tmp/RtmpPmlQdN/file1ae56c1b07b0</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Source: <span style="color: #0000BB;">/tmp/RtmpjOtcTs/file1b5a55ee7959</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Generated 2 apps:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">app1</span></span>
