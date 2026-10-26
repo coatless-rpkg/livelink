@@ -97,14 +97,14 @@ writeLines("library(shiny)", file.path(shiny_apps, "app1", "app.R"))
 writeLines("library(shiny)", file.path(shiny_apps, "app2", "app.R"))
 
 links <- shinylive_directory(shiny_apps, engine = "r", mode = "editor")
-#> ✔ Found 2 Shiny apps in /tmp/RtmpjOtcTs/file1b5a55ee7959
+#> ✔ Found 2 Shiny apps in /tmp/Rtmp307HmX/file1b394f2ed39
 #> ℹ Processing r Shiny apps...
 #> ✔ Successfully created 2 Shinylive links
 print(links)
 #> 
 #> ── Shinylive R Directory ──
 #> 
-#> Source: /tmp/RtmpjOtcTs/file1b5a55ee7959
+#> Source: /tmp/Rtmp307HmX/file1b394f2ed39
 #> 
 #> Generated 2 apps:
 #> app1

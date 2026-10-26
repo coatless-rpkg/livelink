@@ -25,6 +25,7 @@
     <li><a class="dropdown-item" href="../articles/teaching.html">Teaching with livelink</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://blog.thecoatlessprofessor.com/projects/livelink/">Blog posts</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/coatless-rpkg/livelink/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -151,13 +152,13 @@ into one link.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">links</span> <span class="op">&lt;-</span> <span class="fu">webr_repl_directory</span><span class="op">(</span><span class="va">examples</span>, autorun <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Found 2 files matching pattern <span style="color: #0000BB;">"\\.R$"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Processing files in <span style="color: #0000BB;">/tmp/RtmpjOtcTs/file1b5abec2665</span>...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Processing files in <span style="color: #0000BB;">/tmp/Rtmp307HmX/file1b39117698e0</span>...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Successfully created 2 WebR links</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">links</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">webR Directory Links</span> ──</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Source: <span style="color: #0000BB;">/tmp/RtmpjOtcTs/file1b5abec2665</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Source: <span style="color: #0000BB;">/tmp/Rtmp307HmX/file1b39117698e0</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Generated 2 links:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">hist.R</span> → <span style="color: #0000BB;">/home/web_user/hist.R</span></span>
@@ -185,12 +186,12 @@ into one link.</p></div>
 <span class="r-in"><span><span class="co"># Show only the editor and terminal panels</span></span></span>
 <span class="r-in"><span><span class="fu">webr_repl_directory</span><span class="op">(</span><span class="va">examples</span>, panels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"editor"</span>, <span class="st">"terminal"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Found 2 files matching pattern <span style="color: #0000BB;">"\\.R$"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Processing files in <span style="color: #0000BB;">/tmp/RtmpjOtcTs/file1b5abec2665</span>...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Processing files in <span style="color: #0000BB;">/tmp/Rtmp307HmX/file1b39117698e0</span>...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Successfully created 2 WebR links</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">webR Directory Links</span> ──</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Source: <span style="color: #0000BB;">/tmp/RtmpjOtcTs/file1b5abec2665</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Source: <span style="color: #0000BB;">/tmp/Rtmp307HmX/file1b39117698e0</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Generated 2 links:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">hist.R</span> → <span style="color: #0000BB;">/home/web_user/hist.R</span></span>
@@ -205,12 +206,12 @@ into one link.</p></div>
 <span class="r-in"><span><span class="co"># Match a subset of files</span></span></span>
 <span class="r-in"><span><span class="fu">webr_repl_directory</span><span class="op">(</span><span class="va">examples</span>, pattern <span class="op">=</span> <span class="st">"^plot"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Found 1 file matching pattern <span style="color: #0000BB;">"^plot"</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Processing files in <span style="color: #0000BB;">/tmp/RtmpjOtcTs/file1b5abec2665</span>...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Processing files in <span style="color: #0000BB;">/tmp/Rtmp307HmX/file1b39117698e0</span>...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Successfully created 1 WebR link</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">webR Directory Links</span> ──</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Source: <span style="color: #0000BB;">/tmp/RtmpjOtcTs/file1b5abec2665</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Source: <span style="color: #0000BB;">/tmp/Rtmp307HmX/file1b39117698e0</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Generated 1 link:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">plot.R</span> → <span style="color: #0000BB;">/home/web_user/plot.R</span></span>
